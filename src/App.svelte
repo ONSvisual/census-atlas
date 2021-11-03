@@ -45,6 +45,10 @@
 		muted: ["#f5fce2", "#d7ede8", "#cbe2e5", "#c2d7e3", "#bdccd9", "#f0f0f0"]
 	};
 
+	// PERFORMANCE/TIMING
+	let tStart;
+	let tFinish;
+
 	// OBJECTS
 	let map = null;
 
@@ -203,6 +207,7 @@
 			}
 			loading = false;
 		} else {
+			tStart = performance.now();
 			// let url = `${apiurl}${selectMeta.table.nomis}${selectMeta.cell}&geography=${geography}&uid=${apikey}`;
 			let url = `https://bothness.github.io/census-atlas/data/lsoa/${selectMeta.code}.csv`;
 			getNomis(url, selectMeta.cell).then((res) => {
@@ -262,6 +267,8 @@
 					setColors();
 				}
 				loading = false;
+				console.log(`performance:${selectMeta.code}:${tFinish-tStart}`)
+				console.log(`cache_size:${Object.keys(data).length}`)
 			});
 		}
 	}
