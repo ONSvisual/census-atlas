@@ -209,8 +209,11 @@
 		} else {
 			tStart = performance.now();
 			// let url = `${apiurl}${selectMeta.table.nomis}${selectMeta.cell}&geography=${geography}&uid=${apikey}`;
-			let url = `https://bothness.github.io/census-atlas/data/lsoa/${selectMeta.code}.csv`;
-			getNomis(url, selectMeta.cell).then((res) => {
+			// let url = `https://bothness.github.io/census-atlas/data/lsoa/${selectMeta.code}.csv`;
+			let table = selectMeta.code.slice(0,-3).toLowerCase()
+			let col_header = `_${parseInt(selectMeta.cell)}`
+			let url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/atlas2011.${table}?cols=geography_code,total,${col_header}`
+			getNomis(url, col_header).then((res) => {
 				let dataset = {
 					lsoa: {},
 					lad: {},
@@ -267,6 +270,7 @@
 					setColors();
 				}
 				loading = false;
+				tFinish = performance.now()
 				console.log(`performance:${selectMeta.code}:${tFinish-tStart}`)
 				console.log(`cache_size:${Object.keys(data).length}`)
 			});

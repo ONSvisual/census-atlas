@@ -19,12 +19,14 @@ export async function getNomis(url, code) {
   let response = await fetch(url);
   let string = await response.text();
 	let data = await csvParse(string, (d) => {
-		return {
-			code: d['GEOGRAPHY_CODE'],
-			value: +d[code],
-			count: +d['0'],
-			perc: (+d[code] / +d['0']) * 100
-		};
+		if (d['geography_code'].startsWith('E01') || d['geography_code'].startsWith('W01')) {
+			return {
+				code: d['geography_code'],
+				value: +d[code],
+				count: +d['total'],
+				perc: (+d[code] / +d['total']) * 100
+			};
+		}
 	});
   return data;
 }
@@ -85,7 +87,7 @@ export function processData(data, lookup) {
 
 export function getBreaks(chunks) {
 	let breaks = [];
-	
+
 	chunks.forEach(chunk => {
 		breaks.push(chunk[0]);
 	});
