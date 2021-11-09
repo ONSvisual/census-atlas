@@ -16,10 +16,11 @@ export async function getTopo(url, layer) {
 }
 
 export async function getNomis(url, code) {
+	const last_lsoa = 34752
   let response = await fetch(url);
   let string = await response.text();
-	let data = await csvParse(string, (d) => {
-		if (d['geography_code'].startsWith('E01') || d['geography_code'].startsWith('W01')) {
+	let data = await csvParse(string, (d, i) => {
+		if (i <= last_lsoa) {
 			return {
 				code: d['geography_code'],
 				value: +d[code],
