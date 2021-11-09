@@ -249,13 +249,13 @@
 						d.fill = colors.base[4];
 					}
 				});
-
+				// probably just cut this call off
 				let proc = processData(res, lsoalookup);
 				dataset.lsoa.index = proc.lsoa.index;
 
 				dataset.lad.data = proc.lad.data;
 				dataset.lad.index = proc.lad.index;
-
+				// to here
 				let ladVals = proc.lad.data.map(d => d.perc);
 				let ladChunks = ckmeans(ladVals, 5);
 				dataset.lad.breaks = getBreaks(ladChunks);
@@ -282,6 +282,7 @@
 			if (active.lad.selected && active.lsoa.selected && !ladlookup[active.lad.selected].children.includes(active.lsoa.selected)) {
 				active.lsoa.selected = null;
 			}
+			// add load data call here...
 			setColors();
 			updateURL();
 		}

@@ -73,41 +73,30 @@ export function processData(data, lookup) {
 	let ew = {
 		data: {
 			value: 0,
-			count: 0
+			count: 0,
+			perc: 0
 		}
 	};
-	let lad_temp = {};
 
 	data.forEach(d => {
-		lsoa.index[d.code] = d;
-
-		let parent = lookup[d.code].parent;
-		if (!lad.index[parent]) {
-			lad.index[parent] = {
-				code: parent,
-				value: d.value,
-				count: d.count
-			};
-			lad_temp[parent] = [d];
+		if (d.code === 'EW') {
+			// set country value
+			ew.data.value = d.value
+			ew.data.count = d.count
+			ew.data.perc = d.perc
+		} else if (d.code.slice(1,3) === '01') {
+			// process lsoa data
+			lsoa.index[d.code] = d
 		} else {
-			lad.index[parent].value += d.value;
-			lad.index[parent].count += d.count
-			lad_temp[parent].push(d);
+			// process lad data
+			lad.index[d.code] = {
+				code: d.code,
+				value: d.value,
+				count: d.count,
+				perc: d.perc
+			}
 		}
-	});
-
-	let keys = Object.keys(lad.index);
-	keys.forEach(key => {
-		lad.index[key].perc = (lad.index[key].value / lad.index[key].count) * 100;
-		lad.index[key].median = lad_temp[key][Math.floor(lad_temp[key].length / 2)];
-		lad.data.push(lad.index[key]);
-
-		ew.data.value += lad.index[key].value;
-		ew.data.count += lad.index[key].count;
-	});
-	lad.data.sort((a, b) => a.perc - b.perc);
-
-	ew.data.perc = (ew.data.value / ew.data.count) * 100;
+	})
 
 	return {
 		lsoa: lsoa,
