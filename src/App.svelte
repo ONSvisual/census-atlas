@@ -219,7 +219,8 @@
 					ew: {},
 				};
 				res.sort((a, b) => a.perc - b.perc);
-				dataset.lsoa.data = res;
+				// filter out non-LSOA data here...
+				dataset.lsoa.data = res.filter( e => e.code.slice(1,3) === '01');
 
 				let vals = res.map(d => d.perc);
 				let chunks = ckmeans(vals, 5);
@@ -249,16 +250,16 @@
 						d.fill = colors.base[4];
 					}
 				});
-				// probably just cut this call off
+
 				let proc = processData(res, lsoalookup);
 				dataset.lsoa.index = proc.lsoa.index;
 
 				dataset.lad.data = proc.lad.data;
 				dataset.lad.index = proc.lad.index;
 				// to here
-				let ladVals = proc.lad.data.map(d => d.perc);
-				let ladChunks = ckmeans(ladVals, 5);
-				dataset.lad.breaks = getBreaks(ladChunks);
+				// let ladVals = proc.lad.data.map(d => d.perc);
+				// let ladChunks = ckmeans(ladVals, 5);
+				// dataset.lad.breaks = getBreaks(ladChunks);
 
 				dataset.ew.data = proc.ew.data;
 

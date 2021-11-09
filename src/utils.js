@@ -80,7 +80,7 @@ export function processData(data, lookup) {
 
 	data.forEach(d => {
 		if (d.code === 'EW') {
-			// set country value
+			// process country data
 			ew.data.value = d.value
 			ew.data.count = d.count
 			ew.data.perc = d.perc
@@ -95,9 +95,10 @@ export function processData(data, lookup) {
 				count: d.count,
 				perc: d.perc
 			}
+			lad.data.push(d)
 		}
 	})
-
+	// ADD MEDIANS ETC
 	return {
 		lsoa: lsoa,
 		lad: lad,
