@@ -212,8 +212,7 @@
 			// let url = `https://bothness.github.io/census-atlas/data/lsoa/${selectMeta.code}.csv`;
 			let table = selectMeta.code.slice(0,-3).toLowerCase()
 			let col_header = `_${parseInt(selectMeta.cell)}`
-			let url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/atlas2011.${table}?cols=geography_code,total,${col_header}`
-			getNomis(url, col_header).then((res) => {
+			getNomis(table, col_header, active.lad.selected, lsoalookup).then((res) => {
 				let dataset = {
 					lsoa: {},
 					lad: {},

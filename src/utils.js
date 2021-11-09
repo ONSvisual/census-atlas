@@ -15,20 +15,50 @@ export async function getTopo(url, layer) {
   return geojson;
 }
 
-export async function getNomis(url, code) {
-	const last_lsoa = 34752
+export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping) {
+	// build URL
+	let firstLsoaInLad
+	let previousLsoaInLad
+	let lastLsoaInLad
+	for (let lsoa in lsoaToLadMapping) {
+
+		// if we have a match for lad...
+		if (lsoaToLadMapping[lsoa].parent === selectedLad) {
+			// ...and the first lsoa already is not already set, then set it...
+			if (firstLsoaInLad === undefined) {
+				firstLsoaInLad = lsoa
+			}
+			// ... regardless, store the lsoa for the next loop and continue
+			previousLsoaInLad = lsoa
+			continue
+		}
+
+		// if we do NOT have a match for lad, but the previousLsoaInLad IS set, then set the lastLsoaInLad and break
+		if (previousLsoaInLad != undefined) {
+			lastLsoaInLad = previousLsoaInLad
+			break
+		}
+
+		// otherwise just continue looping through
+	}
+	// rows should include:
+	// - range of first to last lsoas (NB ASSUMES ALL LADS BOUND A CONTINUOUS RANGE OF LSOAS, WHICH IS PROBABLY NOT TRUE)
+	// - the lad itself
+	// - all of englad
+	let rowQuery = `rows=geography_code:${firstLsoaInLad}...${lastLsoaInLad}&rows=geography_code:${selectedLad}&rows=geography_code:EW`
+	let colQuery = `cols=geography_code,total,${col_header}`
+	let url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/atlas2011.${table}?${rowQuery}&${colQuery}`
   let response = await fetch(url);
   let string = await response.text();
 	let data = await csvParse(string, (d, i) => {
-		if (i <= last_lsoa) {
-			return {
-				code: d['geography_code'],
-				value: +d[code],
-				count: +d['total'],
-				perc: (+d[code] / +d['total']) * 100
-			};
-		}
+		return {
+			code: d['geography_code'],
+			value: +d[col_header],
+			count: +d['total'],
+			perc: (+d[col_header] / +d['total']) * 100
+		};
 	});
+	console.log(data)
   return data;
 }
 
