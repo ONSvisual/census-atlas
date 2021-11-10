@@ -440,7 +440,7 @@
 {/if}
 
 <Panel>
-	<h1>2011 Census Atlas Demo</h1>
+	<h1>2011 Census Atlas API-Fed Demo</h1>
 	{#if indicators && selectItem}
 		{#if selectData}
 			<ColChart
