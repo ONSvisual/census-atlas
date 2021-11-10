@@ -199,7 +199,7 @@
 	function loadData() {
 		console.log("loading data...");
 		loading = true;
-		if (data[selectItem.code]) {
+		if (false) { //(data[selectItem.code]) {
 			selectData = data[selectItem.code];
 			console.log("data loaded from memory!");
 			if (active.lad.selected) {
@@ -283,6 +283,7 @@
 				active.lsoa.selected = null;
 			}
 			// add load data call here...
+			loadData();
 			setColors();
 			updateURL();
 		}
