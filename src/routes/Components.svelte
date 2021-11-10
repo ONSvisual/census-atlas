@@ -10,6 +10,7 @@
   import Topic from "../ui/Topic.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
+  import HeaderData2 from "../ui/HeaderData2.svelte";
 
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
@@ -26,6 +27,9 @@
 </svelte:head>
 
 <BasePage {serviceTitle} {description}>
+  <DesignSystemPanel title="Data header 2" code={`<HeaderData2 />`}>
+    <HeaderData2 />
+  </DesignSystemPanel>
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
   </DesignSystemPanel>
@@ -39,47 +43,47 @@
     <Feedback />
   </DesignSystemPanel>
 
-    <DesignSystemPanel
-      title="Topic component-1"
-      code={`<Topic topicList={topicList1} cardTitle="Health - Census 2021">
+  <DesignSystemPanel
+    title="Topic component-1"
+    code={`<Topic topicList={topicList1} cardTitle="Health - Census 2021">
   The 2021 Census tells us a lot about the health of people living in England and Wales live and. 
   <a href="#">Choose a data option from the full list</a> or explore one of these suggestions.
 </Topic>`}
-    >
-      <Topic topicList={topicList1} cardTitle="Health - Census 2021"
-        >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#">
-          Choose a data option from the full list</a
-        > or explore one of these suggestions.
-      </Topic>
-    </DesignSystemPanel>
+  >
+    <Topic topicList={topicList1} cardTitle="Health - Census 2021"
+      >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#">
+        Choose a data option from the full list</a
+      > or explore one of these suggestions.
+    </Topic>
+  </DesignSystemPanel>
 
-    <DesignSystemPanel
-      title="Topic component-2"
-      code={`<Topic topicList={topicList2} cardTitle="Need something specific from Census?">
+  <DesignSystemPanel
+    title="Topic component-2"
+    code={`<Topic topicList={topicList2} cardTitle="Need something specific from Census?">
     Explore correlations between two indicators in <a href="#">advanced mode</a>.
   </Topic>`}
-    >
-      <Topic topicList={topicList2} cardTitle="Need something specific from Census?"
-        >Explore correlations between two indicators in <a href="#">advanced mode</a>.
-      </Topic>
-    </DesignSystemPanel>
+  >
+    <Topic topicList={topicList2} cardTitle="Need something specific from Census?"
+      >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+    </Topic>
+  </DesignSystemPanel>
 
-    <DesignSystemPanel
-      title="Topic component-3"
-      code={`<Topic cardTitle="General health with other indicators"
+  <DesignSystemPanel
+    title="Topic component-3"
+    code={`<Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.</Topic
   >`}
-    >
-      <Topic cardTitle="General health with other indicators"
-        >Explore correlations between two indicators in <a href="#">advanced mode</a>.
-      </Topic>
-    </DesignSystemPanel>
+  >
+    <Topic cardTitle="General health with other indicators"
+      >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+    </Topic>
+  </DesignSystemPanel>
   <DesignSystemPanel title="Use census data" code={`<UseCensusData />`}>
     <UseCensusData />
-  </DesignSystemPanel >
+  </DesignSystemPanel>
   <DesignSystemPanel title="Map placeholder" code={`<Map />`}><Map /></DesignSystemPanel>
   <DesignSystemPanel title="Topic explorer" code={`<TopicExplorer />`}><TopicExplorer /></DesignSystemPanel>
-    <DesignSystemPanel title="Design system code block">
+  <DesignSystemPanel title="Design system code block">
     <DesignSystemCode code={`<DesignSystemCode code={\`<App />\`} />`} />
   </DesignSystemPanel>
 </BasePage>
