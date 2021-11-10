@@ -17,30 +17,11 @@
 </svelte:head>
 
 <BasePage
-  serviceTitle="Explore Census"
-  description="Here’s a place where we tell users what the Census Atlas is and what it can do for them."
+  serviceTitle="Explore Census by location and census data"
+  description="You are browing data with census code {categoryId} in area {locationId}."
 >
   <span slot="phase-banner">
     <ONSPhaseBanner phase="ALPHA" />
-  </span>
-
-  <span slot="header__main">
-    <div class="ons-header__main ons-header__main--with-description">
-      <div class="ons-container">
-        <div
-          class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
-        >
-          <div class="ons-grid__col ons-col-auto ons-u-flex-shrink">
-            <a class="ons-header__title-link" href="#0">
-              <div class="ons-header__title header__title--with-description">Explore Census</div>
-            </a>
-          </div>
-        </div>
-        <p class="ons-header__desc">
-          You are browing data with census code {categoryId} in area {locationId}
-        </p>
-      </div>
-    </div>
   </span>
 
   <span slot="footer">
