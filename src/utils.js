@@ -116,11 +116,14 @@ export function processData(data, lsoaToLadMapping) {
 		ladData.code = parent
 		lad.index[parent] = ladData
 		lad.data.push(ladData)
-		lsoa.index[child] = medianLsoa
-		lsoa.data.push(medianLsoa)
+		if (!(child in lsoa.index)) {
+			lsoa.index[child] = medianLsoa
+			lsoa.data.push(medianLsoa)
+		}
 	}
 
 	// sort LSOA data
+	lsoa.data.sort((a, b) => a.perc - b.perc)
 
 	return {
 		lsoa: lsoa,

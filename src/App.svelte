@@ -264,6 +264,7 @@
 
 				data[selectItem.code] = dataset;
 				selectData = dataset;
+
 				console.log("data loaded from csv!");
 				if (active.lad.selected) {
 					setColors();
