@@ -5,7 +5,10 @@
   import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
+  
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
+  
+  export let categoryId;
 </script>
 
 <svelte:head>
@@ -28,12 +31,12 @@
         >
           <div class="ons-grid__col ons-col-auto ons-u-flex-shrink">
             <a class="ons-header__title-link" href="#0">
-              <div class="ons-header__title header__title--with-description">Explore Census</div>
+              <div class="ons-header__title header__title--with-description">Explore Census by Census data</div>
             </a>
           </div>
         </div>
         <p class="ons-header__desc">
-          Explore Census Here’s a place where we tell users what the Census Atlas is and what it can do for them.
+          You have picked {categoryId}
         </p>
       </div>
     </div>

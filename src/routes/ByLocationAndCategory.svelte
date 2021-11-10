@@ -5,7 +5,11 @@
   import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
+
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
+
+  export let categoryId;
+  export let locationId;
 </script>
 
 <svelte:head>
@@ -33,7 +37,7 @@
           </div>
         </div>
         <p class="ons-header__desc">
-          Explore Census Here’s a place where we tell users what the Census Atlas is and what it can do for them.
+          You are browing data with census code {categoryId} in area {locationId}
         </p>
       </div>
     </div>
