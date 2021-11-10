@@ -16,7 +16,6 @@ export async function getTopo(url, layer) {
 }
 
 export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping) {
-	console.log(`HERE ${selectedLad}`)
 	// build URL
 	let firstLsoaInLad
 	let previousLsoaInLad
@@ -45,7 +44,7 @@ export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping)
 	// rows should include:
 	// - range of first to last lsoas (NB ASSUMES ALL LADS BOUND A CONTINUOUS RANGE OF LSOAS, WHICH IS PROBABLY NOT TRUE)
 	// - the lad itself
-	// - all of englad
+	// - all of england
 	let rowQuery = `rows=geography_code:${firstLsoaInLad}...${lastLsoaInLad}&rows=geography_code:${selectedLad}&rows=geography_code:EW`
 	let colQuery = `cols=geography_code,total,${col_header}`
 	let url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/atlas2011.${table}?${rowQuery}&${colQuery}`
@@ -59,12 +58,12 @@ export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping)
 			perc: (+d[col_header] / +d['total']) * 100
 		};
 	});
-	console.log(data)
   return data;
 }
 
-export function processData(data,lookup) {
+export function processData(data, lsoaToLadMapping) {
 	let lsoa = {
+		data: [],
 		index: {}
 	};
 	let lad = {
@@ -88,6 +87,7 @@ export function processData(data,lookup) {
 		} else if (d.code.slice(1,3) === '01') {
 			// process lsoa data
 			lsoa.index[d.code] = d
+			lsoa.data.push(d)
 		} else {
 			// process lad data
 			lad.index[d.code] = {
@@ -106,6 +106,21 @@ export function processData(data,lookup) {
 	const medianLsoa = lsoa.index[codeForMedianLsoa]
 	const ladCode = Object.keys(lad.index)[0]
 	lad.index[ladCode].median = medianLsoa
+
+	// copy:
+	// - actual LAD data to all LADS
+	// - median LSOA data to all LSOAs
+	for (let child in lsoaToLadMapping) {
+		let ladData = lad.index[ladCode]
+		let parent = lsoaToLadMapping[child].parent
+		ladData.code = parent
+		lad.index[parent] = ladData
+		lad.data.push(ladData)
+		lsoa.index[child] = medianLsoa
+		lsoa.data.push(medianLsoa)
+	}
+
+	// sort LSOA data
 
 	return {
 		lsoa: lsoa,
