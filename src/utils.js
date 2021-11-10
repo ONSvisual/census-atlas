@@ -16,6 +16,7 @@ export async function getTopo(url, layer) {
 }
 
 export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping) {
+	console.log(`HERE ${selectedLad}`)
 	// build URL
 	let firstLsoaInLad
 	let previousLsoaInLad
@@ -62,7 +63,7 @@ export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping)
   return data;
 }
 
-export function processData(data, lookup) {
+export function processData(data,lookup) {
 	let lsoa = {
 		index: {}
 	};
@@ -98,7 +99,14 @@ export function processData(data, lookup) {
 			lad.data.push(d)
 		}
 	})
-	// ADD MEDIANS ETC
+	// ADD MEDIAN (just the middle LSOA in terms of % for current data)
+	// simple as we only have one LAD at any one time...
+	const lsoasCodesInLad = Object.keys(lsoa.index)
+	const codeForMedianLsoa = lsoasCodesInLad[Math.floor(lsoasCodesInLad.length / 2)]
+	const medianLsoa = lsoa.index[codeForMedianLsoa]
+	const ladCode = Object.keys(lad.index)[0]
+	lad.index[ladCode].median = medianLsoa
+
 	return {
 		lsoa: lsoa,
 		lad: lad,

@@ -212,7 +212,8 @@
 			// let url = `https://bothness.github.io/census-atlas/data/lsoa/${selectMeta.code}.csv`;
 			let table = selectMeta.code.slice(0,-3).toLowerCase()
 			let col_header = `_${parseInt(selectMeta.cell)}`
-			getNomis(table, col_header, active.lad.selected, lsoalookup).then((res) => {
+			let selectedLad = active.lad.selected ? active.lad.selected : "E09000001" // default to city of london
+			getNomis(table, col_header, selectedLad, lsoalookup).then((res) => {
 				let dataset = {
 					lsoa: {},
 					lad: {},
@@ -293,6 +294,7 @@
 		let newdata = JSON.parse(JSON.stringify(data[selectItem.code]));
 		if (active.lad.selected) {
 			// re-color dataset
+
 			newdata.lsoa.data.forEach((d) => {
 				if (lsoalookup[d.code].parent == active.lad.selected) {
 					d.fill = d.color;
@@ -369,7 +371,7 @@
 	}
 
 	$: selectItem && setSelect(); // Update meta when selection updates
-	$: active.lad.highlighted = lsoalookup && active.lsoa.hovered ? lsoalookup[active.lsoa.hovered].parent : null;
+	$: active.lad.highlighted = lsoalookup && active.lsoa.hovered ? lsoalookup[active.lsoa.hovered].parent : "E09000001";
 	$: active.lad.selected = lsoalookup && active.lsoa.selected ? lsoalookup[active.lsoa.selected].parent : active.lad.selected;
 	$: (data[selectCode] && (active.lad.selected || active.lad.selected == null)) && doSelect();
 
