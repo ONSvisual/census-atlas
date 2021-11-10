@@ -61,7 +61,7 @@ export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping)
   return data;
 }
 
-export function processData(data, lsoaToLadMapping) {
+export function processData(data, lsoaToLadMapping, tableCode, cachedIndex) {
 	let lsoa = {
 		data: [],
 		index: {}
@@ -78,7 +78,12 @@ export function processData(data, lsoaToLadMapping) {
 		}
 	};
 
+	if (!(tableCode in cachedIndex)) {
+		cachedIndex[tableCode] = new Set;
+	}
+
 	data.forEach(d => {
+		cachedIndex[tableCode].add(d.code)
 		if (d.code === 'EW') {
 			// process country data
 			ew.data.value = d.value

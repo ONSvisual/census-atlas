@@ -53,6 +53,7 @@
 	let map = null;
 
 	// DATA
+	let cachedIndex = {};
 	let indicators;
 	let ladbounds;
 	let ladlookup;
@@ -199,7 +200,8 @@
 	function loadData() {
 		console.log("loading data...");
 		loading = true;
-		if (false) { //(data[selectItem.code]) {
+		let selectedLad = active.lad.selected ? active.lad.selected : "E09000001" // default to city of london
+		if (cachedIndex[selectItem.code] && cachedIndex[selectItem.code].has(selectedLad)) { //(data[selectItem.code]) {
 			selectData = data[selectItem.code];
 			console.log("data loaded from memory!");
 			if (active.lad.selected) {
@@ -212,7 +214,6 @@
 			// let url = `https://bothness.github.io/census-atlas/data/lsoa/${selectMeta.code}.csv`;
 			let table = selectMeta.code.slice(0,-3).toLowerCase()
 			let col_header = `_${parseInt(selectMeta.cell)}`
-			let selectedLad = active.lad.selected ? active.lad.selected : "E09000001" // default to city of london
 			getNomis(table, col_header, selectedLad, lsoalookup).then((res) => {
 				let dataset = {
 					lsoa: {},
@@ -220,7 +221,7 @@
 					ew: {},
 				};
 
-				let proc = processData(res, lsoalookup);
+				let proc = processData(res, lsoalookup, selectMeta.code, cachedIndex);
 				dataset.lsoa.data = proc.lsoa.data
 				let vals = dataset.lsoa.data.map(d => d.perc);
 				let chunks = ckmeans(vals, 5);
