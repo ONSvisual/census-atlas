@@ -139,6 +139,11 @@
       margin: 0;
       width: 100%;
     }
+
+    .body {
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
   }
 
   @media only screen and (min-width: map-get($grid-bp, s)) {
