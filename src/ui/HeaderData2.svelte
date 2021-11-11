@@ -48,4 +48,10 @@
   #header-data-2__title {
     margin: 0.3rem 0;
   }
+
+  @media (min-width: 500px) {
+    .ons-container {
+      padding: 0 1rem;
+    }
+  }
 </style>
