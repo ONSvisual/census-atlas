@@ -3,22 +3,27 @@
 
   import ExploreByTopic from "../ui/ExploreByTopic.svelte";
   import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
+  import ONSExternalHeaderWithDescription from "../ui/ons/ONSExternalHeaderWithDescription.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
+  import Topic from "../ui/Topic.svelte";
   import Feedback from "../ui/Feedback.svelte";
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
-  import Topic from "../ui/Topic.svelte";
 </script>
 
 <svelte:head>
   <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
-<BasePage
-  serviceTitle="Explore Census"
-  description="Here’s a place where we tell users what the Census Atlas is and what it can do for them."
->
+<BasePage>
   <span slot="phase-banner">
     <ONSPhaseBanner phase="ALPHA" />
+  </span>
+
+  <span slot="header">
+    <ONSExternalHeaderWithDescription
+      serviceTitle="Explore Census"
+      description="Here’s a place where we tell users what the Census Atlas is and what it can do for them."
+    />
   </span>
 
   <span slot="footer">
@@ -32,7 +37,9 @@
 
   <ExploreByTopic />
   <hr />
-  <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
+  <ExploreByAreaComponent placeholder="Walsall"
+    >Search for an area to find out how it compares to others</ExploreByAreaComponent
+  >
 
   <ONSShare url="https://www.google.com/">Share this page</ONSShare>
 

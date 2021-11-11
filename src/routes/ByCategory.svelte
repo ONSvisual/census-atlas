@@ -5,12 +5,13 @@
   import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
+  import HeaderData1 from "../ui/HeaderData1.svelte";
 
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
 
   export let categoryId;
 
-  let topicList1 = [
+  let topicList = [
     { title: "How does general health differ across England and Wales?", href: "#" },
     { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
     { title: "What can we learn about long-term health issues and/or disability?", href: "#" },
@@ -21,9 +22,13 @@
   <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
-<BasePage serviceTitle="Explore Census by census data" description="You have picked census category {categoryId}">
+<BasePage>
   <span slot="phase-banner">
     <ONSPhaseBanner phase="ALPHA" />
+  </span>
+
+  <span slot="header">
+    <HeaderData1 indicator={categoryId} region="England & Wales" />
   </span>
 
   <span slot="map">
@@ -39,7 +44,7 @@
     </footer>
   </span>
 
-  <Topic topicList={topicList1} cardTitle="Health - Census 2021"
+  <Topic {topicList} cardTitle="Health - Census 2021"
     >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#">
       Choose a data option from the full list</a
     > or explore one of these suggestions.

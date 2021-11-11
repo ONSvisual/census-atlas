@@ -1,9 +1,6 @@
 <script>
   import ONSHeaderLogoLarge from "./ons/svg/ONSHeaderLogoLarge.svelte";
   import ONSHeaderLogoSmall from "./ons/svg/ONSHeaderLogoSmall.svelte";
-  import ONSExternalHeaderWithDescription from "./ons/ONSExternalHeaderWithDescription.svelte";
-  export let serviceTitle = "";
-  export let description = "";
 
   let hasMap = $$slots.map ? "ons-page--has-map" : "";
 </script>
@@ -61,9 +58,7 @@
     <div class="wrapper">
       <!-- // XXX This .header should really be part of <header/> semantically speaking; might need to move it back in there, and reset max-width on the -->
       <div class="header">
-        <slot name="header">
-          <ONSExternalHeaderWithDescription {serviceTitle} {description} />
-        </slot>
+        <slot name="header" />
       </div>
       {#if $$slots.map}
         <div class="map">
@@ -139,7 +134,6 @@
       margin: 0;
       width: 100%;
     }
-
     .body {
       padding-top: 18px;
       padding-bottom: 18px;
@@ -154,13 +148,16 @@
     .body {
       width: 489px;
     }
+    .body {
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
     .map {
       position: absolute;
       left: 489px;
       width: calc(100% - 489px);
       height: 100%;
     }
-
     .ons-footer__body {
       margin: 0;
     }
