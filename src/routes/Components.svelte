@@ -12,6 +12,7 @@
   import Topic from "../ui/Topic.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
+  import HeaderData1 from "../ui/HeaderData1.svelte";
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import DefaultHeader from "../ui/DefaultHeader.svelte";
 
@@ -32,6 +33,9 @@
 </svelte:head>
 
 <BasePage {serviceTitle} {description}>
+  <DesignSystemPanel title="Data header 1" code={`<HeaderData1 indicator="General Health" region="England & Wales"/>`}>
+    <HeaderData1 indicator="General Health" region="England & Wales" />
+  </DesignSystemPanel>
   <DesignSystemPanel
     title="Default header"
     code={`<DefaultHeader serviceTitle="Explore Census" description="Here's a place where we tell users what the Census Atlas is and what it can do for them."/>`}
