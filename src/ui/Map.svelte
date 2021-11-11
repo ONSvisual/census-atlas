@@ -2,19 +2,19 @@
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "../data/mapstyle";
-  
+
   export let map = null;
   export let minzoom = 0;
   export let maxzoom = 14;
 
   export let bounds = [-3.413572832073754, 51.10096449720518, -2.4672865337001895, 51.69137186082315];
   export let zoom = 6;
-  
+
   let options = {
     bounds: bounds,
-    zoom: zoom
-  }
-  
+    zoom: zoom,
+  };
+
   let container;
 
   setContext("map", {
@@ -59,18 +59,21 @@
   });
 </script>
 
-<div class="map" bind:this={container}>
+<div bind:this={container}>
   {#if map}
     <slot />
   {/if}
 </div>
 
-
 <style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
-  .map {
-    width: 100px;
-    height: 100px;
+  div {
+    min-width: 375px;
+    min-height: 340px;
+    width: 100%;
+    height: 100%;
+    background: url("/img/background.png") no-repeat center center;
+    background-size: cover;
   }
 </style>
