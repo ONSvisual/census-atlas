@@ -10,7 +10,7 @@
         class=""
       >
         <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
-          <div class="ons-header__title header__title--with-description data-header-2__title">
+          <div class="ons-header__title header__title--with-description data-header-1__title">
               <h2>{indicator}</h2>
             </div>
           <a href="#">Change</a>
@@ -39,7 +39,7 @@
         margin: 0;
     }
 
-    .data-header-2__title {
+    .data-header-1__title {
         margin: 0;
     }
 </style>

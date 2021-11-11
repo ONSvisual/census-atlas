@@ -10,7 +10,7 @@
   import Topic from "../ui/Topic.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
-  import HeaderData2 from "../ui/HeaderData2.svelte";
+  import HeaderData1 from "../ui/HeaderData1.svelte";
 
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
@@ -27,8 +27,8 @@
 </svelte:head>
 
 <BasePage {serviceTitle} {description}>
-  <DesignSystemPanel title="Data header 2" code={`<HeaderData2 indicator="General Health" region="England & Wales"/>`}>
-    <HeaderData2 indicator="General Health" region="England & Wales"/>
+  <DesignSystemPanel title="Data header 2" code={`<HeaderData1 indicator="General Health" region="England & Wales"/>`}>
+    <HeaderData1 indicator="General Health" region="England & Wales"/>
   </DesignSystemPanel>
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
