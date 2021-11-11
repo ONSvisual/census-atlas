@@ -102,15 +102,46 @@
   }
 
   .wrapper {
+    background: $color-grey-15;
     display: flex;
     flex-flow: column;
     position: relative;
   }
 
-  @media only screen and (min-width: map-get($grid-bp, s)) {
-    .wrapper {
-      flex: 3 0px;
+  .body {
+    background: $color-white;
+  }
+
+  .ons-footer {
+    background: transparent;
+  }
+  .ons-footer__body {
+    background: transparent;
+    margin: 0 20px;
+    padding: 0;
+  }
+
+  @media only screen and (max-width: map-get($grid-bp, s)) {
+    .ons-page {
+      background: url("/img/background.png") no-repeat center center;
+      background-size: cover;
     }
+    .ons-page--has-map {
+      background: none;
+    }
+
+    .wrapper {
+      margin: 20px;
+      background: #c4c4c4;
+      width: calc(100% - 40px);
+    }
+    .ons-page--has-map .wrapper {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  @media only screen and (min-width: map-get($grid-bp, s)) {
     .wrapper .ons-container {
       padding: 0 45px;
     }
@@ -124,25 +155,9 @@
       width: calc(100% - 489px);
       height: 100%;
     }
-  }
 
-  @media only screen and (max-width: map-get($grid-bp, s)) {
-    .ons-page {
-      background: url("/img/background.png") no-repeat center center;
-      background-size: cover;
-    }
-    .ons-page--has-map {
-      background: none;
-    }
-
-    .ons-container.ons-page__container {
-      margin: 20px;
-      background: #fff;
-      width: calc(100% - 40px);
-    }
-    .ons-page--has-map .ons-container.ons-page__container {
+    .ons-footer__body {
       margin: 0;
-      width: 100%;
     }
   }
 </style>
