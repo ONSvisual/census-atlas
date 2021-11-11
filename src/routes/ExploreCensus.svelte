@@ -6,6 +6,7 @@
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
+  import Topic from "../ui/Topic.svelte";
 </script>
 
 <svelte:head>
@@ -33,7 +34,11 @@
   <hr />
   <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
 
-  <ONSShare />
+  <ONSShare url="https://www.google.com/">Share this page</ONSShare>
+
+  <Topic topicList={[{ title: "Get Census datasests", href: "#" }]} cardTitle="Need something specific from Census?">
+    Explore correlations between two indicators in <a href="#">advanced mode</a>.
+  </Topic>
 </BasePage>
 
 <style lang="scss" global>
