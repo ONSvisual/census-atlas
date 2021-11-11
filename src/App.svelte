@@ -19,14 +19,32 @@
     <Route path="/data/:categoryId/locations/:locationId" component={ByLocationAndCategory} />
     <Route path="/data/:categoryId" component={ByCategory} />
     <Route path="/locations/:locationId" component={ByLocation} />
-    <Route path="/legacy" component={CensusAtlas} />
+    <Route path="/original" component={CensusAtlas} />
   </div>
-  <nav style="position: relative; z-index: 99999; background: #e2e2e3; padding: 20px;">
-    <Link to="/components">Components</Link>
-    <Link to="/design-system">Design System</Link>
-    <Link to="/">Explore Census</Link>
-    <Link to="/data/Health">Explore by Category (Health)</Link>
-    <Link to="/locations/Walsall">Explore by Location (Walsall)</Link>
-    <Link to="/legacy">Legacy version</Link>
+  <nav
+    style="position: relative; z-index: 99999; background: #e2e2e3; padding: 20px;"
+    class="ons-related-links__navigation"
+    aria-labelledby="related-links"
+  >
+    <ul class="ons-list ons-list--bare">
+      <li class="ons-list__item">
+        <Link to="/components">Components</Link>
+      </li>
+      <li class="ons-list__item">
+        <Link to="/design-system">Design System</Link>
+      </li>
+      <li class="ons-list__item">
+        <Link to="/">Explore Census</Link>
+      </li>
+      <li class="ons-list__item">
+        <Link to="/data/Health">Explore by Category (Health)</Link>
+      </li>
+      <li class="ons-list__item">
+        <Link to="/locations/Walsall">Explore by Location (Walsall)</Link>
+      </li>
+      <li class="ons-list__item">
+        <Link to="/original">Original census atlas version</Link>
+      </li>
+    </ul>
   </nav>
 </Router>
