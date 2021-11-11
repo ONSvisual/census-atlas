@@ -48,18 +48,8 @@
   <ONSShare url="https://www.google.com/">Share this page</ONSShare>
 </BasePage>
 
-<style lang="scss" global>
+<style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
-
-  /* TODO: Import .SCSS breakpoints */
-  /* XXX: Quick fix for now */
-  @media only screen and (max-width: 600px) {
-    .ons-phase-banner__desc {
-      margin-top: 0;
-    }
-
-    .ons-header__title {
-      margin-bottom: 10px;
-    }
+  @media only screen and (max-width: map-get($grid-bp, s)) {
   }
 </style>
