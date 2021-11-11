@@ -2,6 +2,7 @@
   export let url;
 </script>
 
+<div class="component-margin--2">
 <h2 class="ons-u-fs-r--b ons-u-mb-xs"><slot /></h2>
 <ul class="ons-list ons-list--inline ons-list--bare ons-list--icons">
   <li class="ons-list__item">
@@ -86,3 +87,10 @@
     >
   </li>
 </ul>
+</div>
+
+<style>
+  .component-margin--2 {
+    margin-bottom: 2rem;
+  }
+  </style>

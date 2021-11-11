@@ -8,6 +8,7 @@
   export let title = "Explore by area";
 </script>
 
+<div class="component-margin--2">
 <h2>{title}</h2>
 <div class="ons-field">
   <p><slot /></p>
@@ -30,3 +31,10 @@
     >
   </button>
 </div>
+</div>
+
+<style>
+  .component-margin--2 {
+    margin-bottom: 2rem;
+  }
+  </style>
