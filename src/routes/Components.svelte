@@ -15,6 +15,7 @@
   import HeaderData1 from "../ui/HeaderData1.svelte";
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import DefaultHeader from "../ui/DefaultHeader.svelte";
+  import HeaderData2 from "../ui/HeaderData2.svelte";
 
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
@@ -44,6 +45,9 @@
       serviceTitle="Explore Census"
       description="Here's a place where we tell users what the Census Atlas is and what it can do for them."
     />
+  </DesignSystemPanel>
+  <DesignSystemPanel title="Data header 2" code={`<HeaderData2 region="Walsall"/>`}>
+    <HeaderData2 region="Walsall" />
   </DesignSystemPanel>
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
