@@ -4,7 +4,7 @@
   export let topicList = [];
 </script>
 
-<div class="ons-card" aria-labelledBy="{id}-title" aria-describedBy="text">
+<div class="ons-card component-margin--2" aria-labelledBy="{id}-title" aria-describedBy="text">
   <h2 class="ons-u-fs-m" id="{id}-title">{cardTitle}</h2>
   <p id="{id}-text">
     <slot />
@@ -19,3 +19,9 @@
     </ul>
   {/if}
 </div>
+
+<style>
+  .component-margin--2 {
+    margin-bottom: 2rem;
+  }
+</style>

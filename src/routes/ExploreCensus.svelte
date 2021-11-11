@@ -36,7 +36,7 @@
   </span>
 
   <ExploreByTopic />
-  <hr />
+  <hr class="component-margin--2" />
   <ExploreByAreaComponent placeholder="Walsall"
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
   >
@@ -51,5 +51,8 @@
 <style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
   @media only screen and (max-width: map-get($grid-bp, s)) {
+  }
+  .component-margin--2 {
+    margin-bottom: 2rem;
   }
 </style>
