@@ -4,6 +4,7 @@
   import Map from "../ui/Map.svelte";
   import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
+  import CategorySelector from "../ui/CategorySelector.svelte";
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import Feedback from "../ui/Feedback.svelte";
@@ -26,6 +27,7 @@
 
   <span slot="header">
     <HeaderData1 indicator={categoryId} region={locationId} />
+    <CategorySelector />
   </span>
 
   <span slot="map">
