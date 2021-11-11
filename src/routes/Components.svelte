@@ -1,4 +1,6 @@
 <script>
+  import { setContext } from "svelte";
+  import { writable } from "svelte/store";
   import Map from "../ui/Map.svelte";
   import TopicExplorer from "../ui/TopicExplorer.svelte";
   import BasePage from "../ui/BasePage.svelte";
@@ -11,6 +13,7 @@
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
   import HeaderData1 from "../ui/HeaderData1.svelte";
+  import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import DefaultHeader from "../ui/DefaultHeader.svelte";
 
   let topicList1 = [
@@ -21,6 +24,8 @@
   let topicList2 = [{ title: "Get Census datasests", href: "#" }];
   let serviceTitle = "Census Atlas components";
   let description = "Complex components made in Svelte with ONS Design System building blocks";
+  var selectedData = writable();
+  setContext("selectedData", selectedData);
 </script>
 
 <svelte:head>
@@ -95,5 +100,8 @@
   <DesignSystemPanel title="Topic explorer" code={`<TopicExplorer />`}><TopicExplorer /></DesignSystemPanel>
   <DesignSystemPanel title="Design system code block">
     <DesignSystemCode code={`<DesignSystemCode code={\`<App />\`} />`} />
+  </DesignSystemPanel>
+  <DesignSystemPanel title="Display census data by location" code={`<CensusTableByLocation />`}>
+    <CensusTableByLocation />
   </DesignSystemPanel>
 </BasePage>

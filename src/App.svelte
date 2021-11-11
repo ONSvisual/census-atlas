@@ -21,7 +21,7 @@
     <Route path="/locations/:locationId" component={ByLocation} />
     <Route path="/legacy" component={CensusAtlas} />
   </div>
-  <nav style="position: relative; z-index: 99999">
+  <nav style="position: relative; z-index: 99999; background: #e2e2e3; padding: 20px;">
     <Link to="/components">Components</Link>
     <Link to="/design-system">Design System</Link>
     <Link to="/">Explore Census</Link>

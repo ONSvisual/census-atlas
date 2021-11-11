@@ -1,4 +1,4 @@
-<div class="wrapper link-adjust">
+<div class="link-adjust">
   <div class="improve-this-page" data-module="improve-this-page">
     <div
       class="improve-this-page__prompt clearfix"
