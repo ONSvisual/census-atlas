@@ -6,6 +6,7 @@
   import ByLocationAndCategory from "./routes/ByLocationAndCategory.svelte";
   import ByLocation from "./routes/ByLocation.svelte";
   import ByCategory from "./routes/ByCategory.svelte";
+  import CensusCategories from "./routes/CensusCategories.svelte";
   import { Router, Link, Route } from "svelte-routing";
 
   export let url = "";
@@ -19,6 +20,7 @@
     <Route path="/data/:categoryId/locations/:locationId" component={ByLocationAndCategory} />
     <Route path="/data/:categoryId" component={ByCategory} />
     <Route path="/locations/:locationId" component={ByLocation} />
+    <Route path="/categories" component={CensusCategories} />
     <Route path="/original" component={CensusAtlas} />
   </div>
   <nav
@@ -44,6 +46,9 @@
       </li>
       <li class="ons-list__item">
         <Link to="/data/General health/locations/England & Wales">Explore by Category & Location</Link>
+      </li>
+      <li class="ons-list__item">
+        <Link to="/categories">Explore Census Categories</Link>
       </li>
       <li class="ons-list__item">
         <Link to="/original">Original census atlas version</Link>
