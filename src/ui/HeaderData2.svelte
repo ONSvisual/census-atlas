@@ -10,7 +10,7 @@
       </div>
       <hr />
       <div class="ons-grid--flex ons-grid--between">
-        <h3 class="ons-header__title header-data-2__region">In {region}</h3>
+        <h2 class="ons-header__title" id="header-data-2__region">In {region}</h2>
         <a href="#">Change</a>
       </div>
     </div>
@@ -27,8 +27,7 @@
     margin: 0.5rem 0;
   }
 
-  h2,
-  h3 {
+  h2 {
     margin: 0;
   }
 
@@ -37,11 +36,11 @@
     font-weight: 200;
   }
 
-  .header-data-2__region {
+  #header-data-2__region {
     font-size: 1.33333rem;
   }
   @media (max-width: 736px) {
-    .header-data-2__region {
+    #header-data-2__region {
       font-size: 1.11111rem;
     }
   }
