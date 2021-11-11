@@ -43,6 +43,9 @@
         <Link to="/locations/Walsall">Explore by Location (Walsall)</Link>
       </li>
       <li class="ons-list__item">
+        <Link to="/data/General health/locations/England & Wales">Explore by Category & Location</Link>
+      </li>
+      <li class="ons-list__item">
         <Link to="/original">Original census atlas version</Link>
       </li>
     </ul>

@@ -1,10 +1,13 @@
 <script>
   import BasePage from "../ui/BasePage.svelte";
 
-  import ExploreByTopic from "../ui/ExploreByTopic.svelte";
-  import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
+  import Map from "../ui/Map.svelte";
+  import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
+  import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
+  import UseCensusData from "../ui/UseCensusData.svelte";
   import Feedback from "../ui/Feedback.svelte";
+  import HeaderData1 from "../ui/HeaderData1.svelte";
 
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
 
@@ -16,12 +19,17 @@
   <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
-<BasePage
-  serviceTitle="Explore Census by location and census data"
-  description="You are browing data with census code {categoryId} in area {locationId}."
->
+<BasePage>
   <span slot="phase-banner">
     <ONSPhaseBanner phase="ALPHA" />
+  </span>
+
+  <span slot="header">
+    <HeaderData1 indicator={categoryId} region={locationId} />
+  </span>
+
+  <span slot="map">
+    <Map />
   </span>
 
   <span slot="footer">
@@ -33,9 +41,15 @@
     </footer>
   </span>
 
-  <ExploreByTopic />
-  <hr />
-  <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
+  <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
+
+  <CensusTableByLocation />
+
+  <Topic cardTitle="General health with other indicators"
+    >Explore correlations between two indicators in <a href="#">advanced mode</a>.</Topic
+  >
+
+  <UseCensusData location={categoryId} />
 
   <ONSShare />
 </BasePage>

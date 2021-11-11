@@ -10,7 +10,7 @@
   export let embedMapURL = "#";
 </script>
 
-<h2 class="ons-u-fs-r--b ons-u-mb-xs">Use {location}'s census data</h2>
+<h2 class="ons-u-fs-r--b ons-u-mb-xs">Use {location} census data</h2>
 <ul class="ons-list ons-list--inline ons-list--bare ons-list--icons">
   <li class="ons-list__item">
     <span class="ons-list__prefix" aria-hidden="true">
