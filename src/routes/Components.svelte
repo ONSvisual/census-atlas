@@ -1,4 +1,6 @@
 <script>
+  import { setContext } from "svelte";
+  import { writable } from "svelte/store";
   import Map from "../ui/Map.svelte";
   import TopicExplorer from "../ui/TopicExplorer.svelte";
   import BasePage from "../ui/BasePage.svelte";
@@ -10,6 +12,7 @@
   import Topic from "../ui/Topic.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
+  import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
 
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
@@ -19,6 +22,8 @@
   let topicList2 = [{ title: "Get Census datasests", href: "#" }];
   let serviceTitle = "Census Atlas components";
   let description = "Complex components made in Svelte with ONS Design System building blocks";
+  var selectedData = writable();
+  setContext("selectedData", selectedData);
 </script>
 
 <svelte:head>
@@ -39,47 +44,50 @@
     <Feedback />
   </DesignSystemPanel>
 
-    <DesignSystemPanel
-      title="Topic component-1"
-      code={`<Topic topicList={topicList1} cardTitle="Health - Census 2021">
+  <DesignSystemPanel
+    title="Topic component-1"
+    code={`<Topic topicList={topicList1} cardTitle="Health - Census 2021">
   The 2021 Census tells us a lot about the health of people living in England and Wales live and. 
   <a href="#">Choose a data option from the full list</a> or explore one of these suggestions.
 </Topic>`}
-    >
-      <Topic topicList={topicList1} cardTitle="Health - Census 2021"
-        >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#">
-          Choose a data option from the full list</a
-        > or explore one of these suggestions.
-      </Topic>
-    </DesignSystemPanel>
+  >
+    <Topic topicList={topicList1} cardTitle="Health - Census 2021"
+      >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#">
+        Choose a data option from the full list</a
+      > or explore one of these suggestions.
+    </Topic>
+  </DesignSystemPanel>
 
-    <DesignSystemPanel
-      title="Topic component-2"
-      code={`<Topic topicList={topicList2} cardTitle="Need something specific from Census?">
+  <DesignSystemPanel
+    title="Topic component-2"
+    code={`<Topic topicList={topicList2} cardTitle="Need something specific from Census?">
     Explore correlations between two indicators in <a href="#">advanced mode</a>.
   </Topic>`}
-    >
-      <Topic topicList={topicList2} cardTitle="Need something specific from Census?"
-        >Explore correlations between two indicators in <a href="#">advanced mode</a>.
-      </Topic>
-    </DesignSystemPanel>
+  >
+    <Topic topicList={topicList2} cardTitle="Need something specific from Census?"
+      >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+    </Topic>
+  </DesignSystemPanel>
 
-    <DesignSystemPanel
-      title="Topic component-3"
-      code={`<Topic cardTitle="General health with other indicators"
+  <DesignSystemPanel
+    title="Topic component-3"
+    code={`<Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.</Topic
   >`}
-    >
-      <Topic cardTitle="General health with other indicators"
-        >Explore correlations between two indicators in <a href="#">advanced mode</a>.
-      </Topic>
-    </DesignSystemPanel>
+  >
+    <Topic cardTitle="General health with other indicators"
+      >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+    </Topic>
+  </DesignSystemPanel>
   <DesignSystemPanel title="Use census data" code={`<UseCensusData />`}>
     <UseCensusData />
-  </DesignSystemPanel >
+  </DesignSystemPanel>
   <DesignSystemPanel title="Map placeholder" code={`<Map />`}><Map /></DesignSystemPanel>
   <DesignSystemPanel title="Topic explorer" code={`<TopicExplorer />`}><TopicExplorer /></DesignSystemPanel>
-    <DesignSystemPanel title="Design system code block">
+  <DesignSystemPanel title="Design system code block">
     <DesignSystemCode code={`<DesignSystemCode code={\`<App />\`} />`} />
+  </DesignSystemPanel>
+  <DesignSystemPanel title="Display census data by location" code={`<CensusTableByLocation />`}>
+    <CensusTableByLocation />
   </DesignSystemPanel>
 </BasePage>
