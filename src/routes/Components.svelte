@@ -16,7 +16,8 @@
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import DefaultHeader from "../ui/DefaultHeader.svelte";
   import HeaderData2 from "../ui/HeaderData2.svelte";
-
+  import HeaderData3 from "../ui/HeaderData3.svelte"
+;
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
     { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
@@ -49,6 +50,18 @@
   <DesignSystemPanel title="Data header 2" code={`<HeaderData2 region="Walsall"/>`}>
     <HeaderData2 region="Walsall" />
   </DesignSystemPanel>
+  <DesignSystemPanel
+  title="Data header 3"
+  code={`<HeaderData3
+    serviceTitle="Choose a data option"
+    description="Choose a category and select an option within it to explore Census data."
+  />`}
+>
+  <HeaderData3
+    serviceTitle="Choose a data option"
+    description="Choose a category and select an option within it to explore Census data."
+  />
+</DesignSystemPanel>
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
   </DesignSystemPanel>
