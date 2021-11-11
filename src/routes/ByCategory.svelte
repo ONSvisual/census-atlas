@@ -23,10 +23,6 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="phase-banner">
-    <ONSPhaseBanner phase="ALPHA" />
-  </span>
-
   <span slot="header">
     <HeaderData1 indicator={categoryId} region="England & Wales" />
   </span>

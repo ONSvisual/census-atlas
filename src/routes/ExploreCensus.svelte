@@ -15,10 +15,6 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="phase-banner">
-    <ONSPhaseBanner phase="ALPHA" />
-  </span>
-
   <span slot="header">
     <ONSExternalHeaderWithDescription
       serviceTitle="Explore Census"
