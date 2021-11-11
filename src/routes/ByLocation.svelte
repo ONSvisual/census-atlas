@@ -1,23 +1,39 @@
 <script>
   import BasePage from "../ui/BasePage.svelte";
 
-  import ExploreByTopic from "../ui/ExploreByTopic.svelte";
-  import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
+  import Map from "../ui/Map.svelte";
+  import Topic from "../ui/Topic.svelte";
+  import HeaderData2 from "../ui/HeaderData2.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
 
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
 
   export let locationId;
+
+  let topicList = [
+    { title: "How is Walsall’s general health?", href: "#" },
+    { title: "How deprived is Walsall? ", href: "#" },
+    { title: "How many students live in Walsall?", href: "#" },
+    { title: "How many people living in Walsall are unemployed?", href: "#" },
+  ];
 </script>
 
 <svelte:head>
   <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
-<BasePage serviceTitle="Explore Census by location" description="You have picked area {locationId}">
+<BasePage>
   <span slot="phase-banner">
     <ONSPhaseBanner phase="ALPHA" />
+  </span>
+
+  <span slot="header">
+    <HeaderData2 region={locationId} />
+  </span>
+
+  <span slot="map">
+    <Map />
   </span>
 
   <span slot="footer">
@@ -29,25 +45,17 @@
     </footer>
   </span>
 
-  <ExploreByTopic />
-  <hr />
-  <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
+  <Topic {topicList} cardTitle="Walsall’s Census">
+    The 2021 Census tells us a lot about how people in Walsall live and work. <a href="#"
+      >Choose a data option from the full list</a
+    > or explore one of these topics.
+  </Topic>
 
-  <ONSShare />
+  <ONSShare url="https://www.google.com/">Share this page</ONSShare>
 </BasePage>
 
-<style lang="scss" global>
+<style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
-
-  /* TODO: Import .SCSS breakpoints */
-  /* XXX: Quick fix for now */
-  @media only screen and (max-width: 600px) {
-    .ons-phase-banner__desc {
-      margin-top: 0;
-    }
-
-    .ons-header__title {
-      margin-bottom: 10px;
-    }
+  @media only screen and (max-width: map-get($grid-bp, s)) {
   }
 </style>
