@@ -97,7 +97,7 @@
   /* TODO: Import .SCSS breakpoints */
   /* XXX: Quick fix for now */
 
-  .ons-container {
+  .ons-page .ons-container {
     max-width: 100%;
   }
   .ons-page__main {
