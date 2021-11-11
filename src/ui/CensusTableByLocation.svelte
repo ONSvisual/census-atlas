@@ -29,3 +29,16 @@
     </tbody>
   </table>
 {/if}
+
+<style>
+  .ons-table__header {
+    border-bottom: 0;
+  }
+  th {
+    font-weight: normal;
+  }
+  .ons-table__cell {
+    border-bottom: 0;
+    color: #414042;
+  }
+</style>
