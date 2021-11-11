@@ -94,9 +94,6 @@
   @import "../../node_modules/@ons/design-system/css/main";
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
-  /* TODO: Import .SCSS breakpoints */
-  /* XXX: Quick fix for now */
-
   .ons-page .ons-container {
     max-width: 100%;
   }
@@ -110,7 +107,7 @@
     position: relative;
   }
 
-  @media all and (min-width: 500px) {
+  @media only screen and (min-width: map-get($grid-bp, s)) {
     .wrapper {
       flex: 3 0px;
     }
@@ -129,7 +126,7 @@
     }
   }
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: map-get($grid-bp, s)) {
     .ons-page {
       background: url("/img/background.png") no-repeat center center;
       background-size: cover;
