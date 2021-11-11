@@ -10,6 +10,7 @@
   import Topic from "../ui/Topic.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
+  import DefaultHeader from "../ui/DefaultHeader.svelte";
 
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
@@ -26,6 +27,15 @@
 </svelte:head>
 
 <BasePage {serviceTitle} {description}>
+  <DesignSystemPanel
+    title="Default header"
+    code={`<DefaultHeader serviceTitle="Explore Census" description="Here's a place where we tell users what the Census Atlas is and what it can do for them."/>`}
+  >
+    <DefaultHeader
+      serviceTitle="Explore Census"
+      description="Here's a place where we tell users what the Census Atlas is and what it can do for them."
+    />
+  </DesignSystemPanel>
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
   </DesignSystemPanel>
