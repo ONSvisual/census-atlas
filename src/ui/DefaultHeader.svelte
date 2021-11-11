@@ -27,13 +27,13 @@
     }
   }
 
-  @media (min-width: 740px){
+  @media (min-width: 740px) {
     .ons-header__title {
-    margin: 0.2rem 0 0.8rem 0
-  }
+      margin: 0.2rem 0 0.8rem 0;
+    }
   }
   .ons-header__title {
-    margin: 0 0 .3rem 0;
+    margin: 0 0 0.3rem 0;
   }
 
   .ons-header__desc {
