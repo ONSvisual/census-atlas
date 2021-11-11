@@ -9,32 +9,32 @@
 </script>
 
 <div class="component-margin--2">
-<h2>{title}</h2>
-<div class="ons-field">
-  <p><slot /></p>
-  {#if hint}
-    <span id="description-hint" class="ons-label__description  ons-input--with-description">
-      {hint}
-    </span>
-  {/if}
-  <input
-    type="search"
-    {id}
-    class="ons-input ons-input--text ons-input-type__input"
-    {placeholder}
-    bind:value={userInputValue}
-  />
-  <button type="submit" class="ons-btn ons-u-mt-s ons-btn--small">
-    <span class="ons-btn__inner">
-      <SearchIcon />
-      {buttonText}</span
-    >
-  </button>
-</div>
+  <h2>{title}</h2>
+  <div class="ons-field">
+    <p><slot /></p>
+    {#if hint}
+      <span id="description-hint" class="ons-label__description  ons-input--with-description">
+        {hint}
+      </span>
+    {/if}
+    <input
+      type="search"
+      {id}
+      class="ons-input ons-input--text ons-input-type__input"
+      {placeholder}
+      bind:value={userInputValue}
+    />
+    <button type="submit" class="ons-btn ons-u-mt-s ons-btn--small">
+      <span class="ons-btn__inner">
+        <SearchIcon />
+        {buttonText}</span
+      >
+    </button>
+  </div>
 </div>
 
 <style>
   .component-margin--2 {
     margin-bottom: 2rem;
   }
-  </style>
+</style>
