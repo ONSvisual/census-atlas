@@ -12,7 +12,7 @@
         <ul class="ons-list ons-list--bare">
           {#each tableEntry.categories as category}
             <li class="ons-list__item">
-              <a href="#" class="ons-list__link  ">{category.name}</a>
+              <a href="data/{category.code}" class="ons-list__link  ">{category.name}</a>
             </li>
           {/each}
         </ul>
