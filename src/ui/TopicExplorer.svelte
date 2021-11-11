@@ -21,7 +21,7 @@
           {#each tableEntry.categories as category}
             <li class="ons-list__item">
               <a
-                href="#"
+                href="data/{category.code}"
                 class="ons-list__link"
                 on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories)}>{category.name}</a
               >
