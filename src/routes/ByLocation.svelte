@@ -15,10 +15,7 @@
   <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
-<BasePage
-  serviceTitle="Explore Census by location"
-  description="You have picked area {locationId}"
->
+<BasePage serviceTitle="Explore Census by location" description="You have picked area {locationId}">
   <span slot="phase-banner">
     <ONSPhaseBanner phase="ALPHA" />
   </span>

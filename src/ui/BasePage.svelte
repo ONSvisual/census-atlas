@@ -134,7 +134,7 @@
       background: url("/img/background.png") no-repeat center center;
       background-size: cover;
     }
-    .ons-page.ons-page--has-map {
+    .ons-page--has-map {
       background: none;
     }
 
@@ -143,7 +143,7 @@
       background: #fff;
       width: calc(100% - 40px);
     }
-    .ons-page.ons-page--has-map .ons-page__container {
+    .ons-page--has-map .ons-page__container {
       margin: 0;
       width: 100%;
     }

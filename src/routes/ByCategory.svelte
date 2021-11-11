@@ -1,13 +1,14 @@
 <script>
   import BasePage from "../ui/BasePage.svelte";
 
+  import Map from "../ui/Map.svelte";
   import ExploreByTopic from "../ui/ExploreByTopic.svelte";
   import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  
+
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
-  
+
   export let categoryId;
 </script>
 
@@ -15,12 +16,13 @@
   <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
-<BasePage
-  serviceTitle="Explore Census by census data"
-  description="You have picked census category {categoryId}"
->
+<BasePage serviceTitle="Explore Census by census data" description="You have picked census category {categoryId}">
   <span slot="phase-banner">
     <ONSPhaseBanner phase="ALPHA" />
+  </span>
+
+  <span slot="map">
+    <Map />
   </span>
 
   <span slot="footer">

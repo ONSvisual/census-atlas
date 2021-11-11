@@ -25,7 +25,7 @@
     <Link to="/components">Components</Link>
     <Link to="/design-system">Design System</Link>
     <Link to="/">Explore Census</Link>
-    <Link to="/data/Health">Explore by Topic (Health)</Link>
+    <Link to="/data/Health">Explore by Category (Health)</Link>
     <Link to="/locations/Walsall">Explore by Location (Walsall)</Link>
     <Link to="/legacy">Legacy version</Link>
   </nav>
