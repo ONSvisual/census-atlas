@@ -27,8 +27,8 @@
 </svelte:head>
 
 <BasePage {serviceTitle} {description}>
-  <DesignSystemPanel title="Data header 2" code={`<HeaderData2 />`}>
-    <HeaderData2 />
+  <DesignSystemPanel title="Data header 2" code={`<HeaderData2 indicator="General Health" region="England & Wales"/>`}>
+    <HeaderData2 indicator="General Health" region="England & Wales"/>
   </DesignSystemPanel>
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
