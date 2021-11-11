@@ -20,25 +20,6 @@
     <ONSPhaseBanner phase="ALPHA" />
   </span>
 
-  <span slot="header__main">
-    <div class="ons-header__main ons-header__main--with-description">
-      <div class="ons-container">
-        <div
-          class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
-        >
-          <div class="ons-grid__col ons-col-auto ons-u-flex-shrink">
-            <a class="ons-header__title-link" href="#0">
-              <div class="ons-header__title header__title--with-description">Explore Census</div>
-            </a>
-          </div>
-        </div>
-        <p class="ons-header__desc">
-          Explore Census Here’s a place where we tell users what the Census Atlas is and what it can do for them.
-        </p>
-      </div>
-    </div>
-  </span>
-
   <span slot="footer">
     <footer class="ons-footer">
       <div class="ons-footer__body ons-page__footer" data-analytics="footer">

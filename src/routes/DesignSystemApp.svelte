@@ -17,24 +17,11 @@
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import ONSHeader from "../ui/ons/ONSHeader.svelte";
   import ONSSelect from "../ui/ons/ONSSelect.svelte";
-  import CategorySelector from "../ui/CategorySelector.svelte";
-  import Topic from "../ui/Topic.svelte";
   import ONSSkipLink from "../ui/ons/ONSSkipLink.svelte";
-  import UseCensusData from "../ui/UseCensusData.svelte";
-  import ExploreByTopic from "../ui/ExploreByTopic.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
   import ONSExternalHeaderWithDescription from "../ui/ons/ONSExternalHeaderWithDescription.svelte";
-  import DesignSystemCode from "../ui/DesignSystemCode.svelte";
   import DesignSystemPanel from "../ui/DesignSystemPanel.svelte";
-  let hint = "This is a hint";
-  let topicList1 = [
-    { title: "How does general health differ across England and Wales?", href: "#" },
-    { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
-    { title: "What can we learn about long-term health issues and/or disability?", href: "#" },
-  ];
 
-  let topicList2 = [{ title: "Get Census datasests", href: "#" }];
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
 </script>
@@ -52,6 +39,13 @@
     <ONSBacklink href="/home" />
   </DesignSystemPanel>
 
+  <DesignSystemPanel title="Header" code={`<ONSExternalHeaderWithDescription />`}>
+    <ONSExternalHeaderWithDescription
+      serviceTitle="Explore Census"
+      description="Here's a place where we tell users what the Census Atlas is and what it can do for them."
+    />
+  </DesignSystemPanel>
+
   <DesignSystemPanel
     title="Breadcrumbs"
     code={`<ONSBreadcrumbs>
@@ -65,19 +59,22 @@
     </ONSBreadcrumbs>
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="Button" code={`<ONSButton onClick={() => alert("Custom on click handler")}>Custom onclick handler</ONSButton>`}>
+  <DesignSystemPanel
+    title="Button"
+    code={`<ONSButton onClick={() => alert("Custom on click handler")}>Custom onclick handler</ONSButton>`}
+  >
     <ONSButton onClick={() => alert("Custom on click handler")}>Custom onclick handler</ONSButton>
   </DesignSystemPanel>
-    <DesignSystemPanel title="Secondary button" code={`<ONSButton secondary>Secondary</ONSButton>`}>
+  <DesignSystemPanel title="Secondary button" code={`<ONSButton secondary>Secondary</ONSButton>`}>
     <ONSButton secondary>Secondary</ONSButton>
   </DesignSystemPanel>
-    <DesignSystemPanel title="Small button" code={`<ONSButton small>Small</ONSButton>`}>
+  <DesignSystemPanel title="Small button" code={`<ONSButton small>Small</ONSButton>`}>
     <ONSButton small>Small</ONSButton>
   </DesignSystemPanel>
-    <DesignSystemPanel title="Secondary small button" code={`<ONSButton secondary small>Secondary small</ONSButton>`}>
+  <DesignSystemPanel title="Secondary small button" code={`<ONSButton secondary small>Secondary small</ONSButton>`}>
     <ONSButton secondary small>Secondary small</ONSButton>
   </DesignSystemPanel>
-      <DesignSystemPanel title="Disabled button" code={`<ONSButton disabled>Disabled</ONSButton>`}>
+  <DesignSystemPanel title="Disabled button" code={`<ONSButton disabled>Disabled</ONSButton>`}>
     <ONSButton disabled>Disabled</ONSButton>
   </DesignSystemPanel>
   <DesignSystemPanel title="Card" code={`<ONSCard title="ONS Card" href="/home">Card</ONSCard>`}>
