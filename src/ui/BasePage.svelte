@@ -138,12 +138,12 @@
       background: none;
     }
 
-    .ons-page__container {
+    .ons-container.ons-page__container {
       margin: 20px;
       background: #fff;
       width: calc(100% - 40px);
     }
-    .ons-page--has-map .ons-page__container {
+    .ons-page--has-map .ons-container.ons-page__container {
       margin: 0;
       width: 100%;
     }
