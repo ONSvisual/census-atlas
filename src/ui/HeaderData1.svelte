@@ -5,7 +5,7 @@
 
 <header class="ons-header ons-header--hero" role="banner">
   <div class="ons-header__main ons-header__main--with-description">
-    <div class="ons-container" id="ons-container">
+    <div class="ons-container">
       <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
         <div class="ons-header__title header__title--with-description data-header-1__title">
           <h2>{indicator}</h2>
@@ -38,11 +38,5 @@
 
   .data-header-1__title {
     margin: 0;
-  }
-
-  @media (min-width: 500px) {
-    #ons-container {
-      padding: 0 1rem;
-    }
   }
 </style>
