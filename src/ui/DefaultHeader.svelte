@@ -19,24 +19,3 @@
     </div>
   </div>
 </header>
-
-<style>
-  @media (min-width: 500px) {
-    .ons-container {
-      padding: 0 1rem;
-    }
-  }
-
-  @media (min-width: 740px) {
-    .ons-header__title {
-      margin: 0.2rem 0 0.8rem 0;
-    }
-  }
-  .ons-header__title {
-    margin: 0 0 0.3rem 0;
-  }
-
-  .ons-header__desc {
-    margin: 0;
-  }
-</style>
