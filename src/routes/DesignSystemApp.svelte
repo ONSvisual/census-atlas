@@ -24,6 +24,8 @@
 
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
+  
+  let radioValue;
 </script>
 
 <svelte:head>
@@ -141,21 +143,29 @@
 
   <DesignSystemPanel
     title="Radios"
-    code={`  <ONSRadios name="ethnicity">
-    <ONSRadio id="asian">Asian</ONSRadio>
-    <ONSRadio id="black">Black</ONSRadio>
-    <ONSRadio id="mixed">Mixed</ONSRadio>
-    <ONSRadio id="white">White</ONSRadio>
-    <ONSRadio id="other">Other</ONSRadio> 
-    </ONSRadios>`}
+    code={`<script>
+   let radioValue;
+</script>
+
+<ONSRadios name="ethnicity" bind:value={radioValue} onchange={(value) => console.log('ethnicity changed to', value)}>
+  <ONSRadio id="asian">Asian</ONSRadio>
+  <ONSRadio id="black">Black</ONSRadio>
+  <ONSRadio id="mixed">Mixed</ONSRadio>
+  <ONSRadio id="white">White</ONSRadio>
+  <ONSRadio id="other">Other</ONSRadio> 
+</ONSRadios>
+
+<p>You have selected: {radioValue}</p>`}
   >
-    <ONSRadios name="ethnicity">
+    <ONSRadios name="ethnicity" bind:value={radioValue} onchange={(value) => console.log('ethnicity changed to', value)}>
       <ONSRadio id="asian">Asian</ONSRadio>
       <ONSRadio id="black">Black</ONSRadio>
       <ONSRadio id="mixed">Mixed</ONSRadio>
       <ONSRadio id="white">White</ONSRadio>
       <ONSRadio id="other">Other</ONSRadio>
     </ONSRadios>
+    <br />
+    <p>You have selected: <strong>{radioValue}</strong></p>
   </DesignSystemPanel>
   <DesignSystemPanel
     title="Accordion"
