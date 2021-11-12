@@ -35,8 +35,4 @@
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }
-
-  .ons-collapsible__heading:first-child {
-    border: 0;
-  }
 </style>

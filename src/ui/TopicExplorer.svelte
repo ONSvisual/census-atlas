@@ -14,7 +14,7 @@
 
 <ONSAccordion showAll={false}>
   {#each censusData as topic, i}
-    <ONSAccordionPanel id="topic-{i}" title={topic.name}>
+    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder>
       {#each topic.tables as tableEntry}
         <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">{tableEntry.name}</h3>
         <ul class="ons-list ons-list--bare">
