@@ -1,11 +1,15 @@
 <script>
   export let id;
   export let title;
+
+  export let noTopBorder = false;
+
+  let hasTopBorder = noTopBorder ? "ons-collapsible--noTopBorder" : "";
 </script>
 
 <div
   {id}
-  class="ons-collapsible ons-js-collapsible ons-collapsible--accordion"
+  class="ons-collapsible ons-js-collapsible ons-collapsible--accordion {hasTopBorder}"
   data-btn-close="Hide"
   data-group="accordion"
 >
@@ -38,3 +42,9 @@
     <slot />
   </div>
 </div>
+
+<style lang="scss">
+  .ons-collapsible--noTopBorder:first-child .ons-collapsible__heading {
+    border-top: 0;
+  }
+</style>
