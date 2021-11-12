@@ -24,10 +24,6 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="phase-banner">
-    <ONSPhaseBanner phase="ALPHA" />
-  </span>
-
   <span slot="header">
     <HeaderData2 region={locationId} />
   </span>
