@@ -1,12 +1,14 @@
 <script>
-  export let id;
-  export let textFieldValue;
+  export let id, type, textFieldValue, onChange;
   export let hint = "";
   export let inputLabel = "";
   export let showPlaceholder = false;
-  export let onChange;
-  export let errorMessage = "Placeholder error message placeholder";
+  export let errorMessage = "Custom error message";
   export let renderErrorMsg = false;
+
+  function typeAction(node) {
+    node.type = type;
+  }
 </script>
 
 {#if renderErrorMsg}
@@ -24,12 +26,12 @@
           </span>
         {/if}
         <input
-          type="type"
           {id}
           class="ons-input ons-input--text ons-input-type__input {showPlaceholder ? 'ons-input--placeholder' : ''}"
           placeholder={showPlaceholder ? inputLabel : ""}
           bind:value={textFieldValue}
           on:input={() => onChange(textFieldValue)}
+          use:typeAction
         />
       </div>
     </div>
@@ -43,12 +45,12 @@
       </span>
     {/if}
     <input
-      type="type"
       {id}
       class="ons-input ons-input--text ons-input-type__input {showPlaceholder ? 'ons-input--placeholder' : ''}"
       placeholder={showPlaceholder ? inputLabel : ""}
       bind:value={textFieldValue}
       on:input={() => onChange(textFieldValue)}
+      use:typeAction
     />
   </div>
 {/if}
