@@ -24,6 +24,7 @@
 
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
+  let textFieldValue = "";
 </script>
 
 <svelte:head>
@@ -108,8 +109,9 @@
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Input" code={`<ONSTextField id="text-field">Text field</ONSTextField>`}>
-    <ONSTextField id="text-field">Text field</ONSTextField>
+    <ONSTextField bind:textFieldValue id="text-field">Text field</ONSTextField>
   </DesignSystemPanel>
+  <p>You are typing: {textFieldValue}</p>
 
   <DesignSystemPanel
     title="Select"

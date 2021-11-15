@@ -1,6 +1,6 @@
 <script>
   export let id;
-  export let value = "";
+  export let textFieldValue;
   export let hint = "";
 </script>
 
@@ -11,5 +11,5 @@
       {hint}
     </span>
   {/if}
-  <input type="text" {id} class="ons-input ons-input--text ons-input-type__input" bind:value />
+  <input type="type" {id} class="ons-input ons-input--text ons-input-type__input" bind:value={textFieldValue} />
 </div>
