@@ -108,12 +108,20 @@
     </ONSCollapsible>
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="Input" code={`<ONSTextField id="text-field">Text field</ONSTextField>`}>
+  <DesignSystemPanel
+    title="Input"
+    code={`<ONSTextField
+    bind:textFieldValue
+    id="text-field"
+    inputLabel="Text field"
+    onChange={(textFieldValue) => console.log("Input user value: ", textFieldValue)}/>`}
+  >
     <ONSTextField
       bind:textFieldValue
       id="text-field"
-      onChange={(textFieldValue) => console.log("Input user value: ", textFieldValue)}>Text field</ONSTextField
-    >
+      inputLabel="Text field"
+      onChange={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+    />
   </DesignSystemPanel>
   <p>You are typing: {textFieldValue}</p>
 
