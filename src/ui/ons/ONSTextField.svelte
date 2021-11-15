@@ -2,6 +2,7 @@
   export let id;
   export let textFieldValue;
   export let hint = "";
+  export let onChange;
 </script>
 
 <div class="ons-field">
@@ -11,5 +12,11 @@
       {hint}
     </span>
   {/if}
-  <input type="type" {id} class="ons-input ons-input--text ons-input-type__input" bind:value={textFieldValue} />
+  <input
+    type="type"
+    {id}
+    class="ons-input ons-input--text ons-input-type__input"
+    bind:value={textFieldValue}
+    on:input={() => onChange(textFieldValue)}
+  />
 </div>

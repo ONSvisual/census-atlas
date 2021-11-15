@@ -109,7 +109,11 @@
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Input" code={`<ONSTextField id="text-field">Text field</ONSTextField>`}>
-    <ONSTextField bind:textFieldValue id="text-field">Text field</ONSTextField>
+    <ONSTextField
+      bind:textFieldValue
+      id="text-field"
+      onChange={(textFieldValue) => console.log("Input user value: ", textFieldValue)}>Text field</ONSTextField
+    >
   </DesignSystemPanel>
   <p>You are typing: {textFieldValue}</p>
 
