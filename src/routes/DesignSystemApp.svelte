@@ -25,6 +25,7 @@
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
   let textFieldValue = "";
+  let inputErrorValue = "";
 </script>
 
 <svelte:head>
@@ -125,6 +126,24 @@
   </DesignSystemPanel>
   <p>You are typing: {textFieldValue}</p>
 
+  <DesignSystemPanel
+    title="Input-error message"
+    code={`<ONSTextField
+    id="text-field"
+    bind:textFieldValue={otherValue}
+    inputLabel="Text field"
+    renderErrorMsg
+    onChange={(textFieldValue) => console.log("Input user value: ", textFieldValue)}/>`}
+  >
+    <ONSTextField
+      id="text-field"
+      bind:textFieldValue={inputErrorValue}
+      inputLabel="Text field"
+      renderErrorMsg
+      onChange={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+    />
+  </DesignSystemPanel>
+  <p>You are typing: {inputErrorValue}</p>
   <DesignSystemPanel
     title="Select"
     code={`<ONSSelect
