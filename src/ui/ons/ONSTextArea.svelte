@@ -7,7 +7,7 @@
 </script>
 
 <div class="ons-field">
-  <label class="ons-label  ons-label--with-description " for={id}>
+  <label class="ons-label  {hint ? 'ons-label--with-description' : ''}" for={id}>
     {labelText}
   </label>
   {#if hint}
