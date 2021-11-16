@@ -186,11 +186,11 @@
   >
     <ONSTextArea
       id="text-area"
+      labelText="Text area"
       hint="this is a hint for text area"
       onChange={(textAreaValue) =>
         console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
-      >Text area</ONSTextArea
-    >
+    />
   </DesignSystemPanel>
 
   <DesignSystemPanel
