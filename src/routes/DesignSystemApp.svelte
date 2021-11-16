@@ -24,6 +24,8 @@
 
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
+  let textFieldValue = "";
+  let inputErrorValue = "";
 </script>
 
 <svelte:head>
@@ -107,9 +109,55 @@
     </ONSCollapsible>
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="Input" code={`<ONSTextField id="text-field">Text field</ONSTextField>`}>
-    <ONSTextField id="text-field">Text field</ONSTextField>
+  <DesignSystemPanel
+    title="Input"
+    code={`<ONSTextField
+      id="text-field-1"
+      type="text"
+      bind:textFieldValue
+      labelText="Text field"
+      accessiblePlaceholder
+      onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+      onChange={(textFieldValue)=>console.log("Displays what user is typing every time they hit the return key: ",textFieldValue)}
+    />`}
+  >
+    <ONSTextField
+      id="text-field-1"
+      type="text"
+      bind:textFieldValue
+      labelText="Text field"
+      accessiblePlaceholder
+      onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+      onChange={(textFieldValue) =>
+        console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
+    />
   </DesignSystemPanel>
+  <p>You are typing: {textFieldValue}</p>
+
+  <DesignSystemPanel
+    title="Input-error message"
+    code={`<ONSTextField
+      id="text-field-2"
+      type="text"
+      bind:textFieldValue={inputErrorValue}
+      labelText="Text field"
+      renderError
+      onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+      onChange={(textFieldValue)=>console.log("Displays what user is typing every time they hit the return key: ",textFieldValue)}
+    />`}
+  >
+    <ONSTextField
+      id="text-field-2"
+      type="text"
+      bind:textFieldValue={inputErrorValue}
+      labelText="Text field"
+      renderError
+      onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+      onChange={(textFieldValue) =>
+        console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
+    />
+  </DesignSystemPanel>
+  <p>You are typing: {inputErrorValue}</p>
 
   <DesignSystemPanel
     title="Select"
