@@ -1,16 +1,16 @@
 <script>
   import ONSError from "./partials/ONSError.svelte";
-  export let id, type, textFieldValue, onInput, onChange, renderErrorMsg;
+  export let id, type, textFieldValue, onInput, onChange, renderError;
   export let hint = "";
   export let inputLabel = "";
   export let showPlaceholder = false;
-  export let errorMessage = "Custom error message";
+  export let errorText = "Custom error message";
   function typeAction(node) {
     node.type = type;
   }
 </script>
 
-<ONSError message={errorMessage} {id} {renderErrorMsg}>
+<ONSError {errorText} {id} {renderError}>
   <div class="ons-field">
     <label class="ons-label {showPlaceholder ? 'ons-label--placeholder' : ''}" for={id}>{inputLabel}</label>
     {#if hint}

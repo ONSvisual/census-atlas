@@ -139,7 +139,7 @@
       type="text"
       bind:textFieldValue={inputErrorValue}
       inputLabel="Text field"
-      renderErrorMsg
+      renderError
       onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
       onChange={(textFieldValue)=>console.log("Displays what user is typing every time he hits the return key: ",textFieldValue)}
     />`}
@@ -149,7 +149,7 @@
       type="text"
       bind:textFieldValue={inputErrorValue}
       inputLabel="Text field"
-      renderErrorMsg
+      renderError
       onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
       onChange={(textFieldValue) =>
         console.log("Displays what user is typing every time he hits the return key: ", textFieldValue)}
