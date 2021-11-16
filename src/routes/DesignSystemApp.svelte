@@ -112,18 +112,19 @@
   <DesignSystemPanel
     title="Input"
     code={`<ONSTextField
-    id="text-field-1"
-    type="text"
-    bind:textFieldValue
-    inputLabel="Text field"
-    onChange={(textFieldValue) => console.log("Input user value: ", textFieldValue)}/>`}
+      id="text-field-1"
+      type="text"
+      bind:textFieldValue
+      inputLabel="Text field"
+      onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+    />`}
   >
     <ONSTextField
       id="text-field-1"
       type="text"
       bind:textFieldValue
       inputLabel="Text field"
-      onChange={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+      onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
     />
   </DesignSystemPanel>
   <p>You are typing: {textFieldValue}</p>
@@ -131,12 +132,13 @@
   <DesignSystemPanel
     title="Input-error message"
     code={`<ONSTextField
-    id="text-field-2"
-    type="text"
-    bind:textFieldValue={inputErrorValue}
-    inputLabel="Text field"
-    renderErrorMsg
-    onChange={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}/>`}
+      id="text-field-2"
+      type="text"
+      bind:textFieldValue={inputErrorValue}
+      inputLabel="Text field"
+      renderErrorMsg
+      onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+    />`}
   >
     <ONSTextField
       id="text-field-2"
@@ -144,7 +146,7 @@
       bind:textFieldValue={inputErrorValue}
       inputLabel="Text field"
       renderErrorMsg
-      onChange={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+      onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
     />
   </DesignSystemPanel>
   <p>You are typing: {inputErrorValue}</p>

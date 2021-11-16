@@ -1,6 +1,6 @@
 <script>
   import ONSError from "./partials/ONSError.svelte";
-  export let id, type, textFieldValue, onChange, renderErrorMsg;
+  export let id, type, textFieldValue, onInput, renderErrorMsg;
   export let hint = "";
   export let inputLabel = "";
   export let showPlaceholder = false;
@@ -23,7 +23,7 @@
       class="ons-input ons-input--text ons-input-type__input {showPlaceholder ? 'ons-input--placeholder' : ''}"
       placeholder={showPlaceholder ? inputLabel : ""}
       bind:value={textFieldValue}
-      on:input={() => onChange(textFieldValue)}
+      on:input={() => onInput(textFieldValue)}
       use:typeAction
     />
   </div>
