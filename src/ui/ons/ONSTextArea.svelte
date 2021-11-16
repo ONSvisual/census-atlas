@@ -1,5 +1,5 @@
 <script>
-  export let id, onChange, textAreaValue, onInput;
+  export let id, onChange, textAreaValue, onInput, placeholderText;
   export let name = "";
   export let rows = 8;
   export let hint = "";
@@ -18,6 +18,7 @@
   <textarea
     bind:value={textAreaValue}
     {id}
+    placeholder={placeholderText}
     class="ons-input ons-input--textarea"
     name={name ? name : id}
     {rows}
