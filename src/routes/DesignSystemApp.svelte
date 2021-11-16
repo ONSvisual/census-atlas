@@ -182,12 +182,45 @@
 
   <DesignSystemPanel
     title="Text area"
-    code={`<ONSTextArea id="text-area" hint="this is a hint for text area">Text area</ONSTextArea>`}
-  >
-    <ONSTextArea
-      id="text-area"
+    code={`<ONSTextArea
+      id="text-area-1"
       labelText="Text area"
       hint="this is a hint for text area"
+      placeholderText="enter your placeholder text..."
+      onChange={(textAreaValue) =>
+        console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
+    />`}
+  >
+    <ONSTextArea
+      id="text-area-1"
+      labelText="Text area"
+      hint="this is a hint for text area"
+      placeholderText="enter your placeholder text..."
+      onChange={(textAreaValue) =>
+        console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
+    />
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Text area - error message"
+    code={`<ONSTextArea
+      id="text-area-2"
+      labelText="Text area"
+      hint="this is a hint for text area"
+      renderError
+      placeholderText="enter your placeholder text..."
+      onChange={(textAreaValue) =>
+        console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
+    />`}
+  >
+    <ONSTextArea
+      id="text-area-2"
+      labelText="Text area"
+      hint="this is a hint for text area"
+      renderError
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
         console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
