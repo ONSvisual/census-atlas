@@ -5,7 +5,7 @@
   let name = getContext("name");
 </script>
 
-<p class="ons-radios__item">
+<span class="ons-radios__item">
   <span class="ons-radio">
     <input
       type="radio"
@@ -22,4 +22,5 @@
       <slot />
     </label>
   </span>
-</p>
+</span>
+<br />

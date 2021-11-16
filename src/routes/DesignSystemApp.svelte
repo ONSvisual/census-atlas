@@ -145,7 +145,7 @@
   <DesignSystemPanel
     title="Radios"
     code={`<script>
-      let radioValue;
+      let radioValue = "none";
    </script>
 
 <ONSRadios name="ethnicity">
