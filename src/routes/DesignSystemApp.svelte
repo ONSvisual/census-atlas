@@ -116,6 +116,7 @@
       type="text"
       bind:textFieldValue
       labelText="Text field"
+      accessiblePlaceholder
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
       onChange={(textFieldValue)=>console.log("Displays what user is typing every time he hits the return key: ",textFieldValue)}
     />`}
@@ -125,6 +126,7 @@
       type="text"
       bind:textFieldValue
       labelText="Text field"
+      accessiblePlaceholder
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
       onChange={(textFieldValue) =>
         console.log("Displays what user is typing every time he hits the return key: ", textFieldValue)}
