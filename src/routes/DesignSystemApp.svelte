@@ -190,6 +190,7 @@
       hint="this is a hint for text area"
       onChange={(textAreaValue) =>
         console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
     />
   </DesignSystemPanel>
 

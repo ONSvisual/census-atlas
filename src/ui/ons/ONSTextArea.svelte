@@ -1,5 +1,5 @@
 <script>
-  export let id, onChange, textAreaValue;
+  export let id, onChange, textAreaValue, onInput;
   export let name = "";
   export let rows = 8;
   export let hint = "";
@@ -22,5 +22,6 @@
     name={name ? name : id}
     {rows}
     on:change={() => onChange(textAreaValue)}
+    on:input={() => onInput(textAreaValue)}
   />
 </div>
