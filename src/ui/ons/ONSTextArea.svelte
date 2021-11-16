@@ -1,8 +1,7 @@
 <script>
-  export let id;
+  export let id, onChange, textAreaValue;
   export let name = "";
   export let rows = 8;
-  export let value = "";
   export let hint = "";
 </script>
 
@@ -15,5 +14,12 @@
       {hint}
     </span>
   {/if}
-  <textarea {id} class="ons-input ons-input--textarea   " name={name ? name : id} {rows} />
+  <textarea
+    bind:value={textAreaValue}
+    {id}
+    class="ons-input ons-input--textarea"
+    name={name ? name : id}
+    {rows}
+    on:change={() => onChange(textAreaValue)}
+  />
 </div>
