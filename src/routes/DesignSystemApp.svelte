@@ -117,6 +117,7 @@
       bind:textFieldValue
       inputLabel="Text field"
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+      onChange={(textFieldValue)=>console.log("Displays what user is typing every time he hits the return key: ",textFieldValue)}
     />`}
   >
     <ONSTextField
@@ -125,6 +126,8 @@
       bind:textFieldValue
       inputLabel="Text field"
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+      onChange={(textFieldValue) =>
+        console.log("Displays what user is typing every time he hits the return key: ", textFieldValue)}
     />
   </DesignSystemPanel>
   <p>You are typing: {textFieldValue}</p>
@@ -138,6 +141,7 @@
       inputLabel="Text field"
       renderErrorMsg
       onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+      onChange={(textFieldValue)=>console.log("Displays what user is typing every time he hits the return key: ",textFieldValue)}
     />`}
   >
     <ONSTextField
@@ -147,6 +151,8 @@
       inputLabel="Text field"
       renderErrorMsg
       onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+      onChange={(textFieldValue) =>
+        console.log("Displays what user is typing every time he hits the return key: ", textFieldValue)}
     />
   </DesignSystemPanel>
   <p>You are typing: {inputErrorValue}</p>
