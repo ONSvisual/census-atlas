@@ -1,5 +1,5 @@
 <script>
-  import { ethnicity } from "../data/mockDSData";
+  import { ethnicity } from "../data/test/mockDSData";
   import ONSCensusApp from "../ui/ons/ONSCensusApp.svelte";
   import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
@@ -26,7 +26,7 @@
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
 
-  let radioValue="none";
+  let radioValue = "none";
 </script>
 
 <svelte:head>
