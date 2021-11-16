@@ -3,7 +3,6 @@
 
   export let id, value, radioValue, onChange;
   let name = getContext("name");
-  let userSelection;
 </script>
 
 <p class="ons-radios__item">
@@ -13,10 +12,9 @@
       {id}
       class="ons-radio__input ons-js-radio"
       {value}
-      bind:group={userSelection}
+      bind:group={radioValue}
       {name}
       on:change={() => {
-        radioValue = userSelection;
         onChange(radioValue);
       }}
     />
