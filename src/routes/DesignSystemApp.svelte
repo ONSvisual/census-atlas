@@ -1,5 +1,5 @@
 <script>
-  import { ethnicity } from "../data/test/mockDSData";
+  import { ethnicity, cities } from "../data/test/mockDSData";
   import ONSCensusApp from "../ui/ons/ONSCensusApp.svelte";
   import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
@@ -164,22 +164,13 @@
   <DesignSystemPanel
     title="Select"
     code={`<ONSSelect
-    label="Select city"
-    options={[
-      { value: "london", label: "London" },
-      { value: "bristol", label: "Bristol", selected: true },
-      { value: "oxford", label: "Oxford", disabled: true },
-    ]}
-  />`}
-  >
-    <ONSSelect
       label="Select city"
-      options={[
-        { value: "london", label: "London" },
-        { value: "bristol", label: "Bristol", selected: true },
-        { value: "oxford", label: "Oxford", disabled: true },
-      ]}
-    />
+      name="select"
+      id="select-city"
+      options={cities}
+    />`}
+  >
+    <ONSSelect label="Select city" name="select" id="select-city" options={cities} />
   </DesignSystemPanel>
 
   <DesignSystemPanel
