@@ -7,9 +7,9 @@ let ethnicity=[
 ]
 
 let cities=[
-    { value: "london", label: "London",selected: true,disabled:true},
-    { value: "bristol", label: "Bristol"},
-    { value: "oxford", label: "Oxford"},
+    { value: "london", label: "London",disabled:true},
+    { value: "bristol", label: "Bristol",disabled:false},
+    { value: "oxford", label: "Oxford",disabled:false},
   ]
 
 export {ethnicity,cities}

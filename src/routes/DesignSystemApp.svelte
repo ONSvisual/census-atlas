@@ -169,9 +169,17 @@
       name="select"
       id="1-select-city"
       options={cities}
+      onClick={(selectValue)=>console.log("Displays current selection: ",selectValue)}
     />`}
   >
-    <ONSSelect bind:selectValue label="Select city" name="select" id="1-select-city" options={cities} />
+    <ONSSelect
+      bind:selectValue
+      label="Select city"
+      name="select"
+      id="1-select-city"
+      options={cities}
+      onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
+    />
     <br />
     <p>You have selected: <strong>{selectValue}</strong></p>
   </DesignSystemPanel>
@@ -184,9 +192,17 @@
       id="2-select-city"
       options={cities}
       renderError
+      onClick={(selectValue)=>console.log("Displays current selection: ",selectValue)}
     />`}
   >
-    <ONSSelect label="Select city" name="select" id="2-select-city" options={cities} renderError />
+    <ONSSelect
+      label="Select city"
+      name="select"
+      id="2-select-city"
+      options={cities}
+      renderError
+      onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
+    />
   </DesignSystemPanel>
 
   <DesignSystemPanel
