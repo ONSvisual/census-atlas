@@ -1,5 +1,5 @@
 <script>
-  import { ethnicity } from "../data/test/mockDSData";
+  import { ethnicity, checkboxData } from "../data/test/mockDSData";
   import ONSCensusApp from "../ui/ons/ONSCensusApp.svelte";
   import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
@@ -87,16 +87,26 @@
 
   <DesignSystemPanel
     title="Checkboxes"
-    code={`<ONSCheckboxes>
-  <ONSCheckbox id="mobile">Mobile</ONSCheckbox>
-  <ONSCheckbox id="laptop">Laptop</ONSCheckbox>
-  <ONSCheckbox id="tablet">Tablet</ONSCheckbox>
-</ONSCheckboxes>`}
+    code={`<ONSCheckboxes title="What devices do you own?" checkboxesLabel = "Select all that apply" id="fieldset-legend-title" legendIsQuestionTitle>
+      {#each checkboxData as option}
+      <ONSCheckbox
+        id={option.id}
+        value={option.value}
+        name="devices"
+        checkboxesLabel={option.label}
+        />
+    {/each}
+    </ONSCheckboxes>`}
   >
-    <ONSCheckboxes>
-      <ONSCheckbox id="mobile">Mobile</ONSCheckbox>
-      <ONSCheckbox id="laptop">Laptop</ONSCheckbox>
-      <ONSCheckbox id="tablet">Tablet</ONSCheckbox>
+    <ONSCheckboxes
+      title="What devices do you own?"
+      checkboxesLabel="Select all that apply"
+      id="fieldset-legend-title"
+      legendIsQuestionTitle
+    >
+      {#each checkboxData as option}
+        <ONSCheckbox id={option.id} value={option.value} name="devices" labelText={option.label} />
+      {/each}
     </ONSCheckboxes>
   </DesignSystemPanel>
 

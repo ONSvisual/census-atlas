@@ -6,4 +6,9 @@ let ethnicity=[
 {id:"asian",value:"asian",label:"Asian"},
 ]
 
-export {ethnicity}
+let checkboxData=[
+    {id:"laptop", value:"laptop", label:"Laptop"},
+    {id:"mobile", value:"mobile", label:"Mobile"},
+    {id:"tablet", value:"tablet", label:"Tablet"},
+] 
+export {ethnicity,checkboxData}
