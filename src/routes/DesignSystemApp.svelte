@@ -166,11 +166,24 @@
     code={`<ONSSelect
       label="Select city"
       name="select"
-      id="select-city"
+      id="1-select-city"
       options={cities}
     />`}
   >
-    <ONSSelect label="Select city" name="select" id="select-city" options={cities} />
+    <ONSSelect label="Select city" name="select" id="1-select-city" options={cities} />
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Select - error message"
+    code={`<ONSSelect
+      label="Select city"
+      name="select"
+      id="2-select-city"
+      options={cities}
+      renderError
+    />`}
+  >
+    <ONSSelect label="Select city" name="select" id="2-select-city" options={cities} renderError />
   </DesignSystemPanel>
 
   <DesignSystemPanel

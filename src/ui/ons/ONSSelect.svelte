@@ -1,13 +1,17 @@
 <script>
-  export let label, id, name;
+  import ONSError from "./partials/ONSError.svelte";
+  export let label, id, name, renderError;
+  export let errorText = "Select [whatever topic the drop-down is asking for]";
   export let options = [];
 </script>
 
-<div class="ons-field">
-  <label class="ons-label " for={id}>{label}</label>
-  <select {id} {name} class="ons-input ons-input--select">
-    {#each options as option}
-      <option value={option.value} selected={option.selected} disabled={option.disabled}>{option.label}</option>
-    {/each}
-  </select>
-</div>
+<ONSError {errorText} {id} {renderError}>
+  <div class="ons-field">
+    <label class="ons-label " for={id}>{label}</label>
+    <select {id} {name} class="ons-input ons-input--select">
+      {#each options as option}
+        <option value={option.value} selected={option.selected} disabled={option.disabled}>{option.label}</option>
+      {/each}
+    </select>
+  </div>
+</ONSError>
