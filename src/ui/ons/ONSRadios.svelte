@@ -2,6 +2,7 @@
   import { setContext } from "svelte";
 
   export let name;
+
   setContext("name", name);
 </script>
 

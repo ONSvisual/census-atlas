@@ -1,4 +1,5 @@
 <script>
+  import { ethnicity } from "../data/test/mockDSData";
   import ONSCensusApp from "../ui/ons/ONSCensusApp.svelte";
   import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
@@ -24,6 +25,7 @@
 
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
+  let radioValue = "none";
   let textFieldValue = "";
   let inputErrorValue = "";
 </script>
@@ -230,21 +232,30 @@
 
   <DesignSystemPanel
     title="Radios"
-    code={`  <ONSRadios name="ethnicity">
-    <ONSRadio id="asian">Asian</ONSRadio>
-    <ONSRadio id="black">Black</ONSRadio>
-    <ONSRadio id="mixed">Mixed</ONSRadio>
-    <ONSRadio id="white">White</ONSRadio>
-    <ONSRadio id="other">Other</ONSRadio> 
-    </ONSRadios>`}
+    code={`<script>
+      let radioValue = "none";
+   </script>
+
+<ONSRadios name="ethnicity">
+  {#each ethnicity as option}
+    <ONSRadio  bind:radioValue id={option.id} value={option.value} onChange={(radioValue) => console.log('ethnicity changed to', radioValue)}>{option.label}</ONSRadio>
+  {/each}
+</ONSRadios>
+
+<p>You have selected: {radioValue}</p>`}
   >
     <ONSRadios name="ethnicity">
-      <ONSRadio id="asian">Asian</ONSRadio>
-      <ONSRadio id="black">Black</ONSRadio>
-      <ONSRadio id="mixed">Mixed</ONSRadio>
-      <ONSRadio id="white">White</ONSRadio>
-      <ONSRadio id="other">Other</ONSRadio>
+      {#each ethnicity as option}
+        <ONSRadio
+          bind:radioValue
+          id={option.id}
+          value={option.value}
+          onChange={(radioValue) => console.log("ethnicity changed to", radioValue)}>{option.label}</ONSRadio
+        >
+      {/each}
     </ONSRadios>
+    <br />
+    <p>You have selected: <strong>{radioValue}</strong></p>
   </DesignSystemPanel>
   <DesignSystemPanel
     title="Accordion"

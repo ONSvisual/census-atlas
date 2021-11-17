@@ -1,17 +1,26 @@
 <script>
   import { getContext } from "svelte";
 
-  export let id;
-  export let value;
-  export let checked = false;
+  export let id, value, radioValue, onChange;
   let name = getContext("name");
 </script>
 
-<p class="ons-radios__item">
+<span class="ons-radios__item">
   <span class="ons-radio">
-    <input type="radio" {id} class="ons-radio__input ons-js-radio" bind:value {name} />
+    <input
+      type="radio"
+      {id}
+      class="ons-radio__input ons-js-radio"
+      {value}
+      bind:group={radioValue}
+      {name}
+      on:change={() => {
+        onChange(radioValue);
+      }}
+    />
     <label class="ons-radio__label" for={id} id="{id}-label">
       <slot />
     </label>
   </span>
-</p>
+</span>
+<br />
