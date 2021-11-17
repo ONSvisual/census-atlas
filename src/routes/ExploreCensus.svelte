@@ -15,10 +15,6 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="phase-banner">
-    <ONSPhaseBanner phase="ALPHA" />
-  </span>
-
   <span slot="header">
     <ONSExternalHeaderWithDescription
       serviceTitle="Explore Census"
@@ -35,7 +31,7 @@
     </footer>
   </span>
 
-  <ExploreByTopic />
+  <ExploreByTopic url="/categories" />
   <hr class="component-margin--2" />
   <ExploreByAreaComponent placeholder="Walsall"
     >Search for an area to find out how it compares to others</ExploreByAreaComponent

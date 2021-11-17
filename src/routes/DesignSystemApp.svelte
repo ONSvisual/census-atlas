@@ -25,8 +25,9 @@
 
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
-
   let radioValue = "none";
+  let textFieldValue = "";
+  let inputErrorValue = "";
 </script>
 
 <svelte:head>
@@ -110,9 +111,55 @@
     </ONSCollapsible>
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="Input" code={`<ONSTextField id="text-field">Text field</ONSTextField>`}>
-    <ONSTextField id="text-field">Text field</ONSTextField>
+  <DesignSystemPanel
+    title="Input"
+    code={`<ONSTextField
+      id="text-field-1"
+      type="text"
+      bind:textFieldValue
+      labelText="Text field"
+      accessiblePlaceholder
+      onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+      onChange={(textFieldValue)=>console.log("Displays what user is typing every time they hit the return key: ",textFieldValue)}
+    />`}
+  >
+    <ONSTextField
+      id="text-field-1"
+      type="text"
+      bind:textFieldValue
+      labelText="Text field"
+      accessiblePlaceholder
+      onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
+      onChange={(textFieldValue) =>
+        console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
+    />
   </DesignSystemPanel>
+  <p>You are typing: {textFieldValue}</p>
+
+  <DesignSystemPanel
+    title="Input-error message"
+    code={`<ONSTextField
+      id="text-field-2"
+      type="text"
+      bind:textFieldValue={inputErrorValue}
+      labelText="Text field"
+      renderError
+      onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+      onChange={(textFieldValue)=>console.log("Displays what user is typing every time they hit the return key: ",textFieldValue)}
+    />`}
+  >
+    <ONSTextField
+      id="text-field-2"
+      type="text"
+      bind:textFieldValue={inputErrorValue}
+      labelText="Text field"
+      renderError
+      onInput={(inputErrorValue) => console.log("Input user value: ", inputErrorValue)}
+      onChange={(textFieldValue) =>
+        console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
+    />
+  </DesignSystemPanel>
+  <p>You are typing: {inputErrorValue}</p>
 
   <DesignSystemPanel
     title="Select"
@@ -137,9 +184,50 @@
 
   <DesignSystemPanel
     title="Text area"
-    code={`<ONSTextArea id="text-area" hint="this is a hint for text area">Text area</ONSTextArea>`}
+    code={`<ONSTextArea
+      id="text-area-1"
+      labelText="Text area"
+      hint="this is a hint for text area"
+      placeholderText="enter your placeholder text..."
+      onChange={(textAreaValue) =>
+        console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
+    />`}
   >
-    <ONSTextArea id="text-area" hint="this is a hint for text area">Text area</ONSTextArea>
+    <ONSTextArea
+      id="text-area-1"
+      labelText="Text area"
+      hint="this is a hint for text area"
+      placeholderText="enter your placeholder text..."
+      onChange={(textAreaValue) =>
+        console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
+    />
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Text area - error message"
+    code={`<ONSTextArea
+      id="text-area-2"
+      labelText="Text area"
+      hint="this is a hint for text area"
+      renderError
+      placeholderText="enter your placeholder text..."
+      onChange={(textAreaValue) =>
+        console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
+    />`}
+  >
+    <ONSTextArea
+      id="text-area-2"
+      labelText="Text area"
+      hint="this is a hint for text area"
+      renderError
+      placeholderText="enter your placeholder text..."
+      onChange={(textAreaValue) =>
+        console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
+      onInput={(textAreaValue) => console.log("Text area user value: ", textAreaValue)}
+    />
   </DesignSystemPanel>
 
   <DesignSystemPanel
