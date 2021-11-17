@@ -28,6 +28,7 @@
   let radioValue = "none";
   let textFieldValue = "";
   let inputErrorValue = "";
+  let selections = [];
 </script>
 
 <svelte:head>
@@ -87,15 +88,22 @@
 
   <DesignSystemPanel
     title="Checkboxes"
-    code={`<ONSCheckboxes title="What devices do you own?" checkboxesLabel = "Select all that apply" id="fieldset-legend-title" legendIsQuestionTitle>
+    code={`<ONSCheckboxes
+      title="What devices do you own?"
+      checkboxesLabel="Select all that apply"
+      id="fieldset-legend-title"
+      legendIsQuestionTitle
+    >
       {#each checkboxData as option}
-      <ONSCheckbox
-        id={option.id}
-        value={option.value}
-        name="devices"
-        checkboxesLabel={option.label}
+        <ONSCheckbox
+          id={option.id}
+          value={option.value}
+          name="devices"
+          labelText={option.label}
+          bind:bindGroup={selections}
+          onChange={(selections) => console.log("User selections: ", selections.join(", "))}
         />
-    {/each}
+      {/each}
     </ONSCheckboxes>`}
   >
     <ONSCheckboxes
@@ -105,9 +113,18 @@
       legendIsQuestionTitle
     >
       {#each checkboxData as option}
-        <ONSCheckbox id={option.id} value={option.value} name="devices" labelText={option.label} />
+        <ONSCheckbox
+          id={option.id}
+          value={option.value}
+          name="devices"
+          labelText={option.label}
+          bind:bindGroup={selections}
+          onChange={(selections) => console.log("User selections: ", selections.join(", "))}
+        />
       {/each}
     </ONSCheckboxes>
+    <br />
+    <p>Checkboxes: <strong>{selections}</strong></p>
   </DesignSystemPanel>
 
   <DesignSystemPanel
