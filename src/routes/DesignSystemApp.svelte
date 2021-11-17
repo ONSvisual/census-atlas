@@ -26,6 +26,7 @@
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
   let radioValue = "none";
+  let selectValue;
   let textFieldValue = "";
   let inputErrorValue = "";
 </script>
@@ -170,7 +171,9 @@
       options={cities}
     />`}
   >
-    <ONSSelect label="Select city" name="select" id="1-select-city" options={cities} />
+    <ONSSelect bind:selectValue label="Select city" name="select" id="1-select-city" options={cities} />
+    <br />
+    <p>You have selected: <strong>{selectValue}</strong></p>
   </DesignSystemPanel>
 
   <DesignSystemPanel
