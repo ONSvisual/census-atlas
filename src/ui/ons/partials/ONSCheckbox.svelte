@@ -1,5 +1,7 @@
 <script>
-  export let id, value, name, labelText, onChange;
+  import { getContext } from "svelte";
+  export let id, value, labelText, onChange;
+  let name = getContext("name");
   export let bindGroup = [];
 
   function onChangeBindGroup({ target }) {

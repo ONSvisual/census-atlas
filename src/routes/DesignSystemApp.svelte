@@ -29,6 +29,7 @@
   let textFieldValue = "";
   let inputErrorValue = "";
   let selections = [];
+  let errorSelection = [];
 </script>
 
 <svelte:head>
@@ -89,34 +90,34 @@
   <DesignSystemPanel
     title="Checkboxes"
     code={`<ONSCheckboxes
-      title="What devices do you own?"
-      checkboxesLabel="Select all that apply"
-      id="fieldset-legend-title"
-      legendIsQuestionTitle
-    >
-      {#each checkboxData as option}
-        <ONSCheckbox
-          id={option.id}
-          value={option.value}
-          name="devices"
-          labelText={option.label}
-          bind:bindGroup={selections}
-          onChange={(selections) => console.log("User selections: ", selections.join(", "))}
-        />
-      {/each}
-    </ONSCheckboxes>`}
+        name="devices"
+        title="What devices do you own?"
+        checkboxesLabel="Select all that apply"
+        id="1-fieldset"
+        legendIsQuestionTitle
+      >
+        {#each checkboxData as option}
+          <ONSCheckbox
+            id={option.id}
+            value={option.value}
+            labelText={option.label}
+            bind:bindGroup={selections}
+            onChange={(selections) => console.log("User selections: ", selections.join(", "))}
+          />
+        {/each}
+      </ONSCheckboxes>`}
   >
     <ONSCheckboxes
+      name="devices"
       title="What devices do you own?"
       checkboxesLabel="Select all that apply"
-      id="fieldset-legend-title"
+      id="1-fieldset"
       legendIsQuestionTitle
     >
       {#each checkboxData as option}
         <ONSCheckbox
           id={option.id}
           value={option.value}
-          name="devices"
           labelText={option.label}
           bind:bindGroup={selections}
           onChange={(selections) => console.log("User selections: ", selections.join(", "))}
@@ -125,6 +126,47 @@
     </ONSCheckboxes>
     <br />
     <p>Checkboxes: <strong>{selections}</strong></p>
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Checkboxes - error message"
+    code={`<ONSCheckboxes
+        name="devices"
+        title="What devices do you own?"
+        checkboxesLabel="Select all that apply"
+        id="2-fieldset"
+        legendIsQuestionTitle
+        renderError
+      >
+        {#each checkboxData as option}
+          <ONSCheckbox
+            id={option.id}
+            value={option.value}
+            labelText={option.label}
+            bind:bindGroup={errorSelection}
+            onChange={(errorSelection) => console.log("User selections: ", errorSelection.join(", "))}
+          />
+        {/each}
+      </ONSCheckboxes>`}
+  >
+    <ONSCheckboxes
+      name="devices"
+      title="What devices do you own?"
+      checkboxesLabel="Select all that apply"
+      id="2-fieldset"
+      legendIsQuestionTitle
+      renderError
+    >
+      {#each checkboxData as option}
+        <ONSCheckbox
+          id={option.id}
+          value={option.value}
+          labelText={option.label}
+          bind:bindGroup={errorSelection}
+          onChange={(errorSelection) => console.log("User selections: ", errorSelection.join(", "))}
+        />
+      {/each}
+    </ONSCheckboxes>
   </DesignSystemPanel>
 
   <DesignSystemPanel
