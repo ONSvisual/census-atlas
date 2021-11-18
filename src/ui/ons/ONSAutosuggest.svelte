@@ -1,7 +1,6 @@
 <script>
-  export let labelText = "Current name of country";
-  export let id = "country-of-birth";
-  export let hint = "Enter your own answer or select from suggestions";
+  export let labelText, id, hint, autosuggestData;
+  let n;
 </script>
 
 <div class="ons-grid ons-grid--gutterless">
@@ -19,7 +18,7 @@
       data-results-title="Suggestions"
       data-no-results="No suggestions found. You can enter your own answer"
       data-type-more="Continue entering to get suggestions"
-      data-autosuggest-data="https://gist.githubusercontent.com/rmccar/c123023fa6bd1b137d7f960c3ffa1fed/raw/4dede1d6e757cf0bb836228600676c62ceb4f86c/country-of-birth.json"
+      data-autosuggest-data={autosuggestData}
     >
       <div class="ons-field">
         <label class="ons-label  {hint ? 'ons-label--with-description' : ''}" for={id} id="{id}-label"
