@@ -5,6 +5,12 @@
   function onClick({ target }) {
     autosuggestValue = target.innerText;
   }
+
+  function onKeyUp(e) {
+    if (e.keyCode === 13) {
+      autosuggestValue = document.querySelector(".ons-autosuggest-input__option--focused").innerText;
+    }
+  }
 </script>
 
 <div class="ons-grid ons-grid--gutterless">
@@ -37,6 +43,7 @@
           type="text"
           {id}
           bind:value={autosuggestValue}
+          on:keyup={onKeyUp}
           class="ons-input ons-input--text ons-input-type__input ons-js-autosuggest-input "
           autocomplete="off"
           aria-describedby="{id}-label-description-hint"
