@@ -31,6 +31,7 @@
   let inputErrorValue = "";
   let autosuggestData =
     "https://gist.githubusercontent.com/rmccar/c123023fa6bd1b137d7f960c3ffa1fed/raw/4dede1d6e757cf0bb836228600676c62ceb4f86c/country-of-birth.json";
+  let autosuggestValue = "";
 </script>
 
 <svelte:head>
@@ -171,6 +172,7 @@
       labelText="Current name of country"
       hint="Enter your own answer or select from suggestions"
       {autosuggestData}
+      bind:autosuggestValue
     />`}
   >
     <ONSAutosuggest
@@ -178,7 +180,10 @@
       labelText="Current name of country"
       hint="Enter your own answer or select from suggestions"
       {autosuggestData}
+      bind:autosuggestValue
     />
+    <br />
+    <p>You are looking for: <strong>{autosuggestValue}</strong></p>
   </DesignSystemPanel>
 
   <DesignSystemPanel

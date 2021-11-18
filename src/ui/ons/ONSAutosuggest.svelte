@@ -1,6 +1,10 @@
 <script>
-  export let labelText, id, hint, autosuggestData;
+  export let labelText, id, hint, autosuggestValue, autosuggestData;
   let n;
+
+  function onClick({ target }) {
+    autosuggestValue = target.innerText;
+  }
 </script>
 
 <div class="ons-grid ons-grid--gutterless">
@@ -32,6 +36,7 @@
         <input
           type="text"
           {id}
+          bind:value={autosuggestValue}
           class="ons-input ons-input--text ons-input-type__input ons-js-autosuggest-input "
           autocomplete="off"
           aria-describedby="{id}-label-description-hint"
@@ -40,6 +45,7 @@
       <div class="ons-autosuggest-input__results ons-js-autosuggest-results">
         <header id="{id}-suggestions" class="ons-autosuggest-input__results-title ons-u-fs-s">Suggestions</header>
         <ul
+          on:click={onClick}
           class="ons-autosuggest-input__listbox ons-js-autosuggest-listbox"
           role="listbox"
           id="{id}-listbox"
