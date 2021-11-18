@@ -6,4 +6,11 @@ let ethnicity=[
 {id:"asian",value:"asian",label:"Asian"},
 ]
 
-export {ethnicity}
+let cities=[
+  { value: "none", label: "Please select", disabled:true},
+  { value: "london", label: "London" },
+  { value: "bristol", label: "Bristol" },
+  { value: "oxford", label: "Oxford" },
+]
+
+export {ethnicity,cities}

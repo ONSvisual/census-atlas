@@ -1,5 +1,5 @@
 <script>
-  import { ethnicity } from "../data/test/mockDSData";
+  import { ethnicity, cities } from "../data/test/mockDSData";
   import ONSCensusApp from "../ui/ons/ONSCensusApp.svelte";
   import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
@@ -26,6 +26,7 @@
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
   let radioValue = "none";
+  let selectValue;
   let textFieldValue = "";
   let inputErrorValue = "";
 </script>
@@ -164,21 +165,43 @@
   <DesignSystemPanel
     title="Select"
     code={`<ONSSelect
-    label="Select city"
-    options={[
-      { value: "london", label: "London" },
-      { value: "bristol", label: "Bristol", selected: true },
-      { value: "oxford", label: "Oxford", disabled: true },
-    ]}
-  />`}
+      label="Select city"
+      name="select"
+      id="1-select-city"
+      options={cities}
+      onClick={(selectValue)=>console.log("Displays current selection: ",selectValue)}
+    />`}
+  >
+    <ONSSelect
+      bind:selectValue
+      label="Select city"
+      name="select"
+      id="1-select-city"
+      options={cities}
+      onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
+    />
+    <br />
+    <p>You have selected: <strong>{selectValue}</strong></p>
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Select - error message"
+    code={`<ONSSelect
+      label="Select city"
+      name="select"
+      id="2-select-city"
+      options={cities}
+      renderError
+      onClick={(selectValue)=>console.log("Displays current selection: ",selectValue)}
+    />`}
   >
     <ONSSelect
       label="Select city"
-      options={[
-        { value: "london", label: "London" },
-        { value: "bristol", label: "Bristol", selected: true },
-        { value: "oxford", label: "Oxford", disabled: true },
-      ]}
+      name="select"
+      id="2-select-city"
+      options={cities}
+      renderError
+      onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
     />
   </DesignSystemPanel>
 
