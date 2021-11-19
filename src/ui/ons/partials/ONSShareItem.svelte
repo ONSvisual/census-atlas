@@ -1,19 +1,21 @@
 <script>
   import { getContext } from "svelte";
   import ShareItemWrapper from "../../ShareItemWrapper.svelte";
-  export let url, shareText;
+  export let shareText;
   export let facebook = false;
   export let twitter = false;
   export let linkedin = false;
   export let email = false;
+  let pageURL = getContext("pageURL");
+  let pageTitle = getContext("pageTitle");
   let href = facebook
-    ? `https://www.facebook.com/sharer/sharer.php?u=${url}`
+    ? `https://www.facebook.com/sharer/sharer.php?u=${pageURL}`
     : twitter
-    ? `https://twitter.com/intent/tweet?original_referer&amp;text=A page to share&amp;url=${url}`
+    ? `https://twitter.com/intent/tweet?original_referer&amp;text=A page to share&amp;url=${pageURL}`
     : linkedin
-    ? `https://www.linkedin.com/sharing/share-offsite/?url=${url}`
+    ? `https://www.linkedin.com/sharing/share-offsite/?url=${pageURL}`
     : email
-    ? `https://mail.google.com/mail/?view=cm&fs=1&tf=1&body=${url}`
+    ? `https://mail.google.com/mail/?view=cm&fs=1&tf=1&body=${pageURL}`
     : "";
   let censusAtlasSharePage = getContext("censusAtlasSharePage");
 </script>

@@ -1,8 +1,11 @@
 <script>
   import { setContext } from "svelte";
   export let title = "Share this post";
-  export let censusAtlasSharePage=false;
+  export let censusAtlasSharePage = false;
+  export let pageURL, pageTitle;
   setContext("censusAtlasSharePage", censusAtlasSharePage);
+  setContext("pageURL", pageURL);
+  setContext("pageTitle", pageTitle);
 </script>
 
 <h2 class="ons-u-fs-r--b ons-u-mb-xs">{title}</h2>

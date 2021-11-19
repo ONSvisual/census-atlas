@@ -130,18 +130,18 @@
 
   <DesignSystemPanel
     title="Share"
-    code={`<ONSShare censusAtlasSharePage>
-      <ONSShareItem url="https://www.google.com/" facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" email shareText="Email"><ONSEmailIcon /></ONSShareItem>
-      </ONSShare>`}
+    code={`<ONSShare censusAtlasSharePage pageURL={location.href} pageTitle={document.title}>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    </ONSShare>`}
   >
-    <ONSShare censusAtlasSharePage>
-      <ONSShareItem url="https://www.google.com/" facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    <ONSShare censusAtlasSharePage pageURL={location.href} pageTitle={document.title}>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
   </DesignSystemPanel>
 </BasePage>

@@ -406,14 +406,14 @@
 
   <DesignSystemPanel
     title="Share"
-    code={`<ONSShare>
-      <ONSShareItem url="https://www.google.com/" facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
-      </ONSShare>`}
+    code={`<ONSShare pageURL={location.href} pageTitle={document.title}>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+    </ONSShare>`}
   >
-    <ONSShare>
-      <ONSShareItem url="https://www.google.com/" facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
-      <ONSShareItem url="https://www.google.com/" twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+    <ONSShare pageURL={location.href} pageTitle={document.title}>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
     </ONSShare>
   </DesignSystemPanel>
 
