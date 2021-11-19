@@ -137,7 +137,7 @@
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>`}
   >
-    <ONSShare censusAtlasSharePage pageURL={location.href} pageTitle={document.title}>
+    <ONSShare title="Share this page" censusAtlasSharePage pageURL={location.href} pageTitle={document.title}>
       <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
       <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
