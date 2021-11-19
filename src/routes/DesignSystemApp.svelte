@@ -349,11 +349,7 @@
 
   <DesignSystemPanel
     title="Radios"
-    code={`<script>
-      let radioValue = "none";
-   </script>
-
-<ONSRadios name="ethnicity">
+    code={`<ONSRadios name="ethnicity">
   {#each ethnicity as option}
     <ONSRadio  bind:radioValue id={option.id} value={option.value} onChange={(radioValue) => console.log('ethnicity changed to', radioValue)}>{option.label}</ONSRadio>
   {/each}
