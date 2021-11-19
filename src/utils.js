@@ -11,13 +11,6 @@ export async function getLsoaData(url) {
   return data;
 }
 
-export async function getTopo(url, layer) {
-  let response = await fetch(url);
-  let topojson = await response.json();
-  let geojson = await feature(topojson, layer);
-  return geojson;
-}
-
 export async function getNomis(url, dataService, geographicCodesStore, selectedCategoryTotals, indicatorCode) {
   let geoCodesStore = get(geographicCodesStore);
   if (geoCodesStore.length == 0) {
@@ -55,6 +48,7 @@ export function processAggregateData(dataset, lookup) {
 function calculateAggregateData(lsoaData, lsoa, lookup, lad, ladTemp, englandAndWales) {
   lsoa.index[lsoaData.code] = lsoaData;
   let parent = lookup[lsoaData.code].parent;
+  
   if (!lad.index[parent]) {
     lad.index[parent] = {
       code: parent,
@@ -202,15 +196,4 @@ export function updateURL(location, selectCode, active, mapLocation, history) {
   if (hash != newhash) {
     history.pushState(undefined, undefined, newhash);
   }
-}
-
-// export function replaceURL(selectCode, active, mapLocation, history) {
-//   let hash = `#/${selectCode}/${active.lad.selected ? active.lad.selected : ""
-//     }/${active.lsoa.selected ? active.lsoa.selected : ""}/${mapLocation.zoom||14},${mapLocation.lon
-//     },${mapLocation.lat}`;
-//   history.replaceState(undefined, undefined, hash);
-// }
-
-export function testFunction() {
-  return true;
 }
