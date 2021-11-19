@@ -29,8 +29,11 @@
   let radioValue = "none";
   let errorExRadioValue = "none";
   let selectValue;
+  let selectValueErrorEx;
   let textFieldValue = "";
   let inputErrorValue = "";
+  let textAreaValue = "";
+  let textAreaValueErrorEx = "";
   let selections = [];
   let errorSelection = [];
   let autosuggestData =
@@ -101,6 +104,7 @@
         checkboxesLabel="Select all that apply"
         id="1-fieldset"
         legendIsQuestionTitle
+        renderError={false}
       >
         {#each checkboxData as option}
           <ONSCheckbox
@@ -120,6 +124,7 @@
       checkboxesLabel="Select all that apply"
       id="1-fieldset"
       legendIsQuestionTitle
+      renderError={false}
     >
       {#each checkboxData as option}
         <ONSCheckbox
@@ -138,7 +143,7 @@
   <DesignSystemPanel
     title="Checkboxes - error message"
     code={`<ONSCheckboxes
-        name="devices"
+        name="devices-error"
         title="What devices do you own?"
         checkboxesLabel="Select all that apply"
         id="2-fieldset"
@@ -147,7 +152,7 @@
       >
         {#each checkboxData as option}
           <ONSCheckbox
-            id={option.id}
+            id={checkboxData.indexOf(option)}
             value={option.value}
             labelText={option.label}
             bind:bindGroup={errorSelection}
@@ -157,7 +162,7 @@
       </ONSCheckboxes>`}
   >
     <ONSCheckboxes
-      name="devices"
+      name="devices-error"
       title="What devices do you own?"
       checkboxesLabel="Select all that apply"
       id="2-fieldset"
@@ -166,7 +171,7 @@
     >
       {#each checkboxData as option}
         <ONSCheckbox
-          id={option.id}
+          id={checkboxData.indexOf(option)}
           value={option.value}
           labelText={option.label}
           bind:bindGroup={errorSelection}
@@ -194,6 +199,7 @@
       type="text"
       bind:textFieldValue
       labelText="Text field"
+      renderError={false}
       accessiblePlaceholder
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
       onChange={(textFieldValue)=>console.log("Displays what user is typing every time they hit the return key: ",textFieldValue)}
@@ -205,6 +211,7 @@
       type="text"
       bind:textFieldValue
       labelText="Text field"
+      renderError={false}
       accessiblePlaceholder
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
       onChange={(textFieldValue) =>
@@ -263,10 +270,12 @@
   <DesignSystemPanel
     title="Select"
     code={`<ONSSelect
+      bind:selectValue
       label="Select city"
       name="select"
       id="1-select-city"
       options={cities}
+      renderError={false}
       onClick={(selectValue)=>console.log("Displays current selection: ",selectValue)}
     />
     <p>You have selected: <strong>{selectValue}</strong></p>`}
@@ -277,6 +286,7 @@
       name="select"
       id="1-select-city"
       options={cities}
+      renderError={false}
       onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
     />
     <br />
@@ -286,6 +296,7 @@
   <DesignSystemPanel
     title="Select - error message"
     code={`<ONSSelect
+    bind:selectValue={selectValueErrorEx}
       label="Select city"
       name="select"
       id="2-select-city"
@@ -295,12 +306,13 @@
     />`}
   >
     <ONSSelect
+      bind:selectValue={selectValueErrorEx}
       label="Select city"
       name="select"
       id="2-select-city"
       options={cities}
       renderError
-      onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
+      onClick={(selectValueErrorEx) => console.log("Displays current selection: ", selectValueErrorEx)}
     />
   </DesignSystemPanel>
 
@@ -310,6 +322,8 @@
       id="text-area-1"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue
+      renderError={false}
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
         console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
@@ -320,6 +334,8 @@
       id="text-area-1"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue
+      renderError={false}
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
         console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
@@ -333,6 +349,7 @@
       id="text-area-2"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue={textAreaValueErrorEx}
       renderError
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
@@ -344,6 +361,7 @@
       id="text-area-2"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue={textAreaValueErrorEx}
       renderError
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
