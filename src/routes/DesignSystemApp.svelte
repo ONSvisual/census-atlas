@@ -110,7 +110,8 @@
             onChange={(selections) => console.log("User selections: ", selections.join(", "))}
           />
         {/each}
-      </ONSCheckboxes>`}
+      </ONSCheckboxes>
+      <p>Checkboxes: <strong>{selections}</strong></p>`}
   >
     <ONSCheckboxes
       name="devices"
@@ -195,7 +196,8 @@
       accessiblePlaceholder
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
       onChange={(textFieldValue)=>console.log("Displays what user is typing every time they hit the return key: ",textFieldValue)}
-    />`}
+    />
+    <p>You are typing: <strong>{textFieldValue}</strong></p>`}
   >
     <ONSTextField
       id="text-field-1"
@@ -207,8 +209,9 @@
       onChange={(textFieldValue) =>
         console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
     />
+    <br />
+    <p>You are typing: <strong>{textFieldValue}</strong></p>
   </DesignSystemPanel>
-  <p>You are typing: {textFieldValue}</p>
 
   <DesignSystemPanel
     title="Input-error message"
@@ -233,7 +236,6 @@
         console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
     />
   </DesignSystemPanel>
-  <p>You are typing: {inputErrorValue}</p>
 
   <DesignSystemPanel
     title="Autosuggest"
@@ -243,7 +245,8 @@
       hint="Enter your own answer or select from suggestions"
       {autosuggestData}
       bind:autosuggestValue
-    />`}
+    />
+    <p>You are looking for: <strong>{autosuggestValue}</strong></p>`}
   >
     <ONSAutosuggest
       id="country-of-birth"
@@ -264,7 +267,8 @@
       id="1-select-city"
       options={cities}
       onClick={(selectValue)=>console.log("Displays current selection: ",selectValue)}
-    />`}
+    />
+    <p>You have selected: <strong>{selectValue}</strong></p>`}
   >
     <ONSSelect
       bind:selectValue
@@ -383,7 +387,7 @@
     >
   </ONSAccordion>/>`}
   >
-    <ONSAccordion showAll={false}>
+    <ONSAccordion showAll>
       <ONSAccordionPanel id="panel-1" title="Total retail turnover"
         >Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aliquid facere vel facilis in
         necessitatibus magni sequi unde, ad rerum praesentium, deserunt quo saepe dolore, accusantium fuga quia tenetur
