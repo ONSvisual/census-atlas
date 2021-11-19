@@ -27,6 +27,7 @@
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
   let radioValue = "none";
+  let errorExRadioValue = "none";
   let selectValue;
   let textFieldValue = "";
   let inputErrorValue = "";
@@ -353,7 +354,7 @@
 
   <DesignSystemPanel
     title="Radios"
-    code={`<ONSRadios name="ethnicity">
+    code={`<ONSRadios renderError={false} name="ethnicity">
   {#each ethnicity as option}
     <ONSRadio  bind:radioValue id={option.id} value={option.value} onChange={(radioValue) => console.log('ethnicity changed to', radioValue)}>{option.label}</ONSRadio>
   {/each}
@@ -361,7 +362,7 @@
 
 <p>You have selected: {radioValue}</p>`}
   >
-    <ONSRadios name="ethnicity">
+    <ONSRadios renderError={false} name="ethnicity">
       {#each ethnicity as option}
         <ONSRadio
           bind:radioValue
@@ -374,6 +375,33 @@
     <br />
     <p>You have selected: <strong>{radioValue}</strong></p>
   </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Radios - error message"
+    code={`<ONSRadios renderError name="err-ethnicity-ex">
+      {#each ethnicity as option}
+        <ONSRadio
+          bind:radioValue={errorExRadioValue}
+          id={ethnicity.indexOf(option)}
+          value={option.value}
+          onChange={(errorExRadioValue) => console.log("ethnicity changed to", errorExRadioValue)}>{option.label}</ONSRadio
+        >
+      {/each}
+    </ONSRadios>`}
+  >
+    <ONSRadios renderError name="err-ethnicity-ex">
+      {#each ethnicity as option}
+        <ONSRadio
+          bind:radioValue={errorExRadioValue}
+          id={ethnicity.indexOf(option)}
+          value={option.value}
+          onChange={(errorExRadioValue) => console.log("ethnicity changed to", errorExRadioValue)}
+          >{option.label}</ONSRadio
+        >
+      {/each}
+    </ONSRadios>
+  </DesignSystemPanel>
+
   <DesignSystemPanel
     title="Accordion"
     code={` <ONSAccordion showAll={false}>
