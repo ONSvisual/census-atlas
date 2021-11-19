@@ -30,7 +30,6 @@ export default class LocalDataService {
     let string = await response.text();
     let geoCodes = get(geographicCodesStore);
     let categoryTotals = get(selectedCategoryTotals);
-    debugger;
     return await csvParse(string, (d, index) => {
       return {
         code: geoCodes[index],
