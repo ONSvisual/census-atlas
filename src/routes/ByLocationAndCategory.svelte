@@ -1,7 +1,7 @@
 <script>
   import BasePage from "../ui/BasePage.svelte";
 
-  import Map from "../ui/Map.svelte";
+  import Map from "../ui/map/Map.svelte";
   import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import CategorySelector from "../ui/CategorySelector.svelte";
@@ -11,6 +11,11 @@
   import HeaderData1 from "../ui/HeaderData1.svelte";
 
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
+  import {updateHoveredGeography, updateSelectedGeography, loadingGeography} from "../model/geography/geography";
+  import MapSource from "../MapSource.svelte";
+  import MapLayer from "../MapLayer.svelte";
+  import config from "../model/config"
+  import MapLegacyLadLayer from "../ui/map/MapLegacyLadLayer.svelte";
 
   export let categoryId;
   export let locationId;
@@ -27,7 +32,10 @@
   </span>
 
   <span slot="map">
-    <Map />
+    <Map onHover={(geography) => updateHoveredGeography(geography)}
+         onClick={(geography) => updateSelectedGeography(geography)}>
+      {#if !$loadingGeography}<MapLegacyLadLayer />{/if}
+    </Map>
   </span>
 
   <span slot="footer">

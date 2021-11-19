@@ -1,7 +1,7 @@
 <script>
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
-  import Map from "../ui/Map.svelte";
+  import Map from "../ui/map/Map.svelte";
   import TopicExplorer from "../ui/TopicExplorer.svelte";
   import BasePage from "../ui/BasePage.svelte";
   import DesignSystemPanel from "../ui/DesignSystemPanel.svelte";
