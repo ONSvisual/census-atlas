@@ -1,12 +1,72 @@
+import {writable} from "svelte/store";
+import config from '../config'
+
+// CONSTANTS
+// initialised below
 export var ladBoundaries = [];
 export var ladList = [];
 export var ladLookup = {};
 export var lsoaLookup = {};
 
+// WRITABLES
+// reactive variables that can be subscribed to in our Svelte files
+export let loadingGeography = writable(false)
+export let selectedGeography = writable({
+  lad: null,
+  lsoa: null
+})
+export let hoveredGeography = writable({
+  lad: null,
+  lsoa: null
+})
+export let zoom = writable(config.ux.default_zoom)
+
+
+// ACTIONS
+export function updateSelectedGeography(geographyCode) {
+  selectedGeography.set(getLadAndLsoa(geography))
+}
+
+export function updateHoveredGeography(geographyCode) {
+  hoveredGeography.set(getLadAndLsoa(geography))
+}
+
+export function updateZoom(newZoom) {
+  zoom.set(newZoom)
+}
+
+// ------
+
+function getLadAndLsoa(geographyCode) {
+  if (ladLookup[geographyCode] === null) {
+    const lad = d
+  }
+}
+
+// RESET (for tests)
+
+export function reset() {
+  ladBoundaries = [];
+  ladList = [];
+  ladLookup = {};
+  lsoaLookup = {};
+  loadingGeography.set(false)
+  selectedGeography.set({
+    lad: null,
+    lsoa: null
+  })
+  hoveredGeography.set({
+    lad: null,
+    lsoa: null
+  })
+}
+
+// INITIALISERS
 const LAD_AREA_CODE = "AREACD";
 const LAD_AREA_NAME = "AREANM";
 
 export async function initialiseGeography(geographyService) {
+  loadingGeography.set(true)
   ladBoundaries = await geographyService.getLadBoundaries();
   let lsoaData = await geographyService.getLsoaData();
 
@@ -14,14 +74,7 @@ export async function initialiseGeography(geographyService) {
   lsoaLookup = buildLsoaLookup(lsoaData);
   ladList = buildLadList(ladBoundaries, ladLookup);
 
-  return { ladBoundaries, ladLookup, lsoaLookup, ladList };
-}
-
-export function reset() {
-  ladBoundaries = [];
-  ladList = [];
-  ladLookup = {};
-  lsoaLookup = {};
+  loadingGeography.set(false)
 }
 
 function buildLadList(ladBounds, ladLookup) {
@@ -50,6 +103,8 @@ function buildLadLookup(ladBounds, lsoaData) {
       lookup[d.parent].children.push(d.code);
     }
   });
+  
+  return lookup;
 }
 
 function buildLsoaLookup(lsoaData) {
