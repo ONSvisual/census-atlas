@@ -12,7 +12,12 @@
 
 <ONSError {errorText} {id} {renderError}>
   <div class="ons-field">
-    <label class="ons-label {accessiblePlaceholder ? 'ons-label--placeholder' : ''}" for={id}>{labelText}</label>
+    <label
+      class="ons-label {accessiblePlaceholder ? 'ons-label--placeholder' : ''} {hint
+        ? 'ons-label--with-description'
+        : ''}"
+      for={id}>{labelText}</label
+    >
     {#if hint}
       <span id="description-hint" class="ons-label__description  ons-input--with-description">
         {hint}
@@ -21,6 +26,7 @@
     <input
       {id}
       class="ons-input ons-input--text ons-input-type__input {accessiblePlaceholder ? 'ons-input--placeholder' : ''}"
+      aria-describedby={hint ? "description-hint" : ""}
       placeholder={accessiblePlaceholder ? labelText : ""}
       bind:value={textFieldValue}
       on:input={() => onInput(textFieldValue)}
