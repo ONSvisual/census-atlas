@@ -15,7 +15,7 @@
     : linkedin
     ? `https://www.linkedin.com/sharing/share-offsite/?url=${pageURL}`
     : email
-    ? `https://mail.google.com/mail/?view=cm&fs=1&tf=1&body=${pageURL}`
+    ? `mailto:?subject=${pageTitle}&body=${pageURL}`
     : "";
   let censusAtlasSharePage = getContext("censusAtlasSharePage");
 </script>
