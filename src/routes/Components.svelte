@@ -17,6 +17,13 @@
   import DefaultHeader from "../ui/DefaultHeader.svelte";
   import HeaderData2 from "../ui/HeaderData2.svelte";
   import HeaderData3 from "../ui/HeaderData3.svelte";
+  import ONSShare from "../ui/ons/ONSShare.svelte";
+  import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "../ui/ons/svg/ONSTwitterIcon.svelte";
+  import ONSLinkedinIcon from "../ui/ons/svg/ONSLinkedinIcon.svelte";
+  import ONSEmailIcon from "../ui/ons/svg/ONSEmailIcon.svelte";
+
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
     { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
@@ -119,5 +126,22 @@
   </DesignSystemPanel>
   <DesignSystemPanel title="Display census data by location" code={`<CensusTableByLocation />`}>
     <CensusTableByLocation />
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Share"
+    code={`<ONSShare censusAtlasSharePage>
+      <ONSShareItem url="https://www.google.com/" facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem url="https://www.google.com/" twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem url="https://www.google.com/" linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem url="https://www.google.com/" email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+      </ONSShare>`}
+  >
+    <ONSShare censusAtlasSharePage>
+      <ONSShareItem url="https://www.google.com/" facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem url="https://www.google.com/" twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem url="https://www.google.com/" linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem url="https://www.google.com/" email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    </ONSShare>
   </DesignSystemPanel>
 </BasePage>
