@@ -1,0 +1,79 @@
+<script>
+  import { onMount, setContext } from "svelte";
+  import { Map, NavigationControl } from "mapbox-gl";
+  import mapstyle from "../../data/mapstyle";
+
+  export let map = null;
+  export let minzoom = 0;
+  export let maxzoom = 14;
+
+  export let bounds = [-3.413572832073754, 51.10096449720518, -2.4672865337001895, 51.69137186082315];
+  export let zoom = 6;
+
+  let options = {
+    bounds: bounds,
+    zoom: zoom,
+  };
+
+  let container;
+
+  setContext("map", {
+    getMap: () => map,
+  });
+
+  onMount(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://unpkg.com/mapbox-gl/dist/mapbox-gl.css";
+
+    link.onload = () => {
+      map = new Map({
+        container,
+        style: mapstyle,
+        minZoom: minzoom,
+        maxZoom: maxzoom,
+        ...options,
+      });
+
+      map.addControl(new NavigationControl());
+
+      map.fitBounds(bounds, { padding: 20 });
+
+      // Get initial zoom level
+      map.on("load", () => {
+        zoom = map.getZoom();
+      });
+
+      // Update zoom level when the view zooms
+      map.on("zoom", () => {
+        zoom = map.getZoom();
+      });
+    };
+
+    document.head.appendChild(link);
+
+    return () => {
+      map.remove();
+      link.parentNode.removeChild(link);
+    };
+  });
+</script>
+
+<div bind:this={container}>
+  {#if map}
+    <slot />
+  {/if}
+</div>
+
+<style lang="scss">
+  @import "../../../node_modules/@ons/design-system/scss/vars/index";
+
+  div {
+    min-width: 375px;
+    min-height: 340px;
+    width: 100%;
+    height: 100%;
+    background: url("/img/background.png") no-repeat center center;
+    background-size: cover;
+  }
+</style>

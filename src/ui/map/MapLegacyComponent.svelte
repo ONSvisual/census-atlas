@@ -1,25 +1,33 @@
 <script>
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
-  import mapstyle from "../data/mapstyle";
+  import { bounds } from "./stores.js";
 
-  export let map = null;
+  export let map;
+
+  export let style;
   export let minzoom = 0;
   export let maxzoom = 14;
 
-  export let bounds = [-3.413572832073754, 51.10096449720518, -2.4672865337001895, 51.69137186082315];
-  export let zoom = 6;
-
-  let options = {
-    bounds: bounds,
-    zoom: zoom,
-  };
+  export let zoom;
 
   let container;
+  let options;
 
   setContext("map", {
     getMap: () => map,
   });
+
+  if (location.bounds) {
+    options = { bounds: location.bounds };
+  } else if (location.lon && location.lat) {
+    options = {
+      center: [location.lon, location.lat],
+    };
+    if (location.zoom) {
+      options.zoom = location.zoom;
+    }
+  }
 
   onMount(() => {
     const link = document.createElement("link");
@@ -29,7 +37,7 @@
     link.onload = () => {
       map = new Map({
         container,
-        style: mapstyle,
+        style: style,
         minZoom: minzoom,
         maxZoom: maxzoom,
         ...options,
@@ -37,7 +45,7 @@
 
       map.addControl(new NavigationControl());
 
-      map.fitBounds(bounds, { padding: 20 });
+      map.fitBounds($bounds, { padding: 20 });
 
       // Get initial zoom level
       map.on("load", () => {
@@ -65,15 +73,23 @@
   {/if}
 </div>
 
-<style lang="scss">
-  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
-
+<style>
   div {
-    min-width: 375px;
-    min-height: 340px;
-    width: 100%;
+    width: 60%;
     height: 100%;
-    background: url("/img/background.png") no-repeat center center;
-    background-size: cover;
+    position: fixed;
+    right: 0;
+  }
+  @media (max-width: 900px) {
+    div {
+      width: 50%;
+    }
+  }
+  @media (max-width: 670px) {
+    div {
+      width: 100%;
+      height: 70%;
+      position: absolute;
+    }
   }
 </style>
