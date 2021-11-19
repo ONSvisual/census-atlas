@@ -4,8 +4,8 @@ export let categoryDataIsLoaded = writable(false)
 export let tableIsLoaded = writable(false)
 
 
-export let categoryData = writable({})
-export let tableData = writable({})
+export let categoryData = {}
+export let tableData = {}
 
 let dataService = null
 
@@ -14,6 +14,13 @@ export function initialiseCensusDataService(censusDataService) {
 }
 
 export async function fetchCensusData(categoryCode, geographyCode) {
-  dataService.fetchLsoaCategoryData(categoryCode)
+  categoryDataIsLoaded.set(false)
+  
+  // at the moment
+  let higherData = await dataService.fetchHigherGeographyCategoryData(categoryCode)
+  let lsoaData = await dataService.fetchLsoaCategoryData(categoryCode)
+   categoryData = {...lsoaData, ...higherData}
+  
+  categoryDataIsLoaded.set(true)
 }
 
