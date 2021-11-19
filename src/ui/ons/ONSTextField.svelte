@@ -25,7 +25,9 @@
     {/if}
     <input
       {id}
-      class="ons-input ons-input--text ons-input-type__input {accessiblePlaceholder ? 'ons-input--placeholder' : ''}"
+      class="ons-input ons-input--text ons-input-type__input {accessiblePlaceholder
+        ? 'ons-input--placeholder'
+        : ''} {renderError ? 'ons-input--error' : ''}"
       aria-describedby={hint ? "description-hint" : ""}
       placeholder={accessiblePlaceholder ? labelText : ""}
       bind:value={textFieldValue}
