@@ -12,6 +12,7 @@ export async function getLsoaData(url) {
 }
 
 export async function getNomis(url, dataService, geographicCodesStore, selectedCategoryTotals, indicatorCode) {
+  console.log(indicatorCode)
   let geoCodesStore = get(geographicCodesStore);
   if (geoCodesStore.length == 0) {
     let geoCodes = await dataService.getGeographicCodes(url);

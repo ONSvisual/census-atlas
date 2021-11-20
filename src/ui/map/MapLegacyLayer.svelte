@@ -70,7 +70,6 @@
   map.addLayer(options, order);
 
   function updateData() {
-    console.log("updating colours...");
 
     data.lsoa.data.forEach((d) => {
       map.setFeatureState(

@@ -23,10 +23,8 @@
   function isSourceLoaded() {
     if (map.isSourceLoaded(id)) {
       loaded = true;
-      console.log(id + " loaded!");
     } else {
       setTimeout(() => {
-        console.log("...");
         isSourceLoaded();
       }, 500);
     }
@@ -37,7 +35,6 @@
       addSource();
     } else {
       setTimeout(() => {
-        console.log("...");
         isMapLoaded();
       }, 500);
     }
@@ -58,7 +55,6 @@
   }
 
   function addSource() {
-    console.log(id + " map source loading...");
     if (type == "geojson") {
       if (data) {
         map.addSource(id, {
