@@ -33,18 +33,19 @@ export default class LegacyCensusDataService {
     let url = `https://bothness.github.io/census-atlas/data/lsoa/${categoryId}.csv`
     let response = await fetch(url);
     let string = await response.text();
+    let category = this._getCategory(categoryId)
 
     this.reset()
     this.dataset.lsoa.data = csvParse(string, (d, index) => {
       return {
         code: d['GEOGRAPHY_CODE'],
-        value: +d[categoryId],
+        value: +d[category.cell],
         count: +d[0],
-        perc: (+d[categoryId] / +d[0]) * 100,
+        perc: (+d[category.cell] / +d[0]) * 100,
       };
     });
 
-    this.processLegacyDataset()
+    this._processLegacyDataset()
 
     return this.dataset.lsoa.index
   };
@@ -63,25 +64,28 @@ export default class LegacyCensusDataService {
   async fetchTableForGeography(tableId, geographyId) {
     return {
       tableId: tableId,
-      geographyId: geographyId
+      geographyId: geographyId,
+      rows: [
+        // { category: 'Female', value: 4801, perc: 0.49 }
+      ]
     }
   };
 
   // ---------------------------------
 
-  #processLegacyDataset() {
+  _processLegacyDataset() {
     this.dataset.lsoa.data.sort((a, b) => a.perc - b.perc);
 
     let vals = this.dataset.lsoa.data.map((d) => d.perc);
     let chunks = ckmeans(vals, 5);
-    this.dataset.lsoa.breaks = this.getBreaks(chunks);
+    this.dataset.lsoa.breaks = this._getBreaks(chunks);
 
-    for (const lsoa in this.dataset.lsoa.data) {
+    for (const lsoa of this.dataset.lsoa.data) {
       this.dataset.lsoa.index[lsoa.code] = lsoa
     }
 
     // aggregate lad data
-    for (const lsoa in this.dataset.lsoa.data) {
+    for (const lsoa of this.dataset.lsoa.data) {
       let ladCode = lsoaLookup[lsoa.code].parent
       if (!this.dataset.lad.index[ladCode]) {
         this.dataset.lad.index[ladCode] = {
@@ -94,7 +98,7 @@ export default class LegacyCensusDataService {
       this.dataset.lad.index[ladCode].count += lsoa.count
     }
 
-    for (const ladCode in Object.keys(this.dataset.lad.index)) {
+    for (const ladCode of Object.keys(this.dataset.lad.index)) {
       this.dataset.lad.index[ladCode].perc = (this.dataset.lad.index[ladCode].value / this.dataset.lad.index[ladCode].count) * 100;
       this.dataset.lad.data.push(this.dataset.lad.index[ladCode])
     }
@@ -103,7 +107,7 @@ export default class LegacyCensusDataService {
 
 
     // aggregate national data
-    for (const lsoa in this.dataset.lsoa.data) {
+    for (const lsoa of this.dataset.lsoa.data) {
       this.dataset.englandAndWales.value += lsoa.value
       this.dataset.englandAndWales.count += lsoa.count
     }
@@ -124,7 +128,7 @@ export default class LegacyCensusDataService {
     }
   }
 
-  #getBreaks(chunks) {
+  _getBreaks(chunks) {
     let breaks = [];
 
     chunks.forEach((chunk) => {
@@ -133,5 +137,12 @@ export default class LegacyCensusDataService {
 
     breaks.push(chunks[chunks.length - 1][chunks[chunks.length - 1].length - 1]);
     return breaks;
+  }
+
+  _getCategory(categoryCode) {
+    return {
+      code: categoryCode,
+      cell: +categoryCode.slice(7, 10),
+    };
   }
 }

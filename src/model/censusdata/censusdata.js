@@ -17,10 +17,9 @@ export async function fetchCensusData(categoryCode, geographyCode) {
   categoryDataIsLoaded.set(false)
   
   // at the moment
-  let higherData = await dataService.fetchHigherGeographyCategoryData(categoryCode)
   let lsoaData = await dataService.fetchLsoaCategoryData(categoryCode)
-   categoryData = {...lsoaData, ...higherData}
-  
+  let higherData = await dataService.fetchHigherGeographyCategoryData(categoryCode)
+  categoryData = {...lsoaData, ...higherData}
   categoryDataIsLoaded.set(true)
 }
 

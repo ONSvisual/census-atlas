@@ -29,6 +29,7 @@
   import {initialiseGeography, updateZoom} from "../model/geography/geography";
   import LegacyCensusDataService from "../model/censusdata/services/legacyCensusDataService";
   import LegacyGeographyService from "../model/geography/services/legacyGeographyService";
+  import {fetchCensusData, initialiseCensusDataService} from "../model/censusdata/censusdata";
 
   const geography = config.legacy.geography;
   const mapstyle = config.legacy.mapstyle;
@@ -101,6 +102,7 @@
   async function initialise() {
     var location = await get_data(boundurl);
     await initialiseGeography(new LegacyGeographyService());
+    await initialiseCensusDataService(new LegacyCensusDataService());
     
     // no need to be blocking
     json(tabledata).then((jsn) => {
@@ -158,6 +160,7 @@
     let currentCategoryCode = get(selectedCategory);
     if (currentCategoryCode != selectMeta.code) {
       storeNewCategoryAndTotals(selectedCategory, selectedCategoryTotals, selectMeta, localDataService, url);
+      fetchCensusData(selectMeta.code, null)
     }
     let nomisData = await getNomis(url, localDataService, geographicCodes, selectedCategoryTotals, selectMeta.cell);
     let dataset = populateColors(nomisData, colors);
