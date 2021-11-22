@@ -27,6 +27,29 @@
   let description = "Complex components made in Svelte with ONS Design System building blocks";
   var selectedData = writable();
   setContext("selectedData", selectedData);
+  let categories = [
+    {
+      code: "QS302EW001",
+      name: "Very good health",
+    },
+    {
+      code: "QS302EW002",
+      name: "Good health",
+    },
+    {
+      code: "QS302EW003",
+      name: "Fair health",
+    },
+    {
+      code: "QS302EW004",
+      name: "Bad health",
+    },
+    {
+      code: "QS302EW005",
+      name: "Very bad health",
+    },
+  ];
+  export let selectedCode = "QS302EW002";
 </script>
 
 <svelte:head>
@@ -61,11 +84,8 @@
       description="Choose a category and select an option within it to explore Census data."
     />
   </DesignSystemPanel>
-  <DesignSystemPanel
-    title="Category selector"
-    code={`<CategorySelector title="Good" rightText="Very good" leftText="Fair" rightHref="#" leftHref="#"/>`}
-  >
-    <CategorySelector title="Good" rightText="Very good" leftText="Fair" rightHref="#" leftHref="#" />
+  <DesignSystemPanel title="Category selector" code={`<CategorySelector {categories} {selectedCode} />`}>
+    <CategorySelector {categories} {selectedCode} />
   </DesignSystemPanel>
   <DesignSystemPanel title="Explore by area" code={`<ExploreByAreaComponent />`}>
     <ExploreByAreaComponent />
