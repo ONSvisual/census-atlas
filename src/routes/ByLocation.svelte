@@ -3,7 +3,7 @@
 
   import Map from "../ui/Map.svelte";
   import Topic from "../ui/Topic.svelte";
-  import HeaderData2 from "../ui/HeaderData2.svelte";
+  import ByLocAndCategDataHeader from "../ui/ByLocAndCategDataHeader.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
 
@@ -25,7 +25,7 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderData2 region={locationId} />
+    <ByLocAndCategDataHeader location={locationId} />
   </span>
 
   <span slot="map">

@@ -8,7 +8,7 @@
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  import HeaderData1 from "../ui/HeaderData1.svelte";
+  import ByLocAndCategDataHeader from "../ui/ByLocAndCategDataHeader.svelte";
 
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
 
@@ -22,7 +22,7 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderData1 indicator={categoryId} region={locationId} />
+    <ByLocAndCategDataHeader tableName={categoryId} location={locationId} />
     <CategorySelector />
   </span>
 
