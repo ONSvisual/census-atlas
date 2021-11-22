@@ -33,12 +33,14 @@
 
 <div class="category-selector ons-grid--flex ons-grid--vertical-center">
   <div class="ons-grid__col ons-col-4@m selector-col ">
-    {#if selectedCatIndex > 0}
-      <div class="ons-pl-grid-col ons-grid--flex ons-grid__col--flex" style="justify-content:left">
-        <span>&#60;&#160;</span>
+    <div class="ons-pl-grid-col ons-grid--flex ons-grid__col--flex" style="justify-content:left">
+      <span>&#60;&#160;</span>
+      {#if selectedCatIndex > 0}
         <a class="category-selector__button" href="#"> {categories[selectedCatIndex - 1].name} </a>
-      </div>
-    {/if}
+      {:else}
+        <a class="category-selector__button" href="#"> {categories[categories.length - 1].name} </a>
+      {/if}
+    </div>
   </div>
   <div class="ons-grid__col ons-col-4@m selector-col ons-grid--flex">
     <div class="ons-pl-grid-col">
@@ -51,8 +53,12 @@
         <a class="category-selector__button category-selector__button__left" href="#">
           {categories[selectedCatIndex + 1].name}
         </a>
-        <span>&#160;&#62;</span>
+      {:else}
+        <a class="category-selector__button category-selector__button__left" href="#">
+          {categories[0].name}
+        </a>
       {/if}
+      <span>&#160;&#62;</span>
     </div>
   </div>
 </div>

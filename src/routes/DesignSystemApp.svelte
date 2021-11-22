@@ -349,7 +349,7 @@
 
   <DesignSystemPanel
     title="Radios"
-    code={`<script ✂prettier:content✂="CiAgICAgIGxldCByYWRpb1ZhbHVlID0gIm5vbmUiOwogICA=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=">{}</script>
+    code={`<script ✂prettier:content✂="CiAgICAgIGxldCByYWRpb1ZhbHVlID0gIm5vbmUiOwogICA=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=" ✂prettier:content✂="e30=">{}</script>
 
 <ONSRadios name="ethnicity">
   {#each ethnicity as option}
