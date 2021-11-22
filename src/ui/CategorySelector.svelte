@@ -4,26 +4,61 @@
   export let rightHref = "";
   export let rightText = "";
   export let leftText = "";
+  export let categories = [
+          {
+            code: "QS302EW001",
+            name: "Very good health",
+          },
+          {
+            code: "QS302EW002",
+            name: "Good health",
+          },
+          {
+            code: "QS302EW003",
+            name: "Fair health",
+          },
+          {
+            code: "QS302EW004",
+            name: "Bad health",
+          },
+          {
+            code: "QS302EW005",
+            name: "Very bad health",
+          },
+        ];
+
+  export let selectedCode = "QS302EW002"
+  export let selectedCatIndex = 0
+  categories.forEach((category, index) => {
+    if (category.code == selectedCode) {
+      selectedCatIndex = index
+    }
+  })
+
 </script>
 
 <div class="category-selector ons-grid--flex ons-grid--vertical-center">
   <div class="ons-grid__col ons-col-4@m selector-col ">
+    {#if selectedCatIndex > 0}
     <div class="ons-pl-grid-col ons-grid--flex ons-grid__col--flex" style="justify-content:left">
       <span>&#60;&#160;</span>
-      <a class="category-selector__button" href={leftHref}> {leftText === "" ? "Lower category" : leftText} </a>
+      <a class="category-selector__button" href={leftHref}> {categories[selectedCatIndex-1].name} </a>
     </div>
+    {/if}
   </div>
   <div class="ons-grid__col ons-col-4@m selector-col ons-grid--flex">
     <div class="ons-pl-grid-col">
-      <p>{title}</p>
+      <p>{categories[selectedCatIndex].name}</p>
     </div>
   </div>
   <div class="ons-grid__col ons-col-4@m selector-col">
     <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:right">
+      {#if selectedCatIndex < categories.length - 1}
       <a class="category-selector__button category-selector__button__left" href={rightHref}>
-        {rightText === "" ? "Higher category" : rightText}
+        {categories[selectedCatIndex+1].name}
       </a>
       <span>&#160;&#62;</span>
+      {/if}
     </div>
   </div>
 </div>
