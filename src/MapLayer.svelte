@@ -41,10 +41,12 @@
   let selectedPrev = null;
   let highlightedPrev = null;
 
+  // remove map if present
   if (map.getLayer(id)) {
     map.removeLayer(id);
   }
 
+  // map options
   let options = {
     id: id,
     type: type,
@@ -85,6 +87,7 @@
     });
   }
 
+  // when data updates colourise the map
   $: data && updateData();
 
   $: if (click && selected != selectedPrev) {

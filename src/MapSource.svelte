@@ -16,10 +16,12 @@
   const { getMap } = getContext("map");
   const map = getMap();
 
+  // clears out self on map object
   if (map.getSource(id)) {
     map.removeSource(id);
   }
 
+  // watches for isSourceLoaded method on map 
   function isSourceLoaded() {
     if (map.isSourceLoaded(id)) {
       loaded = true;
@@ -30,6 +32,7 @@
     }
   }
 
+  // watches for isMapLoaded then runs the addSource method
   function isMapLoaded() {
     if (map.isStyleLoaded(id)) {
       addSource();
@@ -54,8 +57,9 @@
     props.promoteId = promoteId;
   }
 
+  // runs the addSource method
   function addSource() {
-    if (type == "geojson") {
+    if (type === "geojson") {
       if (data) {
         map.addSource(id, {
           type: type,
@@ -71,7 +75,7 @@
         });
         isSourceLoaded();
       }
-    } else if (type == "vector") {
+    } else if (type === "vector") {
       map.addSource(id, {
         type: type,
         tiles: [url],
@@ -81,6 +85,7 @@
     }
   }
 
+  // kicks off the chain
   isMapLoaded();
 </script>
 
