@@ -1,26 +1,29 @@
 <script>
   import { getContext } from "svelte";
   import { createEventDispatcher } from "svelte";
+  import config from '../../config';
+  
   const dispatch = createEventDispatcher();
   export let id;
-  export let source;
-  export let sourceLayer = null;
-  export let type;
+  export let source = getContext("source");
+  export let sourceLayer = getContext("source-layer");
+  export let type = "fill";
   export let filter = null;
   export let layout = {};
-  export let paint = {};
-  export let data = null;
+  export let paint = config.ux.map.paint.interactive;
   export let selected = null;
-  export let highlighted = null;
   export let hovered = null;
-  export let click = false;
+  export let click = true;
   export let clickCenter = false;
-  export let hover = false;
-  export let highlight = false;
-  export let order = null;
-  export let maxzoom;
-  export let minzoom;
-
+  export let hover = true;
+  export let order = 'tunnel_motorway_casing';
+  export let maxzoom = getContext("tileset-maxzoom");
+  export let minzoom = getContext("tileset-minzoom");
+  export let onSelect = (selectedItem) => {}
+  export let onHover = (hoveredItem) => {}
+  let selectedPrev = null;
+  
+  
   function centroid(coords) {
     // not as accurate, but definitely faster!!
     var xSum = 0,
@@ -37,17 +40,28 @@
 
   const { getMap } = getContext("map");
   const map = getMap();
+  let boundaryLayerId = `${id}-interactive-boundaries`
+    
 
-  let selectedPrev = null;
-  let highlightedPrev = null;
 
   if (map.getLayer(id)) {
     map.removeLayer(id);
   }
+  if (map.getLayer(boundaryLayerId)) {
+    map.removeLayer(boundaryLayerId);
+  }
 
   let options = {
     id: id,
-    type: type,
+    type: 'fill',
+    source: source,
+    paint: {"fill-color": "rgba(255, 255, 255, 0)"},
+    layout: layout,
+  };
+  
+  let boundaryLayerOptions = {
+    id: boundaryLayerId,
+    type: 'line',
     source: source,
     paint: paint,
     layout: layout,
@@ -55,39 +69,26 @@
 
   if (filter) {
     options["filter"] = filter;
+    boundaryLayerOptions["filter"] = filter;
   }
 
   if (sourceLayer) {
     options["source-layer"] = sourceLayer;
+    boundaryLayerOptions["source-layer"] = sourceLayer;
   }
   if (maxzoom) {
     options["maxzoom"] = maxzoom;
+    boundaryLayerOptions["maxzoom"] = maxzoom;
   }
   if (minzoom) {
     options["minzoom"] = minzoom;
+    boundaryLayerOptions["minzoom"] = minzoom;
   }
 
   map.addLayer(options, order);
+  map.addLayer(boundaryLayerOptions, order);
 
-  function updateData() {
-
-    data.lsoa.data.forEach((d) => {
-      map.setFeatureState(
-        {
-          source: source,
-          sourceLayer: sourceLayer,
-          id: d.code,
-        },
-        {
-          color: d.fill,
-        },
-      );
-    });
-  }
-
-  $: data && updateData();
-
-  $: if (click && selected != selectedPrev) {
+  $: if (click && selected !== selectedPrev) {
     if (selectedPrev) {
       map.setFeatureState({ source: source, sourceLayer: sourceLayer, id: selectedPrev }, { selected: false });
     }
@@ -97,32 +98,12 @@
     selectedPrev = selected;
   }
 
-  $: if (highlight && highlighted != highlightedPrev) {
-    if (highlightedPrev) {
-      map.setFeatureState(
-        {
-          source: source,
-          sourceLayer: sourceLayer,
-          id: highlightedPrev,
-        },
-        { highlighted: false },
-      );
-    }
-    if (highlighted) {
-      map.setFeatureState({ source: source, sourceLayer: sourceLayer, id: highlighted }, { highlighted: true });
-    }
-    highlightedPrev = highlighted;
-  }
-
   if (click) {
     map.on("click", id, (e) => {
       if (e.features.length > 0) {
         selected = e.features[0].id;
-
-        dispatch("select", {
-          code: selected,
-        });
-
+        onSelect(selected)
+        
         if (selectedPrev) {
           map.setFeatureState(
             {
@@ -166,7 +147,8 @@
           );
         }
         hovered = e.features[0].id;
-
+        onHover(e.features[0].id)
+        
         map.setFeatureState({ source: source, sourceLayer: sourceLayer, id: hovered }, { hovered: true });
 
         // Change the cursor style as a UI indicator.

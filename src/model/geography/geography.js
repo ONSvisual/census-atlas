@@ -1,5 +1,5 @@
 import {writable} from "svelte/store";
-import config from '../config'
+import config from '../../config'
 
 // CONSTANTS
 // initialised below
@@ -24,11 +24,11 @@ export let zoom = writable(config.ux.default_zoom)
 
 // ACTIONS
 export function updateSelectedGeography(geographyCode) {
-  selectedGeography.set(getLadAndLsoa(geography))
+  selectedGeography.set(getLadAndLsoa(geographyCode))
 }
 
 export function updateHoveredGeography(geographyCode) {
-  hoveredGeography.set(getLadAndLsoa(geography))
+  hoveredGeography.set(getLadAndLsoa(geographyCode))
 }
 
 export function updateZoom(newZoom) {
@@ -39,7 +39,15 @@ export function updateZoom(newZoom) {
 
 function getLadAndLsoa(geographyCode) {
   if (ladLookup[geographyCode] === null) {
-    const lad = d
+    return {
+      lad: lsoaLookup[geographyCode].parent,
+      lsoa: geographyCode
+    }
+  } else {
+    return {
+      lad: geographyCode,
+      lsoa: null
+    }
   }
 }
 
@@ -103,7 +111,7 @@ function buildLadLookup(ladBounds, lsoaData) {
       lookup[d.parent].children.push(d.code);
     }
   });
-  
+
   return lookup;
 }
 

@@ -8,7 +8,7 @@
   import ColChart from "../charts/Histogram.svelte";
   import Loader from "../ui/Loader.svelte";
   import Select from "../ui/Select.svelte";
-  import config from "../model/config";
+  import config from "../config";
   
   import {
     getNomis,
@@ -26,11 +26,7 @@
   import {loadingGeography} from "../model/geography/geography";
   
   import { bounds, lad_dta, get_data } from "../stores.js";
-  import {initialiseGeography, updateZoom} from "../model/geography/geography";
-  import LegacyCensusDataService from "../model/censusdata/services/legacyCensusDataService";
-  import LegacyGeographyService from "../model/geography/services/legacyGeographyService";
-  import {fetchCensusData, initialiseCensusDataService} from "../model/censusdata/censusdata";
-
+  
   const geography = config.legacy.geography;
   const mapstyle = config.legacy.mapstyle;
   const tabledata = config.legacy.tabledata;
@@ -84,8 +80,6 @@
   let mapZoom = null;
 
   const localDataService = new LocalDataService();
-
-  $: mapZoom = updateZoom(mapZoom)
   
   
   
@@ -101,8 +95,6 @@
 
   async function initialise() {
     var location = await get_data(boundurl);
-    await initialiseGeography(new LegacyGeographyService());
-    await initialiseCensusDataService(new LegacyCensusDataService());
     
     // no need to be blocking
     json(tabledata).then((jsn) => {
@@ -160,7 +152,6 @@
     let currentCategoryCode = get(selectedCategory);
     if (currentCategoryCode != selectMeta.code) {
       storeNewCategoryAndTotals(selectedCategory, selectedCategoryTotals, selectMeta, localDataService, url);
-      fetchCensusData(selectMeta.code, null)
     }
     let nomisData = await getNomis(url, localDataService, geographicCodes, selectedCategoryTotals, selectMeta.cell);
     let dataset = populateColors(nomisData, colors);

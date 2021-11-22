@@ -1,7 +1,6 @@
 import { feature } from "topojson-client";
 import { csvParse, autoType } from "d3-dsv";
 import { get } from "svelte/store";
-import { bbox } from "@turf/turf";
 import { ckmeans } from "simple-statistics";
 
 export async function getLsoaData(url) {

@@ -1,6 +1,7 @@
 import {csvParse} from "d3-dsv";
 import {ckmeans} from "simple-statistics";
 import {lsoaLookup} from '../../geography/geography'
+import config from "../../../config"
 
 export default class LegacyCensusDataService {
 
@@ -12,7 +13,8 @@ export default class LegacyCensusDataService {
     this.dataset = {
       lsoa: {
         data: [],
-        index: {}
+        index: {},
+        breaks: []
       },
       higher: {
         data: [],
@@ -50,6 +52,11 @@ export default class LegacyCensusDataService {
     return this.dataset.lsoa.index
   };
 
+
+  async fetchLegendBreakpoints(categoryId) {
+    return this.dataset.lsoa.breaks
+  }
+  
   async fetchHigherGeographyCategoryData(categoryId) {
     // is derived in legacy version from
     return this.dataset.higher.index
@@ -77,7 +84,7 @@ export default class LegacyCensusDataService {
     this.dataset.lsoa.data.sort((a, b) => a.perc - b.perc);
 
     let vals = this.dataset.lsoa.data.map((d) => d.perc);
-    let chunks = ckmeans(vals, 5);
+    let chunks = ckmeans(vals, config.ux.legend_sections);
     this.dataset.lsoa.breaks = this._getBreaks(chunks);
 
     for (const lsoa of this.dataset.lsoa.data) {
