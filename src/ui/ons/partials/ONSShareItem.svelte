@@ -1,6 +1,5 @@
 <script>
   import { getContext } from "svelte";
-  import ShareItemWrapper from "../../ShareItemWrapper.svelte";
   export let shareText;
   export let facebook = false;
   export let twitter = false;
@@ -17,15 +16,21 @@
     : email
     ? `mailto:?subject=${pageTitle}&body=${pageURL}`
     : "";
-  let censusAtlasSharePage = getContext("censusAtlasSharePage");
+  let multiRow = getContext("multiRow");
+  let equalWidthCol = multiRow ? "ons-list__item--inline-equal-width-columns" : "";
 </script>
 
-<ShareItemWrapper {censusAtlasSharePage}>
-  <li class="ons-list__item">
-    <span class="ons-list__prefix" aria-hidden="true">
-      <slot />
-    </span><a {href} class="ons-list__link  " target="_blank" rel="noreferrer external"
-      >{shareText}<span class="ons-u-vh">this link will open in a new tab</span></a
-    >
-  </li>
-</ShareItemWrapper>
+<li class="ons-list__item {equalWidthCol} ">
+  <span class="ons-list__prefix" aria-hidden="true">
+    <slot />
+  </span><a {href} class="ons-list__link  " target="_blank" rel="noreferrer external"
+    >{shareText}<span class="ons-u-vh">this link will open in a new tab</span></a
+  >
+</li>
+
+<style>
+  .ons-list__item--inline-equal-width-columns {
+    display: inline-block;
+    min-width: 50%;
+  }
+</style>
