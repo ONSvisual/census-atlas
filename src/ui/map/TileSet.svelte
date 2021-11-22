@@ -12,24 +12,23 @@
   export let maxzoom = getContext("maxzoom");
 
   let loaded = false;
-  $: loaded, console.log("boundary set loaded")
-  
+  $: loaded, console.log("boundary set loaded");
+
   const { getMap } = getContext("map");
   const map = getMap();
 
-  setContext('source', id)
-  setContext('source-layer', layer)
+  setContext("source", id);
+  setContext("source-layer", layer);
 
-  setContext('tileset-minzoom', minzoom)
-  setContext('tileset-maxzoom', maxzoom)
+  setContext("tileset-minzoom", minzoom);
+  setContext("tileset-maxzoom", maxzoom);
 
-  
   // clears out self on map object
   if (map.getSource(id)) {
     map.removeSource(id);
   }
 
-  // watches for isSourceLoaded method on map 
+  // watches for isSourceLoaded method on map
   function isSourceLoaded() {
     if (map.isSourceLoaded(id)) {
       loaded = true;

@@ -9,7 +9,7 @@
   import Loader from "../ui/Loader.svelte";
   import Select from "../ui/Select.svelte";
   import config from "../config";
-  
+
   import {
     getNomis,
     storeNewCategoryAndTotals,
@@ -18,15 +18,15 @@
     setColors,
     updateURL,
   } from "../utils.js";
-  
+
   import MapComponent from "../MapComponent.svelte";
   import { get } from "svelte/store";
   import LocalDataService from "../dataService";
   import { json } from "d3-fetch";
-  import {loadingGeography} from "../model/geography/geography";
-  
+  import { loadingGeography } from "../model/geography/geography";
+
   import { bounds, lad_dta, get_data } from "../stores.js";
-  
+
   const geography = config.legacy.geography;
   const mapstyle = config.legacy.mapstyle;
   const tabledata = config.legacy.tabledata;
@@ -35,7 +35,7 @@
   const lsoabounds = config.legacy.lsoabounds;
   const ladvector = config.legacy.ladvector;
   const lsoadata = config.legacy.lsoadata;
-  
+
   const colors = {
     base: ["#d5f690", "#5bc4b1", "#2e9daa", "#0079a2", "#005583", "#cccccc"],
     muted: ["#f5fce2", "#d7ede8", "#cbe2e5", "#c2d7e3", "#bdccd9", "#f0f0f0"],
@@ -66,7 +66,7 @@
       highlighted: null,
     },
   };
-  
+
   // STATE
   let selectCode = "QS119EW005";
   let mapLocation = null;
@@ -80,9 +80,7 @@
   let mapZoom = null;
 
   const localDataService = new LocalDataService();
-  
-  
-  
+
   function setIndicator(indicators, code) {
     indicators.forEach((indicator) => {
       if (indicator.code && indicator.code == code) {
@@ -95,7 +93,7 @@
 
   async function initialise() {
     var location = await get_data(boundurl);
-    
+
     // no need to be blocking
     json(tabledata).then((jsn) => {
       indicators = jsn;
@@ -187,9 +185,7 @@
         active.lad.selected = selectData.lad.data[index].AREACD;
       }
     } else if (type == "lsoa") {
-      let filtered = selectData.lsoa.data.filter((d) =>
-        $lad_dta.get(active.lad.selected).children.includes(d.AREACD),
-      );
+      let filtered = selectData.lsoa.data.filter((d) => $lad_dta.get(active.lad.selected).children.includes(d.AREACD));
       let index = filtered.findIndex((d) => d.code == active.lsoa.selected) + diff;
       if (index >= 0 && index < filtered.length) {
         active.lsoa.selected = filtered[index].AREACD;
@@ -229,10 +225,10 @@
       history.pushState(undefined, undefined, hash);
     }
   }
-  
+
   $: ladvector, console.warn("ladvector", ladvector);
   $: active.lad, console.warn("active.lad", active.lad);
-  
+
   $: selectItem && setSelectedDataset(); // Update meta when selection updates
   $: active.lad.highlighted = lsoalookup && active.lsoa.hovered ? lsoalookup[active.lsoa.hovered].parent : null;
   $: active.lad.selected =
@@ -266,7 +262,6 @@
 {/if}
 
 <Panel>
-  
   <h1>2011 Census Atlas Demo</h1>
   {#if indicators && selectItem}
     {#if selectData}
@@ -391,7 +386,7 @@
         {/if}
       </div>
     </div>
-    
+
     {#if $lad_dta}
       <Select
         options={[...$lad_dta.values()]}
@@ -409,7 +404,6 @@
     />
   {/if}
 </Panel>
-
 
 {#if mapLocation}
   <MapComponent bind:map style={mapstyle} minzoom={4} maxzoom={14} bind:zoom={mapZoom} location={mapLocation}>

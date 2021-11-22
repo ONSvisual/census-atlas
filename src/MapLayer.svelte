@@ -72,7 +72,6 @@
   map.addLayer(options, order);
 
   function updateData() {
-
     data.lsoa.data.forEach((d) => {
       map.setFeatureState(
         {

@@ -1,5 +1,5 @@
-import {writable} from "svelte/store";
-import config from '../../config'
+import { writable } from "svelte/store";
+import config from "../../config";
 
 // CONSTANTS
 // initialised below
@@ -10,29 +10,28 @@ export var lsoaLookup = {};
 
 // WRITABLES
 // reactive variables that can be subscribed to in our Svelte files
-export let loadingGeography = writable(false)
+export let loadingGeography = writable(false);
 export let selectedGeography = writable({
   lad: null,
-  lsoa: null
-})
+  lsoa: null,
+});
 export let hoveredGeography = writable({
   lad: null,
-  lsoa: null
-})
-export let zoom = writable(config.ux.default_zoom)
-
+  lsoa: null,
+});
+export let zoom = writable(config.ux.default_zoom);
 
 // ACTIONS
 export function updateSelectedGeography(geographyCode) {
-  selectedGeography.set(getLadAndLsoa(geographyCode))
+  selectedGeography.set(getLadAndLsoa(geographyCode));
 }
 
 export function updateHoveredGeography(geographyCode) {
-  hoveredGeography.set(getLadAndLsoa(geographyCode))
+  hoveredGeography.set(getLadAndLsoa(geographyCode));
 }
 
 export function updateZoom(newZoom) {
-  zoom.set(newZoom)
+  zoom.set(newZoom);
 }
 
 // ------
@@ -41,13 +40,13 @@ function getLadAndLsoa(geographyCode) {
   if (ladLookup[geographyCode] === null) {
     return {
       lad: lsoaLookup[geographyCode].parent,
-      lsoa: geographyCode
-    }
+      lsoa: geographyCode,
+    };
   } else {
     return {
       lad: geographyCode,
-      lsoa: null
-    }
+      lsoa: null,
+    };
   }
 }
 
@@ -58,15 +57,15 @@ export function reset() {
   ladList = [];
   ladLookup = {};
   lsoaLookup = {};
-  loadingGeography.set(false)
+  loadingGeography.set(false);
   selectedGeography.set({
     lad: null,
-    lsoa: null
-  })
+    lsoa: null,
+  });
   hoveredGeography.set({
     lad: null,
-    lsoa: null
-  })
+    lsoa: null,
+  });
 }
 
 // INITIALISERS
@@ -74,7 +73,7 @@ const LAD_AREA_CODE = "AREACD";
 const LAD_AREA_NAME = "AREANM";
 
 export async function initialiseGeography(geographyService) {
-  loadingGeography.set(true)
+  loadingGeography.set(true);
   ladBoundaries = await geographyService.getLadBoundaries();
   let lsoaData = await geographyService.getLsoaData();
 
@@ -82,7 +81,7 @@ export async function initialiseGeography(geographyService) {
   lsoaLookup = buildLsoaLookup(lsoaData);
   ladList = buildLadList(ladBoundaries, ladLookup);
 
-  loadingGeography.set(false)
+  loadingGeography.set(false);
 }
 
 function buildLadList(ladBounds, ladLookup) {

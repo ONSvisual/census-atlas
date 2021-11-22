@@ -42,7 +42,7 @@ export default {
             ["!=", ["feature-state", "color"], null],
             ["feature-state", "color"],
             "rgba(255, 255, 255, 0)",
-          ]
+          ],
         },
         line: {
           "line-color": ["rgba(192, 192, 192, 1)"],
@@ -65,9 +65,8 @@ export default {
             2,
             0,
           ],
-        }
-      }
-    }
-  }
-
-}
+        },
+      },
+    },
+  },
+};

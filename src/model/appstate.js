@@ -1,7 +1,7 @@
-import {writable} from "svelte/store";
+import { writable } from "svelte/store";
 
-export let appIsInitialised = writable(false)
+export let appIsInitialised = writable(false);
 
 export const setInitialised = () => {
-  appIsInitialised.set(true)
-}
+  appIsInitialised.set(true);
+};

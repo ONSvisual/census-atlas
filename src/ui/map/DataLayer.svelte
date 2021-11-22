@@ -1,9 +1,9 @@
 <script>
-  import {getContext} from "svelte";
-  import {getLegendSection} from "../../model/utils";
-  import {breaks} from "../../model/censusdata/censusdata"
-  import config from "../../config"
-  
+  import { getContext } from "svelte";
+  import { getLegendSection } from "../../model/utils";
+  import { breaks } from "../../model/censusdata/censusdata";
+  import config from "../../config";
+
   export let id;
   export let source = getContext("source");
   export let sourceLayer = getContext("source-layer");
@@ -18,18 +18,18 @@
     ],
   };
   export let data = null;
-  export let order = 'tunnel_motorway_casing';
+  export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
 
-  const {getMap} = getContext("map");
+  const { getMap } = getContext("map");
   const map = getMap();
 
   let selectedPrev = null;
   let highlightedPrev = null;
 
-  console.log("rendering data layer")
-  
+  console.log("rendering data layer");
+
   // remove map if present
   if (map.getLayer(id)) {
     map.removeLayer(id);
@@ -61,8 +61,8 @@
   map.addLayer(options, order);
 
   function updateData() {
-    for(const key of Object.keys(data)) {
-      let legendSection = getLegendSection(data[key].perc, breaks)
+    for (const key of Object.keys(data)) {
+      let legendSection = getLegendSection(data[key].perc, breaks);
       map.setFeatureState(
         {
           source: source,

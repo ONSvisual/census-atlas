@@ -21,7 +21,7 @@
     map.removeSource(id);
   }
 
-  // watches for isSourceLoaded method on map 
+  // watches for isSourceLoaded method on map
   function isSourceLoaded() {
     if (map.isSourceLoaded(id)) {
       loaded = true;

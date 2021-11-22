@@ -1,12 +1,11 @@
-import {csvParse} from "d3-dsv";
-import {ckmeans} from "simple-statistics";
-import {lsoaLookup} from '../../geography/geography'
-import config from "../../../config"
+import { csvParse } from "d3-dsv";
+import { ckmeans } from "simple-statistics";
+import { lsoaLookup } from "../../geography/geography";
+import config from "../../../config";
 
 export default class LegacyCensusDataService {
-
   constructor() {
-    this.reset()
+    this.reset();
   }
 
   reset() {
@@ -14,59 +13,58 @@ export default class LegacyCensusDataService {
       lsoa: {
         data: [],
         index: {},
-        breaks: []
+        breaks: [],
       },
       higher: {
         data: [],
-        index: {}
+        index: {},
       },
       lad: {
         data: [],
-        index: {}
+        index: {},
       },
       englandAndWales: {
         count: 0,
-        value: 0
+        value: 0,
       },
-    }
+    };
   }
 
   async fetchLsoaCategoryData(categoryId) {
-    let url = `https://bothness.github.io/census-atlas/data/lsoa/${categoryId}.csv`
+    let url = `https://bothness.github.io/census-atlas/data/lsoa/${categoryId}.csv`;
     let response = await fetch(url);
     let string = await response.text();
-    let category = this._getCategory(categoryId)
+    let category = this._getCategory(categoryId);
 
-    this.reset()
+    this.reset();
     this.dataset.lsoa.data = csvParse(string, (d, index) => {
       return {
-        code: d['GEOGRAPHY_CODE'],
+        code: d["GEOGRAPHY_CODE"],
         value: +d[category.cell],
         count: +d[0],
         perc: (+d[category.cell] / +d[0]) * 100,
       };
     });
 
-    this._processLegacyDataset()
+    this._processLegacyDataset();
 
-    return this.dataset.lsoa.index
-  };
-
+    return this.dataset.lsoa.index;
+  }
 
   async fetchLegendBreakpoints(categoryId) {
-    return this.dataset.lsoa.breaks
+    return this.dataset.lsoa.breaks;
   }
-  
+
   async fetchHigherGeographyCategoryData(categoryId) {
     // is derived in legacy version from
-    return this.dataset.higher.index
-  };
+    return this.dataset.higher.index;
+  }
 
   async fetchCategoryAggregateData(categoryId) {
     return {
-      breaks: this.dataset.lsoa.breaks
-    }
-  };
+      breaks: this.dataset.lsoa.breaks,
+    };
+  }
 
   async fetchTableForGeography(tableId, geographyId) {
     return {
@@ -74,9 +72,9 @@ export default class LegacyCensusDataService {
       geographyId: geographyId,
       rows: [
         // { category: 'Female', value: 4801, perc: 0.49 }
-      ]
-    }
-  };
+      ],
+    };
+  }
 
   // ---------------------------------
 
@@ -88,12 +86,12 @@ export default class LegacyCensusDataService {
     this.dataset.lsoa.breaks = this._getBreaks(chunks);
 
     for (const lsoa of this.dataset.lsoa.data) {
-      this.dataset.lsoa.index[lsoa.code] = lsoa
+      this.dataset.lsoa.index[lsoa.code] = lsoa;
     }
 
     // aggregate lad data
     for (const lsoa of this.dataset.lsoa.data) {
-      let ladCode = lsoaLookup[lsoa.code].parent
+      let ladCode = lsoaLookup[lsoa.code].parent;
       if (!this.dataset.lad.index[ladCode]) {
         this.dataset.lad.index[ladCode] = {
           code: ladCode,
@@ -101,38 +99,38 @@ export default class LegacyCensusDataService {
           count: 0,
         };
       }
-      this.dataset.lad.index[ladCode].value += lsoa.value
-      this.dataset.lad.index[ladCode].count += lsoa.count
+      this.dataset.lad.index[ladCode].value += lsoa.value;
+      this.dataset.lad.index[ladCode].count += lsoa.count;
     }
 
     for (const ladCode of Object.keys(this.dataset.lad.index)) {
-      this.dataset.lad.index[ladCode].perc = (this.dataset.lad.index[ladCode].value / this.dataset.lad.index[ladCode].count) * 100;
-      this.dataset.lad.data.push(this.dataset.lad.index[ladCode])
+      this.dataset.lad.index[ladCode].perc =
+        (this.dataset.lad.index[ladCode].value / this.dataset.lad.index[ladCode].count) * 100;
+      this.dataset.lad.data.push(this.dataset.lad.index[ladCode]);
     }
 
     this.dataset.lad.data.sort((a, b) => a.perc - b.perc);
 
-
     // aggregate national data
     for (const lsoa of this.dataset.lsoa.data) {
-      this.dataset.englandAndWales.value += lsoa.value
-      this.dataset.englandAndWales.count += lsoa.count
+      this.dataset.englandAndWales.value += lsoa.value;
+      this.dataset.englandAndWales.count += lsoa.count;
     }
     this.dataset.englandAndWales.perc = (this.dataset.englandAndWales.value / this.dataset.englandAndWales.count) * 100;
 
-    // 
-    this.dataset.higher = this.dataset.lad
-    this.dataset.higher.index['ENGLAND_AND_WALES'] = this.dataset.englandAndWales
-    this.dataset.higher.data.push(this.dataset.englandAndWales)
+    //
+    this.dataset.higher = this.dataset.lad;
+    this.dataset.higher.index["ENGLAND_AND_WALES"] = this.dataset.englandAndWales;
+    this.dataset.higher.data.push(this.dataset.englandAndWales);
 
     this.dataset.englandAndWales = {
       count: 0,
-      value: 0
-    }
+      value: 0,
+    };
     this.dataset.lad = {
       data: [],
-      index: {}
-    }
+      index: {},
+    };
   }
 
   _getBreaks(chunks) {

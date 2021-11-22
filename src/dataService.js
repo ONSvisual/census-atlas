@@ -2,7 +2,6 @@ import { csvParse } from "d3-dsv";
 import { get } from "svelte/store";
 
 export default class LocalDataService {
-  
   getGeographicCodes = async function (url) {
     let response = await fetch(url);
     let string = await response.text();
@@ -10,7 +9,7 @@ export default class LocalDataService {
       return d["GEOGRAPHY_CODE"];
     });
   };
-  
+
   getCategoryTotals = async function (url) {
     let response = await fetch(url);
     let string = await response.text();
@@ -19,13 +18,8 @@ export default class LocalDataService {
     });
     return data;
   };
-  
-  getNomisData = async function (
-    url,
-    geographicCodesStore,
-    selectedCategoryTotals,
-    indicatorCode,
-  ) {
+
+  getNomisData = async function (url, geographicCodesStore, selectedCategoryTotals, indicatorCode) {
     let response = await fetch(url);
     let string = await response.text();
     let geoCodes = get(geographicCodesStore);
@@ -39,5 +33,4 @@ export default class LocalDataService {
       };
     });
   };
-
 }

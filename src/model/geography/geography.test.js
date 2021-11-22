@@ -1,12 +1,11 @@
 import MockGeographyService from "./geography/mockGeographyService";
-import {initialiseGeography, loadingGeography, reset} from "./geography";
+import { initialiseGeography, loadingGeography, reset } from "./geography";
 
-describe('initialise geography', () => {
-
+describe("initialise geography", () => {
   it("it calls functions from the geography service", async () => {
     // given
     // a mock for the geography service
-    const mockGeographyService = new MockGeographyService({features: []}, []);
+    const mockGeographyService = new MockGeographyService({ features: [] }, []);
 
     // when
     // we call initialise geography
@@ -22,11 +21,13 @@ describe('initialise geography', () => {
     // given
     // we reset
     reset();
-    const mockGeographyService = new MockGeographyService({features: []}, []);
+    const mockGeographyService = new MockGeographyService({ features: [] }, []);
 
     // and record a change history for loadingGeography
     var changeHistory = [];
-    loadingGeography.subscribe(value => { changeHistory.push(value); })
+    loadingGeography.subscribe((value) => {
+      changeHistory.push(value);
+    });
 
     // when
     // we call initialise geography
@@ -34,6 +35,6 @@ describe('initialise geography', () => {
 
     // then
     // it will have switched loading from false to true and back again
-    expect(changeHistory).toStrictEqual([false, true, false])
+    expect(changeHistory).toStrictEqual([false, true, false]);
   });
-})
+});

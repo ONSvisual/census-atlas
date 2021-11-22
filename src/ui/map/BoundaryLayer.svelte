@@ -1,8 +1,8 @@
 <script>
   import { getContext } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import config from '../../config';
-  
+  import config from "../../config";
+
   export let id;
   export let source = getContext("source");
   export let sourceLayer = getContext("source-layer");
@@ -10,7 +10,7 @@
   export let filter = null;
   export let layout = {};
   export let paint = config.ux.map.paint.line;
-  export let order = 'tunnel_motorway_casing';
+  export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
 

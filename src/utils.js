@@ -11,7 +11,7 @@ export async function getLsoaData(url) {
 }
 
 export async function getNomis(url, dataService, geographicCodesStore, selectedCategoryTotals, indicatorCode) {
-  console.log(indicatorCode)
+  console.log(indicatorCode);
   let geoCodesStore = get(geographicCodesStore);
   if (geoCodesStore.length == 0) {
     let geoCodes = await dataService.getGeographicCodes(url);
@@ -48,7 +48,7 @@ export function processAggregateData(dataset, lookup) {
 function calculateAggregateData(lsoaData, lsoa, lookup, lad, ladTemp, englandAndWales) {
   lsoa.index[lsoaData.code] = lsoaData;
   let parent = lookup[lsoaData.code].parent;
-  
+
   if (!lad.index[parent]) {
     lad.index[parent] = {
       code: parent,

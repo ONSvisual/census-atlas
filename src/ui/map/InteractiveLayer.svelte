@@ -1,8 +1,8 @@
 <script>
   import { getContext } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import config from '../../config';
-  
+  import config from "../../config";
+
   const dispatch = createEventDispatcher();
   export let id;
   export let source = getContext("source");
@@ -16,14 +16,13 @@
   export let click = true;
   export let clickCenter = false;
   export let hover = true;
-  export let order = 'tunnel_motorway_casing';
+  export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
-  export let onSelect = (selectedItem) => {}
-  export let onHover = (hoveredItem) => {}
+  export let onSelect = (selectedItem) => {};
+  export let onHover = (hoveredItem) => {};
   let selectedPrev = null;
-  
-  
+
   function centroid(coords) {
     // not as accurate, but definitely faster!!
     var xSum = 0,
@@ -40,9 +39,7 @@
 
   const { getMap } = getContext("map");
   const map = getMap();
-  let boundaryLayerId = `${id}-interactive-boundaries`
-    
-
+  let boundaryLayerId = `${id}-interactive-boundaries`;
 
   if (map.getLayer(id)) {
     map.removeLayer(id);
@@ -53,15 +50,15 @@
 
   let options = {
     id: id,
-    type: 'fill',
+    type: "fill",
     source: source,
-    paint: {"fill-color": "rgba(255, 255, 255, 0)"},
+    paint: { "fill-color": "rgba(255, 255, 255, 0)" },
     layout: layout,
   };
-  
+
   let boundaryLayerOptions = {
     id: boundaryLayerId,
-    type: 'line',
+    type: "line",
     source: source,
     paint: paint,
     layout: layout,
@@ -102,8 +99,8 @@
     map.on("click", id, (e) => {
       if (e.features.length > 0) {
         selected = e.features[0].id;
-        onSelect(selected)
-        
+        onSelect(selected);
+
         if (selectedPrev) {
           map.setFeatureState(
             {
@@ -147,8 +144,8 @@
           );
         }
         hovered = e.features[0].id;
-        onHover(e.features[0].id)
-        
+        onHover(e.features[0].id);
+
         map.setFeatureState({ source: source, sourceLayer: sourceLayer, id: hovered }, { hovered: true });
 
         // Change the cursor style as a UI indicator.
