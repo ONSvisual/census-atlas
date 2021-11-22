@@ -12,11 +12,10 @@
   import Topic from "../ui/Topic.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
-  import HeaderData1 from "../ui/HeaderData1.svelte";
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import DefaultHeader from "../ui/DefaultHeader.svelte";
-  import HeaderData2 from "../ui/HeaderData2.svelte";
   import HeaderData3 from "../ui/HeaderData3.svelte";
+  import ByLocAndCategDataHeader from "../ui/ByLocAndCategDataHeader.svelte";
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
     { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
@@ -34,9 +33,6 @@
 </svelte:head>
 
 <BasePage {serviceTitle} {description}>
-  <DesignSystemPanel title="Data header 1" code={`<HeaderData1 indicator="General Health" region="England & Wales"/>`}>
-    <HeaderData1 indicator="General Health" region="England & Wales" />
-  </DesignSystemPanel>
   <DesignSystemPanel
     title="Default header"
     code={`<DefaultHeader serviceTitle="Explore Census" description="Here's a place where we tell users what the Census Atlas is and what it can do for them."/>`}
@@ -46,9 +42,15 @@
       description="Here's a place where we tell users what the Census Atlas is and what it can do for them."
     />
   </DesignSystemPanel>
-  <DesignSystemPanel title="Data header 2" code={`<HeaderData2 region="Walsall"/>`}>
-    <HeaderData2 region="Walsall" />
+
+  <DesignSystemPanel title="By category header" code={`<ByLocAndCategDataHeader tableName="General Health"/>`}>
+    <ByLocAndCategDataHeader tableName="General Health" />
   </DesignSystemPanel>
+
+  <DesignSystemPanel title="By location header" code={`<ByLocAndCategDataHeader location="Walsall"/>`}>
+    <ByLocAndCategDataHeader location="Walsall" />
+  </DesignSystemPanel>
+
   <DesignSystemPanel
     title="Data header 3"
     code={`<HeaderData3
