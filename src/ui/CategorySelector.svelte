@@ -1,18 +1,28 @@
+<script>
+  export let leftHref = "";
+  export let title = "";
+  export let rightHref = "";
+  export let rightText = "";
+  export let leftText = "";
+</script>
+
 <div class="category-selector ons-grid--flex ons-grid--vertical-center">
   <div class="ons-grid__col ons-col-4@m selector-col ">
-    <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:left">
+    <div class="ons-pl-grid-col ons-grid--flex ons-grid__col--flex" style="justify-content:left">
       <span>&#60;&#160;</span>
-      <a class="category-selector__button" href="#"> Very good </a>
+      <a class="category-selector__button" href={leftHref}> {leftText === "" ? "Lower category" : leftText} </a>
     </div>
   </div>
   <div class="ons-grid__col ons-col-4@m selector-col ons-grid--flex">
     <div class="ons-pl-grid-col">
-      <p>Good</p>
+      <p>{title}</p>
     </div>
   </div>
   <div class="ons-grid__col ons-col-4@m selector-col">
     <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:right">
-      <a class="category-selector__button" href="#"> Fair </a>
+      <a class="category-selector__button category-selector__button__left" href={rightHref}>
+        {rightText === "" ? "Higher category" : rightText}
+      </a>
       <span>&#160;&#62;</span>
     </div>
   </div>
@@ -27,14 +37,15 @@
   .category-selector a {
     color: #fff;
   }
+
+  .category-selector__button__left {
+    text-align: right;
+  }
   @media (max-width: 400px) {
     a,
     span {
       font-size: 0.8em;
     }
-  }
-  .category-selector__button {
-    margin-right: 0.2em;
   }
   a {
     text-decoration: underline;
@@ -51,6 +62,11 @@
     font-size: 1.3em;
     font-weight: bold;
   }
+  .ons-grid--flex {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
   @media (max-width: 400px) {
     p {
       font-size: 1em;

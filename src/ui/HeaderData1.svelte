@@ -7,8 +7,10 @@
   <div class="ons-header__main ons-header__main--with-description">
     <div class="ons-container">
       <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
-        <div class="ons-header__title header__title--with-description data-header-1__title">
-          <h2>{indicator}</h2>
+        <div>
+          <h2 class="ons-header__title header__title--with-description data-header-1__title" id="header-data-1__title">
+            {indicator}
+          </h2>
         </div>
         <a href="#">Change</a>
       </div>
@@ -38,5 +40,13 @@
 
   .data-header-1__title {
     margin: 0;
+  }
+  #header-data-1__title {
+    font-size: 1.33333rem;
+  }
+  @media (max-width: 736px) {
+    #header-data-1__title {
+      font-size: 1.11111rem;
+    }
   }
 </style>

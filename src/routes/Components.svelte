@@ -61,8 +61,11 @@
       description="Choose a category and select an option within it to explore Census data."
     />
   </DesignSystemPanel>
-  <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
-    <CategorySelector />
+  <DesignSystemPanel
+    title="Category selector"
+    code={`<CategorySelector title="Good" rightText="Very good" leftText="Fair" rightHref="#" leftHref="#"/>`}
+  >
+    <CategorySelector title="Good" rightText="Very good" leftText="Fair" rightHref="#" leftHref="#" />
   </DesignSystemPanel>
   <DesignSystemPanel title="Explore by area" code={`<ExploreByAreaComponent />`}>
     <ExploreByAreaComponent />
