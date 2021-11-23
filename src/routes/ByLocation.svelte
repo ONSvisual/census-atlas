@@ -1,7 +1,7 @@
 <script>
   import BasePage from "../ui/BasePage.svelte";
 
-  import Map from "../ui/Map.svelte";
+  import Map from "../ui/map/Map.svelte";
   import Topic from "../ui/Topic.svelte";
   import HeaderData2 from "../ui/HeaderData2.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
