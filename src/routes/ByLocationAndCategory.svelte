@@ -8,7 +8,7 @@
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../ui/UseCensusData.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  import HeaderData1 from "../ui/HeaderData1.svelte";
+  import DataHeader from "../ui/DataHeader.svelte";
   import { categoryDataIsLoaded, categoryData, fetchCensusData } from "../model/censusdata/censusdata";
   import { updateHoveredGeography, updateSelectedGeography, loadingGeography } from "../model/geography/geography";
   import config from "../config";
@@ -30,7 +30,7 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderData1 indicator={categoryId} region={locationId} />
+    <DataHeader tableName={categoryId} location={locationId} />
     <CategorySelector />
   </span>
 

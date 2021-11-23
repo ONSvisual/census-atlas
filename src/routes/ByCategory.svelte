@@ -5,7 +5,7 @@
   import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  import HeaderData1 from "../ui/HeaderData1.svelte";
+  import DataHeader from "../ui/DataHeader.svelte";
 
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
 
@@ -24,7 +24,7 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderData1 indicator={categoryId} region="England & Wales" />
+    <DataHeader tableName={categoryId} />
   </span>
 
   <span slot="map">
