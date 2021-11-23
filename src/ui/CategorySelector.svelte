@@ -36,9 +36,9 @@
     <div class="ons-pl-grid-col ons-grid--flex ons-grid__col--flex" style="justify-content:left">
       <span>&#60;&#160;</span>
       {#if selectedCatIndex > 0}
-        <a class="category-selector__button" href="#"> {categories[selectedCatIndex - 1].name} </a>
+        <p class="category-selector__button" href="#" on:click="{() => selectedCatIndex--}"> {categories[selectedCatIndex - 1].name} </p>
       {:else}
-        <a class="category-selector__button" href="#"> {categories[categories.length - 1].name} </a>
+        <p class="category-selector__button" href="#" on:click="{() => selectedCatIndex = categories.length -1}"> {categories[categories.length - 1].name} </p>
       {/if}
     </div>
   </div>
@@ -50,13 +50,13 @@
   <div class="ons-grid__col ons-col-4@m selector-col">
     <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:right">
       {#if selectedCatIndex < categories.length - 1}
-        <a class="category-selector__button category-selector__button__left" href="#">
+        <p class="category-selector__button category-selector__button__left" on:click="{() => selectedCatIndex++}">
           {categories[selectedCatIndex + 1].name}
-        </a>
+        </p>
       {:else}
-        <a class="category-selector__button category-selector__button__left" href="#">
+        <p class="category-selector__button category-selector__button__left" on:click="{() => selectedCatIndex = 0}">
           {categories[0].name}
-        </a>
+        </p>
       {/if}
       <span>&#160;&#62;</span>
     </div>
@@ -69,20 +69,22 @@
     color: #fff;
     padding: 10px 15px 10px;
   }
-  .category-selector a {
+  .category-selector__button {
     color: #fff;
+    font-size: 1rem;
+    font-weight: normal;
   }
 
   .category-selector__button__left {
     text-align: right;
   }
   @media (max-width: 400px) {
-    a,
+    .category-selector__button,
     span {
       font-size: 0.8em;
     }
   }
-  a {
+  .category-selector__button {
     text-decoration: underline;
     text-underline-position: unset;
   }
