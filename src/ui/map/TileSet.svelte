@@ -1,5 +1,5 @@
 <script>
-  import { getContext } from "svelte";
+  import { getContext, setContext } from "svelte";
 
   export let id;
   export let type;
@@ -8,13 +8,20 @@
   export let data = null;
   export let layer = null;
   export let promoteId = null;
-  export let minzoom = null;
-  export let maxzoom = null;
+  export let minzoom = getContext("minzoom");
+  export let maxzoom = getContext("maxzoom");
 
   let loaded = false;
+  $: loaded, console.log("boundary set loaded");
 
   const { getMap } = getContext("map");
   const map = getMap();
+
+  setContext("source", id);
+  setContext("source-layer", layer);
+
+  setContext("tileset-minzoom", minzoom);
+  setContext("tileset-maxzoom", maxzoom);
 
   // clears out self on map object
   if (map.getSource(id)) {
@@ -28,7 +35,7 @@
     } else {
       setTimeout(() => {
         isSourceLoaded();
-      }, 500);
+      }, 100);
     }
   }
 
@@ -39,7 +46,7 @@
     } else {
       setTimeout(() => {
         isMapLoaded();
-      }, 500);
+      }, 100);
     }
   }
 
@@ -59,7 +66,7 @@
 
   // runs the addSource method
   function addSource() {
-    if (type === "geojson") {
+    if (type == "geojson") {
       if (data) {
         map.addSource(id, {
           type: type,
@@ -75,7 +82,7 @@
         });
         isSourceLoaded();
       }
-    } else if (type === "vector") {
+    } else if (type == "vector") {
       map.addSource(id, {
         type: type,
         tiles: [url],

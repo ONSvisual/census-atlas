@@ -1,5 +1,5 @@
 <script>
-  import { ethnicity, cities, checkboxData  } from "../data/test/mockDSData";
+  import { ethnicity, cities, checkboxData } from "../data/test/mockDSData";
   import ONSCensusApp from "../ui/ons/ONSCensusApp.svelte";
   import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
@@ -349,9 +349,7 @@
 
   <DesignSystemPanel
     title="Radios"
-    code={`<script>
-      let radioValue = "none";
-   </script>
+    code={`<script ✂prettier:content✂="CiAgICAgIGxldCByYWRpb1ZhbHVlID0gIm5vbmUiOwogICA=">{}</script>
 
 <ONSRadios name="ethnicity">
   {#each ethnicity as option}
