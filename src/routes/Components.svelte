@@ -80,17 +80,21 @@
     code={`<Header
       showBackLink
       serviceTitle="Choose an area"
-    ><ExploreByAreaComponent/>
+    ><ExploreByAreaComponent inverted/>
     </Header>`}
   >
-    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent /></Header>
+    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent inverted /></Header>
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
   </DesignSystemPanel>
-  <DesignSystemPanel title="Explore by area" code={`<ExploreByAreaComponent />`}>
-    <ExploreByAreaComponent />
+  <DesignSystemPanel
+    title="Explore by area"
+    code={`<ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent
+>`}
+  >
+    <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
   </DesignSystemPanel>
   <DesignSystemPanel title="Explore by topic" code={`<ExploreByTopic />`}>
     <ExploreByTopic />

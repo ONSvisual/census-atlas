@@ -1,18 +1,22 @@
 <script>
   export let id = "search-field";
   export let userInputValue = "";
-  export let hint = "Enter a postcode or a town,city or area";
+  export let hint = "Enter a postcode or a town, city or area";
   export let placeholder = "WS3 1PL";
   export let buttonText = "Choose";
   export let title = "Explore by area";
+  export let inverted = false;
+  let whiteHint = inverted ? "ons-input--with-white-description" : "";
 </script>
 
 <div class="component-margin--2">
-  <h2>{title}</h2>
+  {#if !inverted}
+    <h2>{title}</h2>
+  {/if}
   <div class="ons-field">
     <p><slot /></p>
     {#if hint}
-      <span id="description-hint" class="ons-label__description  ons-input--with-description">
+      <span id="description-hint" class="ons-label__description ons-input--with-description {whiteHint}">
         {hint}
       </span>
     {/if}
@@ -29,7 +33,13 @@
   </div>
 </div>
 
-<style>
+<style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
+  .ons-input--with-white-description {
+    color: $color-white;
+  }
+
   .component-margin--2 {
     margin-bottom: 2rem;
   }
