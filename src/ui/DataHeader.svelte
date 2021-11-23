@@ -14,7 +14,7 @@
           <a href="/categories">Change</a>
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
-            <a href="/categories"><h2 id="census-atlas-header-2__title">Choose a data option</h2></a>
+            <h2 id="census-atlas-header-2__title"><a href="/categories">Choose a data option</a></h2>
           </div>
         {/if}
       </div>
@@ -22,12 +22,12 @@
       {#if location}
         <div class="ons-grid--flex ons-grid--between">
           <h2 class="ons-header__title" id="header-data-2__location">In {location}</h2>
-          <a href="#">Change</a>
+          <a href="0#">Change</a>
         </div>
       {:else}
         <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
           <h3 class="ons-header__desc">In England & Wales</h3>
-          <a href="#">Change</a>
+          <a href="0#">Change</a>
         </div>
       {/if}
     </div>
@@ -36,8 +36,21 @@
 
 <style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
   a {
     color: $color-white;
+  }
+  a:hover {
+    color: $color-white;
+    text-decoration: underline solid $color-white 2px;
+  }
+  a:focus {
+    background-color: $color-sun-yellow;
+    -webkit-box-shadow: 0 -2px $color-sun-yellow, 0 4px $color-black;
+    box-shadow: 0 -2px $color-sun-yellow, 0 4px $color-black;
+    color: $color-black;
+    outline: 3px solid transparent;
+    text-decoration: none;
   }
 
   hr {
