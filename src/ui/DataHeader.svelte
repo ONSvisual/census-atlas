@@ -34,13 +34,14 @@
   </div>
 </header>
 
-<style>
+<style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
   a {
-    color: #fff;
+    color: $color-white;
   }
 
   hr {
-    border: 0.5px solid #bcbcbd;
+    border: 0.5px solid $color-grey-35;
     margin: 0.5rem 0;
   }
 
@@ -55,7 +56,8 @@
   #header-data-2__location {
     font-size: 1.33333rem;
   }
-  @media (max-width: 736px) {
+
+  @media only screen and (max-width: map-get($grid-bp, m)) {
     #header-data-2__location {
       font-size: 1.11111rem;
     }
