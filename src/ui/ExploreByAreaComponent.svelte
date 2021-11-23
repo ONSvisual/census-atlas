@@ -1,5 +1,4 @@
 <script>
-  import SearchIcon from "./ons/svg/SearchIcon.svelte";
   export let id = "search-field";
   export let userInputValue = "";
   export let hint = "Enter a postcode or a town,city or area";
@@ -25,10 +24,7 @@
       bind:value={userInputValue}
     />
     <button type="submit" class="ons-btn ons-u-mt-s ons-btn--small">
-      <span class="ons-btn__inner">
-        <SearchIcon />
-        {buttonText}</span
-      >
+      <span class="ons-btn__inner"> {buttonText}</span>
     </button>
   </div>
 </div>
