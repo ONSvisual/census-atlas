@@ -13,8 +13,7 @@
   import UseCensusData from "../ui/UseCensusData.svelte";
   import DesignSystemCode from "../ui/DesignSystemCode.svelte";
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
-  import DefaultHeader from "../ui/DefaultHeader.svelte";
-  import HeaderData3 from "../ui/HeaderData3.svelte";
+  import Header from "../ui/Header.svelte";
   import DataHeader from "../ui/DataHeader.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
@@ -42,9 +41,12 @@
 <BasePage {serviceTitle} {description}>
   <DesignSystemPanel
     title="Default header"
-    code={`<DefaultHeader serviceTitle="Explore Census" description="Here's a place where we tell users what the Census Atlas is and what it can do for them."/>`}
+    code={`<Header
+      serviceTitle="Explore Census"
+      description="Here's a place where we tell users what the Census Atlas is and what it can do for them."
+    />`}
   >
-    <DefaultHeader
+    <Header
       serviceTitle="Explore Census"
       description="Here's a place where we tell users what the Census Atlas is and what it can do for them."
     />
@@ -59,17 +61,31 @@
   </DesignSystemPanel>
 
   <DesignSystemPanel
-    title="Data header 3"
-    code={`<HeaderData3
-    serviceTitle="Choose a data option"
-    description="Choose a category and select an option within it to explore Census data."
-  />`}
+    title="Choose a data option header"
+    code={`<Header
+      showBackLink
+      serviceTitle="Choose a data option"
+      description="Choose a category and select an option within it to explore Census data."
+    />`}
   >
-    <HeaderData3
+    <Header
+      showBackLink
       serviceTitle="Choose a data option"
       description="Choose a category and select an option within it to explore Census data."
     />
   </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Choose an area header"
+    code={`<Header
+      showBackLink
+      serviceTitle="Choose an area"
+    ><ExploreByAreaComponent/>
+    </Header>`}
+  >
+    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent /></Header>
+  </DesignSystemPanel>
+
   <DesignSystemPanel title="Category selector" code={`<CategorySelector />`}>
     <CategorySelector />
   </DesignSystemPanel>

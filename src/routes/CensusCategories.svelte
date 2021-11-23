@@ -1,7 +1,7 @@
 <script>
   import BasePage from "../ui/BasePage.svelte";
 
-  import HeaderData3 from "../ui/HeaderData3.svelte";
+  import Header from "../ui/Header.svelte";
   import TopicExplorer from "../ui/TopicExplorer.svelte";
   import Feedback from "../ui/Feedback.svelte";
 </script>
@@ -12,7 +12,8 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderData3
+    <Header
+      showBackLink
       serviceTitle="Choose a data option"
       description="Choose a category and select an option within it to explore Census data."
     />
