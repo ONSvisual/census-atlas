@@ -5,7 +5,7 @@
   import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  import ByLocAndCategDataHeader from "../ui/ByLocAndCategDataHeader.svelte";
+  import DataHeader from "../ui/DataHeader.svelte";
 
   import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
 
@@ -24,7 +24,7 @@
 
 <BasePage>
   <span slot="header">
-    <ByLocAndCategDataHeader tableName={categoryId} />
+    <DataHeader tableName={categoryId} />
   </span>
 
   <span slot="map">

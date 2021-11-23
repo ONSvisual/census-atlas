@@ -15,7 +15,7 @@
   import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
   import DefaultHeader from "../ui/DefaultHeader.svelte";
   import HeaderData3 from "../ui/HeaderData3.svelte";
-  import ByLocAndCategDataHeader from "../ui/ByLocAndCategDataHeader.svelte";
+  import DataHeader from "../ui/DataHeader.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "../ui/ons/svg/ONSFacebookIcon.svelte";
@@ -50,12 +50,12 @@
     />
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="By category header" code={`<ByLocAndCategDataHeader tableName="General Health"/>`}>
-    <ByLocAndCategDataHeader tableName="General Health" />
+  <DesignSystemPanel title="By category header" code={`<DataHeader tableName="General Health"/>`}>
+    <DataHeader tableName="General Health" />
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="By location header" code={`<ByLocAndCategDataHeader location="Walsall"/>`}>
-    <ByLocAndCategDataHeader location="Walsall" />
+  <DesignSystemPanel title="By location header" code={`<DataHeader location="Walsall"/>`}>
+    <DataHeader location="Walsall" />
   </DesignSystemPanel>
 
   <DesignSystemPanel
