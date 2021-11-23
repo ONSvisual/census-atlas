@@ -1,13 +1,15 @@
 <script>
-  export let serviceTitle = "";
-  export let description = "";
   import ONSBacklink from "./ons/ONSBacklink.svelte";
+  export let serviceTitle, description;
+  export let showBackLink = false;
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
   <div class="ons-header__main ons-header__main--with-description">
     <div class="ons-container">
-      <ONSBacklink inverted />
+      {#if showBackLink}
+        <ONSBacklink inverted />
+      {/if}
       <div
         class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
       >
