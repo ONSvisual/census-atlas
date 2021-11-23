@@ -56,7 +56,7 @@
       name: "Very bad health",
     },
   ];
-  export let selectedCode = "QS302EW002";
+  let selectedCode = "QS302EW002";
 </script>
 
 <svelte:head>
