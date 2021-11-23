@@ -1,7 +1,6 @@
 <script>
   import { geographicCodes, selectedCategoryTotals, selectedCategory } from "../stores.js";
   import { onMount } from "svelte";
-  // import { bbox } from "@turf/turf";
   import Panel from "../Panel.svelte";
   import Group from "../Group.svelte";
   import MapSource from "../MapSource.svelte";
@@ -9,52 +8,34 @@
   import ColChart from "../charts/Histogram.svelte";
   import Loader from "../ui/Loader.svelte";
   import Select from "../ui/Select.svelte";
+  import config from "../config";
+
   import {
-    getLsoaData,
     getNomis,
-    getTopo,
     storeNewCategoryAndTotals,
     populateColors,
     addLadDataToDataset,
     setColors,
     updateURL,
-    // replaceURL,
   } from "../utils.js";
+
   import MapComponent from "../MapComponent.svelte";
   import { get } from "svelte/store";
   import LocalDataService from "../dataService";
   import { json } from "d3-fetch";
+  import { loadingGeography } from "../model/geography/geography";
 
   import { bounds, lad_dta, get_data } from "../stores.js";
-  // CONFIG
-  // const apiurl = "https://www.nomisweb.co.uk/api/v01/dataset/";
-  // const apikey = "0x3cfb19ead752b37bb90da0eb3a0fe78baa9fa055";
 
-  const geography = "TYPE298";
-  const mapstyle = "https://bothness.github.io/ons-basemaps/data/style-omt.json";
-  const tabledata = "https://bothness.github.io/census-atlas/data/indicators.json";
-  const ladtopo = {
-    url: "https://bothness.github.io/census-atlas/data/lad_boundaries_2020.json",
-    layer: "LA2020EW",
-    code: "AREACD",
-    name: "AREANM",
-  };
-  const lsoabldg = {
-    url: "https://cdn.ons.gov.uk/maptiles/buildings/v1/{z}/{x}/{y}.pbf",
-    layer: "buildings",
-    code: "lsoa11cd",
-  };
-  const lsoabounds = {
-    url: "https://cdn.ons.gov.uk/maptiles/administrative/lsoa/v2/boundaries/{z}/{x}/{y}.pbf",
-    layer: "lsoa",
-    code: "areacd",
-  };
-  const ladvector = {
-    url: "https://cdn.ons.gov.uk/maptiles/administrative/authorities/v1/boundaries/{z}/{x}/{y}.pbf",
-    layer: "authority",
-    code: "areacd",
-  };
-  const lsoadata = "https://bothness.github.io/census-atlas/data/lsoa2011_lad2020.csv";
+  const geography = config.legacy.geography;
+  const mapstyle = config.legacy.mapstyle;
+  const tabledata = config.legacy.tabledata;
+  const ladtopo = config.legacy.ladtopo;
+  const lsoabldg = config.legacy.lsoabldg;
+  const lsoabounds = config.legacy.lsoabounds;
+  const ladvector = config.legacy.ladvector;
+  const lsoadata = config.legacy.lsoadata;
+
   const colors = {
     base: ["#d5f690", "#5bc4b1", "#2e9daa", "#0079a2", "#005583", "#cccccc"],
     muted: ["#f5fce2", "#d7ede8", "#cbe2e5", "#c2d7e3", "#bdccd9", "#f0f0f0"],
@@ -187,7 +168,6 @@
       if (
         active.lad.selected &&
         active.lsoa.selected &&
-        // !ladlookup[active.lad.selected].children.includes(active.lsoa.selected)
         !$lad_dta.get(active.lad.selected).children.includes(active.lsoa.selected)
       ) {
         active.lsoa.selected = null;
@@ -205,10 +185,7 @@
         active.lad.selected = selectData.lad.data[index].AREACD;
       }
     } else if (type == "lsoa") {
-      let filtered = selectData.lsoa.data.filter((d) =>
-        // ladlookup[active.lad.selected].children.includes(d.code)
-        $lad_dta.get(active.lad.selected).children.includes(d.AREACD),
-      );
+      let filtered = selectData.lsoa.data.filter((d) => $lad_dta.get(active.lad.selected).children.includes(d.AREACD));
       let index = filtered.findIndex((d) => d.code == active.lsoa.selected) + diff;
       if (index >= 0 && index < filtered.length) {
         active.lsoa.selected = filtered[index].AREACD;
@@ -248,30 +225,7 @@
       history.pushState(undefined, undefined, hash);
     }
   }
-  // function changeURL() => {
-  //   let hash = location.hash == "" ? "" : location.hash.split("/");
 
-  //   if (selectCode != hash[1]) {
-  //     selectCode = hash[1];
-  //     setIndicator(indicators, selectCode);
-  //   }
-  //   if (active.lsoa.selected != hash[3]) {
-  //     active.lsoa.selected = hash[3] != "" ? hash[3] : null;
-  //   } else if (active.lad.selected != hash[2]) {
-  //     active.lad.selected = hash[2] != "" ? hash[2] : null;
-  //   }
-  //   if (
-  //     `${mapLocation.zoom},${mapLocation.lon},${mapLocation.lat}` != hash[4]
-  //   ) {
-  //     let loc = hash[4].split(",");
-  //     mapLocation = { zoom: loc[0], center: [loc[1], loc[2]] };
-  //     map.jumpTo(mapLocation);
-  //   }
-  // };
-
-  // $: indicators, console.warn('indicator change',indicators);
-  // $: selectItem, console.warn('selectItem',selectItem);
-  // $: selectData, console.warn('selectData',selectData);
   $: ladvector, console.warn("ladvector", ladvector);
   $: active.lad, console.warn("active.lad", active.lad);
 
@@ -534,7 +488,6 @@
           sourceLayer={ladvector.layer}
           type="line"
           highlight={true}
-          highlighted={active.lad.highlighted}
           filter={["all", ["==", "lower", "true"], ["in", "country", "E", "W"]]}
           paint={{
             "line-color": [

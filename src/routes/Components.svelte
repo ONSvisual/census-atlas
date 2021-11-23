@@ -1,7 +1,7 @@
 <script>
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
-  import Map from "../ui/Map.svelte";
+  import Map from "../ui/map/Map.svelte";
   import TopicExplorer from "../ui/TopicExplorer.svelte";
   import BasePage from "../ui/BasePage.svelte";
   import DesignSystemPanel from "../ui/DesignSystemPanel.svelte";
@@ -16,6 +16,13 @@
   import DefaultHeader from "../ui/DefaultHeader.svelte";
   import HeaderData3 from "../ui/HeaderData3.svelte";
   import ByLocAndCategDataHeader from "../ui/ByLocAndCategDataHeader.svelte";
+  import ONSShare from "../ui/ons/ONSShare.svelte";
+  import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "../ui/ons/svg/ONSTwitterIcon.svelte";
+  import ONSLinkedinIcon from "../ui/ons/svg/ONSLinkedinIcon.svelte";
+  import ONSEmailIcon from "../ui/ons/svg/ONSEmailIcon.svelte";
+
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },
     { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
@@ -121,5 +128,22 @@
   </DesignSystemPanel>
   <DesignSystemPanel title="Display census data by location" code={`<CensusTableByLocation />`}>
     <CensusTableByLocation />
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Share"
+    code={`<ONSShare title="Share this page" censusAtlasSharePage pageURL={location.href} pageTitle={document.title}>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    </ONSShare>`}
+  >
+    <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    </ONSShare>
   </DesignSystemPanel>
 </BasePage>
