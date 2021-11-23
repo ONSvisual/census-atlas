@@ -7,7 +7,7 @@
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
-  <div class="ons-header__main ons-header__main--with-description">
+  <div class="ons-header__main {description ? 'ons-header__main--with-description' : ''}">
     <div class="ons-container">
       {#if showBackLink}
         <ONSBacklink inverted />
@@ -16,14 +16,18 @@
         class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
       >
         <div class="ons-grid__col ons-col-auto ons-u-flex-shrink">
-          <div class="ons-header__title header__title--with-description"><h2>{serviceTitle}</h2></div>
+          <div class="ons-header__title {description ? 'header__title--with-description' : ''}">
+            <h2>{serviceTitle}</h2>
+          </div>
           {#if chooseArea}
             <slot />
             <p><a {href}>See data for all England and Wales</a></p>
           {/if}
         </div>
       </div>
-      <p class="ons-header__desc">{description}</p>
+      {#if description}
+        <p class="ons-header__desc">{description}</p>
+      {/if}
     </div>
   </div>
 </header>
