@@ -27,16 +27,6 @@
     font-size: 1.33333rem;
     margin: 0.5rem 0;
   }
-
-  .ons-breadcrumb__link-white {
-    color: #fff;
-  }
-
-  .ons-breadcrumb {
-    padding: 0;
-    margin: 0 0 0.7rem 0;
-  }
-
   .ons-container {
     padding: 0 1rem;
   }
