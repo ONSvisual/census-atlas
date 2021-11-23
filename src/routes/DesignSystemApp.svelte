@@ -30,9 +30,13 @@
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
   let radioValue = "none";
+  let errorExRadioValue = "none";
   let selectValue;
+  let selectValueErrorEx;
   let textFieldValue = "";
   let inputErrorValue = "";
+  let textAreaValue = "";
+  let textAreaValueErrorEx = "";
   let selections = [];
   let errorSelection = [];
   let autosuggestData =
@@ -103,6 +107,7 @@
         checkboxesLabel="Select all that apply"
         id="1-fieldset"
         legendIsQuestionTitle
+        renderError={false}
       >
         {#each checkboxData as option}
           <ONSCheckbox
@@ -113,7 +118,8 @@
             onChange={(selections) => console.log("User selections: ", selections.join(", "))}
           />
         {/each}
-      </ONSCheckboxes>`}
+      </ONSCheckboxes>
+      <p>Checkboxes: <strong>{selections}</strong></p>`}
   >
     <ONSCheckboxes
       name="devices"
@@ -121,6 +127,7 @@
       checkboxesLabel="Select all that apply"
       id="1-fieldset"
       legendIsQuestionTitle
+      renderError={false}
     >
       {#each checkboxData as option}
         <ONSCheckbox
@@ -139,7 +146,7 @@
   <DesignSystemPanel
     title="Checkboxes - error message"
     code={`<ONSCheckboxes
-        name="devices"
+        name="devices-error"
         title="What devices do you own?"
         checkboxesLabel="Select all that apply"
         id="2-fieldset"
@@ -148,7 +155,7 @@
       >
         {#each checkboxData as option}
           <ONSCheckbox
-            id={option.id}
+            id={checkboxData.indexOf(option)}
             value={option.value}
             labelText={option.label}
             bind:bindGroup={errorSelection}
@@ -158,7 +165,7 @@
       </ONSCheckboxes>`}
   >
     <ONSCheckboxes
-      name="devices"
+      name="devices-error"
       title="What devices do you own?"
       checkboxesLabel="Select all that apply"
       id="2-fieldset"
@@ -167,7 +174,7 @@
     >
       {#each checkboxData as option}
         <ONSCheckbox
-          id={option.id}
+          id={checkboxData.indexOf(option)}
           value={option.value}
           labelText={option.label}
           bind:bindGroup={errorSelection}
@@ -195,23 +202,27 @@
       type="text"
       bind:textFieldValue
       labelText="Text field"
+      renderError={false}
       accessiblePlaceholder
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
       onChange={(textFieldValue)=>console.log("Displays what user is typing every time they hit the return key: ",textFieldValue)}
-    />`}
+    />
+    <p>You are typing: <strong>{textFieldValue}</strong></p>`}
   >
     <ONSTextField
       id="text-field-1"
       type="text"
       bind:textFieldValue
       labelText="Text field"
+      renderError={false}
       accessiblePlaceholder
       onInput={(textFieldValue) => console.log("Input user value: ", textFieldValue)}
       onChange={(textFieldValue) =>
         console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
     />
+    <br />
+    <p>You are typing: <strong>{textFieldValue}</strong></p>
   </DesignSystemPanel>
-  <p>You are typing: {textFieldValue}</p>
 
   <DesignSystemPanel
     title="Input-error message"
@@ -236,7 +247,6 @@
         console.log("Displays what user is typing every time they hit the return key: ", textFieldValue)}
     />
   </DesignSystemPanel>
-  <p>You are typing: {inputErrorValue}</p>
 
   <DesignSystemPanel
     title="Autosuggest"
@@ -246,7 +256,8 @@
       hint="Enter your own answer or select from suggestions"
       {autosuggestData}
       bind:autosuggestValue
-    />`}
+    />
+    <p>You are looking for: <strong>{autosuggestValue}</strong></p>`}
   >
     <ONSAutosuggest
       id="country-of-birth"
@@ -262,12 +273,15 @@
   <DesignSystemPanel
     title="Select"
     code={`<ONSSelect
+      bind:selectValue
       label="Select city"
       name="select"
       id="1-select-city"
       options={cities}
+      renderError={false}
       onClick={(selectValue)=>console.log("Displays current selection: ",selectValue)}
-    />`}
+    />
+    <p>You have selected: <strong>{selectValue}</strong></p>`}
   >
     <ONSSelect
       bind:selectValue
@@ -275,6 +289,7 @@
       name="select"
       id="1-select-city"
       options={cities}
+      renderError={false}
       onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
     />
     <br />
@@ -284,6 +299,7 @@
   <DesignSystemPanel
     title="Select - error message"
     code={`<ONSSelect
+    bind:selectValue={selectValueErrorEx}
       label="Select city"
       name="select"
       id="2-select-city"
@@ -293,12 +309,13 @@
     />`}
   >
     <ONSSelect
+      bind:selectValue={selectValueErrorEx}
       label="Select city"
       name="select"
       id="2-select-city"
       options={cities}
       renderError
-      onClick={(selectValue) => console.log("Displays current selection: ", selectValue)}
+      onClick={(selectValueErrorEx) => console.log("Displays current selection: ", selectValueErrorEx)}
     />
   </DesignSystemPanel>
 
@@ -308,6 +325,8 @@
       id="text-area-1"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue
+      renderError={false}
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
         console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
@@ -318,6 +337,8 @@
       id="text-area-1"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue
+      renderError={false}
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
         console.log("Displays what user is typing every time they click outside of the text area box: ", textAreaValue)}
@@ -331,6 +352,7 @@
       id="text-area-2"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue={textAreaValueErrorEx}
       renderError
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
@@ -342,6 +364,7 @@
       id="text-area-2"
       labelText="Text area"
       hint="this is a hint for text area"
+      bind:textAreaValue={textAreaValueErrorEx}
       renderError
       placeholderText="enter your placeholder text..."
       onChange={(textAreaValue) =>
@@ -352,9 +375,7 @@
 
   <DesignSystemPanel
     title="Radios"
-    code={`<script ✂prettier:content✂="CiAgICAgIGxldCByYWRpb1ZhbHVlID0gIm5vbmUiOwogICA=">{}</script>
-
-<ONSRadios name="ethnicity">
+    code={`<ONSRadios renderError={false} name="ethnicity">
   {#each ethnicity as option}
     <ONSRadio  bind:radioValue id={option.id} value={option.value} onChange={(radioValue) => console.log('ethnicity changed to', radioValue)}>{option.label}</ONSRadio>
   {/each}
@@ -362,7 +383,7 @@
 
 <p>You have selected: {radioValue}</p>`}
   >
-    <ONSRadios name="ethnicity">
+    <ONSRadios renderError={false} name="ethnicity">
       {#each ethnicity as option}
         <ONSRadio
           bind:radioValue
@@ -375,6 +396,33 @@
     <br />
     <p>You have selected: <strong>{radioValue}</strong></p>
   </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Radios - error message"
+    code={`<ONSRadios renderError name="err-ethnicity-ex">
+      {#each ethnicity as option}
+        <ONSRadio
+          bind:radioValue={errorExRadioValue}
+          id={ethnicity.indexOf(option)}
+          value={option.value}
+          onChange={(errorExRadioValue) => console.log("ethnicity changed to", errorExRadioValue)}>{option.label}</ONSRadio
+        >
+      {/each}
+    </ONSRadios>`}
+  >
+    <ONSRadios renderError name="err-ethnicity-ex">
+      {#each ethnicity as option}
+        <ONSRadio
+          bind:radioValue={errorExRadioValue}
+          id={ethnicity.indexOf(option)}
+          value={option.value}
+          onChange={(errorExRadioValue) => console.log("ethnicity changed to", errorExRadioValue)}
+          >{option.label}</ONSRadio
+        >
+      {/each}
+    </ONSRadios>
+  </DesignSystemPanel>
+
   <DesignSystemPanel
     title="Accordion"
     code={` <ONSAccordion showAll={false}>
@@ -388,7 +436,7 @@
     >
   </ONSAccordion>/>`}
   >
-    <ONSAccordion showAll={false}>
+    <ONSAccordion showAll>
       <ONSAccordionPanel id="panel-1" title="Total retail turnover"
         >Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aliquid facere vel facilis in
         necessitatibus magni sequi unde, ad rerum praesentium, deserunt quo saepe dolore, accusantium fuga quia tenetur
