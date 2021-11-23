@@ -8,8 +8,18 @@
   import ByCategory from "./routes/ByCategory.svelte";
   import CensusCategories from "./routes/CensusCategories.svelte";
   import { Router, Link, Route } from "svelte-routing";
+  import { initialiseGeography } from "./model/geography/geography";
+  import LegacyGeographyService from "./model/geography/services/legacyGeographyService";
+  import { initialiseCensusData } from "./model/censusdata/censusdata";
+  import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
+  import { setInitialised } from "./model/appstate";
 
   export let url = "";
+
+  initialiseGeography(new LegacyGeographyService()).then(() => {
+    initialiseCensusData(new LegacyCensusDataService());
+    setInitialised();
+  });
 </script>
 
 <Router {url}>

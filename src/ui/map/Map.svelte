@@ -1,7 +1,7 @@
 <script>
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
-  import mapstyle from "../data/mapstyle";
+  import mapstyle from "../../data/mapstyle";
 
   export let map = null;
   export let minzoom = 0;
@@ -66,7 +66,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  @import "../../../node_modules/@ons/design-system/scss/vars/index";
 
   div {
     min-width: 375px;
