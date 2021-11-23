@@ -23,6 +23,9 @@
   import ONSExternalHeaderWithDescription from "../ui/ons/ONSExternalHeaderWithDescription.svelte";
   import DesignSystemPanel from "../ui/DesignSystemPanel.svelte";
   import ONSAutosuggest from "../ui/ons/ONSAutosuggest.svelte";
+  import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "../ui/ons/svg/ONSTwitterIcon.svelte";
 
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
@@ -399,8 +402,17 @@
     </ONSAccordion>
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="Share" code={`<ONSShare url="https://www.google.com/">Share this page</ONSShare>`}>
-    <ONSShare url="https://www.google.com/">Share this page</ONSShare>
+  <DesignSystemPanel
+    title="Share"
+    code={`<ONSShare pageURL={location.href} pageTitle={document.title}>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+    </ONSShare>`}
+  >
+    <ONSShare pageURL={location.href} pageTitle={document.title}>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+    </ONSShare>
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Feedback" code={`<Feedback />`}>
