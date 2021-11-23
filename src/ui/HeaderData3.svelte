@@ -32,7 +32,9 @@
   </div>
 </header>
 
-<style>
+<style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
   h2 {
     font-size: 1.33333rem;
     margin: 0.5rem 0;
@@ -49,17 +51,17 @@
     padding: 1rem 0;
   }
   a {
-    color: #fff;
+    color: $color-white;
   }
   a:hover {
-    color: #fff;
-    text-decoration: underline solid #fff 2px;
+    color: $color-white;
+    text-decoration: underline solid $color-white 2px;
   }
   a:focus {
-    background-color: #fbc900;
-    -webkit-box-shadow: 0 -2px #fbc900, 0 4px #222;
-    box-shadow: 0 -2px #fbc900, 0 4px #222;
-    color: #222;
+    background-color: $color-sun-yellow;
+    -webkit-box-shadow: 0 -2px $color-sun-yellow, 0 4px $color-black;
+    box-shadow: 0 -2px $color-sun-yellow, 0 4px $color-black;
+    color: $color-black;
     outline: 3px solid transparent;
     text-decoration: none;
   }
