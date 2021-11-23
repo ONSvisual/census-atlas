@@ -7,14 +7,7 @@
 <header class="ons-header ons-header--hero" role="banner">
   <div class="ons-header__main ons-header__main--with-description">
     <div class="ons-container">
-      <nav class="ons-breadcrumb" aria-label="Back">
-        <ol class="ons-breadcrumb__items ons-u-fs-s">
-          <li class="ons-breadcrumb__item ons-breadcrumb__link-white">
-            <a href="#" id="back" class="ons-breadcrumb__link-white" data-attribute="Example attribute">Back</a>
-            <span>&#62;&#160;</span>
-          </li>
-        </ol>
-      </nav>
+      <ONSBacklink inverted />
       <div
         class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
       >
