@@ -46,7 +46,7 @@
           on:keyup={onKeyUp}
           class="ons-input ons-input--text ons-input-type__input ons-js-autosuggest-input "
           autocomplete="off"
-          aria-describedby="{id}-label-description-hint"
+          aria-describedby={hint ? `${id}-label-description-hint` : ""}
         />
       </div>
       <div class="ons-autosuggest-input__results ons-js-autosuggest-results">

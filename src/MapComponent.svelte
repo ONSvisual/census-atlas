@@ -45,7 +45,6 @@
 
       map.addControl(new NavigationControl());
 
-      // bounds.subscribe((b) => { if (map) map.fitBounds(b, { padding: 20 }); })// move map on bbox change
       map.fitBounds($bounds, { padding: 20 });
 
       // Get initial zoom level

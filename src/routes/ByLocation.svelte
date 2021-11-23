@@ -1,9 +1,9 @@
 <script>
   import BasePage from "../ui/BasePage.svelte";
 
-  import Map from "../ui/Map.svelte";
+  import Map from "../ui/map/Map.svelte";
   import Topic from "../ui/Topic.svelte";
-  import ByLocAndCategDataHeader from "../ui/ByLocAndCategDataHeader.svelte";
+  import DataHeader from "../ui/DataHeader.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Feedback from "../ui/Feedback.svelte";
 
@@ -25,7 +25,7 @@
 
 <BasePage>
   <span slot="header">
-    <ByLocAndCategDataHeader location={locationId} />
+    <DataHeader location={locationId} />
   </span>
 
   <span slot="map">
