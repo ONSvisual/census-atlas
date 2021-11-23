@@ -2,6 +2,8 @@
   import ONSBacklink from "./ons/ONSBacklink.svelte";
   export let serviceTitle, description;
   export let showBackLink = false;
+  export let chooseArea = false;
+  export let href = "#0";
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
@@ -14,9 +16,11 @@
         class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
       >
         <div class="ons-grid__col ons-col-auto ons-u-flex-shrink">
-          <a class="ons-header__title-link" href="#0">
-            <div class="ons-header__title header__title--with-description"><h2>{serviceTitle}</h2></div>
-          </a>
+          <div class="ons-header__title header__title--with-description"><h2>{serviceTitle}</h2></div>
+          {#if chooseArea}
+            <slot />
+            <p><a {href}>See data for all England and Wales</a></p>
+          {/if}
         </div>
       </div>
       <p class="ons-header__desc">{description}</p>
@@ -39,5 +43,20 @@
 
   .ons-header__main {
     padding: 1rem 0;
+  }
+  a {
+    color: #fff;
+  }
+  a:hover {
+    color: #fff;
+    text-decoration: underline solid #fff 2px;
+  }
+  a:focus {
+    background-color: #fbc900;
+    -webkit-box-shadow: 0 -2px #fbc900, 0 4px #222;
+    box-shadow: 0 -2px #fbc900, 0 4px #222;
+    color: #222;
+    outline: 3px solid transparent;
+    text-decoration: none;
   }
 </style>
