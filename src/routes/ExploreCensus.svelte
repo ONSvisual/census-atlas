@@ -7,7 +7,8 @@
   import ONSShare from "../ui/ons/ONSShare.svelte";
   import Topic from "../ui/Topic.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
+
+  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
 
 <svelte:head>
@@ -33,7 +34,7 @@
 
   <ExploreByTopic url="/categories" />
   <hr class="component-margin--2" />
-  <ExploreByAreaComponent placeholder="Walsall"
+  <ExploreByAreaComponent {autosuggestData}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
   >
 
