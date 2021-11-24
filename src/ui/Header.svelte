@@ -64,4 +64,10 @@
     outline: 3px solid transparent;
     text-decoration: none;
   }
+
+  @media only screen and (min-width: map-get($grid-bp, m)) {
+    .ons-header__main {
+      height: auto;
+    }
+  }
 </style>

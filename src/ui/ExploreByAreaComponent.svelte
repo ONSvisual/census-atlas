@@ -43,4 +43,11 @@
   .component-margin--2 {
     margin-bottom: 2rem;
   }
+
+  @media only screen and (min-width: map-get($grid-bp, s)) {
+    .ons-input--select:not(.ons-input--block):not(.ons-input-search):not([class*="input--w-"]),
+    .ons-input--text:not(.ons-input--block):not(.ons-input-search):not([class*="input--w-"]) {
+      width: 100%;
+    }
+  }
 </style>
