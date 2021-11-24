@@ -32,6 +32,7 @@
   let description = "Complex components made in Svelte with ONS Design System building blocks";
   var selectedData = writable();
   setContext("selectedData", selectedData);
+  let mapLocation = "Walsall";
 </script>
 
 <svelte:head>
@@ -56,8 +57,8 @@
     <DataHeader tableName="General Health" />
   </DesignSystemPanel>
 
-  <DesignSystemPanel title="By location header" code={`<DataHeader location="Walsall"/>`}>
-    <DataHeader location="Walsall" />
+  <DesignSystemPanel title="By location header" code={`<DataHeader location={mapLocation}/>`}>
+    <DataHeader location={mapLocation} />
   </DesignSystemPanel>
 
   <DesignSystemPanel
@@ -72,6 +73,23 @@
       showBackLink
       serviceTitle="Choose a data option"
       description="Choose a category and select an option within it to explore Census data."
+    />
+  </DesignSystemPanel>
+
+  <DesignSystemPanel
+    title="Choose a data option header when there is a location"
+    code={`<Header
+      showBackLink
+      serviceTitle="Choose a data option"
+      description="Choose a category and select an option within it to explore {mapLocation?'\${mapLocation}'s':'Census'} data."
+    />`}
+  >
+    <Header
+      showBackLink
+      serviceTitle="Choose a data option"
+      description="Choose a category and select an option within it to explore {mapLocation
+        ? `${mapLocation}'s`
+        : 'Census'} data."
     />
   </DesignSystemPanel>
 
