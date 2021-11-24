@@ -38,7 +38,7 @@
     "topojson-client": "^3.1.0"
   },
   "dependencies": {
-    "@ons/design-system": "^44.0.2",
+    "@ons/design-system": "^44.1.2",
     "d3-fetch": "^3.0.1",
     "d3-scale": "^3.2.3",
     "d3-shape": "^2.0.0",

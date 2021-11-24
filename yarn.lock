@@ -1606,7 +1606,7 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@ons/design-system@^44.0.2":
+"@ons/design-system@^44.1.2":
   version "44.1.2"
   resolved "https://registry.yarnpkg.com/@ons/design-system/-/design-system-44.1.2.tgz#470924af729e06fe78889e7bff5e7fca36f2c68b"
   integrity sha512-S5VOcwifvJihHpUja5iTgBrHvTDuEkN8xtwZojGkbdVWAjVEkc47kGFl3JUawCsjmrynJg+OVNi+87NExdq1nA==
