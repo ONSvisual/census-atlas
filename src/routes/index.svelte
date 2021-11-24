@@ -1,17 +1,19 @@
 <script>
-  import BasePage from "../ui/BasePage.svelte";
+  import BasePage from "./../ui/BasePage.svelte";
 
-  import ExploreByTopic from "../ui/ExploreByTopic.svelte";
-  import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
-  import ONSExternalHeaderWithDescription from "../ui/ons/ONSExternalHeaderWithDescription.svelte";
-  import ONSShare from "../ui/ons/ONSShare.svelte";
-  import Topic from "../ui/Topic.svelte";
-  import Feedback from "../ui/Feedback.svelte";
+  import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
+  import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
+  import ONSExternalHeaderWithDescription from "./../ui/ons/ONSExternalHeaderWithDescription.svelte";
+  import ONSShare from "./../ui/ons/ONSShare.svelte";
+  import Topic from "./../ui/Topic.svelte";
+  import Feedback from "./../ui/Feedback.svelte";
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
 
 <svelte:head>
+  <title>2021 Census Data Atlas</title>
+  <meta name="description" content="Explore 2021 census data for England and Wales at a neighbourhood level." />
   <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
@@ -46,7 +48,7 @@
 </BasePage>
 
 <style lang="scss">
-  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  @import "./../../node_modules/@ons/design-system/scss/vars/_index.scss";
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }
   .component-margin--2 {
