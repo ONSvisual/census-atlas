@@ -9,11 +9,6 @@ const config = {
   kit: {
     adapter: adapter(),
     ssr: false,
-    files: {
-      assets: "public",
-      routes: "src/routes",
-      template: "src/app.html",
-    },
     target: "#svelte", // hydrate the <div id="svelte"> element in src/app.html
   },
 };
