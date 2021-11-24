@@ -72,8 +72,8 @@
 </div>
 
 <style lang="scss" global>
-  @import "../../node_modules/@ons/design-system/css/main";
-  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  @import "./../../node_modules/@ons/design-system/css/main";
+  @import "./../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
   .ons-page .ons-container {
     max-width: 100%;

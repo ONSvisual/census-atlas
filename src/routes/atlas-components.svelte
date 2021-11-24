@@ -1,26 +1,27 @@
 <script>
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
-  import Map from "../ui/map/Map.svelte";
-  import TopicExplorer from "../ui/TopicExplorer.svelte";
-  import BasePage from "../ui/BasePage.svelte";
-  import DesignSystemPanel from "../ui/DesignSystemPanel.svelte";
-  import CategorySelector from "../ui/CategorySelector.svelte";
-  import ExploreByAreaComponent from "../ui/ExploreByAreaComponent.svelte";
-  import ExploreByTopic from "../ui/ExploreByTopic.svelte";
-  import Feedback from "../ui/Feedback.svelte";
-  import Topic from "../ui/Topic.svelte";
-  import UseCensusData from "../ui/UseCensusData.svelte";
-  import DesignSystemCode from "../ui/DesignSystemCode.svelte";
-  import CensusTableByLocation from "../ui/CensusTableByLocation.svelte";
-  import Header from "../ui/Header.svelte";
-  import DataHeader from "../ui/DataHeader.svelte";
-  import ONSShare from "../ui/ons/ONSShare.svelte";
-  import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
-  import ONSFacebookIcon from "../ui/ons/svg/ONSFacebookIcon.svelte";
-  import ONSTwitterIcon from "../ui/ons/svg/ONSTwitterIcon.svelte";
-  import ONSLinkedinIcon from "../ui/ons/svg/ONSLinkedinIcon.svelte";
-  import ONSEmailIcon from "../ui/ons/svg/ONSEmailIcon.svelte";
+
+  import Map from "./../ui/map/Map.svelte";
+  import TopicExplorer from "./../ui/TopicExplorer.svelte";
+  import BasePage from "./../ui/BasePage.svelte";
+  import DesignSystemPanel from "./../ui/DesignSystemPanel.svelte";
+  import CategorySelector from "./../ui/CategorySelector.svelte";
+  import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
+  import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
+  import Feedback from "./../ui/Feedback.svelte";
+  import Topic from "./../ui/Topic.svelte";
+  import UseCensusData from "./../ui/UseCensusData.svelte";
+  import DesignSystemCode from "./../ui/DesignSystemCode.svelte";
+  import CensusTableByLocation from "./../ui/CensusTableByLocation.svelte";
+  import Header from "./../ui/Header.svelte";
+  import DataHeader from "./../ui/DataHeader.svelte";
+  import ONSShare from "./../ui/ons/ONSShare.svelte";
+  import ONSShareItem from "./../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "./../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "./../ui/ons/svg/ONSTwitterIcon.svelte";
+  import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
+  import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
 
   let topicList1 = [
     { title: "How does general health differ across England and Wales?", href: "#" },

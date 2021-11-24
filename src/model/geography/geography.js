@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import config from "../../config";
+import config from "./../../config";
 
 // CONSTANTS
 // initialised below

@@ -1,31 +1,31 @@
 <script>
-  import { ethnicity, cities, checkboxData } from "../data/test/mockDSData";
-  import ONSCensusApp from "../ui/ons/ONSCensusApp.svelte";
-  import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
-  import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
-  import ONSBacklink from "../ui/ons/ONSBacklink.svelte";
-  import ONSBreadcrumbs from "../ui/ons/ONSBreadcrumbs.svelte";
-  import ONSBreadcrumb from "../ui/ons/partials/ONSBreadcrumb.svelte";
-  import ONSButton from "../ui/ons/ONSButton.svelte";
-  import ONSCard from "../ui/ons/ONSCard.svelte";
-  import ONSCheckboxes from "../ui/ons/ONSCheckboxes.svelte";
-  import ONSCheckbox from "../ui/ons/partials/ONSCheckbox.svelte";
-  import ONSCollapsible from "../ui/ons/ONSCollapsible.svelte";
-  import ONSTextField from "../ui/ons/ONSTextField.svelte";
-  import ONSRadios from "../ui/ons/ONSRadios.svelte";
-  import ONSRadio from "../ui/ons/partials/ONSRadio.svelte";
-  import ONSTextArea from "../ui/ons/ONSTextArea.svelte";
-  import ONSShare from "../ui/ons/ONSShare.svelte";
-  import ONSHeader from "../ui/ons/ONSHeader.svelte";
-  import ONSSelect from "../ui/ons/ONSSelect.svelte";
-  import ONSSkipLink from "../ui/ons/ONSSkipLink.svelte";
-  import Feedback from "../ui/Feedback.svelte";
-  import ONSExternalHeaderWithDescription from "../ui/ons/ONSExternalHeaderWithDescription.svelte";
-  import DesignSystemPanel from "../ui/DesignSystemPanel.svelte";
-  import ONSAutosuggest from "../ui/ons/ONSAutosuggest.svelte";
-  import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
-  import ONSFacebookIcon from "../ui/ons/svg/ONSFacebookIcon.svelte";
-  import ONSTwitterIcon from "../ui/ons/svg/ONSTwitterIcon.svelte";
+  import { ethnicity, cities, checkboxData } from "./../data/test/mockDSData";
+  import ONSCensusApp from "./../ui/ons/ONSCensusApp.svelte";
+  import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
+  import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
+  import ONSBacklink from "./../ui/ons/ONSBacklink.svelte";
+  import ONSBreadcrumbs from "./../ui/ons/ONSBreadcrumbs.svelte";
+  import ONSBreadcrumb from "./../ui/ons/partials/ONSBreadcrumb.svelte";
+  import ONSButton from "./../ui/ons/ONSButton.svelte";
+  import ONSCard from "./../ui/ons/ONSCard.svelte";
+  import ONSCheckboxes from "./../ui/ons/ONSCheckboxes.svelte";
+  import ONSCheckbox from "./../ui/ons/partials/ONSCheckbox.svelte";
+  import ONSCollapsible from "./../ui/ons/ONSCollapsible.svelte";
+  import ONSTextField from "./../ui/ons/ONSTextField.svelte";
+  import ONSRadios from "./../ui/ons/ONSRadios.svelte";
+  import ONSRadio from "./../ui/ons/partials/ONSRadio.svelte";
+  import ONSTextArea from "./../ui/ons/ONSTextArea.svelte";
+  import ONSShare from "./../ui/ons/ONSShare.svelte";
+  import ONSHeader from "./../ui/ons/ONSHeader.svelte";
+  import ONSSelect from "./../ui/ons/ONSSelect.svelte";
+  import ONSSkipLink from "./../ui/ons/ONSSkipLink.svelte";
+  import Feedback from "./../ui/Feedback.svelte";
+  import ONSExternalHeaderWithDescription from "./../ui/ons/ONSExternalHeaderWithDescription.svelte";
+  import DesignSystemPanel from "./../ui/DesignSystemPanel.svelte";
+  import ONSAutosuggest from "./../ui/ons/ONSAutosuggest.svelte";
+  import ONSShareItem from "./../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "./../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "./../ui/ons/svg/ONSTwitterIcon.svelte";
 
   let serviceTitle = "Design System";
   let serviceDescription = "Components implemented with Svelte";
@@ -469,7 +469,7 @@
 </ONSCensusApp>
 
 <style lang="scss">
-  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  @import "./../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
   h2 {
     margin-top: 32px;

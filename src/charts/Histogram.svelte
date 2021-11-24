@@ -7,7 +7,7 @@
   import Stack from "./Stack.svelte";
   import Marker from "./Marker.svelte";
   import AxisX from "./AxisX.svelte";
-  import { getThresholds } from "../utils.js";
+  import { getThresholds } from "./../utils.js";
 
   export let data;
   export let dataIndex;

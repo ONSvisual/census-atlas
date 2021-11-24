@@ -1,7 +1,7 @@
 <script>
   import { getContext } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import config from "../../config";
+  import config from "./../../config";
 
   const dispatch = createEventDispatcher();
   export let id;
