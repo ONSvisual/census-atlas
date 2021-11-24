@@ -1,32 +1,27 @@
 <script>
   export let id = "search-field";
-  export let userInputValue = "";
+  export let labelText, userInputValue, autosuggestData
   export let hint = "Enter a postcode or a town, city or area";
-  export let placeholder = "WS3 1PL";
   export let buttonText = "Choose";
   export let title = "Explore by area";
-  export let inverted = false;
-  let whiteHint = inverted ? "ons-input--with-white-description" : "";
+  export let showTitle = false;
+  import ONSAutosuggest from "./ons/ONSAutosuggest.svelte"
 </script>
 
 <div class="component-margin--2">
-  {#if !inverted}
+  {#if !showTitle}
     <h2>{title}</h2>
   {/if}
   <div class="ons-field">
     <p><slot /></p>
-    {#if hint}
-      <span id="description-hint" class="ons-label__description ons-input--with-description {whiteHint}">
-        {hint}
-      </span>
-    {/if}
-    <input
-      type="search"
+    <div class="input--with-white-description">
+    <ONSAutosuggest
       {id}
-      class="ons-input ons-input--text ons-input-type__input"
-      {placeholder}
-      bind:value={userInputValue}
+      {hint}
+      {autosuggestData}
+      bind:autosuggestValue={userInputValue}
     />
+  </div>
     <button type="submit" class="ons-btn ons-u-mt-s ons-btn--small">
       <span class="ons-btn__inner"> {buttonText}</span>
     </button>
@@ -36,9 +31,9 @@
 <style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
-  .ons-input--with-white-description {
-    color: $color-white;
-  }
+   :global(.ons-label__description) {
+        color: $color-white;
+    }
 
   .component-margin--2 {
     margin-bottom: 2rem;

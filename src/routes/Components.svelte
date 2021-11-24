@@ -58,6 +58,8 @@
     },
   ];
   let selectedCode = "QS302EW002";
+  let autosuggestData =
+    "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
 
 <svelte:head>
@@ -128,8 +130,8 @@
     ><ExploreByAreaComponent inverted/>
     </Header>`}
   >
-    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent inverted /></Header>
-  </DesignSystemPanel>
+    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} showTitle /></Header>
+    </DesignSystemPanel>
 
   <DesignSystemPanel title="Category selector" code={`<CategorySelector {categories} {selectedCode} />`}>
     <CategorySelector {categories} {selectedCode} />
