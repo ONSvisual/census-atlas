@@ -111,7 +111,7 @@
       >
         {#each checkboxData as option}
           <ONSCheckbox
-            id={'error checkbox option \${option.id}'}
+            id={'error-checkbox-option-\${option.id}'}
             value={option.value}
             labelText={option.label}
             bind:bindGroup={selections}
@@ -131,7 +131,7 @@
     >
       {#each checkboxData as option}
         <ONSCheckbox
-          id={`error checkbox option ${option.id}`}
+          id={`error-checkbox-option-${option.id}`}
           value={option.value}
           labelText={option.label}
           bind:bindGroup={selections}
@@ -155,7 +155,7 @@
       >
         {#each checkboxData as option}
           <ONSCheckbox
-            id={'error checkbox option \${checkboxData.indexOf(option)}'}
+            id={'error-checkbox-option-\${checkboxData.indexOf(option)}'}
             value={option.value}
             labelText={option.label}
             bind:bindGroup={errorSelection}
@@ -174,7 +174,7 @@
     >
       {#each checkboxData as option}
         <ONSCheckbox
-          id={`error checkbox option ${checkboxData.indexOf(option)}`}
+          id={`error-checkbox-option-${checkboxData.indexOf(option)}`}
           value={option.value}
           labelText={option.label}
           bind:bindGroup={errorSelection}
@@ -377,7 +377,7 @@
     title="Radios"
     code={`<ONSRadios renderError={false} name="ethnicity">
   {#each ethnicity as option}
-    <ONSRadio  bind:radioValue  id={'radio button id \${option.id}'} value={option.value} onChange={(radioValue) => console.log('ethnicity changed to', radioValue)}>{option.label}</ONSRadio>
+    <ONSRadio  bind:radioValue  id={'radio-button-id-\${option.id}'} value={option.value} onChange={(radioValue) => console.log('ethnicity changed to', radioValue)}>{option.label}</ONSRadio>
   {/each}
 </ONSRadios>
 
@@ -387,7 +387,7 @@
       {#each ethnicity as option}
         <ONSRadio
           bind:radioValue
-          id={`radio button id ${option.id}`}
+          id={`radio-button-id-${option.id}`}
           value={option.value}
           onChange={(radioValue) => console.log("ethnicity ID changed to", radioValue)}>{option.label}</ONSRadio
         >
@@ -403,7 +403,7 @@
       {#each ethnicity as option}
         <ONSRadio
           bind:radioValue={errorExRadioValue}
-          id={'error radio button id \${ethnicity.indexOf(option)}'}
+          id={'error-radio-button-id-\${ethnicity.indexOf(option)}'}
           value={option.value}
           onChange={(errorExRadioValue) => console.log("ethnicity changed to", errorExRadioValue)}>{option.label}</ONSRadio
         >
@@ -414,7 +414,7 @@
       {#each ethnicity as option}
         <ONSRadio
           bind:radioValue={errorExRadioValue}
-          id={`error radio button id ${ethnicity.indexOf(option)}`}
+          id={`error-radio-button-id-${ethnicity.indexOf(option)}`}
           value={option.value}
           onChange={(errorExRadioValue) => console.log("ethnicity changed to", errorExRadioValue)}
           >{option.label}</ONSRadio
