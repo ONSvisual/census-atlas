@@ -62,6 +62,11 @@
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
 
+<svelte:head>
+  <title>2021 Census Data Atlas Components</title>
+  <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
+</svelte:head>
+
 <BasePage {serviceTitle} {description}>
   <DesignSystemPanel
     title="Default header"

@@ -1,14 +1,9 @@
 <script>
-  import { onMount } from "svelte";
   import ONSHeaderLogoLarge from "./ons/svg/ONSHeaderLogoLarge.svelte";
   import ONSHeaderLogoSmall from "./ons/svg/ONSHeaderLogoSmall.svelte";
   import ONSPhaseBanner from "./ons/ONSPhaseBanner.svelte";
 
   let hasMap = $$slots.map ? "ons-page--has-map" : "";
-
-  onMount(async () => {
-    await import("./../../node_modules/@ons/design-system/scripts/main");
-  });
 </script>
 
 <div class="ons-page {hasMap}">

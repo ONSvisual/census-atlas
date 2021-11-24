@@ -18,6 +18,11 @@
   ];
 </script>
 
+<svelte:head>
+  <title>2021 Census Data Atlas Category</title>
+  <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
+</svelte:head>
+
 <BasePage>
   <span slot="header">
     <DataHeader tableName={categoryId} />
