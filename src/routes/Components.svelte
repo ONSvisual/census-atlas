@@ -58,8 +58,7 @@
     },
   ];
   let selectedCode = "QS302EW002";
-  let autosuggestData =
-    "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
+  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
 
 <svelte:head>
@@ -124,14 +123,10 @@
 
   <DesignSystemPanel
     title="Choose an area header"
-    code={`<Header
-      showBackLink
-      serviceTitle="Choose an area"
-    ><ExploreByAreaComponent inverted/>
-    </Header>`}
+    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} inverted /></Header>`}
   >
-    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} showTitle /></Header>
-    </DesignSystemPanel>
+    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} inverted /></Header>
+  </DesignSystemPanel>
 
   <DesignSystemPanel title="Category selector" code={`<CategorySelector {categories} {selectedCode} />`}>
     <CategorySelector {categories} {selectedCode} />
@@ -139,10 +134,11 @@
 
   <DesignSystemPanel
     title="Explore by area"
-    code={`<ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent
->`}
+    code={`<ExploreByAreaComponent {autosuggestData} >Search for an area to find out how it compares to others</ExploreByAreaComponent>`}
   >
-    <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
+    <ExploreByAreaComponent {autosuggestData}
+      >Search for an area to find out how it compares to others</ExploreByAreaComponent
+    >
   </DesignSystemPanel>
   <DesignSystemPanel title="Explore by topic" code={`<ExploreByTopic />`}>
     <ExploreByTopic />

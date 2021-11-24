@@ -1,6 +1,8 @@
 <script>
   export let labelText, id, hint, autosuggestValue, autosuggestData;
+  export let inverted = false;
   let n;
+  let whiteHint = inverted ? "input--with-white-description" : "";
 
   function onClick({ target }) {
     autosuggestValue = target.innerText;
@@ -37,7 +39,10 @@
           </label>
         {/if}
         {#if hint}
-          <span id="{id}-label-description-hint" class="ons-label__description  ons-input--with-description">
+          <span
+            id="{id}-label-description-hint"
+            class="ons-label__description  ons-input--with-description {whiteHint}"
+          >
             {hint}
           </span>
         {/if}
@@ -82,6 +87,10 @@
 
 <style lang="scss">
   @import "../../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
+  .input--with-white-description {
+    color: $color-white;
+  }
 
   @media only screen and (min-width: map-get($grid-bp, s)) {
     .ons-input--select:not(.ons-input--block):not(.ons-input-search):not([class*="input--w-"]),
