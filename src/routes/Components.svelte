@@ -66,13 +66,15 @@
     code={`<Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore Census data."
+      description="Choose a category and select an option within it to explore {false?'\${mapLocation}'s':'Census'} data."
     />`}
   >
     <Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore Census data."
+      description="Choose a category and select an option within it to explore {false
+        ? `${mapLocation}'s`
+        : 'Census'} data."
     />
   </DesignSystemPanel>
 
@@ -81,13 +83,13 @@
     code={`<Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore {mapLocation?'\${mapLocation}'s':'Census'} data."
+      description="Choose a category and select an option within it to explore {true?'\${mapLocation}'s':'Census'} data."
     />`}
   >
     <Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore {mapLocation
+      description="Choose a category and select an option within it to explore {true
         ? `${mapLocation}'s`
         : 'Census'} data."
     />
