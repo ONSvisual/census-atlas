@@ -44,10 +44,6 @@
   let autosuggestValue = "";
 </script>
 
-<svelte:head>
-  <script defer src="/build/ons-design-system.js"></script>
-</svelte:head>
-
 <ONSSkipLink />
 <ONSExternalHeaderWithDescription {serviceTitle} description={serviceDescription} />
 <ONSSkipLink />

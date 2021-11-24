@@ -12,6 +12,7 @@
 </script>
 
 <slot />
+
 <nav
   style="position: relative; z-index: 99999; background: #e2e2e3; padding: 20px"
   class="ons-related-links__navigation"

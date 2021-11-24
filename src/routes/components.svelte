@@ -62,10 +62,6 @@
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
 
-<svelte:head>
-  <script defer src="/build/ons-design-system.js"></script>
-</svelte:head>
-
 <BasePage {serviceTitle} {description}>
   <DesignSystemPanel
     title="Default header"

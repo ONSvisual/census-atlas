@@ -19,10 +19,6 @@
   ];
 </script>
 
-<svelte:head>
-  <script defer src="/build/ons-design-system.js"></script>
-</svelte:head>
-
 <BasePage>
   <span slot="header">
     <DataHeader location={locationId} />

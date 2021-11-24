@@ -14,7 +14,6 @@
 <svelte:head>
   <title>2021 Census Data Atlas</title>
   <meta name="description" content="Explore 2021 census data for England and Wales at a neighbourhood level." />
-  <script defer src="/build/ons-design-system.js"></script>
 </svelte:head>
 
 <BasePage>
