@@ -25,6 +25,8 @@ yarn dev --open
 
 ## Building
 
+We're using [Netlify adapter](https://github.com/sveltejs/kit/tree/master/packages/adapter-netlify) at the moment. There are [other adapters](https://kit.svelte.dev/docs#adapters) to suit our final target environment.
+
 ```bash
 yarn build
 ```
