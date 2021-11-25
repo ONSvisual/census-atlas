@@ -19,7 +19,7 @@
     "@storybook/addon-svelte-csf": "^1.1.0",
     "@storybook/svelte": "^6.3.12",
     "@sveltejs/adapter-netlify": "^1.0.0-next.35",
-    "@sveltejs/kit": "next",
+    "@sveltejs/kit": "^1.0.0-next.200",
     "@testing-library/svelte": "^3.0.3",
     "@turf/turf": "latest",
     "d3-dsv": "latest",
