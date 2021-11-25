@@ -10,6 +10,11 @@ const config = {
     adapter: adapter(),
     ssr: false,
     target: "#svelte", // hydrate the <div id="svelte"> element in src/app.html
+    vite: {
+      build: {
+        target: ["es6"],
+      },
+    },
   },
 };
 
