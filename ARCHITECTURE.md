@@ -18,5 +18,3 @@ Responsibilities: Storing the current state of the app. Provide action methods t
 
 Files: \*Service.js
 Responsibilities: Fetch data to update the model
-
-`npm run storybook` – fires up [Storybook](https://storybook.js.org/docs/react/writing-stories/introduction)
