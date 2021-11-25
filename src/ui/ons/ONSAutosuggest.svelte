@@ -2,7 +2,7 @@
   export let labelText, id, hint, autosuggestValue, autosuggestData, header;
   let n;
   let inverted = header ? "input--with-white-description" : "";
-  let inputContainer = header ? "header-input-container" : "non-header-input-container"
+  let inputContainer = header ? "header-input-container" : "non-header-input-container";
 
   function onClick({ target }) {
     autosuggestValue = target.innerText;
@@ -39,10 +39,7 @@
           </label>
         {/if}
         {#if hint}
-          <span
-            id="{id}-label-description-hint"
-            class="ons-label__description  ons-input--with-description {inverted}"
-          >
+          <span id="{id}-label-description-hint" class="ons-label__description  ons-input--with-description {inverted}">
             {hint}
           </span>
         {/if}
@@ -106,10 +103,10 @@
   }
 
   .header-input-container {
-    width: 100%
+    width: 100%;
   }
 
   .non-header-input-container {
-    width: 90%
+    width: 90%;
   }
 </style>
