@@ -66,7 +66,7 @@
 </div>
 
 <style lang="scss">
-  @import "./../../../node_modules/@ons/design-system/scss/vars/index";
+  @import "./../../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
   div {
     min-width: 375px;

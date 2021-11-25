@@ -38,7 +38,7 @@
     "d3-fetch": "^3.0.1",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.0.1",
-    "normalize-scss": "^7.0.1",
+    "normalize.css": "^8.0.1",
     "simple-statistics": "^7.7.0",
     "svelte-routing": "^1.6.0",
     "turf": "^3.0.14"
