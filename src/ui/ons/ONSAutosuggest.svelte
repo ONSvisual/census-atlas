@@ -1,6 +1,8 @@
 <script>
-  export let labelText, id, hint, autosuggestValue, autosuggestData;
+  export let labelText, id, hint, autosuggestValue, autosuggestData, header;
   let n;
+  let inverted = header ? "input--with-white-description" : "";
+  let inputContainer = header ? "header-input-container" : "non-header-input-container";
 
   function onClick({ target }) {
     autosuggestValue = target.innerText;
@@ -14,7 +16,7 @@
 </script>
 
 <div class="ons-grid ons-grid--gutterless">
-  <div class="ons-grid__col ons-col-8@m">
+  <div class="ons-grid__col ons-col-8@m {inputContainer}">
     <div
       id="{id}-container"
       class="ons-js-autosuggest   ons-autosuggest-input"
@@ -31,11 +33,13 @@
       data-autosuggest-data={autosuggestData}
     >
       <div class="ons-field">
-        <label class="ons-label  {hint ? 'ons-label--with-description' : ''}" for={id} id="{id}-label"
-          >{labelText}
-        </label>
+        {#if labelText}
+          <label class="ons-label  {hint ? 'ons-label--with-description' : ''}" for={id} id="{id}-label"
+            >{labelText}
+          </label>
+        {/if}
         {#if hint}
-          <span id="{id}-label-description-hint" class="ons-label__description  ons-input--with-description">
+          <span id="{id}-label-description-hint" class="ons-label__description  ons-input--with-description {inverted}">
             {hint}
           </span>
         {/if}
@@ -77,3 +81,32 @@
     </div>
   </div>
 </div>
+
+<style lang="scss">
+  @import "../../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
+  .input--with-white-description {
+    color: $color-white;
+  }
+
+  @media only screen and (min-width: map-get($grid-bp, s)) {
+    .ons-input--select:not(.ons-input--block):not(.ons-input-search):not([class*="input--w-"]),
+    .ons-input--text:not(.ons-input--block):not(.ons-input-search):not([class*="input--w-"]) {
+      width: 100%;
+    }
+  }
+
+  @media only screen and (min-width: map-get($grid-bp, m)) {
+    .ons-col-8\@m {
+      max-width: 100%;
+    }
+  }
+
+  .header-input-container {
+    width: 100%;
+  }
+
+  .non-header-input-container {
+    width: 90%;
+  }
+</style>

@@ -36,9 +36,13 @@
     <div class="ons-pl-grid-col ons-grid--flex ons-grid__col--flex" style="justify-content:left">
       <span>&#60;&#160;</span>
       {#if selectedCatIndex > 0}
-        <p class="category-selector__button" href="#" on:click="{() => selectedCatIndex--}"> {categories[selectedCatIndex - 1].name} </p>
+        <p class="category-selector__button" href="#" on:click={() => selectedCatIndex--}>
+          {categories[selectedCatIndex - 1].name}
+        </p>
       {:else}
-        <p class="category-selector__button" href="#" on:click="{() => selectedCatIndex = categories.length -1}"> {categories[categories.length - 1].name} </p>
+        <p class="category-selector__button" href="#" on:click={() => (selectedCatIndex = categories.length - 1)}>
+          {categories[categories.length - 1].name}
+        </p>
       {/if}
     </div>
   </div>
@@ -50,11 +54,11 @@
   <div class="ons-grid__col ons-col-4@m selector-col">
     <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:right">
       {#if selectedCatIndex < categories.length - 1}
-        <p class="category-selector__button category-selector__button__left" on:click="{() => selectedCatIndex++}">
+        <p class="category-selector__button category-selector__button__left" on:click={() => selectedCatIndex++}>
           {categories[selectedCatIndex + 1].name}
         </p>
       {:else}
-        <p class="category-selector__button category-selector__button__left" on:click="{() => selectedCatIndex = 0}">
+        <p class="category-selector__button category-selector__button__left" on:click={() => (selectedCatIndex = 0)}>
           {categories[0].name}
         </p>
       {/if}
