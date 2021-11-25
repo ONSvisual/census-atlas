@@ -123,9 +123,9 @@
 
   <DesignSystemPanel
     title="Choose an area header"
-    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} inverted /></Header>`}
+    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} header /></Header>`}
   >
-    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} inverted /></Header>
+    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} header /></Header>
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Category selector" code={`<CategorySelector {categories} {selectedCode} />`}>

@@ -1,8 +1,8 @@
 <script>
-  export let labelText, id, hint, autosuggestValue, autosuggestData;
-  export let inverted = false;
+  export let labelText, id, hint, autosuggestValue, autosuggestData, header;
   let n;
-  let whiteHint = inverted ? "input--with-white-description" : "";
+  let inverted = header ? "input--with-white-description" : "";
+  let inputContainer = header ? "header-input-container" : "non-header-input-container"
 
   function onClick({ target }) {
     autosuggestValue = target.innerText;
@@ -16,7 +16,7 @@
 </script>
 
 <div class="ons-grid ons-grid--gutterless">
-  <div class="ons-grid__col ons-col-8@m">
+  <div class="ons-grid__col ons-col-8@m {inputContainer}">
     <div
       id="{id}-container"
       class="ons-js-autosuggest   ons-autosuggest-input"
@@ -41,7 +41,7 @@
         {#if hint}
           <span
             id="{id}-label-description-hint"
-            class="ons-label__description  ons-input--with-description {whiteHint}"
+            class="ons-label__description  ons-input--with-description {inverted}"
           >
             {hint}
           </span>
@@ -103,5 +103,13 @@
     .ons-col-8\@m {
       max-width: 100%;
     }
+  }
+
+  .header-input-container {
+    width: 100%
+  }
+
+  .non-header-input-container {
+    width: 90%
   }
 </style>
