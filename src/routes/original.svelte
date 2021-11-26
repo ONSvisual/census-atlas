@@ -1,14 +1,14 @@
 <script>
-  import { geographicCodes, selectedCategoryTotals, selectedCategory } from "../stores.js";
+  import { geographicCodes, selectedCategoryTotals, selectedCategory } from "./../stores.js";
   import { onMount } from "svelte";
-  import Panel from "../Panel.svelte";
-  import Group from "../Group.svelte";
-  import MapSource from "../MapSource.svelte";
-  import MapLayer from "../MapLayer.svelte";
-  import ColChart from "../charts/Histogram.svelte";
-  import Loader from "../ui/Loader.svelte";
-  import Select from "../ui/Select.svelte";
-  import config from "../config";
+  import Panel from "./../Panel.svelte";
+  import Group from "./../Group.svelte";
+  import MapSource from "./../MapSource.svelte";
+  import MapLayer from "./../MapLayer.svelte";
+  import ColChart from "./../charts/Histogram.svelte";
+  import Loader from "./../ui/Loader.svelte";
+  import Select from "./../ui/Select.svelte";
+  import config from "./../config";
 
   import {
     getNomis,
@@ -17,15 +17,15 @@
     addLadDataToDataset,
     setColors,
     updateURL,
-  } from "../utils.js";
+  } from "./../utils.js";
 
-  import MapComponent from "../MapComponent.svelte";
+  import MapComponent from "./../MapComponent.svelte";
   import { get } from "svelte/store";
-  import LocalDataService from "../dataService";
+  import LocalDataService from "./../dataService";
   import { json } from "d3-fetch";
-  import { loadingGeography } from "../model/geography/geography";
+  import { loadingGeography } from "./../model/geography/geography";
 
-  import { bounds, lad_dta, get_data } from "../stores.js";
+  import { bounds, lad_dta, get_data } from "./../stores.js";
 
   const geography = config.legacy.geography;
   const mapstyle = config.legacy.mapstyle;

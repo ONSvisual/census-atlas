@@ -1,8 +1,8 @@
 <script>
   import { getContext } from "svelte";
-  import { getLegendSection } from "../../model/utils";
-  import { breaks } from "../../model/censusdata/censusdata";
-  import config from "../../config";
+  import { getLegendSection } from "./../../model/utils";
+  import { breaks } from "./../../model/censusdata/censusdata";
+  import config from "./../../config";
 
   export let id;
   export let source = getContext("source");

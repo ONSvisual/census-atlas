@@ -1,13 +1,14 @@
 <script>
-  import BasePage from "../ui/BasePage.svelte";
+  import BasePage from "./../ui/BasePage.svelte";
 
-  import Header from "../ui/Header.svelte";
-  import TopicExplorer from "../ui/TopicExplorer.svelte";
-  import Feedback from "../ui/Feedback.svelte";
+  import Header from "./../ui/Header.svelte";
+  import TopicExplorer from "./../ui/TopicExplorer.svelte";
+  import Feedback from "./../ui/Feedback.svelte";
 </script>
 
 <svelte:head>
-  <script defer src="/build/ons-design-system.js"></script>
+  <title>2021 Census Data Atlas Categories</title>
+  <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
 
 <BasePage>
@@ -33,7 +34,7 @@
 </BasePage>
 
 <style lang="scss">
-  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  @import "./../../node_modules/@ons/design-system/scss/vars/_index.scss";
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }
 </style>

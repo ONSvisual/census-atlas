@@ -1,8 +1,8 @@
 <script>
   import { getContext } from "svelte";
-  import ONSAccordion from "../ui/ons/ONSAccordion.svelte";
-  import ONSAccordionPanel from "../ui/ons/partials/ONSAccordionPanel.svelte";
-  import censusData from "../data/simpleTopicTableCategoryData";
+  import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
+  import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
+  import censusData from "./../data/simpleTopicTableCategoryData";
 
   let selectedData = getContext("selectedData");
 

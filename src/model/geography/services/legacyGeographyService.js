@@ -1,6 +1,6 @@
 import { autoType, csvParse } from "d3-dsv";
 import { feature } from "topojson-client";
-import config from "../../../config";
+import config from "./../../../config";
 
 export default class LegacyGeographyService {
   getLadBoundaries = async function () {

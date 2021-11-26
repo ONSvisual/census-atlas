@@ -1,13 +1,13 @@
 <script>
-  import BasePage from "../ui/BasePage.svelte";
+  import BasePage from "./../../ui/BasePage.svelte";
 
-  import Map from "../ui/map/Map.svelte";
-  import Topic from "../ui/Topic.svelte";
-  import DataHeader from "../ui/DataHeader.svelte";
-  import ONSShare from "../ui/ons/ONSShare.svelte";
-  import Feedback from "../ui/Feedback.svelte";
+  import Map from "./../../ui/map/Map.svelte";
+  import Topic from "./../../ui/Topic.svelte";
+  import DataHeader from "./../../ui/DataHeader.svelte";
+  import ONSShare from "./../../ui/ons/ONSShare.svelte";
+  import Feedback from "./../../ui/Feedback.svelte";
 
-  import ONSPhaseBanner from "../ui/ons/ONSPhaseBanner.svelte";
+  import ONSPhaseBanner from "./../../ui/ons/ONSPhaseBanner.svelte";
 
   export let locationId;
 
@@ -20,7 +20,8 @@
 </script>
 
 <svelte:head>
-  <script defer src="/build/ons-design-system.js"></script>
+  <title>2021 Census Data Atlas Location</title>
+  <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
 
 <BasePage>
@@ -51,7 +52,7 @@
 </BasePage>
 
 <style lang="scss">
-  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  @import "./../../../node_modules/@ons/design-system/scss/vars/_index.scss";
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }
 </style>
