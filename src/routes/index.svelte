@@ -12,8 +12,10 @@
   import ONSTwitterIcon from "./../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
+  import Map from "./../ui/map/Map.svelte";
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
+  let bounds = [2.08, 55.68, -6.59, 48.53];
 </script>
 
 <svelte:head>
@@ -28,6 +30,10 @@
       serviceTitle="Explore Census"
       description="Here’s a place where we tell users what the Census Atlas is and what it can do for them."
     />
+  </span>
+
+  <span slot="map">
+    <Map {bounds} />
   </span>
 
   <span slot="footer">
