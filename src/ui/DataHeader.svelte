@@ -22,12 +22,12 @@
       {#if location}
         <div class="ons-grid--flex ons-grid--between">
           <h2 class="ons-header__title" id="header-data-2__location">In {location}</h2>
-          <a href="0#">Change</a>
+          <a href="0#" on:click>Change</a>
         </div>
       {:else}
         <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
           <h3 class="ons-header__desc">In England & Wales</h3>
-          <a href="0#">Change</a>
+          <a href="0#" on:click>Change</a>
         </div>
       {/if}
     </div>
