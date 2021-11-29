@@ -6,10 +6,19 @@
   import ONSShare from "./../../ui/ons/ONSShare.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
   import DataHeader from "./../../ui/DataHeader.svelte";
+  import Header from "../../ui/Header.svelte";
+  import ExploreByAreaComponent from "../../ui/ExploreByAreaComponent.svelte";
 
   import ONSPhaseBanner from "./../../ui/ons/ONSPhaseBanner.svelte";
 
   export let categoryId;
+
+  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
+  let showChangeAreaHeader = false;
+
+  const toggleChangeAreaHeader = () => {
+    showChangeAreaHeader = !showChangeAreaHeader;
+  };
 
   let topicList = [
     { title: "How does general health differ across England and Wales?", href: "#" },
@@ -25,7 +34,13 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={categoryId} />
+    {#if showChangeAreaHeader}
+      <Header showBackLink serviceTitle="Choose an area"
+        ><ExploreByAreaComponent {autosuggestData} header on:click={toggleChangeAreaHeader} /></Header
+      >
+    {:else}
+      <DataHeader tableName={categoryId} on:click={toggleChangeAreaHeader} />
+    {/if}
   </span>
 
   <span slot="map">
