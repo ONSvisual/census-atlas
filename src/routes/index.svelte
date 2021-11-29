@@ -7,6 +7,11 @@
   import ONSShare from "./../ui/ons/ONSShare.svelte";
   import Topic from "./../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
+  import ONSShareItem from "./../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "./../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "./../ui/ons/svg/ONSTwitterIcon.svelte";
+  import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
+  import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
@@ -40,7 +45,14 @@
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
   >
 
-  <ONSShare url="https://www.google.com/">Share this page</ONSShare>
+  <div class="ons-u-mb-l">
+    <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    </ONSShare>
+  </div>
 
   <Topic topicList={[{ title: "Get Census datasests", href: "#" }]} cardTitle="Need something specific from Census?">
     Explore correlations between two indicators in <a href="#">advanced mode</a>.
