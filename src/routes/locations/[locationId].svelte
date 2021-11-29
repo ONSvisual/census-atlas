@@ -6,6 +6,15 @@
   import DataHeader from "./../../ui/DataHeader.svelte";
   import ONSShare from "./../../ui/ons/ONSShare.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
+  import Header from "../../ui/Header.svelte";
+  import ExploreByAreaComponent from "../../ui/ExploreByAreaComponent.svelte";
+
+  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
+  let showChangeAreaHeader = false;
+
+  const toggleChangeAreaHeader = () => {
+    showChangeAreaHeader = !showChangeAreaHeader;
+  };
 
   import ONSPhaseBanner from "./../../ui/ons/ONSPhaseBanner.svelte";
 
@@ -26,7 +35,13 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader location={locationId} />
+    {#if showChangeAreaHeader}
+      <Header showBackLink serviceTitle="Choose an area"
+        ><ExploreByAreaComponent {autosuggestData} header on:click={toggleChangeAreaHeader} /></Header
+      >
+    {:else}
+      <DataHeader location={locationId} on:click={toggleChangeAreaHeader} />
+    {/if}
   </span>
 
   <span slot="map">
