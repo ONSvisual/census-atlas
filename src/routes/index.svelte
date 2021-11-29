@@ -3,7 +3,6 @@
 
   import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
   import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
-  import ONSExternalHeaderWithDescription from "./../ui/ons/ONSExternalHeaderWithDescription.svelte";
   import ONSShare from "./../ui/ons/ONSShare.svelte";
   import Topic from "./../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
@@ -13,6 +12,7 @@
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
   import Map from "./../ui/map/Map.svelte";
+  import Header from "../ui/Header.svelte";
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let bounds = [2.08, 55.68, -6.59, 48.53];
@@ -26,7 +26,7 @@
 
 <BasePage>
   <span slot="header">
-    <ONSExternalHeaderWithDescription
+    <Header
       serviceTitle="Explore Census"
       description="Here’s a place where we tell users what the Census Atlas is and what it can do for them."
     />
