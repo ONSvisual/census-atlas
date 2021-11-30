@@ -6,8 +6,7 @@
   import { setInitialised } from "./../model/appstate";
 
   initialiseGeography(new LegacyGeographyService()).then(() => {
-    initialiseCensusData(new LegacyCensusDataService());
-    setInitialised();
+    initialiseCensusData(new LegacyCensusDataService()).then(() => setInitialised());
   });
 </script>
 
