@@ -21,11 +21,14 @@
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
 
-  export let categoryId;
-  export let locationId;
-
+  import { page } from '$app/stores'
+  let { topicSlug, tableSlug, categorySlug } = $page.params
+  
+  let geographyId = $page.query.get('geography')
+  if(geographyId) { updateSelectedGeography(geographyId) }
+  
   // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && fetchCensusData("QS119EW005", null);
+  $: appIsInitialised, $appIsInitialised && fetchCensusData(categorySlug, null);
 </script>
 
 <svelte:head>
@@ -35,7 +38,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={categoryId} location={locationId} />
+    <DataHeader tableName={categorySlug} location={geographyId} />
     <CategorySelector />
   </span>
 
@@ -115,16 +118,15 @@
   <CensusTableByLocation />
 
   <Topic cardTitle="General health with other indicators"
-    >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+  >Explore correlations between two indicators in <a href="#">advanced mode</a>.
   </Topic>
 
-  <UseCensusData location={categoryId} />
+  <UseCensusData location={categorySlug} />
 
   <ONSShare />
 </BasePage>
 
 <style lang="scss">
-  // @import "./../../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
   @import "../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
   @media only screen and (max-width: map-get($grid-bp, s)) {
