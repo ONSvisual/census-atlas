@@ -9,7 +9,14 @@
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import DataHeader from "../../../ui/DataHeader.svelte";
-  import { categoryDataIsLoaded, categoryData, fetchCensusData } from "../../../model/censusdata/censusdata";
+  import {
+    categoryDataIsLoaded,
+    categoryData,
+    fetchCensusData,
+    tables,
+    getCategoryBySlug
+  } from "../../../model/censusdata/censusdata";
+
   import {
     updateHoveredGeography,
     updateSelectedGeography,
@@ -23,12 +30,20 @@
 
   import { page } from '$app/stores'
   let { topicSlug, tableSlug, categorySlug } = $page.params
-  
+  let category = null
+  let table = null
   let geographyId = $page.query.get('geography')
   if(geographyId) { updateSelectedGeography(geographyId) }
   
   // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && fetchCensusData(categorySlug, null);
+  $: appIsInitialised, $appIsInitialised && initialisePage()
+  
+  const initialisePage = () => {
+    category = getCategoryBySlug(tableSlug, categorySlug)
+    table = category ? tables[category.table] : null
+    fetchCensusData(category.code, null);
+  }
+  
 </script>
 
 <svelte:head>
@@ -38,7 +53,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={categorySlug} location={geographyId} />
+    <DataHeader tableName={table ? table.name : null} location={geographyId} />
     <CategorySelector />
   </span>
 
