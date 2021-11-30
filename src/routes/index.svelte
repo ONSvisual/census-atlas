@@ -13,8 +13,7 @@
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
   import Map from "./../ui/map/Map.svelte";
   import Header from "../ui/Header.svelte";
-  import {suggestions} from "../config.js"
-  
+  import { suggestions } from "../config.js";
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
@@ -26,7 +25,7 @@
   <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
 
-<BasePage>
+<BasePage mobileMap={false}>
   <span slot="header">
     <Header
       serviceTitle="Explore Census"
@@ -47,7 +46,7 @@
     </footer>
   </span>
 
-  <ExploreByTopic url="/categories" {suggestions}/>
+  <ExploreByTopic url="/categories" {suggestions} />
   <hr class="component-margin--2" />
   <ExploreByAreaComponent {autosuggestData}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
