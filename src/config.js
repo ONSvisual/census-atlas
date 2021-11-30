@@ -70,3 +70,15 @@ export default {
     },
   },
 };
+
+export const suggestions = [
+  { text: "Where are the highest levels of home ownership?", url: "/housing/tenure-households/owned" },
+  {
+    text: "Where do people travel the furthest to get to work?",
+    url: "/travel-to-work/distance-travelled-to-work/60km-and-over",
+  },
+  {
+    text: "Where are the highest rates of unemployment?",
+    url: "/employment/economic-activity/economically-active/unemployed",
+  },
+];
