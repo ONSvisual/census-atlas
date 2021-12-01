@@ -3,8 +3,13 @@
   import ONSHeaderLogoSmall from "./ons/svg/ONSHeaderLogoSmall.svelte";
   import ONSPhaseBanner from "./ons/ONSPhaseBanner.svelte";
 
-  let hasMap = $$slots.map ? "ons-page--has-map" : "";
+  export let mobileMap = true;
+
+  $: innerWidth = 0;
+  let hasMap = $$slots.map && mobileMap ? "ons-page--has-map" : "";
 </script>
+
+<svelte:window bind:innerWidth />
 
 <div class="ons-page {hasMap}">
   <div class="ons-page__content">
@@ -46,7 +51,7 @@
       <div class="header">
         <slot name="header" />
       </div>
-      {#if $$slots.map}
+      {#if (mobileMap && $$slots.map) || (!mobileMap && innerWidth >= 500)}
         <div class="map">
           <slot name="map" />
         </div>
