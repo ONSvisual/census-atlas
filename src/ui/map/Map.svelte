@@ -7,7 +7,7 @@
   export let minzoom = 0;
   export let maxzoom = 14;
 
-  export let bounds = [3.2, 55.17, -6.17, 50.38]
+  export let bounds = [3.2, 55.17, -6.17, 50.38];
   export let zoom = 6;
 
   let options = {

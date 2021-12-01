@@ -12,7 +12,6 @@
     $selectedData = {};
     $selectedData = { tableName: tableName, tableCategories: tableCategories };
   }
-
 </script>
 
 <ONSAccordion showAll={false}>
