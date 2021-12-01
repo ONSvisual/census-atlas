@@ -1,3 +1,14 @@
+<script context="module">
+export function load({ page }) {
+		return {
+			props: {
+				topicSlug : page.params.categoryId 
+			}
+		};
+	}
+
+</script>
+
 <script>
   import BasePage from "./../../ui/BasePage.svelte";
 
@@ -6,10 +17,17 @@
   import ONSShare from "./../../ui/ons/ONSShare.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
   import DataHeader from "./../../ui/DataHeader.svelte";
+  import topicData from "../../data/simpleTopicTableCategoryData";
+  import slugify from "slugify"
 
-  import ONSPhaseBanner from "./../../ui/ons/ONSPhaseBanner.svelte";
-
-  export let categoryId;
+  export let topicSlug;
+  let pageTopic = {};
+  
+  topicData.forEach((topic) => {
+    if (slugify(topic.name).toLowerCase() == topicSlug) {
+      pageTopic = topic
+    }
+  })
 
   let topicList = [
     { title: "How does general health differ across England and Wales?", href: "#" },
@@ -25,7 +43,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={categoryId} />
+    <DataHeader tableName={pageTopic.name} />
   </span>
 
   <span slot="map">
