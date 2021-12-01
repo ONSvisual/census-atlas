@@ -1,13 +1,18 @@
 <script>
   import ONSCollapsible from "./ons/ONSCollapsible.svelte";
   export let url;
+  export let suggestions;
 </script>
 
 <div class="component-margin--2">
   <h2>Explore by topic</h2>
   <p>The 2021 Census tells us a lot about how people in England and Wales live and work.</p>
   <p><a href={url}>Choose a data option</a></p>
-  <ONSCollapsible title="Show me suggestions"><p><a href="/data/Health">Health</a></p></ONSCollapsible>
+  <ONSCollapsible title="Show me suggestions">
+    {#each suggestions as suggestion}
+      <p><a href={suggestion.url}>{suggestion.text}</a></p>
+    {/each}
+  </ONSCollapsible>
 </div>
 
 <style>
