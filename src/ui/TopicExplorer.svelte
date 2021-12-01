@@ -4,12 +4,15 @@
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
   import censusData from "./../data/simpleTopicTableCategoryData";
 
+  export let selectedTopic;
+
   let selectedData = getContext("selectedData");
 
   function populatesSelectedData(tableName, tableCategories) {
     $selectedData = {};
     $selectedData = { tableName: tableName, tableCategories: tableCategories };
   }
+
 </script>
 
 <ONSAccordion showAll={false}>
