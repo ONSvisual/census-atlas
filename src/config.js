@@ -91,7 +91,7 @@ export const topicSuggestions = [
     suggestions: [
       {
         text: "Where are the highest numbers of people aged 75+ living on their own?",
-        url: "/population-basics/adult-lifestage/age-75-and-over/one-person-household",
+        url: "/population-basics/adult-lifestage/age-75-and-over",
       },
       {
         text: "Where are the most deprived areas in England and Wales?",
@@ -147,7 +147,7 @@ export const topicSuggestions = [
     suggestions: [
       {
         text: "What is the distribution of degree level qualifications across England and Wales?",
-        url: "/education/qualifications-gained/degree/degree-higher-degree",
+        url: "/education/qualifications-gained/degree",
       },
       {
         text: "What percentage of the population in England and Wales hold no qualifications?",
@@ -161,11 +161,11 @@ export const topicSuggestions = [
     suggestions: [
       {
         text: "Where are the highest levels of unemployment?",
-        url: "/employment/economic-activity/economically-active/unemployed",
+        url: "/employment/economic-activity/economically-active",
       },
       {
         text: "What is the distribution of people working in food, beverage and tobacco manufacturing across England and Wales?",
-        url: "/employment/industry/c-manufacturing/food-beverage-and-tobacco",
+        url: "/employment/industry/c-manufacturing",
       },
     ],
   },
