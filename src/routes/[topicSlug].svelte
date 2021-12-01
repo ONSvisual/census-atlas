@@ -14,6 +14,11 @@
   import Map from "../ui/map/Map.svelte";
   import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
+  import ONSShareItem from "../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "../ui/ons/svg/ONSTwitterIcon.svelte";
+  import ONSLinkedinIcon from "../ui/ons/svg/ONSLinkedinIcon.svelte";
+  import ONSEmailIcon from "../ui/ons/svg/ONSEmailIcon.svelte";
   import Feedback from "../ui/Feedback.svelte";
   import DataHeader from "../ui/DataHeader.svelte";
   import { topicSuggestions } from "../config";
@@ -58,7 +63,12 @@
     or explore one of these suggestions.
   </Topic>
 
-  <ONSShare url="https://www.google.com/">Share this page</ONSShare>
+  <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>
+    <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+    <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+    <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+    <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+  </ONSShare>
 </BasePage>
 
 <style lang="scss">
