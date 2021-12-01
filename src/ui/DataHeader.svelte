@@ -1,4 +1,5 @@
 <script>
+  import slugify from "slugify";
   export let tableName;
   export let location;
 </script>
@@ -19,14 +20,20 @@
         {/if}
       </div>
       <hr />
-      {#if location}
-        <div class="ons-grid--flex ons-grid--between">
-          <h2 class="ons-header__title" id="header-data-2__location">In {location}</h2>
+      {#if !location && tableName}
+        <div class="ons-header__title" id="header-data-2__title">
+          <h2 id="census-atlas-header-2__title">
+            <a href="/categories/{slugify(tableName).toLowerCase()}">Choose an option within {tableName}</a>
+          </h2>
+        </div>
+      {:else if !location}
+        <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
+          <h3 class="ons-header__desc">In England & Wales</h3>
           <a href="0#">Change</a>
         </div>
       {:else}
-        <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
-          <h3 class="ons-header__desc">In England & Wales</h3>
+        <div class="ons-grid--flex ons-grid--between">
+          <h2 class="ons-header__title" id="header-data-2__location">In {location}</h2>
           <a href="0#">Change</a>
         </div>
       {/if}
