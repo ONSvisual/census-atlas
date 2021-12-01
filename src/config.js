@@ -79,7 +79,8 @@ export const indexPageSuggestions = [
   },
   {
     text: "Where are the highest rates of unemployment?",
-    url: "/employment/economic-activity/economically-active/unemployed",
+    url: "/employment/economic-activity/economically-active",
+    // url: "/employment/economic-activity/economically-active/unemployed" ==> we are missing the category-subcategory levels in the simpleTopicTableCategoryData.js file
   },
 ];
 
@@ -100,7 +101,7 @@ export const topicSuggestions = [
   },
   {
     topicCode: "QS2",
-    topicName: "Origins & Beliefs",
+    topicName: "Origins and Beliefs",
     suggestions: [
       {
         text: "Where are Jewish communities distributed across England and Wales?",
