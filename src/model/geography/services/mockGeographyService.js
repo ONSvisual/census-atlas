@@ -1,12 +1,12 @@
-export default function MockGeographyService(ladBoundaryData, lsoaData) {
-  this.ladBoundaryData = ladBoundaryData;
+export default function MockGeographyService(ladList, lsoaData) {
+  this.ladList = ladList;
   this.lsoaData = lsoaData;
-  this.getLadBoundariesCalled = 0;
+  this.getLadListCalled = 0;
   this.getLsoaDataCalled = 0;
 }
-MockGeographyService.prototype.getLadBoundaries = async function () {
-  this.getLadBoundariesCalled += 1;
-  return this.ladBoundaryData;
+MockGeographyService.prototype.getLadList = async function () {
+  this.getLadListCalled += 1;
+  return this.ladList;
 };
 MockGeographyService.prototype.getLsoaData = async function () {
   this.getLsoaDataCalled += 1;

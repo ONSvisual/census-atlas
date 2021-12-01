@@ -5,7 +5,7 @@ describe("initialise geography", () => {
   it("calls functions from the geography service", async () => {
     // given
     // a mock for the geography service
-    const mockGeographyService = new MockGeographyService({ features: [] }, []);
+    const mockGeographyService = new MockGeographyService([], []);
 
     // when
     // we call initialise geography
@@ -13,7 +13,7 @@ describe("initialise geography", () => {
 
     // then
     // it calls functions on the geography service
-    expect(mockGeographyService.getLadBoundariesCalled).toBe(1);
+    expect(mockGeographyService.getLadListCalled).toBe(1);
     expect(mockGeographyService.getLsoaDataCalled).toBe(1);
   });
 
@@ -21,7 +21,7 @@ describe("initialise geography", () => {
     // given
     // we reset
     reset();
-    const mockGeographyService = new MockGeographyService({ features: [] }, []);
+    const mockGeographyService = new MockGeographyService([], []);
 
     // and record a change history for loadingGeography
     var changeHistory = [];
