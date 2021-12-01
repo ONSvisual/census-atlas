@@ -2,7 +2,7 @@ import MockGeographyService from "./services/mockGeographyService";
 import { initialiseGeography, loadingGeography, reset } from "./geography";
 
 describe("initialise geography", () => {
-  it("it calls functions from the geography service", async () => {
+  it("calls functions from the geography service", async () => {
     // given
     // a mock for the geography service
     const mockGeographyService = new MockGeographyService({ features: [] }, []);
@@ -37,4 +37,21 @@ describe("initialise geography", () => {
     // it will have switched loading from false to true and back again
     expect(changeHistory).toStrictEqual([false, true, false]);
   });
+
+  it("loads a list of lads from the data service", async () => {
+    
+  })
+
+  it("loads a list of lsoas from data service", async () => {
+
+  })
+  
+  it("creates a lookup for lad info keyed by code", async () => {
+    
+  })
+
+  it("creates a lookup for lsoa info keyed by code", async () => {
+
+  })
+  
 });
