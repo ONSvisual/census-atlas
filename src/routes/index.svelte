@@ -46,7 +46,7 @@
     </footer>
   </span>
 
-  <ExploreByTopic url="/categories" {indexPageSuggestions} />
+  <ExploreByTopic url="/categories" suggestions={indexPageSuggestions} />
   <hr class="component-margin--2" />
   <ExploreByAreaComponent {autosuggestData}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
