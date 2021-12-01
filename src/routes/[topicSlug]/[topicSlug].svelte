@@ -2,20 +2,20 @@
   export function load({ page }) {
     return {
       props: {
-        topicSlug: page.params.categoryId,
+        topicSlug: page.params.topicSlug,
       },
     };
   }
 </script>
 
 <script>
-  import BasePage from "./../../ui/BasePage.svelte";
+  import BasePage from "../../ui/BasePage.svelte";
 
-  import Map from "./../../ui/map/Map.svelte";
-  import Topic from "./../../ui/Topic.svelte";
-  import ONSShare from "./../../ui/ons/ONSShare.svelte";
-  import Feedback from "./../../ui/Feedback.svelte";
-  import DataHeader from "./../../ui/DataHeader.svelte";
+  import Map from "../../ui/map/Map.svelte";
+  import Topic from "../../ui/Topic.svelte";
+  import ONSShare from "../../ui/ons/ONSShare.svelte";
+  import Feedback from "../../ui/Feedback.svelte";
+  import DataHeader from "../../ui/DataHeader.svelte";
   import { topicSuggestions } from "../../config";
   import slugify from "slugify";
 
@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-  <title>2021 Census Data Atlas Category</title>
+  <title>2021 Census Data Atlas Topic</title>
   <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
 
