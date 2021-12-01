@@ -1,4 +1,4 @@
-import MockGeographyService from "./geography/mockGeographyService";
+import MockGeographyService from "./services/mockGeographyService";
 import { initialiseGeography, loadingGeography, reset } from "./geography";
 
 describe("initialise geography", () => {

@@ -16,6 +16,22 @@ let categoryCodeLookup = {}
 
 let dataService = null;
 
+export function reset() {
+  censusTableStructureIsLoaded.set(false)
+  categoryDataIsLoaded.set(false)
+  tableIsLoaded.set(false)
+
+  categoryData = {};
+  tableData = {};
+  breaks = [];
+
+  topics = {}
+  tables = {}
+  categories = {}
+
+  categoryCodeLookup = {}
+}
+
 export async function initialiseCensusData(censusDataService) {
   dataService = censusDataService;
   await fetchTableStructure()
@@ -67,6 +83,14 @@ export function getCategoryBySlug(tableSlug, categorySlug) {
     }
   }
   return null
+}
+
+export function getSlugByCategoryId(categoryId) {
+  let category = categories[categoryId]
+  let table = tables[category.table]
+  let topic = topics[table.topic]
+  
+  return `${topic.slug}/${table.slug}/${category.slug}`
 }
 
 export async function fetchCensusData(categoryCode, geographyCode) {
