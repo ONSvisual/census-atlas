@@ -41,7 +41,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={pageTopic.topicName} />
+    <DataHeader topicPage={pageTopic.topicName} />
   </span>
 
   <span slot="map">
