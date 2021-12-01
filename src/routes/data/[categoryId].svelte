@@ -1,12 +1,11 @@
 <script context="module">
-export function load({ page }) {
-		return {
-			props: {
-				topicSlug : page.params.categoryId 
-			}
-		};
-	}
-
+  export function load({ page }) {
+    return {
+      props: {
+        topicSlug: page.params.categoryId,
+      },
+    };
+  }
 </script>
 
 <script>
@@ -17,23 +16,17 @@ export function load({ page }) {
   import ONSShare from "./../../ui/ons/ONSShare.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
   import DataHeader from "./../../ui/DataHeader.svelte";
-  import topicData from "../../data/simpleTopicTableCategoryData";
-  import slugify from "slugify"
+  import { topicSuggestions } from "../../config";
+  import slugify from "slugify";
 
   export let topicSlug;
   let pageTopic = {};
-  
-  topicData.forEach((topic) => {
-    if (slugify(topic.name).toLowerCase() == topicSlug) {
-      pageTopic = topic
-    }
-  })
 
-  let topicList = [
-    { title: "How does general health differ across England and Wales?", href: "#" },
-    { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
-    { title: "What can we learn about long-term health issues and/or disability?", href: "#" },
-  ];
+  topicSuggestions.forEach((topic) => {
+    if (slugify(topic.topicName).toLowerCase() == topicSlug.toLowerCase()) {
+      pageTopic = topic;
+    }
+  });
 </script>
 
 <svelte:head>
@@ -43,7 +36,7 @@ export function load({ page }) {
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={pageTopic.name} />
+    <DataHeader tableName={pageTopic.topicName} />
   </span>
 
   <span slot="map">
@@ -59,10 +52,10 @@ export function load({ page }) {
     </footer>
   </span>
 
-  <Topic {topicList} cardTitle="Health - Census 2021"
-    >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#">
-      Choose a data option from the full list</a
-    > or explore one of these suggestions.
+  <Topic topicList={pageTopic.suggestions} cardTitle="Health - Census 2021"
+    >The 2021 Census tells us a lot about the {pageTopic.name} of people living in England and Wales live and.
+    <a href="/categories/{topicSlug}"> Choose a data option from the full list</a>
+    or explore one of these suggestions.
   </Topic>
 
   <ONSShare url="https://www.google.com/">Share this page</ONSShare>
