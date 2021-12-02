@@ -1,7 +1,7 @@
 <script>
-  export let id;
-  export let title;
+  import slugify from "slugify";
 
+  export let id, title, selectedTopic;
   export let noTopBorder = false;
 
   let hasTopBorder = noTopBorder ? "ons-collapsible--noTopBorder" : "";
@@ -33,6 +33,7 @@
       <button
         type="button"
         class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small"
+        on:click={() => (selectedTopic = slugify(title.toLowerCase()))}
       >
         <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
       </button>

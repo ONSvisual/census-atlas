@@ -3,11 +3,28 @@
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
   import censusData from "./../data/simpleTopicTableCategoryData";
+  import { onMount } from "svelte";
+  import slugify from "slugify";
 
   export let selectedTopic;
 
-  let selectedData = getContext("selectedData");
+  let topicIndex;
 
+  $: {
+    censusData.forEach((topic) => {
+      if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
+        topicIndex = censusData.indexOf(topic);
+      }
+    });
+  }
+
+  onMount(() =>
+    setTimeout(() => {
+      document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
+    }, 150),
+  );
+
+  let selectedData = getContext("selectedData");
   function populatesSelectedData(tableName, tableCategories) {
     $selectedData = {};
     $selectedData = { tableName: tableName, tableCategories: tableCategories };
@@ -16,7 +33,7 @@
 
 <ONSAccordion showAll={false}>
   {#each censusData as topic, i}
-    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder>
+    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder bind:selectedTopic>
       {#each topic.tables as tableEntry}
         <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">{tableEntry.name}</h3>
         <ul class="ons-list ons-list--bare">

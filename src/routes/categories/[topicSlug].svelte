@@ -15,7 +15,7 @@
   import TopicExplorer from "./../../ui/TopicExplorer.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
 
-  let topicSlug;
+  export let topicSlug;
 </script>
 
 <svelte:head>
@@ -32,7 +32,7 @@
     />
   </span>
 
-  <TopicExplorer selectedTopic={topicSlug} />
+  <TopicExplorer bind:selectedTopic={topicSlug} />
 
   <span slot="footer">
     <footer class="ons-footer">
