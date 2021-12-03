@@ -14,13 +14,17 @@
   import Header from "./../../ui/Header.svelte";
   import Map from "../../ui/map/Map.svelte";
   import TopicExplorer from "./../../ui/TopicExplorer.svelte";
+  import Topic from "../../ui/Topic.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
   import { selectedGeography } from "../../model/geography/geography";
 
   export let topicSlug;
+  $: innerWidth = 0;
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 </script>
+
+<svelte:window bind:innerWidth />
 
 <svelte:head>
   <title>2021 Census Data Atlas Categories</title>
@@ -43,6 +47,12 @@
   </span>
 
   <TopicExplorer bind:selectedTopic={topicSlug} />
+
+  {#if innerWidth >= 500}
+    <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
+      Explore correlations between two indicators in <a href="#0">advanced mode</a>.
+    </Topic>
+  {/if}
 
   <span slot="footer">
     <footer class="ons-footer">
