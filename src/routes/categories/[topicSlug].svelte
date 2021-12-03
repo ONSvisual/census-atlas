@@ -15,6 +15,7 @@
   import Map from "../../ui/map/Map.svelte";
   import TopicExplorer from "./../../ui/TopicExplorer.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
+  import { selectedGeography } from "../../model/geography/geography";
 
   export let topicSlug;
 
@@ -31,7 +32,9 @@
     <Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore Census data."
+      description="Choose a category and select an option within it to explore {$selectedGeography.lad
+        ? `${$selectedGeography.lad}'s`
+        : 'Census'} data."
     />
   </span>
 
