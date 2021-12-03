@@ -11,18 +11,22 @@
   let topicIndex;
 
   $: {
-    censusData.forEach((topic) => {
-      if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
-        topicIndex = censusData.indexOf(topic);
-      }
-    });
+    if (selectedTopic) {
+      censusData.forEach((topic) => {
+        if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
+          topicIndex = censusData.indexOf(topic);
+        }
+      });
+    }
   }
 
-  onMount(() =>
-    setTimeout(() => {
-      document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
-    }, 150),
-  );
+  onMount(() => {
+    if (selectedTopic) {
+      setTimeout(() => {
+        document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
+      }, 150);
+    }
+  });
 
   let selectedData = getContext("selectedData");
   function populatesSelectedData(tableName, tableCategories) {
