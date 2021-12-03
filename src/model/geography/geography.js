@@ -36,8 +36,8 @@ export function updateZoom(newZoom) {
 
 // ------
 
-function getLadAndLsoa(geographyCode) {
-  if (ladLookup[geographyCode] === null) {
+export function getLadAndLsoa(geographyCode) {
+  if (lsoaLookup[geographyCode]) {
     return {
       lad: lsoaLookup[geographyCode].parent,
       lsoa: geographyCode,
@@ -66,6 +66,7 @@ export function reset() {
     lad: null,
     lsoa: null,
   });
+  zoom.set(config.ux.default_zoom)
 }
 
 // INITIALISERS
