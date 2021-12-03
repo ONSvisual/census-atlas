@@ -6,6 +6,8 @@
   import TopicExplorer from "./../ui/TopicExplorer.svelte";
   import Feedback from "./../ui/Feedback.svelte";
 
+  import { selectedGeography } from "../model/geography/geography";
+
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 </script>
 
@@ -19,7 +21,9 @@
     <Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore Census data."
+      description="Choose a category and select an option within it to explore {$selectedGeography.lad
+        ? `${$selectedGeography.lad}'s`
+        : 'Census'} data."
     />
   </span>
 
