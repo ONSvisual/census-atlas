@@ -4,9 +4,11 @@
   import ONSPhaseBanner from "./ons/ONSPhaseBanner.svelte";
 
   export let mobileMap = true;
+  export let withoutBackground = false;
 
   $: innerWidth = 0;
-  let hasMap = $$slots.map && mobileMap ? "ons-page--has-map" : "";
+  let hasMap =
+    ($$slots.map && mobileMap) || ($$slots.map && !mobileMap && withoutBackground) ? "ons-page--has-map" : "";
 </script>
 
 <svelte:window bind:innerWidth />

@@ -12,10 +12,13 @@
   import BasePage from "./../../ui/BasePage.svelte";
 
   import Header from "./../../ui/Header.svelte";
+  import Map from "../../ui/map/Map.svelte";
   import TopicExplorer from "./../../ui/TopicExplorer.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
 
   export let topicSlug;
+
+  let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 </script>
 
 <svelte:head>
@@ -23,13 +26,17 @@
   <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
 
-<BasePage>
+<BasePage mobileMap={false} withoutBackground>
   <span slot="header">
     <Header
       showBackLink
       serviceTitle="Choose a data option"
       description="Choose a category and select an option within it to explore Census data."
     />
+  </span>
+
+  <span slot="map">
+    <Map bounds={englandWalesBounds} />
   </span>
 
   <TopicExplorer bind:selectedTopic={topicSlug} />
