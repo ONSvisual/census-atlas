@@ -4,13 +4,17 @@
   import Header from "./../ui/Header.svelte";
   import Map from "../ui/map/Map.svelte";
   import TopicExplorer from "./../ui/TopicExplorer.svelte";
+  import Topic from "../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
 
   import { selectedGeography } from "../model/geography/geography";
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
+
+  $: innerWidth = 0;
 </script>
 
+<svelte:window bind:innerWidth />
 <svelte:head>
   <title>2021 Census Data Atlas Categories</title>
   <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
@@ -33,6 +37,11 @@
 
   <TopicExplorer />
 
+  {#if innerWidth >= 500}
+    <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
+      Explore correlations between two indicators in <a href="#0">advanced mode</a>.
+    </Topic>
+  {/if}
   <span slot="footer">
     <footer class="ons-footer">
       <div class="ons-footer__body ons-page__footer" data-analytics="footer">
