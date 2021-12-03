@@ -9,6 +9,7 @@
   export let selectedTopic;
 
   let topicIndex;
+  let url = "http://localhost:3000";
 
   $: {
     if (selectedTopic) {
@@ -44,7 +45,9 @@
           {#each tableEntry.categories as category}
             <li class="ons-list__item">
               <a
-                href="data/{category.code}"
+                href="{url}/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
+                  category.name,
+                ).toLowerCase()}"
                 class="ons-list__link"
                 on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories)}>{category.name}</a
               >
