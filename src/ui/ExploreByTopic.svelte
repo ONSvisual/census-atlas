@@ -1,7 +1,8 @@
 <script>
   import ONSCollapsible from "./ons/ONSCollapsible.svelte";
+  import { indexPageSuggestions } from "../config.js";
   export let url;
-  export let suggestions;
+  export let suggestions = indexPageSuggestions;
 </script>
 
 <div class="component-margin--2">
