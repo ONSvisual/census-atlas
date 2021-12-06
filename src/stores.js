@@ -7,6 +7,11 @@ export const selectedCategory = writable("");
 
 export const bounds = writable([-5.737, 49.882, 2.166, 56.014]);
 export const lad_dta = writable(null);
+export const mapZoomBBox = writable({
+  swCorner: {lon: 0.0, lat: 0.0}, 
+  neCorner: {lon: 0.0, lat: 0.0}, 
+  zoom: 0.0
+});
 
 export async function get_data(url) {
   // load simple CSV of lad boundaries

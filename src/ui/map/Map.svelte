@@ -3,6 +3,8 @@
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
 
+  import { mapZoomBBox } from "../../stores.js"
+
   export let map = null;
   export let minzoom = 0;
   export let maxzoom = 14;
@@ -21,14 +23,23 @@
     getMap: () => map,
   });
 
-  function getDebouncedMapBBox(func, wait) {
-    var timeout;
+  function getDebouncedMapZoomBBoxStore() {
+    var debounceTimer;
+    const debounceTimeout = 250;
     return function(map) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => console.log(map.getBounds()), 250);
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let mapBBox = map.getBounds()
+        console.log(mapBBox)
+        mapZoomBBox.set({
+          swCorner: mapBBox._sw, 
+          neCorner: mapBBox._ne, 
+          zoom: map.getZoom()
+        })
+      }, debounceTimeout);
     };
   };
-  const debouncedMapBBox = getDebouncedMapBBox()
+  const debouncedMapZoomBBoxStore = getDebouncedMapZoomBBoxStore();
 
   onMount(() => {
     const link = document.createElement("link");
@@ -55,12 +66,12 @@
 
       // Update zoom level when the view zooms
       map.on("zoom", () => {
-        debouncedMapBBox(map)
+        debouncedMapZoomBBoxStore(map)
         zoom = map.getZoom();
       });
 
       map.on("drag", () => {
-        debouncedMapBBox(map)
+        debouncedMapZoomBBoxStore(map)
       });
     };
 
