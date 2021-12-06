@@ -32,7 +32,7 @@ export default class LegacyCensusDataService {
   }
 
   async fetchCensusTableStructure() {
-    return simpleTopicTableCategoryData
+    return simpleTopicTableCategoryData;
   }
 
   async fetchLsoaCategoryData(categoryId) {

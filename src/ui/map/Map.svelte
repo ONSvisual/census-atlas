@@ -3,6 +3,7 @@
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
   import { selectedGeography } from "../../model/geography/geography";
+  import ladBoundsLookup from "../../data/ladMapBoundsLookup";
 
   export let map = null;
   export let minzoom = 0;
@@ -21,7 +22,21 @@
   $: {
     if ($selectedGeography.lad) {
       //find the bounds (eg:   "minX"/"minY"/"maxX"/ "maxY"/"lat"/"lon") using lad code in ladMapBoundsLookup.js file
-      //update the bounds prop
+      if (ladBoundsLookup[$selectedGeography.lad]) {
+        //update the bounds prop
+        bounds = [
+          ladBoundsLookup[$selectedGeography.lad].maxX,
+          ladBoundsLookup[$selectedGeography.lad].maxY,
+          ladBoundsLookup[$selectedGeography.lad].minX,
+          ladBoundsLookup[$selectedGeography.lad].minY,
+        ];
+      }
+      // mapLocation = {
+      //   zoom: map.getZoom().toFixed(0),
+      //   lon: center.lng.toFixed(5),
+      //   lat: center.lat.toFixed(5),
+      // };
+
       //use the jumpTo function
     }
   }
