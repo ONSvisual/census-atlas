@@ -21,6 +21,15 @@
     getMap: () => map,
   });
 
+  function getDebouncedMapBBox(func, wait) {
+    var timeout;
+    return function(map) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => console.log(map.getBounds()), 250);
+    };
+  };
+  const debouncedMapBBox = getDebouncedMapBBox()
+
   onMount(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -46,7 +55,12 @@
 
       // Update zoom level when the view zooms
       map.on("zoom", () => {
+        debouncedMapBBox(map)
         zoom = map.getZoom();
+      });
+
+      map.on("drag", () => {
+        debouncedMapBBox(map)
       });
     };
 
