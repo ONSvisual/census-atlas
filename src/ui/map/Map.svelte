@@ -2,12 +2,13 @@
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
+  import { selectedGeography } from "../../model/geography/geography";
 
   export let map = null;
   export let minzoom = 0;
   export let maxzoom = 14;
 
-  export let bounds = [3.2, 55.17, -6.17, 50.38]
+  export let bounds = [3.2, 55.17, -6.17, 50.38];
   export let zoom = 6;
 
   let options = {
@@ -17,6 +18,13 @@
 
   let container;
 
+  $: {
+    if ($selectedGeography.lad) {
+      //find the bounds (eg:   "minX"/"minY"/"maxX"/ "maxY"/"lat"/"lon") using lad code in ladMapBoundsLookup.js file
+      //update the bounds prop
+      //use the jumpTo function
+    }
+  }
   setContext("map", {
     getMap: () => map,
   });
