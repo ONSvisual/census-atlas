@@ -30,13 +30,14 @@
           ladBoundsLookup[$selectedGeography.lad].minX,
           ladBoundsLookup[$selectedGeography.lad].minY,
         ];
+        //   console.log("zoom level",  map.getZoom())
+        //   map.jumpTo({
+        //   zoom: map.getZoom(),
+        //   center:[ladBoundsLookup[$selectedGeography.lad].lon,ladBoundsLookup[$selectedGeography.lad].lat]
+        // })
+      } else {
+        console.log("the geographyCode is not in the lsoaLookup, this is the geographyCode:", $selectedGeography.lad);
       }
-      // mapLocation = {
-      //   zoom: map.getZoom().toFixed(0),
-      //   lon: center.lng.toFixed(5),
-      //   lat: center.lat.toFixed(5),
-      // };
-
       //use the jumpTo function
     }
   }
