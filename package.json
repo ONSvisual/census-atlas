@@ -46,5 +46,9 @@
     "svelte-routing": "^1.6.0",
     "turf": "^3.0.14"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "npm": ">=8.1.0",
+    "node": ">=16.13.0"
+  }
 }
