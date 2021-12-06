@@ -3,6 +3,7 @@
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
   import censusData from "./../data/simpleTopicTableCategoryData";
+  import slugify from "slugify"
 
   let selectedData = getContext("selectedData");
 
@@ -21,7 +22,7 @@
           {#each tableEntry.categories as category}
             <li class="ons-list__item">
               <a
-                href="data/{category.code}"
+                href="{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(category.name).toLowerCase()}"
                 class="ons-list__link"
                 on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories)}>{category.name}</a
               >
