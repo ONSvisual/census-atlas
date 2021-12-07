@@ -1,24 +1,17 @@
 import mockTopicTableCategoryData from "../../../data/mockTopicTableCategoryData";
 
 export default class MockCensusDataService {
-  
   async fetchCensusTableStructure() {
-    return mockTopicTableCategoryData
+    return mockTopicTableCategoryData;
   }
 
-  async fetchLsoaCategoryData(categoryId) {
-    
-  }
+  async fetchLsoaCategoryData(categoryId) {}
 
-  async fetchLegendBreakpoints(categoryId) {
-  }
+  async fetchLegendBreakpoints(categoryId) {}
 
-  async fetchHigherGeographyCategoryData(categoryId) {
-  }
+  async fetchHigherGeographyCategoryData(categoryId) {}
 
-  async fetchCategoryAggregateData(categoryId) {
-
-  }
+  async fetchCategoryAggregateData(categoryId) {}
 
   async fetchTableForGeography(tableId, geographyId) {
     return {

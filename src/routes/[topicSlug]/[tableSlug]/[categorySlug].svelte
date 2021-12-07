@@ -14,7 +14,7 @@
     categoryData,
     fetchCensusData,
     tables,
-    getCategoryBySlug
+    getCategoryBySlug,
   } from "../../../model/censusdata/censusdata";
 
   import {
@@ -28,22 +28,23 @@
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
 
-  import { page } from '$app/stores'
-  let { topicSlug, tableSlug, categorySlug } = $page.params
-  let category = null
-  let table = null
-  let geographyId = $page.query.get('geography')
-  if(geographyId) { updateSelectedGeography(geographyId) }
-  
-  // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && initialisePage()
-  
-  const initialisePage = () => {
-    category = getCategoryBySlug(tableSlug, categorySlug)
-    table = category ? tables[category.table] : null
-    fetchCensusData(category.code, null);
+  import { page } from "$app/stores";
+  let { topicSlug, tableSlug, categorySlug } = $page.params;
+  let category = null;
+  let table = null;
+  let geographyId = $page.query.get("geography");
+  if (geographyId) {
+    updateSelectedGeography(geographyId);
   }
-  
+
+  // temporary line to load some data
+  $: appIsInitialised, $appIsInitialised && initialisePage();
+
+  const initialisePage = () => {
+    category = getCategoryBySlug(tableSlug, categorySlug);
+    table = category ? tables[category.table] : null;
+    fetchCensusData(category.code, null);
+  };
 </script>
 
 <svelte:head>
@@ -133,7 +134,7 @@
   <CensusTableByLocation />
 
   <Topic cardTitle="General health with other indicators"
-  >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+    >Explore correlations between two indicators in <a href="#">advanced mode</a>.
   </Topic>
 
   <UseCensusData location={categorySlug} />

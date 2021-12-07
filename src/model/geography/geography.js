@@ -1,4 +1,4 @@
-import {writable} from "svelte/store";
+import { writable } from "svelte/store";
 import config from "./../../config";
 
 // CONSTANTS
@@ -66,7 +66,7 @@ export function reset() {
     lad: null,
     lsoa: null,
   });
-  zoom.set(config.ux.default_zoom)
+  zoom.set(config.ux.default_zoom);
 }
 
 // INITIALISERS
@@ -87,9 +87,9 @@ function buildLadLookup(ladList, lsoaData) {
     lookup[d.code] = {
       code: d.code,
       name: d.name,
-      children: []
+      children: [],
     };
-  })
+  });
 
   lsoaData.forEach((d) => {
     lookup[d.parent].children.push(d.code);
