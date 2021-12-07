@@ -1,13 +1,3 @@
-<script context="module">
-  export function load({ page }) {
-    return {
-      props: {
-        topicSlug: page.params.topicSlug,
-      },
-    };
-  }
-</script>
-
 <script>
   import BasePage from "./../../ui/BasePage.svelte";
 
@@ -17,8 +7,9 @@
   import Topic from "../../ui/Topic.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
   import { selectedGeography } from "../../model/geography/geography";
+  import { page } from "$app/stores";
+  let { topicSlug } = $page.params;
 
-  export let topicSlug;
   $: innerWidth = 0;
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
