@@ -21,24 +21,15 @@
 
   $: {
     if ($selectedGeography.lad) {
-      //find the bounds (eg:   "minX"/"minY"/"maxX"/ "maxY"/"lat"/"lon") using lad code in ladMapBoundsLookup.js file
       if (ladBoundsLookup[$selectedGeography.lad]) {
-        //update the bounds prop
         bounds = [
           ladBoundsLookup[$selectedGeography.lad].maxX,
           ladBoundsLookup[$selectedGeography.lad].maxY,
           ladBoundsLookup[$selectedGeography.lad].minX,
           ladBoundsLookup[$selectedGeography.lad].minY,
         ];
-        //   console.log("zoom level",  map.getZoom())
-        //   map.jumpTo({
-        //   zoom: map.getZoom(),
-        //   center:[ladBoundsLookup[$selectedGeography.lad].lon,ladBoundsLookup[$selectedGeography.lad].lat]
-        // })
-      } else {
-        console.log("the geographyCode is not in the lsoaLookup, this is the geographyCode:", $selectedGeography.lad);
+          map.fitBounds(bounds, { padding: 30 });
       }
-      //use the jumpTo function
     }
   }
   setContext("map", {
