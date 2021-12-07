@@ -35,6 +35,7 @@ export default {
       min_zoom: 9,
       buildings_breakpoint: 12,
       lsoa_breakpoint: 9,
+      filter: ["all", ["==", "lower", "true"], ["in", "country", "E", "W"]],
       paint: {
         data: {
           "fill-color": [

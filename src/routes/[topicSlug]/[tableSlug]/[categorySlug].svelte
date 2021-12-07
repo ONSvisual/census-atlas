@@ -80,6 +80,7 @@
           onHover={(code) => {
             updateHoveredGeography(code);
           }}
+          filter={config.ux.map.filter}
         />
       </TileSet>
 
