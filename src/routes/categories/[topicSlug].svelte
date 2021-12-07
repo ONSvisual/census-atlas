@@ -37,7 +37,7 @@
     <Map bounds={englandWalesBounds} />
   </span>
 
-  <TopicExplorer bind:selectedTopic={topicSlug} />
+  <TopicExplorer selectedTopic={topicSlug} />
 
   {#if innerWidth >= 500}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
