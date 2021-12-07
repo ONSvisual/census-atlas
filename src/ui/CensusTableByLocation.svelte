@@ -1,6 +1,37 @@
 <script>
-  import { getContext } from "svelte";
-  let selectedData = getContext("selectedData");
+  import { selectedData } from "../model/censusdata/censusdata";
+  export let geographyId;
+
+  console.log($selectedData);
+
+  //-------------------------------**plan**-------------------------
+
+  //change the category code
+  //make a fetch request
+  //handle the data to be consumed(calculate percentages)
+
+  //---------------------------------------------------------------
+
+  // _decomposeCategoryId(categoryId) {
+  //   const digitsSuffix = categoryId.match(/\d+$/)[0];
+  //   return {
+  //     digitsSuffix: digitsSuffix,
+  //     prefix: categoryId.substring(categoryId.lastIndexOf(digitsSuffix), 0)
+  //   }
+  // }
+
+  // // adjust for 1-based (nomis bulk, in the db) vs 0-based (nomis api) categories: QS101EW001 -> QS101EW0002
+  // _categoryIDToDBColumn(categoryId) {
+  //   const categoryIdParts = this.decomposeCategoryId(categoryId);
+  //   const adjustedSuffix = (parseInt(categoryIdParts.digitsSuffix)+1).toString().padStart(4,"0");
+  //   return categoryIdParts.prefix + adjustedSuffix
+  // }
+
+  // // get totals column (1-based, in the db) from category ID: QS101EW010 -> QS101EW0001
+  // _categoryIDToDBTotalsColumn(categoryId) {
+  //   const categoryIdParts = this.decomposeCategoryId(categoryId);
+  //   return categoryIdParts.prefix + "0001"
+  // }
 </script>
 
 {#if $selectedData}
