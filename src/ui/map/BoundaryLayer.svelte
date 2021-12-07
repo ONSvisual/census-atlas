@@ -9,7 +9,7 @@
   export let type = "line";
   export let filter = null;
   export let layout = {};
-  export let paint = config.ux.map.paint.line;
+  export let paint = config.ux.map.paint.boundary;
   export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");

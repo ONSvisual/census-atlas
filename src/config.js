@@ -49,6 +49,10 @@ export default {
           "line-color": ["rgba(192, 192, 192, 1)"],
           "line-width": [0.75],
         },
+        boundary: {
+          "line-color": "#3c388e",
+            "line-width": 2,
+        },
         interactive: {
           "line-color": [
             "case",
