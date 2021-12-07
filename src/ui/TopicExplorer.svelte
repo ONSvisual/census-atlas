@@ -45,7 +45,7 @@
           {#each tableEntry.categories as category}
             <li class="ons-list__item">
               <a
-                href="{config.url}/{slugify(topic.name).toLowerCase()}/{slugify(
+                href="{config.baseUrl}/{slugify(topic.name).toLowerCase()}/{slugify(
                   tableEntry.name,
                 ).toLowerCase()}/{slugify(category.name).toLowerCase()}"
                 class="ons-list__link"

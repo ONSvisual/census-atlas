@@ -69,7 +69,7 @@ export default {
       },
     },
   },
-  url: "http://localhost:3000",
+  baseUrl: "http://localhost:3000",
 };
 
 export const indexPageSuggestions = [
