@@ -13,6 +13,7 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
     "@sveltejs/adapter-netlify": "^1.0.0-next.35",
     "@sveltejs/kit": "^1.0.0-next.200",
     "@testing-library/svelte": "^3.0.3",
@@ -45,5 +46,9 @@
     "svelte-routing": "^1.6.0",
     "turf": "^3.0.14"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "npm": ">=8.1.0",
+    "node": ">=16.13.0"
+  }
 }
