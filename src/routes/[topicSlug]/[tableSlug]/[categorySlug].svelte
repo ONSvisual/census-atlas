@@ -17,11 +17,7 @@
     getCategoryBySlug,
   } from "../../../model/censusdata/censusdata";
 
-  import {
-    updateHoveredGeography,
-    updateSelectedGeography,
-    getLadName,
-  } from "../../../model/geography/geography";
+  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
@@ -33,7 +29,7 @@
   let category = null;
   let table = null;
   let locationId = $page.query.get("location");
-  let locationName = ""
+  let locationName = "";
   if (locationId) {
     updateSelectedGeography(locationId);
   }
@@ -45,7 +41,7 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     fetchCensusData(category.code, null);
-    locationName = getLadName(locationId)
+    locationName = getLadName(locationId);
   };
 </script>
 
