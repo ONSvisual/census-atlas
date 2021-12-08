@@ -23,5 +23,6 @@
 <style>
   .component-margin--2 {
     margin-bottom: 2rem;
+    margin-top: 2rem;
   }
 </style>

@@ -29,6 +29,7 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
+
   let locationId = $page.query.get("location");
   let locationName = "";
   if (locationId) {
