@@ -17,11 +17,7 @@
     getCategoryBySlug,
   } from "../../../model/censusdata/censusdata";
 
-  import {
-    updateHoveredGeography,
-    updateSelectedGeography,
-    loadingGeography,
-  } from "../../../model/geography/geography";
+  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
@@ -33,9 +29,10 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
-  let geographyId = $page.query.get("geography");
-  if (geographyId) {
-    updateSelectedGeography(geographyId);
+  let locationId = $page.query.get("location");
+  let locationName = "";
+  if (locationId) {
+    updateSelectedGeography(locationId);
   }
 
   // temporary line to load some data
@@ -45,6 +42,7 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     fetchCensusData(category.code, null);
+    locationName = getLadName(locationId);
   };
 </script>
 
@@ -55,7 +53,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={geographyId} />
+    <DataHeader tableName={table ? table.name : null} location={locationName} />
     <CategorySelector />
   </span>
 
@@ -141,7 +139,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation />
+  <CensusTableByLocation {locationId} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

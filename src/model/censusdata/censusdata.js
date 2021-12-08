@@ -3,6 +3,7 @@ import { writable } from "svelte/store";
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
 export let tableIsLoaded = writable(false);
+export const selectedData = writable();
 
 export let categoryData = {};
 export let tableData = {};
