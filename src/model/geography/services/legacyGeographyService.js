@@ -16,8 +16,8 @@ export default class LegacyGeographyService {
       return {
         code: f.properties[LAD_AREA_CODE],
         name: f.properties[LAD_AREA_NAME],
-      }
-    })
+      };
+    });
   };
 
   getLsoaData = async function () {
