@@ -22,7 +22,7 @@
               <a
                 href="{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
                   category.name,
-                ).toLowerCase()}"
+                ).toLowerCase()}?location=E08000012"
                 class="ons-list__link"
                 on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories, category.code)}
                 >{category.name}</a

@@ -32,9 +32,9 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
-  let geographyId = $page.query.get("geography");
-  if (geographyId) {
-    updateSelectedGeography(geographyId);
+  let locationId = $page.query.get("location");
+  if (locationId) {
+    updateSelectedGeography(locationId);
   }
 
   // temporary line to load some data
@@ -54,7 +54,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={geographyId} />
+    <DataHeader tableName={table ? table.name : null} location={locationId} />
     <CategorySelector />
   </span>
 
@@ -131,7 +131,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation {geographyId} />
+  <CensusTableByLocation {locationId} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
