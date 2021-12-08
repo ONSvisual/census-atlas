@@ -1,10 +1,10 @@
 <script>
-  import { getContext } from "svelte";
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
   import censusData from "./../data/simpleTopicTableCategoryData";
   import { onMount } from "svelte";
   import slugify from "slugify";
+  import { selectedData } from "../model/censusdata/censusdata";
 
   export let selectedTopic;
 
@@ -29,10 +29,9 @@
     }
   });
 
-  let selectedData = getContext("selectedData");
-  function populatesSelectedData(tableName, tableCategories) {
+  function populatesSelectedData(tableName, tableCategories, selectedCategory) {
     $selectedData = {};
-    $selectedData = { tableName: tableName, tableCategories: tableCategories };
+    $selectedData = { tableName: tableName, tableCategories: tableCategories, categorySelected: selectedCategory };
   }
 </script>
 
@@ -47,9 +46,10 @@
               <a
                 href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
                   category.name,
-                ).toLowerCase()}"
+                ).toLowerCase()}?location=E08000012"
                 class="ons-list__link"
-                on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories)}>{category.name}</a
+                on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories, category.code)}
+                >{category.name}</a
               >
             </li>
           {/each}

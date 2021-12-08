@@ -17,14 +17,11 @@
     getCategoryBySlug,
   } from "../../../model/censusdata/censusdata";
 
-  import {
-    updateHoveredGeography,
-    updateSelectedGeography,
-    loadingGeography,
-  } from "../../../model/geography/geography";
+  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
+  import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
 
@@ -32,9 +29,11 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
-  let geographyId = $page.query.get("geography");
-  if (geographyId) {
-    updateSelectedGeography(geographyId);
+
+  let locationId = $page.query.get("location");
+  let locationName = "";
+  if (locationId) {
+    updateSelectedGeography(locationId);
   }
 
   // temporary line to load some data
@@ -44,6 +43,7 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     fetchCensusData(category.code, null);
+    locationName = getLadName(locationId);
   };
 </script>
 
@@ -54,7 +54,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={geographyId} />
+    <DataHeader tableName={table ? table.name : null} location={locationName} />
     <CategorySelector />
   </span>
 
@@ -66,10 +66,9 @@
         url={config.legacy.ladvector.url}
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
-        maxzoom={config.ux.map.lsoa_breakpoint}
       >
         {#if $categoryDataIsLoaded}
-          <DataLayer id="lad-data-zoom" data={categoryData} />
+          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
         {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
@@ -80,6 +79,7 @@
           onHover={(code) => {
             updateHoveredGeography(code);
           }}
+          filter={config.ux.map.filter}
         />
       </TileSet>
 
@@ -117,6 +117,15 @@
           <DataLayer id="lsoa-data-zoom" data={categoryData} />
         {/if}
       </TileSet>
+      <TileSet
+        id="lad-boundaries"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
+      </TileSet>
     </Map>
   </span>
 
@@ -131,7 +140,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation />
+  <CensusTableByLocation {locationId} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

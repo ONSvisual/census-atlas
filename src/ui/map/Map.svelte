@@ -2,6 +2,8 @@
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
+  import { selectedGeography } from "../../model/geography/geography";
+  import ladBoundsLookup from "../../data/ladMapBoundsLookup";
 
   export let map = null;
   export let minzoom = 0;
@@ -17,6 +19,17 @@
 
   let container;
 
+  $: {
+    if ($selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
+      bounds = [
+        ladBoundsLookup[$selectedGeography.lad].maxX,
+        ladBoundsLookup[$selectedGeography.lad].maxY,
+        ladBoundsLookup[$selectedGeography.lad].minX,
+        ladBoundsLookup[$selectedGeography.lad].minY,
+      ];
+      map.fitBounds(bounds, { padding: 30 });
+    }
+  }
   setContext("map", {
     getMap: () => map,
   });

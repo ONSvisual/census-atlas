@@ -50,6 +50,13 @@ export function getLadAndLsoa(geographyCode) {
   }
 }
 
+export function getLadName(geographyCode) {
+  if (ladLookup[geographyCode]) {
+    return ladLookup[geographyCode].name;
+  }
+  return geographyCode;
+}
+
 // RESET (for tests)
 
 export function reset() {
