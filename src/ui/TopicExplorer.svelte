@@ -20,11 +20,12 @@
     }
   }
 
+  // !!! Temporary solution -  to be removed when we'll be able to import the DS js bundle at a component level
   onMount(() => {
     if (selectedTopic) {
       setTimeout(() => {
         document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
-      }, 150);
+      }, 250);
     }
   });
 
