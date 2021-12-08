@@ -27,6 +27,7 @@
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
+  import { selectedData } from "../../../model/censusdata/censusdata";
 
   import { page } from "$app/stores";
   let { topicSlug, tableSlug, categorySlug } = $page.params;
@@ -36,6 +37,8 @@
   if (locationId) {
     updateSelectedGeography(locationId);
   }
+
+  const findSelectedCategIndex = (element) => element.code === $selectedData.categorySelected;
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
@@ -55,7 +58,13 @@
 <BasePage>
   <span slot="header">
     <DataHeader tableName={table ? table.name : null} location={locationId} />
-    <CategorySelector />
+    <CategorySelector
+      selectedCode={$selectedData.categorySelected}
+      categories={$selectedData.tableCategories}
+      {topicSlug}
+      {tableSlug}
+      selectedCatIndex={$selectedData.tableCategories.findIndex(findSelectedCategIndex)}
+    />
   </span>
 
   <span slot="map">

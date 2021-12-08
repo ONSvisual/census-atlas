@@ -1,4 +1,6 @@
 <script>
+  import slugify from "slugify";
+  export let topicSlug, tableSlug;
   export let categories = [
     {
       code: "QS302EW001",
@@ -21,14 +23,16 @@
       name: "Very bad health",
     },
   ];
-
   export let selectedCode = "QS302EW002";
   export let selectedCatIndex = 0;
-  categories.forEach((category, index) => {
-    if (category.code == selectedCode) {
-      selectedCatIndex = index;
-    }
-  });
+
+  if (selectedCode) {
+    categories.forEach((category, index) => {
+      if (category.code == selectedCode) {
+        selectedCatIndex = index;
+      }
+    });
+  }
 </script>
 
 <div class="category-selector ons-grid--flex ons-grid--vertical-center">
@@ -36,13 +40,25 @@
     <div class="ons-pl-grid-col ons-grid--flex ons-grid__col--flex" style="justify-content:left">
       <span>&#60;&#160;</span>
       {#if selectedCatIndex > 0}
-        <p class="category-selector__button" href="#" on:click={() => selectedCatIndex--}>
+        <a
+          class="category-selector__button"
+          href="/{topicSlug}/{tableSlug}/{slugify(
+            categories[selectedCatIndex - 1].name,
+          ).toLowerCase()}?location=E08000012"
+          on:click={() => selectedCatIndex--}
+        >
           {categories[selectedCatIndex - 1].name}
-        </p>
+        </a>
       {:else}
-        <p class="category-selector__button" href="#" on:click={() => (selectedCatIndex = categories.length - 1)}>
+        <a
+          class="category-selector__button"
+          href="/{topicSlug}/{tableSlug}/{slugify(
+            categories[categories.length - 1].name,
+          ).toLowerCase()}?location=E08000012"
+          on:click={() => (selectedCatIndex = categories.length - 1)}
+        >
           {categories[categories.length - 1].name}
-        </p>
+        </a>
       {/if}
     </div>
   </div>
@@ -54,13 +70,23 @@
   <div class="ons-grid__col ons-col-4@m selector-col">
     <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:right">
       {#if selectedCatIndex < categories.length - 1}
-        <p class="category-selector__button category-selector__button__left" on:click={() => selectedCatIndex++}>
+        <a
+          class="category-selector__button category-selector__button__left"
+          href="/{topicSlug}/{tableSlug}/{slugify(
+            categories[selectedCatIndex + 1].name,
+          ).toLowerCase()}?location=E08000012"
+          on:click={() => selectedCatIndex++}
+        >
           {categories[selectedCatIndex + 1].name}
-        </p>
+        </a>
       {:else}
-        <p class="category-selector__button category-selector__button__left" on:click={() => (selectedCatIndex = 0)}>
+        <a
+          class="category-selector__button category-selector__button__left"
+          href="/{topicSlug}/{tableSlug}/{slugify(categories[0].name).toLowerCase()}?location=E08000012"
+          on:click={() => (selectedCatIndex = 0)}
+        >
           {categories[0].name}
-        </p>
+        </a>
       {/if}
       <span>&#160;&#62;</span>
     </div>
