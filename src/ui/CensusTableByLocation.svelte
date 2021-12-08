@@ -1,42 +1,55 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
+  import { csvParse, autoType } from "d3-dsv";
   export let locationId;
 
-  console.log("inside table location:", locationId)
+  console.log("inside table location:", locationId);
   console.log($selectedData);
-  let queryParams = {}
+  let queryParams = {};
+  let populateCensusTable = {};
+  $: console.log("populateCensusTable", populateCensusTable);
 
   if ($selectedData) {
-    retrieveTableData($selectedData)
+    retrieveTableData($selectedData);
   }
 
-  async function retrieveTableData($selectedData){
-    queryParams['totalsCode'] = categoryIDToDBTotalsColumn($selectedData.categorySelected)
-    const categoryCodesArr = $selectedData.tableCategories.map((category) => {
-      return categoryIDToDBColumn(category.code)
-    })
-    queryParams['categoryCodes'] = categoryCodesArr.toString()
-    console.log("queryParams", queryParams)
-    await fetchTableData(queryParams)
+  async function retrieveTableData($selectedData) {
+    queryParams["totalsCode"] = categoryIDToDBTotalsColumn($selectedData.categorySelected);
+    populateCensusTable["total"] = { code: queryParams["totalsCode"] };
+    populateCensusTable["categories"] = [];
+    const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
+      const dbCategoryCode = categoryIDToDBColumn(category.code);
+      populateCensusTable["categories"][i] = { code: [dbCategoryCode], name: category.name };
+      return dbCategoryCode;
+    });
+    queryParams["categoryCodes"] = categoryCodesArr.toString();
+    const data = await fetchTableData(queryParams);
+    processData(data);
   }
 
   async function fetchTableData(queryParams) {
-    const url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=${locationId}&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`
-    console.log("url", url)
-    const response = await fetch(url)
-    console.log(await response.text())
-    // const data = await response.json()
-    // console.log("data", data)
-    // return data
-  } 
+    const url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=${locationId}&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
+    const response = await fetch(url);
+    const string = await response.text();
+    let data = await csvParse(string, autoType);
+    return data;
+  }
 
-  //-------------------------------**plan**-------------------------
-
-  //change the category code
-  //make a fetch request
-  //handle the data to be consumed(calculate percentages)
-
-  //---------------------------------------------------------------
+  function processData(data) {
+    console.log("data inside process", data);
+    if (data[0][populateCensusTable.total.code]) {
+      populateCensusTable.total.value = data[0][populateCensusTable.total.code];
+    }
+    populateCensusTable["categories"].forEach((category) => {
+      if (data[0][category.code]) {
+        category["value"] = data[0][category.code];
+        category["percentage"] = (
+          Math.round((category.value / populateCensusTable.total.value) * 100 * 10) / 10
+        ).toFixed(1);
+        category["value"] = category["value"].toLocaleString();
+      }
+    });
+  }
 
   function decomposeCategoryId(categoryId) {
     const digitsSuffix = categoryId.match(/\d+$/)[0];
@@ -76,11 +89,11 @@
       </tr>
     </thead>
     <tbody class="ons-table__body">
-      {#each $selectedData.tableCategories as category}
+      {#each populateCensusTable.categories as category}
         <tr class="ons-table__row">
           <td class="ons-table__cell ">{category.name}</td>
-          <td class="ons-table__cell  ons-table__cell--numeric">data to add</td>
-          <td class="ons-table__cell  ons-table__cell--numeric">data to add </td>
+          <td class="ons-table__cell  ons-table__cell--numeric">{category.value}</td>
+          <td class="ons-table__cell  ons-table__cell--numeric">{category.percentage}% </td>
         </tr>
       {/each}
     </tbody>
