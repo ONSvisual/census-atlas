@@ -3,11 +3,8 @@
   import { csvParse, autoType } from "d3-dsv";
   export let locationId;
 
-  console.log("inside table location:", locationId);
-  console.log($selectedData);
   let queryParams = {};
   let populateCensusTable = {};
-  $: console.log("populateCensusTable", populateCensusTable);
 
   if ($selectedData) {
     retrieveTableData($selectedData);
@@ -36,7 +33,6 @@
   }
 
   function processData(data) {
-    console.log("data inside process", data);
     if (data[0][populateCensusTable.total.code]) {
       populateCensusTable.total.value = data[0][populateCensusTable.total.code];
     }
