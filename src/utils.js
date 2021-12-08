@@ -62,36 +62,19 @@ function categoryIDToDBTotalsColumn(categoryId) {
 	return categoryIdParts.prefix + "0001" 
 }
 
-export async function getNomis(categoryID, selectedLad, lsoaToLadMapping) {
+export async function getNomis(categoryID, map) {
 	// build URL
-	let firstLsoaInLad
-	let previousLsoaInLad
-	let lastLsoaInLad
-	for (let lsoa in lsoaToLadMapping) {
+	
 
-		// if we have a match for lad...
-		if (lsoaToLadMapping[lsoa].parent === selectedLad) {
-			// ...and the first lsoa already is not already set, then set it...
-			if (firstLsoaInLad === undefined) {
-				firstLsoaInLad = lsoa
-			}
-			// ... regardless, store the lsoa for the next loop and continue
-			previousLsoaInLad = lsoa
-			continue
-		}
+	// bbox query
+	let mapBBox = map.getBounds()
+    const bboxQuery = [
+		mapBBox._sw.lng,
+		mapBBox._sw.lat,
+		mapBBox._ne.lng,
+		mapBBox._ne.lat
+	  ].join(",");
 
-		// if we do NOT have a match for lad, but the previousLsoaInLad IS set, then set the lastLsoaInLad and break
-		if (previousLsoaInLad != undefined) {
-			lastLsoaInLad = previousLsoaInLad
-			break
-		}
-
-		// otherwise just continue looping through
-	}
-	// rows should include:
-	// - range of first to last lsoas (NB ASSUMES ALL LADS BOUND A CONTINUOUS RANGE OF LSOAS, WHICH IS PROBABLY NOT TRUE)
-	// - the lad itself
-	// - all of england
 	const dbColumn = categoryIDToDBColumn(categoryID);
     const dbtotalsColumn = categoryIDToDBTotalsColumn(categoryID);
     const colsQuery = [
@@ -99,8 +82,7 @@ export async function getNomis(categoryID, selectedLad, lsoaToLadMapping) {
 		dbtotalsColumn,
 		dbColumn,
     ].join(",");
-	let rowQuery = `rows=${firstLsoaInLad}...${lastLsoaInLad}&rows=${selectedLad}`;
-	let url = `${baseURL}?${rowQuery}&${colsQuery}`
+	const url = `${baseURL}?bbox=${bboxQuery}&cols=${colsQuery}`;
   	let response = await fetch(url);
   	let string = await response.text();
 	let data = await csvParse(string, (d) => {
@@ -111,7 +93,8 @@ export async function getNomis(categoryID, selectedLad, lsoaToLadMapping) {
 			perc: (+d[dbColumn] / +d[dbtotalsColumn]) * 100
 		};
 	});
-  return data;
+	console.log(`${colsQuery} loaded for bounding box ${bboxQuery}`)
+	return data;
 }
 
 export function processData(data, lsoaToLadMapping, categoryID, cachedIndex, EWdata) {

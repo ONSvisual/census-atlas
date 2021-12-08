@@ -200,13 +200,15 @@
 	}
 
 	function loadEWData() {
+		tStart = performance.now();
 		console.log("loading EW data...");
 		loading = true;
 		getAllEWCategoryData().then((res) => {
 			EWdata = res;
 			loading = false;
 			console.log("EW data loaded from API!");
-			console.log(EWdata)
+			tFinish = performance.now()
+			console.log(`performance:EW_all:${tFinish-tStart}`)
 		});
 	}
 
@@ -214,7 +216,7 @@
 		console.log("loading data...");
 		loading = true;
 		let selectedLad = active.lad.selected ? active.lad.selected : "E09000001" // default to city of london
-		if (cachedIndex[selectItem.code] && cachedIndex[selectItem.code].has(selectedLad)) { //(data[selectItem.code]) {
+		if (cachedIndex[selectItem.code] && cachedIndex[selectItem.code].has(selectedLad)) { 
 			selectData = data[selectItem.code];
 			console.log("data loaded from memory!");
 			if (active.lad.selected) {
@@ -223,7 +225,7 @@
 			loading = false;
 		} else {
 			tStart = performance.now();
-			getNomis(selectMeta.code, selectedLad, lsoalookup).then((res) => {
+			getNomis(selectMeta.code, map).then((res) => {
 				let dataset = {
 					lsoa: {},
 					lad: {},
@@ -354,7 +356,7 @@
 		};
 	};
 	const debouncedDataLoader = getDebouncedDataLoader();
-
+	
 	// CODE
 	// Update state based on URL
 	let hash = location.hash == '' ? '' : location.hash.split('/');
