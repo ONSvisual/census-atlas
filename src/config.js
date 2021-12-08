@@ -51,7 +51,7 @@ export default {
         },
         boundary: {
           "line-color": "#3c388e",
-            "line-width": 2,
+          "line-width": 2,
         },
         interactive: {
           "line-color": [

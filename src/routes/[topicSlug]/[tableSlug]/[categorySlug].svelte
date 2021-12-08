@@ -25,7 +25,7 @@
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
-  import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte"
+  import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
 
@@ -69,8 +69,7 @@
         promoteId={config.legacy.ladvector.code}
       >
         {#if $categoryDataIsLoaded}
-          <DataLayer id="lad-data-zoom" data={categoryData}
-          maxzoom={config.ux.map.lsoa_breakpoint} />
+          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
         {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
@@ -120,14 +119,14 @@
         {/if}
       </TileSet>
       <TileSet
-      id="lad-boundaries"
-      type="vector"
-      url={config.legacy.ladvector.url}
-      layer={config.legacy.ladvector.layer}
-      promoteId={config.legacy.ladvector.code}
-    >
-      <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer"/>
-    </TileSet>
+        id="lad-boundaries"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
+      </TileSet>
     </Map>
   </span>
 

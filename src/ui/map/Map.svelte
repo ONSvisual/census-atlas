@@ -20,16 +20,14 @@
   let container;
 
   $: {
-    if ($selectedGeography.lad) {
-      if (ladBoundsLookup[$selectedGeography.lad]) {
-        bounds = [
-          ladBoundsLookup[$selectedGeography.lad].maxX,
-          ladBoundsLookup[$selectedGeography.lad].maxY,
-          ladBoundsLookup[$selectedGeography.lad].minX,
-          ladBoundsLookup[$selectedGeography.lad].minY,
-        ];
-          map.fitBounds(bounds, { padding: 30 });
-      }
+    if ($selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
+      bounds = [
+        ladBoundsLookup[$selectedGeography.lad].maxX,
+        ladBoundsLookup[$selectedGeography.lad].maxY,
+        ladBoundsLookup[$selectedGeography.lad].minX,
+        ladBoundsLookup[$selectedGeography.lad].minY,
+      ];
+      map.fitBounds(bounds, { padding: 30 });
     }
   }
   setContext("map", {
