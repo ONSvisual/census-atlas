@@ -20,7 +20,7 @@
   import {
     updateHoveredGeography,
     updateSelectedGeography,
-    loadingGeography,
+    getLadName,
   } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
@@ -33,6 +33,7 @@
   let category = null;
   let table = null;
   let locationId = $page.query.get("location");
+  let locationName = ""
   if (locationId) {
     updateSelectedGeography(locationId);
   }
@@ -44,6 +45,7 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     fetchCensusData(category.code, null);
+    locationName = getLadName(locationId)
   };
 </script>
 
@@ -54,7 +56,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={locationId} />
+    <DataHeader tableName={table ? table.name : null} location={locationName} />
     <CategorySelector />
   </span>
 
