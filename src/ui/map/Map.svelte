@@ -20,7 +20,7 @@
   let container;
 
   $: {
-    if ($selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
+    if (map && $selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
       bounds = [
         ladBoundsLookup[$selectedGeography.lad].maxX,
         ladBoundsLookup[$selectedGeography.lad].maxY,
