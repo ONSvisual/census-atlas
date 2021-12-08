@@ -223,18 +223,14 @@
 			loading = false;
 		} else {
 			tStart = performance.now();
-			// let url = `${apiurl}${selectMeta.table.nomis}${selectMeta.cell}&geography=${geography}&uid=${apikey}`;
-			// let url = `https://bothness.github.io/census-atlas/data/lsoa/${selectMeta.code}.csv`;
-			let table = selectMeta.code.slice(0,-3).toLowerCase()
-			let col_header = `_${parseInt(selectMeta.cell)}`
-			getNomis(table, col_header, selectedLad, lsoalookup).then((res) => {
+			getNomis(selectMeta.code, selectedLad, lsoalookup).then((res) => {
 				let dataset = {
 					lsoa: {},
 					lad: {},
 					ew: {},
 				};
 
-				let proc = processData(res, lsoalookup, selectMeta.code, cachedIndex);
+				let proc = processData(res, lsoalookup, selectMeta.code, cachedIndex, EWdata);
 				dataset.lsoa.data = proc.lsoa.data
 				let vals = dataset.lsoa.data.map(d => d.perc);
 				let chunks = ckmeans(vals, 5);

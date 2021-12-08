@@ -58,11 +58,11 @@ function dBColumnToCategoryID(dbColumn) {
 
 // get totals column (1-based, in the db) from category ID: QS101EW010 -> QS101EW0001
 function categoryIDToDBTotalsColumn(categoryId) {
-	const categoryIdParts = this.decomposeCategoryId(categoryId);
+	const categoryIdParts = decomposeNomisCategory(categoryId);
 	return categoryIdParts.prefix + "0001" 
 }
 
-export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping) {
+export async function getNomis(categoryID, selectedLad, lsoaToLadMapping) {
 	// build URL
 	let firstLsoaInLad
 	let previousLsoaInLad
@@ -92,23 +92,29 @@ export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping)
 	// - range of first to last lsoas (NB ASSUMES ALL LADS BOUND A CONTINUOUS RANGE OF LSOAS, WHICH IS PROBABLY NOT TRUE)
 	// - the lad itself
 	// - all of england
-	let rowQuery = `rows=geography_code:${firstLsoaInLad}...${lastLsoaInLad}&rows=geography_code:${selectedLad}&rows=geography_code:EW`
-	let colQuery = `cols=geography_code,total,${col_header}`
-	let url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/atlas2011.${table}?${rowQuery}&${colQuery}`
+	const dbColumn = categoryIDToDBColumn(categoryID);
+    const dbtotalsColumn = categoryIDToDBTotalsColumn(categoryID);
+    const colsQuery = [
+		"geography_code",
+		dbtotalsColumn,
+		dbColumn,
+    ].join(",");
+	let rowQuery = `rows=${firstLsoaInLad}...${lastLsoaInLad}&rows=${selectedLad}`;
+	let url = `${baseURL}?${rowQuery}&${colsQuery}`
   	let response = await fetch(url);
   	let string = await response.text();
-	let data = await csvParse(string, (d, i) => {
+	let data = await csvParse(string, (d) => {
 		return {
 			code: d['geography_code'],
-			value: +d[col_header],
-			count: +d['total'],
-			perc: (+d[col_header] / +d['total']) * 100
+			value: +d[dbColumn],
+			count: +d[dbtotalsColumn],
+			perc: (+d[dbColumn] / +d[dbtotalsColumn]) * 100
 		};
 	});
   return data;
 }
 
-export function processData(data, lsoaToLadMapping, tableCode, cachedIndex) {
+export function processData(data, lsoaToLadMapping, categoryID, cachedIndex, EWdata) {
 	let lsoa = {
 		data: [],
 		index: {}
@@ -125,18 +131,13 @@ export function processData(data, lsoaToLadMapping, tableCode, cachedIndex) {
 		}
 	};
 
-	if (!(tableCode in cachedIndex)) {
-		cachedIndex[tableCode] = new Set;
+	if (!(categoryID in cachedIndex)) {
+		cachedIndex[categoryID] = new Set;
 	}
 
 	data.forEach(d => {
-		cachedIndex[tableCode].add(d.code)
-		if (d.code === 'EW') {
-			// process country data
-			ew.data.value = d.value
-			ew.data.count = d.count
-			ew.data.perc = d.perc
-		} else if (d.code.slice(1,3) === '01') {
+		cachedIndex[categoryID].add(d.code)
+		if (d.code.slice(1,3) === '01') {
 			// process lsoa data
 			lsoa.index[d.code] = d
 			lsoa.data.push(d)
@@ -151,6 +152,12 @@ export function processData(data, lsoaToLadMapping, tableCode, cachedIndex) {
 			lad.data.push(d)
 		}
 	})
+
+	// copy appropriate EW data
+	ew.data.value = EWdata[categoryID];
+	ew.data.count = EWdata[dBColumnToCategoryID(categoryIDToDBTotalsColumn(categoryID))];
+	ew.data.perc = (ew.data.value / ew.data.count) * 100
+
 	// ADD MEDIAN (just the middle LSOA in terms of % for current data)
 	// simple as we only have one LAD at any one time...
 	const lsoasCodesInLad = Object.keys(lsoa.index)
