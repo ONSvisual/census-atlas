@@ -1,6 +1,8 @@
 import { feature } from 'topojson-client';
 import { csvParse, autoType } from 'd3-dsv';
 
+const baseURL = "https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny"
+
 export async function getData(url) {
   let response = await fetch(url);
   let string = await response.text();
@@ -13,6 +15,51 @@ export async function getTopo(url, layer) {
   let topojson = await response.json();
 	let geojson = await feature(topojson, layer);
   return geojson;
+}
+
+// make sure something calls this on init
+export async function getAllEWCategoryData() {
+    const url = `${baseURL}?rows=K04000001`;
+    let response = await fetch(url);
+    let string = await response.text();
+	let EWdata = {};
+    csvParse(string, (row, i, dBColumns) => {
+		dBColumns.forEach((dBColumn) => {
+			if (dBColumn != "geography_code") {
+				const categoryID = dBColumnToCategoryID(dBColumn);
+				EWdata[categoryID] = +row[dBColumn];
+			}
+      });     
+    });
+	return EWdata
+  }
+
+function decomposeNomisCategory(categoryId) {
+	const digitsSuffix = categoryId.match(/\d+$/)[0];
+	return {
+		digitsSuffix: digitsSuffix, 
+		prefix: categoryId.substring(categoryId.lastIndexOf(digitsSuffix), 0)
+	}
+}
+
+// adjust for 1-based (nomis bulk, in the db) vs 0-based (nomis API, in this app) categories: QS101EW001 -> QS101EW0002
+function categoryIDToDBColumn(categoryId) {
+	const categoryIdParts = decomposeNomisCategory(categoryId);
+	const adjustedSuffix = (parseInt(categoryIdParts.digitsSuffix)+1).toString().padStart(4,"0");
+	return categoryIdParts.prefix + adjustedSuffix 
+}
+
+// adjust for 0-based (nomis API, in this app) vs 1-based (nomis bulk, in the db) categories: QS101EW0002 -> QS101EW001
+function dBColumnToCategoryID(dbColumn) {
+	const dbColumnParts = decomposeNomisCategory(dbColumn);
+	const adjustedSuffix = (parseInt(dbColumnParts.digitsSuffix)-1).toString().padStart(3,"0");
+	return dbColumnParts.prefix + adjustedSuffix 
+}
+
+// get totals column (1-based, in the db) from category ID: QS101EW010 -> QS101EW0001
+function categoryIDToDBTotalsColumn(categoryId) {
+	const categoryIdParts = this.decomposeCategoryId(categoryId);
+	return categoryIdParts.prefix + "0001" 
 }
 
 export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping) {
@@ -48,8 +95,8 @@ export async function getNomis(table, col_header, selectedLad, lsoaToLadMapping)
 	let rowQuery = `rows=geography_code:${firstLsoaInLad}...${lastLsoaInLad}&rows=geography_code:${selectedLad}&rows=geography_code:EW`
 	let colQuery = `cols=geography_code,total,${col_header}`
 	let url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/atlas2011.${table}?${rowQuery}&${colQuery}`
-  let response = await fetch(url);
-  let string = await response.text();
+  	let response = await fetch(url);
+  	let string = await response.text();
 	let data = await csvParse(string, (d, i) => {
 		return {
 			code: d['geography_code'],

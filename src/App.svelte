@@ -10,7 +10,7 @@
 	import ColChart from "./charts/Histogram.svelte";
 	import Loader from "./ui/Loader.svelte";
 	import Select from "./ui/Select.svelte";
-	import { getData, getNomis, getBreaks, getTopo, processData } from "./utils.js";
+	import { getData, getNomis, getBreaks, getTopo, processData, getAllEWCategoryData } from "./utils.js";
 
 	// CONFIG
 	// const apiurl = "https://www.nomisweb.co.uk/api/v01/dataset/";
@@ -54,6 +54,7 @@
 
 	// DATA
 	let cachedIndex = {};
+	let EWdata = {}
 	let indicators;
 	let ladbounds;
 	let ladlookup;
@@ -111,6 +112,7 @@
 	}
 
 	function initialise() {
+		loadEWData()
 		getTopo(ladtopo.url, ladtopo.layer)
 			.then((geo) => {
 				ladbounds = geo;
@@ -195,6 +197,17 @@
 			loadData();
 			updateURL();
 		}
+	}
+
+	function loadEWData() {
+		console.log("loading EW data...");
+		loading = true;
+		getAllEWCategoryData().then((res) => {
+			EWdata = res;
+			loading = false;
+			console.log("EW data loaded from API!");
+			console.log(EWdata)
+		});
 	}
 
 	function loadData() {
@@ -336,6 +349,16 @@
 		}
 	}
 
+	function getDebouncedDataLoader() {
+		var debounceTimer;
+		const debounceTimeout = 250;
+		return function() {
+			clearTimeout(debounceTimer);
+			debounceTimer = setTimeout(() => loadData(), debounceTimeout);
+		};
+	};
+	const debouncedDataLoader = getDebouncedDataLoader();
+
 	// CODE
 	// Update state based on URL
 	let hash = location.hash == '' ? '' : location.hash.split('/');
@@ -388,6 +411,15 @@
 			};
 			replaceURL();
 		});
+
+		// debounced data load on pan / zoom
+		map.on("zoom", () => {
+			debouncedDataLoader();
+		});
+		map.on("drag", () => {
+			debouncedDataLoader();
+		});
+
 	}
 
 	onMount(() => initialise());
