@@ -5,7 +5,6 @@
   import censusData from "./../data/simpleTopicTableCategoryData";
   import { onMount } from "svelte";
   import slugify from "slugify";
-  import config from "../config";
 
   export let selectedTopic;
 
@@ -45,9 +44,9 @@
           {#each tableEntry.categories as category}
             <li class="ons-list__item">
               <a
-                href="{config.baseUrl}/{slugify(topic.name).toLowerCase()}/{slugify(
-                  tableEntry.name,
-                ).toLowerCase()}/{slugify(category.name).toLowerCase()}"
+                href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
+                  category.name,
+                ).toLowerCase()}"
                 class="ons-list__link"
                 on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories)}>{category.name}</a
               >
