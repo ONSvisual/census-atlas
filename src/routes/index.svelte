@@ -61,8 +61,8 @@
     </ONSShare>
   </div>
 
-  <Topic topicList={[{ title: "Get Census datasests", href: "#" }]} cardTitle="Need something specific from Census?">
-    Explore correlations between two indicators in <a href="#">advanced mode</a>.
+  <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
+    Explore correlations between two indicators in <a href="#0">advanced mode</a>.
   </Topic>
 </BasePage>
 
