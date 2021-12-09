@@ -14,6 +14,7 @@
   import { page } from "$app/stores";
   import { getLadName, updateSelectedGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
+  import {areaSelectedTopicSuggestions} from "../../config"
 
   const locationId = $page.query.get("location");
   let locationName;
@@ -28,24 +29,7 @@
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
   $: {
-    topicSuggestions = [
-      {
-        text: `How is ${locationName}'s general health?`,
-        url: `/health/general-health/good-health?location=${locationId}`,
-      },
-      {
-        text: `How deprived is ${locationName}?`,
-        url: `/population-basics/households-by-deprivation-dimensions/household-is-deprived-in-4-dimensions?location=${locationId}`,
-      },
-      {
-        text: `How many students live in ${locationName}?`,
-        url: `/employment/economic-activity/economically-inactive?location=${locationId}`,
-      },
-      {
-        text: `How many people living in ${locationName} are unemployed?`,
-        url: `/employment/economic-activity/economically-active?location=${locationId}`,
-      },
-    ];
+    topicSuggestions = areaSelectedTopicSuggestions(locationName, locationId)
   }
 </script>
 

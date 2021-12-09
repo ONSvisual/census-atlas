@@ -199,3 +199,24 @@ export const topicSuggestions = [
     ],
   },
 ];
+
+export function areaSelectedTopicSuggestions(ladName, ladCode){
+  return [
+    {
+      text: `How is ${ladName}'s general health?`,
+      url: `/health/general-health/good-health?location=${ladCode}`,
+    },
+    {
+      text: `How deprived is ${ladName}?`,
+      url: `/population-basics/households-by-deprivation-dimensions/household-is-deprived-in-4-dimensions?location=${ladCode}`,
+    },
+    {
+      text: `How many students live in ${ladName}?`,
+      url: `/employment/economic-activity/economically-inactive?location=${ladCode}`,
+    },
+    {
+      text: `How many people living in ${ladName} are unemployed?`,
+      url: `/employment/economic-activity/economically-active?location=${ladCode}`,
+    },
+  ];
+}

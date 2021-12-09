@@ -6,10 +6,25 @@
   import TopicExplorer from "./../ui/TopicExplorer.svelte";
   import Topic from "../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
+  import { page } from "$app/stores";
+  import { appIsInitialised } from "../model/appstate";
 
-  import { selectedGeography } from "../model/geography/geography";
+  import { getLadName, updateSelectedGeography } from "../model/geography/geography";
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
+
+  const locationId = $page.query.get("location")
+  let locationName
+
+  $: appIsInitialised, $appIsInitialised && initialisePage()
+  
+  function initialisePage(){
+    if (locationId){
+    locationName = getLadName(locationId)
+    updateSelectedGeography(locationId)
+    }
+  }
+
 
   $: innerWidth = 0;
 </script>
@@ -25,8 +40,8 @@
     <Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore {$selectedGeography.lad
-        ? `${$selectedGeography.lad}'s`
+      description="Choose a category and select an option within it to explore {locationName
+        ? `${locationName}'s`
         : 'Census'} data."
     />
   </span>
