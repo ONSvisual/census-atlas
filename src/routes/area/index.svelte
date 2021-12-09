@@ -12,17 +12,41 @@
   import ONSLinkedinIcon from "../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../ui/ons/svg/ONSEmailIcon.svelte";
   import { page } from "$app/stores";
-  import {getLadName} from "../../model/geography/geography"
+  import { getLadName, updateSelectedGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
 
   const locationId = $page.query.get("location");
-  let locationName
+  let locationName;
+  let topicSuggestions;
 
-  function initialisePage(){
-    locationName = getLadName(locationId)
+  function initialisePage() {
+    updateSelectedGeography(locationId);
+    locationName = getLadName(locationId);
+
   }
-  
-  $: appIsInitialised, $appIsInitialised && initialisePage()
+
+  $: appIsInitialised, $appIsInitialised && initialisePage();
+
+  $: {
+    topicSuggestions = [
+      {
+        text: `How is ${locationName}'s general health?`,
+        url: `/health/general-health/good-health?location=${locationId}`,
+      },
+      {
+        text: `How deprived is ${locationName}?`,
+        url: `/population-basics/households-by-deprivation-dimensions/household-is-deprived-in-4-dimensions?location=${locationId}`,
+      },
+      {
+        text: `How many students live in ${locationName}?`,
+        url: `/employment/economic-activity/economically-inactive?location=${locationId}`,
+      },
+      {
+        text: `How many people living in ${locationName} are unemployed?`,
+        url: `/employment/economic-activity/economically-active?location=${locationId}`,
+      },
+    ];
+  }
 </script>
 
 <svelte:head>
@@ -39,13 +63,13 @@
     <Map maxzoom={14} />
   </span>
 
-  <Topic cardTitle="test">
-    The 2021 Census tells us a lot about the health of people living in England and Wales live and.
-    <a href="#0">Choose a data option from the full list</a> or explore one of these suggestions.
+  <Topic cardTitle="{locationName}'s Census" topicList={topicSuggestions}>
+    The 2021 Census tells us a lot about how people in {locationName} live and work.
+    <a href="/categories?location={locationId}">Choose a data option from the full list</a> or explore one of these topics.
   </Topic>
 
   <div class="ons-u-mb-l">
-    <UseCensusData location={"test"} />
+    <UseCensusData location={locationName} />
   </div>
 
   <div class="ons-u-mb-l">
