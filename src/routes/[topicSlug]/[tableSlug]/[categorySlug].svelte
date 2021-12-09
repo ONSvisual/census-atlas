@@ -59,7 +59,7 @@
   <span slot="header">
     <DataHeader tableName={table ? table.name : null} location={locationId} />
     <CategorySelector
-      selectedCode={$selectedData.categorySelected}
+      {locationId}
       categories={$selectedData.tableCategories}
       {topicSlug}
       {tableSlug}
