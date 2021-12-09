@@ -25,7 +25,6 @@
     }
   }
 
-
   $: innerWidth = 0;
 </script>
 
@@ -50,7 +49,7 @@
     <Map bounds={englandWalesBounds} />
   </span>
 
-  <TopicExplorer />
+  <TopicExplorer {locationId}/>
 
   {#if innerWidth >= 500}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">

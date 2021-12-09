@@ -6,6 +6,7 @@
   export let title = "Explore by area";
   import ONSAutosuggest from "./ons/ONSAutosuggest.svelte";
   export let header = false;
+  export let submitFunction
 </script>
 
 <div class="component-margin--2">
@@ -15,7 +16,7 @@
   <div class="ons-field">
     <p><slot /></p>
     <ONSAutosuggest {labelText} {header} {id} {hint} {autosuggestData} bind:autosuggestValue={userInputValue} />
-    <button type="submit" class="ons-btn ons-u-mt-s ons-btn--small">
+    <button type="submit" class="ons-btn ons-u-mt-s ons-btn--small" on:click={() => submitFunction(userInputValue)}>
       <span class="ons-btn__inner"> {buttonText}</span>
     </button>
   </div>

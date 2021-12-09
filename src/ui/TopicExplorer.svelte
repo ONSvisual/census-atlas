@@ -7,6 +7,8 @@
   import { selectedData } from "../model/censusdata/censusdata";
 
   export let selectedTopic;
+  export let locationId;
+  let locationQueryParam = locationId ? `?location=${locationId}` : ""
 
   let topicIndex;
 
@@ -46,7 +48,7 @@
               <a
                 href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
                   category.name,
-                ).toLowerCase()}?location=E08000012"
+                ).toLowerCase()}{locationQueryParam}"
                 class="ons-list__link"
                 on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories, category.code)}
                 >{category.name}</a
