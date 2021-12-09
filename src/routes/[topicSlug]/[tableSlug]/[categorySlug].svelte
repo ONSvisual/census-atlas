@@ -57,7 +57,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={locationId} />
+    <DataHeader tableName={table ? table.name : null} location={locationName} />
     <CategorySelector
       {locationId}
       categories={$selectedData.tableCategories}
