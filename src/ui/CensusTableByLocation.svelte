@@ -3,6 +3,7 @@
   import { csvParse, autoType } from "d3-dsv";
   export let locationId;
 
+  let url;
   let queryParams = {};
   let populateCensusTable = {};
 
@@ -25,7 +26,12 @@
   }
 
   async function fetchTableData(queryParams) {
-    const url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=${locationId}&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
+    if (locationId) {
+      url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=${locationId}&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
+    } else {
+      url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=K04000001&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
+    }
+
     const response = await fetch(url);
     const string = await response.text();
     let data = await csvParse(string, autoType);
