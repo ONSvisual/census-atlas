@@ -27,7 +27,6 @@
   function initialisePage() {
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
-
   }
 
   $: appIsInitialised, $appIsInitialised && initialisePage();
