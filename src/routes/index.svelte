@@ -15,17 +15,14 @@
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
   import {reverseLadLookup} from "../model/geography/geography"
-  import {appIsInitialised} from "../model/appstate"
   import { goto } from '$app/navigation';
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 
-  $: appIsInitialised, $appIsInitialised && console.log(reverseLadLookup)
-
   function submitFunction(ladInput){
     if (reverseLadLookup[ladInput]){
-      goto(`/categories?location=${reverseLadLookup[ladInput]}`)
+      goto(`/area?location=${reverseLadLookup[ladInput]}`)
     }
   }
 </script>

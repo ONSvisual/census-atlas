@@ -8,8 +8,11 @@
   import Feedback from "./../ui/Feedback.svelte";
   import { page } from "$app/stores";
   import { appIsInitialised } from "../model/appstate";
-
-  import { getLadName, updateSelectedGeography } from "../model/geography/geography";
+  import config from "../config";
+  import TileSet from "../ui/map/TileSet.svelte";
+  import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
+  import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
+  import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../model/geography/geography";
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 
@@ -46,7 +49,65 @@
   </span>
 
   <span slot="map">
-    <Map bounds={englandWalesBounds} />
+    <Map maxzoom={14}>
+      <TileSet
+        id="lad"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <InteractiveLayer
+          id="lad-interactive-layer"
+          maxzoom={config.ux.map.lsoa_breakpoint}
+          onSelect={(code) => {
+            updateSelectedGeography(code);
+          }}
+          onHover={(code) => {
+            updateHoveredGeography(code);
+          }}
+          filter={config.ux.map.filter}
+        />
+      </TileSet>
+
+      <TileSet
+        id="lsoa"
+        type="vector"
+        url={config.legacy.lsoabounds.url}
+        layer={config.legacy.lsoabounds.layer}
+        promoteId={config.legacy.lsoabounds.code}
+        minzoom={config.ux.map.lsoa_breakpoint}
+        maxzoom={config.ux.map.buildings_breakpoint}
+      >
+        <InteractiveLayer
+          id="lsoa-boundaries"
+          onSelect={(code) => {
+            updateSelectedGeography(code);
+          }}
+          onHover={(code) => {
+            updateHoveredGeography(code);
+          }}
+        />
+      </TileSet>
+      <TileSet
+        id="lsoa-building"
+        type="vector"
+        url={config.legacy.lsoabldg.url}
+        layer={config.legacy.lsoabldg.layer}
+        promoteId={config.legacy.lsoabldg.code}
+        minzoom={config.ux.map.buildings_breakpoint}
+      >
+      </TileSet>
+      <TileSet
+        id="lad-boundaries"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
+      </TileSet>
+    </Map>
   </span>
 
   <TopicExplorer {locationId}/>

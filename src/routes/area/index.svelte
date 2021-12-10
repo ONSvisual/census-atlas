@@ -12,9 +12,13 @@
   import ONSLinkedinIcon from "../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../ui/ons/svg/ONSEmailIcon.svelte";
   import { page } from "$app/stores";
-  import { getLadName, updateSelectedGeography } from "../../model/geography/geography";
+  import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
   import {areaSelectedTopicSuggestions} from "../../config"
+  import config from "../../config";
+  import TileSet from "../../ui/map/TileSet.svelte";
+  import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
+  import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
 
   const locationId = $page.query.get("location");
   let locationName;
@@ -40,11 +44,69 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader location={locationName} />
+    <DataHeader location={locationName} {locationId} />
   </span>
 
   <span slot="map">
-    <Map maxzoom={14} />
+    <Map maxzoom={14}>
+      <TileSet
+        id="lad"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <InteractiveLayer
+          id="lad-interactive-layer"
+          maxzoom={config.ux.map.lsoa_breakpoint}
+          onSelect={(code) => {
+            updateSelectedGeography(code);
+          }}
+          onHover={(code) => {
+            updateHoveredGeography(code);
+          }}
+          filter={config.ux.map.filter}
+        />
+      </TileSet>
+
+      <TileSet
+        id="lsoa"
+        type="vector"
+        url={config.legacy.lsoabounds.url}
+        layer={config.legacy.lsoabounds.layer}
+        promoteId={config.legacy.lsoabounds.code}
+        minzoom={config.ux.map.lsoa_breakpoint}
+        maxzoom={config.ux.map.buildings_breakpoint}
+      >
+        <InteractiveLayer
+          id="lsoa-boundaries"
+          onSelect={(code) => {
+            updateSelectedGeography(code);
+          }}
+          onHover={(code) => {
+            updateHoveredGeography(code);
+          }}
+        />
+      </TileSet>
+      <TileSet
+        id="lsoa-building"
+        type="vector"
+        url={config.legacy.lsoabldg.url}
+        layer={config.legacy.lsoabldg.layer}
+        promoteId={config.legacy.lsoabldg.code}
+        minzoom={config.ux.map.buildings_breakpoint}
+      >
+      </TileSet>
+      <TileSet
+        id="lad-boundaries"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
+      </TileSet>
+    </Map>
   </span>
 
   <Topic cardTitle="{locationName}'s Census" topicList={topicSuggestions}>

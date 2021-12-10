@@ -6,9 +6,17 @@
   import TopicExplorer from "./../../ui/TopicExplorer.svelte";
   import Topic from "../../ui/Topic.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
-  import { selectedGeography } from "../../model/geography/geography";
+  import { selectedGeography, getLadName } from "../../model/geography/geography";
   import { page } from "$app/stores";
   let { topicSlug } = $page.params;
+  const locationId = $page.query.get("location")
+  let locationName
+
+  $: {
+    if (locationId){
+    locationName = getLadName(locationId)
+  }
+}
 
   $: innerWidth = 0;
 
@@ -27,8 +35,8 @@
     <Header
       showBackLink
       serviceTitle="Choose a data option"
-      description="Choose a category and select an option within it to explore {$selectedGeography.lad
-        ? `${$selectedGeography.lad}'s`
+      description="Choose a category and select an option within it to explore {locationName
+        ? `${locationName}'s`
         : 'Census'} data."
     />
   </span>
