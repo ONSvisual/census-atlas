@@ -24,7 +24,6 @@
     },
   ];
 
-  // export let selectedCatIndex = 0;
   export let selectedCategory = "QS302EW005";
 
   let locationQueryParam = locationId ? `?location=${locationId}` : "";

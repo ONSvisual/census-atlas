@@ -15,6 +15,8 @@
     fetchCensusData,
     tables,
     getCategoryBySlug,
+    populatesSelectedData,
+    selectedData,
   } from "../../../model/censusdata/censusdata";
 
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
@@ -24,7 +26,6 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { selectedData } from "../../../model/censusdata/censusdata";
 
   import { page } from "$app/stores";
   let { topicSlug, tableSlug, categorySlug } = $page.params;
@@ -37,14 +38,13 @@
     updateSelectedGeography(locationId);
   }
 
-  const findSelectedCategIndex = (element) => element.code === $selectedData.categorySelected;
-
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
   const initialisePage = () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
+    populatesSelectedData(table.name, table.categoriesArray, category.code);
     fetchCensusData(category.code, null);
     locationName = getLadName(locationId);
   };
@@ -60,10 +60,10 @@
     <DataHeader tableName={table ? table.name : null} location={locationName} />
     <CategorySelector
       {locationId}
-      categories={$selectedData.tableCategories}
       {topicSlug}
       {tableSlug}
-      selectedCatIndex={$selectedData.tableCategories.findIndex(findSelectedCategIndex)}
+      categories={$selectedData.tableCategories}
+      selectedCategory={$selectedData.categorySelected}
     />
   </span>
 
