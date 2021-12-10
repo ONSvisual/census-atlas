@@ -3,7 +3,7 @@ import { writable } from "svelte/store";
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
 export let tableIsLoaded = writable(false);
-export const selectedData = writable();
+export let selectedData = writable({});
 
 export let categoryData = {};
 export let tableData = {};
@@ -56,6 +56,7 @@ export async function fetchTableStructure() {
         name: table.name,
         slug: table.slug,
         categories: table.categories.map((category) => category.code),
+        categoriesArray: table.categories,
       };
       categoryCodeLookup[table.slug] = {};
       table.categories.forEach((category) => {
@@ -103,4 +104,9 @@ export async function fetchCensusData(categoryCode, geographyCode) {
   categoryData = { ...lsoaData, ...higherData };
   breaks = await dataService.fetchLegendBreakpoints(categoryCode);
   categoryDataIsLoaded.set(true);
+}
+
+export function populatesSelectedData(tableName, tableCategories, selectedCategory) {
+  selectedData.set({});
+  selectedData.set({ tableName: tableName, tableCategories: tableCategories, categorySelected: selectedCategory });
 }
