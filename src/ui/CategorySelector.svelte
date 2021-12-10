@@ -24,11 +24,16 @@
     },
   ];
 
-  export let selectedCatIndex = 0;
-  let leftIndex;
-  let rightIndex;
+  // export let selectedCatIndex = 0;
+  export let selectedCategory = "QS302EW005";
 
-  if (selectedCatIndex === categories.length - 1) {
+  let locationQueryParam = locationId ? `?location=${locationId}` : "";
+  let leftIndex, rightIndex, selectedCatIndex;
+
+  const findSelectedCatIndex = (category) => category.code === selectedCategory;
+  selectedCatIndex = categories.findIndex(findSelectedCatIndex);
+
+  if (categories && selectedCatIndex === categories.length - 1) {
     rightIndex = 0;
     leftIndex = selectedCatIndex - 1;
   } else if (selectedCatIndex === 0) {
@@ -66,7 +71,7 @@
       <span>&#60;&#160;</span>
       <a
         class="category-selector__button cut-text"
-        href="/{topicSlug}/{tableSlug}/{slugify(categories[selectedCatIndex].name).toLowerCase()}?location={locationId}"
+        href="/{topicSlug}/{tableSlug}/{slugify(categories[selectedCatIndex].name).toLowerCase()}{locationQueryParam}"
         on:click={clickLeft}
       >
         {categories[leftIndex].name}
@@ -82,7 +87,7 @@
     <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:right">
       <a
         class="category-selector__button category-selector__button__left cut-text"
-        href="/{topicSlug}/{tableSlug}/{slugify(categories[selectedCatIndex].name).toLowerCase()}?location={locationId}"
+        href="/{topicSlug}/{tableSlug}/{slugify(categories[selectedCatIndex].name).toLowerCase()}{locationQueryParam}"
         on:click={clickRight}
       >
         {categories[rightIndex].name}
