@@ -1,21 +1,22 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
+  import { isEmpty } from "../utils";
   import { csvParse, autoType } from "d3-dsv";
   export let locationId;
 
   let url;
   let queryParams = {};
-  let populateCensusTable = {};
+  let populateCensusTable = { categories: [] };
 
-  if ($selectedData) {
+  if (!isEmpty($selectedData)) {
     retrieveTableData($selectedData);
   }
 
-  async function retrieveTableData($selectedData) {
-    queryParams["totalsCode"] = categoryIDToDBTotalsColumn($selectedData.categorySelected);
+  async function retrieveTableData(selected) {
+    queryParams["totalsCode"] = categoryIDToDBTotalsColumn(selected.categorySelected);
     populateCensusTable["total"] = { code: queryParams["totalsCode"] };
     populateCensusTable["categories"] = [];
-    const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
+    const categoryCodesArr = selected.tableCategories.map((category, i) => {
       const dbCategoryCode = categoryIDToDBColumn(category.code);
       populateCensusTable["categories"][i] = { code: [dbCategoryCode], name: category.name };
       return dbCategoryCode;
