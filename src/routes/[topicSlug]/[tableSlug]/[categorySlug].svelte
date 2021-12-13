@@ -4,6 +4,11 @@
   import Map from "../../../ui/map/Map.svelte";
   import Topic from "../../../ui/Topic.svelte";
   import ONSShare from "../../../ui/ons/ONSShare.svelte";
+  import ONSShareItem from "../../../ui/ons/partials/ONSShareItem.svelte";
+  import ONSFacebookIcon from "../../../ui/ons/svg/ONSFacebookIcon.svelte";
+  import ONSTwitterIcon from "../../../ui/ons/svg/ONSTwitterIcon.svelte";
+  import ONSLinkedinIcon from "../../../ui/ons/svg/ONSLinkedinIcon.svelte";
+  import ONSEmailIcon from "../../../ui/ons/svg/ONSEmailIcon.svelte";
   import CategorySelector from "../../../ui/CategorySelector.svelte";
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
@@ -41,10 +46,11 @@
 
   let locationId = null;
   let locationName = "";
+  locationId = $page.query.get("location");
   onMount(async () => {
-    locationId = $page.query.get("location");
     if (locationId) {
       updateSelectedGeography(locationId);
+      locationName = getLadName(locationId);
     }
   });
 
@@ -66,7 +72,7 @@
 </svelte:head>
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={locationName} />
+    <DataHeader tableName={table ? table.name : null} location={locationName} {locationId} />
 
     {#if isNotEmpty($selectedData)}
       <CategorySelector
@@ -171,9 +177,18 @@
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
   </Topic>
 
-  <UseCensusData location={categorySlug} />
+  <div class="ons-u-mb-l">
+    <UseCensusData location={categorySlug} />
+  </div>
 
-  <ONSShare />
+  <div class="ons-u-mb-l">
+    <ONSShare>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    </ONSShare>
+  </div>
 </BasePage>
 
 <style lang="scss">
