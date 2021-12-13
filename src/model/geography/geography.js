@@ -6,6 +6,7 @@ import config from "./../../config";
 export var ladBoundaries = [];
 export var ladList = [];
 export var ladLookup = {};
+export var reverseLadLookup = {};
 export var lsoaLookup = {};
 
 // WRITABLES
@@ -83,6 +84,7 @@ export async function initialiseGeography(geographyService) {
   let lsoaData = await geographyService.getLsoaData();
 
   ladLookup = buildLadLookup(ladList, lsoaData);
+  reverseLadLookup = buildReverseLadLookup(ladList)
   lsoaLookup = buildLsoaLookup(lsoaData);
 
   loadingGeography.set(false);
@@ -100,6 +102,15 @@ function buildLadLookup(ladList, lsoaData) {
 
   lsoaData.forEach((d) => {
     lookup[d.parent].children.push(d.code);
+  });
+
+  return lookup;
+}
+
+function buildReverseLadLookup(ladList){
+  let lookup = {};
+  ladList.forEach((d) => {
+    lookup[d.name] = d.code;
   });
 
   return lookup;

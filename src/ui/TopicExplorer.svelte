@@ -6,6 +6,8 @@
   import slugify from "slugify";
 
   export let selectedTopic;
+  export let locationId;
+  let locationQueryParam = locationId ? `?location=${locationId}` : ""
 
   let topicIndex;
 
@@ -39,8 +41,7 @@
             <li class="ons-list__item">
               <a
                 href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                  category.name,
-                ).toLowerCase()}?location=E08000012"
+                  category.name).toLowerCase()}{locationQueryParam}"
                 class="ons-list__link">{category.name}</a
               >
             </li>

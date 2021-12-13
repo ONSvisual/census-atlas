@@ -1,6 +1,8 @@
 <script>
   import slugify from "slugify";
   export let tableName, location, topicPage;
+  export let locationId;
+  let locationQueryParam = locationId ? `?location=${locationId}` : "";
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
@@ -20,7 +22,7 @@
           <a href="/categories">Change</a>
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
-            <h2 id="census-atlas-header-2__title"><a href="/categories">Choose a data option</a></h2>
+            <h2 id="census-atlas-header-2__title"><a href="/categories{locationQueryParam}">Choose a data option</a></h2>
           </div>
         {/if}
       </div>

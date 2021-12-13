@@ -15,7 +15,7 @@
   <div class="ons-field">
     <p><slot /></p>
     <ONSAutosuggest {labelText} {header} {id} {hint} {autosuggestData} bind:autosuggestValue={userInputValue} />
-    <button type="submit" class="ons-btn ons-u-mt-s ons-btn--small">
+    <button on:click type="submit" class="ons-btn ons-u-mt-s ons-btn--small">
       <span class="ons-btn__inner"> {buttonText}</span>
     </button>
   </div>
