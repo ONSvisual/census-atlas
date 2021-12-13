@@ -30,6 +30,7 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
+  import { isNotEmpty } from "../../../utils";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -63,17 +64,19 @@
   <title>2021 Census Data Atlas Category & Location</title>
   <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
-
 <BasePage>
   <span slot="header">
     <DataHeader tableName={table ? table.name : null} location={locationName} />
-    <CategorySelector
-      {locationId}
-      {topicSlug}
-      {tableSlug}
-      categories={$selectedData.tableCategories}
-      selectedCategory={$selectedData.categorySelected}
-    />
+
+    {#if isNotEmpty($selectedData)}
+      <CategorySelector
+        {locationId}
+        {topicSlug}
+        {tableSlug}
+        categories={$selectedData.tableCategories}
+        selectedCategory={$selectedData.categorySelected}
+      />
+    {/if}
   </span>
 
   <span slot="map">
@@ -158,8 +161,10 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  {#if $selectedGeography.lad}
+  {#if $selectedGeography.lad && isNotEmpty($selectedData)}
     <CensusTableByLocation {locationId} />
+  {:else if isNotEmpty($selectedData)}
+    <CensusTableByLocation locationId="K04000001" />
   {/if}
 
   <Topic cardTitle="General health with other indicators"
