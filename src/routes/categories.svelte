@@ -16,15 +16,15 @@
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 
-  const locationId = $page.query.get("location")
-  let locationName
+  const locationId = $page.query.get("location");
+  let locationName;
 
-  $: appIsInitialised, $appIsInitialised && initialisePage()
-  
-  function initialisePage(){
-    if (locationId){
-    locationName = getLadName(locationId)
-    updateSelectedGeography(locationId)
+  $: appIsInitialised, $appIsInitialised && initialisePage();
+
+  function initialisePage() {
+    if (locationId) {
+      locationName = getLadName(locationId);
+      updateSelectedGeography(locationId);
     }
   }
 
@@ -96,8 +96,7 @@
         layer={config.legacy.lsoabldg.layer}
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
-      >
-      </TileSet>
+      />
       <TileSet
         id="lad-boundaries"
         type="vector"
@@ -110,7 +109,7 @@
     </Map>
   </span>
 
-  <TopicExplorer {locationId}/>
+  <TopicExplorer {locationId} />
 
   {#if innerWidth >= 500}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">

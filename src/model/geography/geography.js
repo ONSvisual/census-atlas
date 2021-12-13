@@ -84,7 +84,7 @@ export async function initialiseGeography(geographyService) {
   let lsoaData = await geographyService.getLsoaData();
 
   ladLookup = buildLadLookup(ladList, lsoaData);
-  reverseLadLookup = buildReverseLadLookup(ladList)
+  reverseLadLookup = buildReverseLadLookup(ladList);
   lsoaLookup = buildLsoaLookup(lsoaData);
 
   loadingGeography.set(false);
@@ -107,7 +107,7 @@ function buildLadLookup(ladList, lsoaData) {
   return lookup;
 }
 
-function buildReverseLadLookup(ladList){
+function buildReverseLadLookup(ladList) {
   let lookup = {};
   ladList.forEach((d) => {
     lookup[d.name] = d.code;

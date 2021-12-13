@@ -9,14 +9,14 @@
   import { selectedGeography, getLadName } from "../../model/geography/geography";
   import { page } from "$app/stores";
   let { topicSlug } = $page.params;
-  const locationId = $page.query.get("location")
-  let locationName
+  const locationId = $page.query.get("location");
+  let locationName;
 
   $: {
-    if (locationId){
-    locationName = getLadName(locationId)
+    if (locationId) {
+      locationName = getLadName(locationId);
+    }
   }
-}
 
   $: innerWidth = 0;
 
