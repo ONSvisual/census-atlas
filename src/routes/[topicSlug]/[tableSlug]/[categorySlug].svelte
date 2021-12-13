@@ -15,26 +15,38 @@
     fetchCensusData,
     tables,
     getCategoryBySlug,
+    populatesSelectedData,
+    selectedData,
   } from "../../../model/censusdata/censusdata";
-
-  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
+  import {
+    updateHoveredGeography,
+    updateSelectedGeography,
+    getLadName,
+    selectedGeography,
+  } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
+  import { isNotEmpty } from "../../../utils";
 
   import { page } from "$app/stores";
+  import { onMount } from "svelte";
+
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
 
-  let locationId = $page.query.get("location");
+  let locationId = null;
   let locationName = "";
-  if (locationId) {
-    updateSelectedGeography(locationId);
-  }
+  onMount(async () => {
+    locationId = $page.query.get("location");
+    if (locationId) {
+      updateSelectedGeography(locationId);
+    }
+  });
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
@@ -42,6 +54,7 @@
   const initialisePage = () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
+    populatesSelectedData(table.name, table.categoriesArray, category.code);
     fetchCensusData(category.code, null);
     locationName = getLadName(locationId);
   };
@@ -51,11 +64,19 @@
   <title>2021 Census Data Atlas Category & Location</title>
   <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
-
 <BasePage>
   <span slot="header">
     <DataHeader tableName={table ? table.name : null} location={locationName} />
-    <CategorySelector />
+
+    {#if isNotEmpty($selectedData)}
+      <CategorySelector
+        {locationId}
+        {topicSlug}
+        {tableSlug}
+        categories={$selectedData.tableCategories}
+        selectedCategory={$selectedData.categorySelected}
+      />
+    {/if}
   </span>
 
   <span slot="map">
@@ -140,7 +161,11 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation {locationId} />
+  {#if $selectedGeography.lad && isNotEmpty($selectedData)}
+    <CensusTableByLocation {locationId} />
+  {:else if isNotEmpty($selectedData)}
+    <CensusTableByLocation locationId="K04000001" />
+  {/if}
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
