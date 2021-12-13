@@ -200,7 +200,7 @@ export const topicSuggestions = [
   },
 ];
 
-export function areaSelectedTopicSuggestions(ladName, ladCode){
+export function areaSelectedTopicSuggestions(ladName, ladCode) {
   return [
     {
       text: `How is ${ladName}'s general health?`,

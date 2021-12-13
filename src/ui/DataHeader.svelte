@@ -22,7 +22,9 @@
           <a href="/categories{locationQueryParam}">Change</a>
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
-            <h2 id="census-atlas-header-2__title"><a href="/categories{locationQueryParam}">Choose a data option</a></h2>
+            <h2 id="census-atlas-header-2__title">
+              <a href="/categories{locationQueryParam}">Choose a data option</a>
+            </h2>
           </div>
         {/if}
       </div>

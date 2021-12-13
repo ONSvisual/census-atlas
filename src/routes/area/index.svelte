@@ -14,7 +14,7 @@
   import { page } from "$app/stores";
   import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
-  import {areaSelectedTopicSuggestions} from "../../config"
+  import { areaSelectedTopicSuggestions } from "../../config";
   import config from "../../config";
   import TileSet from "../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
@@ -32,7 +32,7 @@
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
   $: {
-    topicSuggestions = areaSelectedTopicSuggestions(locationName, locationId)
+    topicSuggestions = areaSelectedTopicSuggestions(locationName, locationId);
   }
 </script>
 
@@ -94,8 +94,7 @@
         layer={config.legacy.lsoabldg.layer}
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
-      >
-      </TileSet>
+      />
       <TileSet
         id="lad-boundaries"
         type="vector"

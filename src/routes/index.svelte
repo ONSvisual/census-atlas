@@ -14,16 +14,16 @@
   import Map from "./../ui/map/Map.svelte";
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
-  import {reverseLadLookup} from "../model/geography/geography"
-  import { goto } from '$app/navigation';
+  import { reverseLadLookup } from "../model/geography/geography";
+  import { goto } from "$app/navigation";
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
 
-  function submitFunction(ladInput){
-    if (reverseLadLookup[ladInput]){
-      goto(`/area?location=${reverseLadLookup[ladInput]}`)
+  function submitFunction(ladInput) {
+    if (reverseLadLookup[ladInput]) {
+      goto(`/area?location=${reverseLadLookup[ladInput]}`);
     }
   }
 </script>
@@ -57,7 +57,7 @@
 
   <ExploreByTopic url="/categories" suggestions={indexPageSuggestions} />
   <hr class="component-margin--2" />
-  <ExploreByAreaComponent {autosuggestData} bind:userInputValue={userInputValue} on:click={() => submitFunction(userInputValue)}
+  <ExploreByAreaComponent {autosuggestData} bind:userInputValue on:click={() => submitFunction(userInputValue)}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
   >
 
