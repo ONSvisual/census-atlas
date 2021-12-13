@@ -18,8 +18,12 @@
     populatesSelectedData,
     selectedData,
   } from "../../../model/censusdata/censusdata";
-
-  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
+  import {
+    updateHoveredGeography,
+    updateSelectedGeography,
+    getLadName,
+    selectedGeography,
+  } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
@@ -28,15 +32,20 @@
   import { appIsInitialised } from "../../../model/appstate";
 
   import { page } from "$app/stores";
+  import { onMount } from "svelte";
+
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
 
-  let locationId = $page.query.get("location");
+  let locationId = null;
   let locationName = "";
-  if (locationId) {
-    updateSelectedGeography(locationId);
-  }
+  onMount(async () => {
+    locationId = $page.query.get("location");
+    if (locationId) {
+      updateSelectedGeography(locationId);
+    }
+  });
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
@@ -149,7 +158,9 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation {locationId} />
+  {#if $selectedGeography.lad}
+    <CensusTableByLocation {locationId} />
+  {/if}
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
