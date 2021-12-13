@@ -1,20 +1,22 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
+  import { isEmpty } from "../utils";
   import { csvParse, autoType } from "d3-dsv";
   export let locationId;
 
+  let url;
   let queryParams = {};
-  let populateCensusTable = {};
+  let populateCensusTable = { categories: [] };
 
-  if ($selectedData) {
+  if (!isEmpty($selectedData)) {
     retrieveTableData($selectedData);
   }
 
-  async function retrieveTableData($selectedData) {
-    queryParams["totalsCode"] = categoryIDToDBTotalsColumn($selectedData.categorySelected);
+  async function retrieveTableData(selected) {
+    queryParams["totalsCode"] = categoryIDToDBTotalsColumn(selected.categorySelected);
     populateCensusTable["total"] = { code: queryParams["totalsCode"] };
     populateCensusTable["categories"] = [];
-    const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
+    const categoryCodesArr = selected.tableCategories.map((category, i) => {
       const dbCategoryCode = categoryIDToDBColumn(category.code);
       populateCensusTable["categories"][i] = { code: [dbCategoryCode], name: category.name };
       return dbCategoryCode;
@@ -25,7 +27,12 @@
   }
 
   async function fetchTableData(queryParams) {
-    const url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=${locationId}&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
+    if (locationId) {
+      url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=${locationId}&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
+    } else {
+      url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=K04000001&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
+    }
+
     const response = await fetch(url);
     const string = await response.text();
     let data = await csvParse(string, autoType);

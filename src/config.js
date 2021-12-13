@@ -124,7 +124,7 @@ export const topicSuggestions = [
     suggestions: [
       {
         text: "How does general health differ across England and Wales?",
-        url: "/health/general-health/good",
+        url: "/health/general-health/good-health",
       },
       {
         text: "Which areas are home to people who provide the most unpaid care?",

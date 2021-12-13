@@ -4,7 +4,6 @@
   import censusData from "./../data/simpleTopicTableCategoryData";
   import { onMount } from "svelte";
   import slugify from "slugify";
-  import { selectedData } from "../model/censusdata/censusdata";
 
   export let selectedTopic;
   export let locationId;
@@ -30,11 +29,6 @@
       }, 250);
     }
   });
-
-  function populatesSelectedData(tableName, tableCategories, selectedCategory) {
-    $selectedData = {};
-    $selectedData = { tableName: tableName, tableCategories: tableCategories, categorySelected: selectedCategory };
-  }
 </script>
 
 <ONSAccordion showAll={false}>
@@ -47,11 +41,8 @@
             <li class="ons-list__item">
               <a
                 href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                  category.name,
-                ).toLowerCase()}{locationQueryParam}"
-                class="ons-list__link"
-                on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories, category.code)}
-                >{category.name}</a
+                  category.name).toLowerCase()}{locationQueryParam}"
+                class="ons-list__link">{category.name}</a
               >
             </li>
           {/each}
