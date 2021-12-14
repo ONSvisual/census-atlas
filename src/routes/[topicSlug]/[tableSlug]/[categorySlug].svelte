@@ -76,6 +76,7 @@
 
   $: {
     locationId = $page.query.get("location");
+    categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
   }
