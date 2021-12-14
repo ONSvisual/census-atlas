@@ -2,6 +2,7 @@ import { csvParse } from "d3-dsv";
 import { ckmeans } from "simple-statistics";
 import { lsoaLookup } from "./../../geography/geography";
 import config from "./../../../config";
+import simpleTopicTableCategoryData from "../../../data/simpleTopicTableCategoryData";
 
 export default class LegacyCensusDataService {
   constructor() {
@@ -28,6 +29,10 @@ export default class LegacyCensusDataService {
         value: 0,
       },
     };
+  }
+
+  async fetchCensusTableStructure() {
+    return simpleTopicTableCategoryData;
   }
 
   async fetchLsoaCategoryData(categoryId) {

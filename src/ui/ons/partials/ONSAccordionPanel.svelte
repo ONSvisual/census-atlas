@@ -1,7 +1,5 @@
 <script>
-  export let id;
-  export let title;
-
+  export let id, title;
   export let noTopBorder = false;
 
   let hasTopBorder = noTopBorder ? "ons-collapsible--noTopBorder" : "";

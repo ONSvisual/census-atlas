@@ -1,25 +1,43 @@
 <script>
-  export let tableName;
-  export let location;
+  import slugify from "slugify";
+  export let tableName, location, topicPage;
+  export let locationId;
+  let locationQueryParam = locationId ? `?location=${locationId}` : "";
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
   <div class="ons-header__main ons-header__main--with-description">
     <div class="ons-container">
       <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
-        {#if tableName}
+        {#if tableName || topicPage}
           <div class="ons-header__title header__title--with-description data-header-1__title">
-            <h2>{tableName}</h2>
+            <h2>
+              {tableName
+                ? tableName.charAt(0).toUpperCase() + tableName.slice(1).toLowerCase()
+                : topicPage
+                ? `Explore ${topicPage.toLowerCase()}`
+                : ""}
+            </h2>
           </div>
-          <a href="/categories">Change</a>
+          <a href="/categories{locationQueryParam}">Change</a>
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
-            <h2 id="census-atlas-header-2__title"><a href="/categories">Choose a data option</a></h2>
+            <h2 id="census-atlas-header-2__title">
+              <a href="/categories{locationQueryParam}">Choose a data option</a>
+            </h2>
           </div>
         {/if}
       </div>
       <hr />
-      {#if location}
+      {#if topicPage}
+        <div class="ons-header__title" id="header-data-2__title">
+          <h2 id="census-atlas-header-2__title">
+            <a href="/categories/{slugify(topicPage).toLowerCase()}"
+              >Choose an option within {topicPage.toLowerCase()}</a
+            >
+          </h2>
+        </div>
+      {:else if location}
         <div class="ons-grid--flex ons-grid--between">
           <h2 class="ons-header__title" id="header-data-2__location">In {location}</h2>
           <a href="0#" on:click>Change</a>

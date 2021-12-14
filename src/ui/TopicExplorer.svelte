@@ -1,15 +1,34 @@
 <script>
-  import { getContext } from "svelte";
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
   import censusData from "./../data/simpleTopicTableCategoryData";
+  import { onMount } from "svelte";
+  import slugify from "slugify";
 
-  let selectedData = getContext("selectedData");
+  export let selectedTopic;
+  export let locationId;
+  let locationQueryParam = locationId ? `?location=${locationId}` : "";
 
-  function populatesSelectedData(tableName, tableCategories) {
-    $selectedData = {};
-    $selectedData = { tableName: tableName, tableCategories: tableCategories };
+  let topicIndex;
+
+  $: {
+    if (selectedTopic) {
+      censusData.forEach((topic) => {
+        if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
+          topicIndex = censusData.indexOf(topic);
+        }
+      });
+    }
   }
+
+  // !!! Temporary solution -  to be removed when we'll be able to import the DS js bundle at a component level
+  onMount(() => {
+    if (selectedTopic) {
+      setTimeout(() => {
+        document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
+      }, 250);
+    }
+  });
 </script>
 
 <ONSAccordion showAll={false}>
@@ -21,9 +40,10 @@
           {#each tableEntry.categories as category}
             <li class="ons-list__item">
               <a
-                href="data/{category.code}"
-                class="ons-list__link"
-                on:click={() => populatesSelectedData(tableEntry.name, tableEntry.categories)}>{category.name}</a
+                href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
+                  category.name,
+                ).toLowerCase()}{locationQueryParam}"
+                class="ons-list__link">{category.name}</a
               >
             </li>
           {/each}

@@ -6,6 +6,7 @@ import config from "./../../config";
 export var ladBoundaries = [];
 export var ladList = [];
 export var ladLookup = {};
+export var reverseLadLookup = {};
 export var lsoaLookup = {};
 
 // WRITABLES
@@ -36,8 +37,8 @@ export function updateZoom(newZoom) {
 
 // ------
 
-function getLadAndLsoa(geographyCode) {
-  if (ladLookup[geographyCode] === null) {
+export function getLadAndLsoa(geographyCode) {
+  if (lsoaLookup[geographyCode]) {
     return {
       lad: lsoaLookup[geographyCode].parent,
       lsoa: geographyCode,
@@ -48,6 +49,13 @@ function getLadAndLsoa(geographyCode) {
       lsoa: null,
     };
   }
+}
+
+export function getLadName(geographyCode) {
+  if (ladLookup[geographyCode]) {
+    return ladLookup[geographyCode].name;
+  }
+  return geographyCode;
 }
 
 // RESET (for tests)
@@ -66,49 +74,43 @@ export function reset() {
     lad: null,
     lsoa: null,
   });
+  zoom.set(config.ux.default_zoom);
 }
 
 // INITIALISERS
-const LAD_AREA_CODE = "AREACD";
-const LAD_AREA_NAME = "AREANM";
-
 export async function initialiseGeography(geographyService) {
   loadingGeography.set(true);
-  ladBoundaries = await geographyService.getLadBoundaries();
+  let ladList = await geographyService.getLadList();
   let lsoaData = await geographyService.getLsoaData();
 
-  ladLookup = buildLadLookup(ladBoundaries, lsoaData);
+  ladLookup = buildLadLookup(ladList, lsoaData);
+  reverseLadLookup = buildReverseLadLookup(ladList);
   lsoaLookup = buildLsoaLookup(lsoaData);
-  ladList = buildLadList(ladBoundaries, ladLookup);
 
   loadingGeography.set(false);
 }
 
-function buildLadList(ladBounds, ladLookup) {
-  return ladBounds.features.map((f) => {
-    let code = f.properties[LAD_AREA_CODE];
-    return {
-      code: ladLookup[code].code,
-      name: ladLookup[code].name,
-    };
-  });
-}
-
-function buildLadLookup(ladBounds, lsoaData) {
+function buildLadLookup(ladList, lsoaData) {
   let lookup = {};
-  ladBounds.features.forEach((f) => {
-    lookup[f.properties[LAD_AREA_CODE]] = {
-      code: f.properties[LAD_AREA_CODE],
-      name: f.properties[LAD_AREA_NAME],
+  ladList.forEach((d) => {
+    lookup[d.code] = {
+      code: d.code,
+      name: d.name,
+      children: [],
     };
   });
 
   lsoaData.forEach((d) => {
-    if (!lookup[d.parent].children) {
-      lookup[d.parent].children = [d.code];
-    } else {
-      lookup[d.parent].children.push(d.code);
-    }
+    lookup[d.parent].children.push(d.code);
+  });
+
+  return lookup;
+}
+
+function buildReverseLadLookup(ladList) {
+  let lookup = {};
+  ladList.forEach((d) => {
+    lookup[d.name] = d.code;
   });
 
   return lookup;

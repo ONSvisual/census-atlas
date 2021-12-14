@@ -6,8 +6,7 @@
   import { setInitialised } from "./../model/appstate";
 
   initialiseGeography(new LegacyGeographyService()).then(() => {
-    initialiseCensusData(new LegacyCensusDataService());
-    setInitialised();
+    initialiseCensusData(new LegacyCensusDataService()).then(() => setInitialised());
   });
 </script>
 
@@ -29,20 +28,27 @@
       <a href="/">Explore Census</a>
     </li>
     <li class="ons-list__item">
-      <a href="/data/Health">Explore by Category (Health)</a>
+      <a href="/health">Explore by Topic (Health)</a>
     </li>
+    <li class="ons-list__item">
+      <a href="/health/general-health/good-health">Explore by Category (General health → Good health)</a>
+    </li>
+    <!--
     <li class="ons-list__item">
       <a href="/locations/Walsall">Explore by Location (Walsall)</a>
     </li>
     <li class="ons-list__item">
-      <a href="/data/General health/locations/England & Wales">Explore by Category & Location</a>
+      <a href="/General health/locations/England & Wales">Explore by Category & Location</a>
     </li>
+    -->
     <li class="ons-list__item">
       <a href="/categories">Explore Census Categories</a>
     </li>
+    <!--
     <li class="ons-list__item">
       <a href="/original">Original census atlas version</a>
     </li>
+    -->
   </ul>
 </nav>
 

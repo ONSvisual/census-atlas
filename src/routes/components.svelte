@@ -24,11 +24,16 @@
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
 
   let topicList1 = [
-    { title: "How does general health differ across England and Wales?", href: "#" },
-    { title: "Which areas are home to people who provide the most unpaid care?", href: "#" },
-    { title: "What can we learn about long-term health issues and/or disability?", href: "#" },
+    {
+      text: "How does general health differ across England and Wales?",
+      url: "#0",
+    },
+    {
+      text: "Which areas are home to people who provide the most unpaid care?",
+      url: "#0",
+    },
   ];
-  let topicList2 = [{ title: "Get Census datasests", href: "#" }];
+  let topicList2 = [{ text: "Get Census datasests", url: "#0" }];
   let serviceTitle = "Census Atlas components";
   let description = "Complex components made in Svelte with ONS Design System building blocks";
   var selectedData = writable();
@@ -153,11 +158,11 @@
     title="Topic component-1"
     code={`<Topic topicList={topicList1} cardTitle="Health - Census 2021">
   The 2021 Census tells us a lot about the health of people living in England and Wales live and. 
-  <a href="#">Choose a data option from the full list</a> or explore one of these suggestions.
+  <a href="#0">Choose a data option from the full list</a> or explore one of these suggestions.
 </Topic>`}
   >
     <Topic topicList={topicList1} cardTitle="Health - Census 2021"
-      >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#">
+      >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#0">
         Choose a data option from the full list</a
       > or explore one of these suggestions.
     </Topic>
@@ -166,22 +171,22 @@
   <DesignSystemPanel
     title="Topic component-2"
     code={`<Topic topicList={topicList2} cardTitle="Need something specific from Census?">
-    Explore correlations between two indicators in <a href="#">advanced mode</a>.
+    Explore correlations between two indicators in <a href="#0">advanced mode</a>.
   </Topic>`}
   >
     <Topic topicList={topicList2} cardTitle="Need something specific from Census?"
-      >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+      >Explore correlations between two indicators in <a href="#0">advanced mode</a>.
     </Topic>
   </DesignSystemPanel>
 
   <DesignSystemPanel
     title="Topic component-3"
     code={`<Topic cardTitle="General health with other indicators"
-    >Explore correlations between two indicators in <a href="#">advanced mode</a>.</Topic
+    >Explore correlations between two indicators in <a href="#0">advanced mode</a>.</Topic
   >`}
   >
     <Topic cardTitle="General health with other indicators"
-      >Explore correlations between two indicators in <a href="#">advanced mode</a>.
+      >Explore correlations between two indicators in <a href="#0">advanced mode</a>.
     </Topic>
   </DesignSystemPanel>
   <DesignSystemPanel title="Use census data" code={`<UseCensusData />`}>

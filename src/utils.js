@@ -197,3 +197,15 @@ export function updateURL(location, selectCode, active, mapLocation, history) {
     history.pushState(undefined, undefined, newhash);
   }
 }
+
+export function isEmpty(obj) {
+  return (
+    obj && // null and undefined check
+    Object.keys(obj).length === 0 &&
+    Object.getPrototypeOf(obj) === Object.prototype
+  );
+}
+
+export function isNotEmpty(obj) {
+  return !isEmpty(obj);
+}

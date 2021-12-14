@@ -13,7 +13,7 @@
     <ul class="ons-list ons-list--bare">
       {#each topicList as topic}
         <li class="ons-list__item">
-          <a href={topic.href} class="ons-list__link">{topic.title}</a>
+          <a href={topic.url} class="ons-list__link">{topic.text}</a>
         </li>
       {/each}
     </ul>
@@ -23,5 +23,6 @@
 <style>
   .component-margin--2 {
     margin-bottom: 2rem;
+    margin-top: 2rem;
   }
 </style>
