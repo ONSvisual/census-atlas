@@ -2,8 +2,11 @@
   import slugify from "slugify";
   export let tableName, location, topicPage, topicSlug;
   export let locationId;
-  let locationQueryParam = locationId ? `?location=${locationId}` : "";
-  let href = topicSlug ? `0#` : `area${locationQueryParam}`;
+  let locationQueryParam, href;
+  $: {
+    locationQueryParam = locationId ? `?location=${locationId}` : "";
+    href = topicSlug ? `0#` : `area${locationQueryParam}`;
+  }
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">

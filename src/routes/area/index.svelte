@@ -14,23 +14,36 @@
   import ONSLinkedinIcon from "../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../ui/ons/svg/ONSEmailIcon.svelte";
   import { page } from "$app/stores";
-  import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../../model/geography/geography";
+  import {
+    getLadName,
+    updateSelectedGeography,
+    updateHoveredGeography,
+    reverseLadLookup,
+  } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
   import { areaSelectedTopicSuggestions } from "../../config";
   import config from "../../config";
   import TileSet from "../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
+  import { goto } from "$app/navigation";
 
-  const locationId = $page.query.get("location");
-  let locationName;
+  let locationName, locationId;
   let topicSuggestions;
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let showChangeAreaHeader = false;
+  let userInputValue;
   const toggleChangeAreaHeader = () => {
     showChangeAreaHeader = !showChangeAreaHeader;
   };
+
+  function submitFunction(ladInput) {
+    if (reverseLadLookup[ladInput]) {
+      goto(`/area?location=${reverseLadLookup[ladInput]}`);
+      showChangeAreaHeader = !showChangeAreaHeader;
+    }
+  }
 
   function initialisePage() {
     updateSelectedGeography(locationId);
@@ -40,6 +53,9 @@
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
   $: {
+    locationId = $page.query.get("location");
+    updateSelectedGeography(locationId);
+    locationName = getLadName(locationId);
     topicSuggestions = areaSelectedTopicSuggestions(locationName, locationId);
   }
 </script>
@@ -53,7 +69,12 @@
   <span slot="header">
     {#if showChangeAreaHeader}
       <Header showBackLink serviceTitle="Choose an area"
-        ><ExploreByAreaComponent {autosuggestData} header on:click={toggleChangeAreaHeader} /></Header
+        ><ExploreByAreaComponent
+          {autosuggestData}
+          header
+          bind:userInputValue
+          on:click={() => submitFunction(userInputValue)}
+        /></Header
       >
     {:else}
       <DataHeader location={locationName} {locationId} on:click={toggleChangeAreaHeader} {showChangeAreaHeader} />
