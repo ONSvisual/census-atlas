@@ -6,6 +6,8 @@
   import UseCensusData from "../../ui/UseCensusData.svelte";
   import Feedback from "../../ui/Feedback.svelte";
   import DataHeader from "../../ui/DataHeader.svelte";
+  import Header from "../../ui/Header.svelte";
+  import ExploreByAreaComponent from "../../ui/ExploreByAreaComponent.svelte";
   import ONSShareItem from "../../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "../../ui/ons/svg/ONSFacebookIcon.svelte";
   import ONSTwitterIcon from "../../ui/ons/svg/ONSTwitterIcon.svelte";
@@ -23,6 +25,12 @@
   const locationId = $page.query.get("location");
   let locationName;
   let topicSuggestions;
+
+  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
+  let showChangeAreaHeader = false;
+  const toggleChangeAreaHeader = () => {
+    showChangeAreaHeader = !showChangeAreaHeader;
+  };
 
   function initialisePage() {
     updateSelectedGeography(locationId);
@@ -43,7 +51,13 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader location={locationName} {locationId} />
+    {#if showChangeAreaHeader}
+      <Header showBackLink serviceTitle="Choose an area"
+        ><ExploreByAreaComponent {autosuggestData} header on:click={toggleChangeAreaHeader} /></Header
+      >
+    {:else}
+      <DataHeader location={locationName} {locationId} on:click={toggleChangeAreaHeader} {showChangeAreaHeader} />
+    {/if}
   </span>
 
   <span slot="map">

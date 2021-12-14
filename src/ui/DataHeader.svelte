@@ -1,8 +1,9 @@
 <script>
   import slugify from "slugify";
-  export let tableName, location, topicPage;
+  export let tableName, location, topicPage, topicSlug;
   export let locationId;
   let locationQueryParam = locationId ? `?location=${locationId}` : "";
+  let href = topicSlug ? `0#` : `area${locationQueryParam}`;
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
@@ -40,7 +41,7 @@
       {:else if location}
         <div class="ons-grid--flex ons-grid--between">
           <h2 class="ons-header__title" id="header-data-2__location">In {location}</h2>
-          <a href="0#" on:click>Change</a>
+          <a {href} on:click>Change</a>
         </div>
       {:else}
         <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
