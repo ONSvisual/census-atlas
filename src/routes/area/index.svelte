@@ -77,7 +77,7 @@
         /></Header
       >
     {:else}
-      <DataHeader location={locationName} {locationId} on:click={toggleChangeAreaHeader} {showChangeAreaHeader} />
+      <DataHeader location={locationName} {locationId} on:click={toggleChangeAreaHeader} />
     {/if}
   </span>
 
