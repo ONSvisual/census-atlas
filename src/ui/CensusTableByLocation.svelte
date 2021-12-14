@@ -8,8 +8,11 @@
   let queryParams = {};
   let populateCensusTable = { categories: [] };
 
-  if (!isEmpty($selectedData)) {
-    retrieveTableData($selectedData);
+  $: {
+    locationId;
+    if (!isEmpty($selectedData)) {
+      retrieveTableData($selectedData);
+    }
   }
 
   async function retrieveTableData(selected) {
