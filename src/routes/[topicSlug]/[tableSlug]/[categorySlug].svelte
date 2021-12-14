@@ -29,6 +29,7 @@
     updateHoveredGeography,
     updateSelectedGeography,
     getLadName,
+    reverseLadLookup,
     selectedGeography,
   } from "../../../model/geography/geography";
   import config from "../../../config";
@@ -41,6 +42,7 @@
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -51,6 +53,7 @@
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let showChangeAreaHeader = false;
+  let userInputValue;
 
   const toggleChangeAreaHeader = () => {
     showChangeAreaHeader = !showChangeAreaHeader;
@@ -63,6 +66,19 @@
       locationName = getLadName(locationId);
     }
   });
+
+  function submitFunction(ladInput) {
+    if (reverseLadLookup[ladInput]) {
+      goto(`/${topicSlug}/${tableSlug}/${categorySlug}?location=${reverseLadLookup[ladInput]}`);
+      showChangeAreaHeader = !showChangeAreaHeader;
+    }
+  }
+
+  $: {
+    locationId = $page.query.get("location");
+    updateSelectedGeography(locationId);
+    locationName = getLadName(locationId);
+  }
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
@@ -84,7 +100,12 @@
   <span slot="header">
     {#if showChangeAreaHeader}
       <Header showBackLink serviceTitle="Choose an area"
-        ><ExploreByAreaComponent {autosuggestData} header on:click={toggleChangeAreaHeader} /></Header
+        ><ExploreByAreaComponent
+          {autosuggestData}
+          header
+          bind:userInputValue
+          on:click={() => submitFunction(userInputValue)}
+        /></Header
       >
     {:else}
       <DataHeader
@@ -93,6 +114,7 @@
         {locationId}
         on:click={toggleChangeAreaHeader}
         {topicSlug}
+        {categorySlug}
       />
     {/if}
 
