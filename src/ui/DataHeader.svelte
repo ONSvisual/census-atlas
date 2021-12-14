@@ -1,11 +1,16 @@
 <script>
   import slugify from "slugify";
-  export let tableName, location, topicPage, topicSlug;
+  export let tableName, location, topicPage, topicSlug, categorySlug;
   export let locationId;
   let locationQueryParam, href;
   $: {
     locationQueryParam = locationId ? `?location=${locationId}` : "";
-    href = topicSlug ? `0#` : `area${locationQueryParam}`;
+    href =
+      topicSlug && locationId
+        ? `${categorySlug}${locationQueryParam}`
+        : topicSlug && !locationId
+        ? `${categorySlug}`
+        : `area${locationQueryParam}`;
   }
 </script>
 
@@ -49,7 +54,7 @@
       {:else}
         <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
           <h3 class="ons-header__desc">In England & Wales</h3>
-          <a href="0#" on:click>Change</a>
+          <a {href} on:click>Change</a>
         </div>
       {/if}
     </div>
