@@ -1,6 +1,5 @@
 import { csvParse } from "d3-dsv";
 
-
 const baseURL = "https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny";
 
 export default class GeodataApiDataService {
@@ -31,29 +30,28 @@ export default class GeodataApiDataService {
   }
 
   async fetchAllDataForGeography(geographyId) {
-    const url = `${baseURL}?rows=${geographyId}`
-    const response = await fetch(url)
-    const string = await response.text()
-    let data = new Map()
+    const url = `${baseURL}?rows=${geographyId}`;
+    const response = await fetch(url);
+    const string = await response.text();
+    let data = new Map();
     csvParse(string, (row, i, cols) => {
-        cols.forEach((col, i) => {
-          if (i ==0) {
-            data.set("geographyId", row[cols[0]])
-          } else {
-          data.set(col, +row[col])
-          }
-        })
-      })
-    return data
+      cols.forEach((col, i) => {
+        if (i == 0) {
+          data.set("geographyId", row[cols[0]]);
+        } else {
+          data.set(col, +row[col]);
+        }
+      });
+    });
+    return data;
   }
 
-// selectedGeographyData store  
-// {
-//   geographyCode: {
-//     catCode: 50
-//   }
-// }
-
+  // selectedGeographyData store
+  // {
+  //   geographyCode: {
+  //     catCode: 50
+  //   }
+  // }
 
   // mapGeographyData store:
   // {
@@ -65,16 +63,15 @@ export default class GeodataApiDataService {
   //   }
   // }
 
-  async fetchSelectedDataForGeographyType(){
-      //load all data for LADs when selecting a category?
+  async fetchSelectedDataForGeographyType() {
+    //load all data for LADs when selecting a category?
   }
 
-  async fetchSelectedDataForGeographies(){
+  async fetchSelectedDataForGeographies() {
     //if single selected geography, separate selectedGeography store?
-
   }
 
-  async fetchSelectedDataForBoundingBox(){
+  async fetchSelectedDataForBoundingBox() {
     //presumably this will only be called given a certain zoom level
   }
 

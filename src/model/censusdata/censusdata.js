@@ -2,10 +2,8 @@ import { writable } from "svelte/store";
 
 //geodata API stores
 
-export let selectedGeographyData = writable(Map)
-export let mapGeographyData = writable(Map)
-
-
+export let selectedGeographyData = writable(Map);
+export let mapGeographyData = writable(Map);
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
@@ -40,10 +38,10 @@ export function reset() {
   categoryCodeLookup = {};
 }
 
-export async function fetchAllDataForGeography(censusDataService, geographyCode){
-  dataService = censusDataService
-  const data = await dataService.fetchAllDataForGeography(geographyCode)
-  selectedGeographyData.set(data)
+export async function fetchAllDataForGeography(censusDataService, geographyCode) {
+  dataService = censusDataService;
+  const data = await dataService.fetchAllDataForGeography(geographyCode);
+  selectedGeographyData.set(data);
 }
 
 export async function initialiseCensusData(censusDataService) {
