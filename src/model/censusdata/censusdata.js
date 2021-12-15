@@ -44,6 +44,12 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode)
   selectedGeographyData.set(data);
 }
 
+export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories){
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
+  mapGeographyData.set(data);
+}
+
 export async function initialiseCensusData(censusDataService) {
   dataService = censusDataService;
   await fetchTableStructure();

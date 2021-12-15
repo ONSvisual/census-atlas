@@ -16,10 +16,17 @@
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
+  import {fetchSelectedDataForGeoType, mapGeographyData} from "../model/censusdata/censusdata"
+  import GeodataApiDataService from "../model/censusdata/services/geodataApiDataService"
+
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
+  
+  fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", ["QS802EW0007", "QS802EW0006","QS802EW0005"])
+  $: console.log($mapGeographyData)
+
 
   function submitFunction(ladInput) {
     if (reverseLadLookup[ladInput]) {

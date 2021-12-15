@@ -63,8 +63,27 @@ export default class GeodataApiDataService {
   //   }
   // }
 
-  async fetchSelectedDataForGeographyType() {
-    //load all data for LADs when selecting a category?
+  async fetchSelectedDataForGeographyType(geoType, categories) {
+    const categoriesString = categories.toString()
+    let url = ""
+    if (geoType.toLowerCase().trim() == "lad") {
+      url = `${baseURL}?cols=geography_code,${categoriesString}&geotype=LAD`
+    } else if (geoType.toLowerCase().trim() == "lsoa") {
+      url = `${baseURL}?cols=geography_code,${categoriesString}&geotype=LSOA`
+    }
+    const response = await fetch(url);
+    const string = await response.text();
+    let data = new Map();
+    csvParse(string, (row, i, cols) => {
+      let geoDataObject = {}
+      cols.forEach((col, i) => {
+        if (i > 0) {
+          geoDataObject[col] = +row[col]
+        }
+      })
+      data.set(row.geography_code, geoDataObject)
+      })
+    return data
   }
 
   async fetchSelectedDataForGeographies() {
