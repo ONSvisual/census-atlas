@@ -34,6 +34,8 @@
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let showChangeAreaHeader = false;
   let userInputValue;
+  let renderError = false;
+  let invertTextColor = true;
   const toggleChangeAreaHeader = () => {
     showChangeAreaHeader = !showChangeAreaHeader;
   };
@@ -42,6 +44,9 @@
     if (reverseLadLookup[ladInput]) {
       goto(`/area?location=${reverseLadLookup[ladInput]}`);
       showChangeAreaHeader = !showChangeAreaHeader;
+    } else {
+      renderError = true;
+      invertTextColor = false;
     }
   }
 
@@ -70,6 +75,8 @@
     {#if showChangeAreaHeader}
       <Header showBackLink serviceTitle="Choose an area"
         ><ExploreByAreaComponent
+          {renderError}
+          {invertTextColor}
           {autosuggestData}
           header
           bind:userInputValue
