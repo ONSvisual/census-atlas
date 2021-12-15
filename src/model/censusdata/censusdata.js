@@ -39,14 +39,21 @@ export function reset() {
 }
 
 export async function fetchAllDataForGeography(censusDataService, geographyCode) {
+  selectedGeographyData.clear();
   dataService = censusDataService;
   const data = await dataService.fetchAllDataForGeography(geographyCode);
   selectedGeographyData.set(data);
 }
 
-export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories){
+export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
+  mapGeographyData.set(data);
+}
+
+export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
   mapGeographyData.set(data);
 }
 
