@@ -105,7 +105,7 @@
 <BasePage>
   <span slot="header">
     {#if showChangeAreaHeader}
-      <Header showBackLink serviceTitle="Choose an area"
+      <Header bind:showChangeAreaHeader showBackLink serviceTitle="Choose an area"
         ><ExploreByAreaComponent
           {renderError}
           {autosuggestData}

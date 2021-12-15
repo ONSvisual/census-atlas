@@ -1,6 +1,6 @@
 <script>
   import ONSBacklink from "./ons/ONSBacklink.svelte";
-  export let serviceTitle, description;
+  export let serviceTitle, description, showChangeAreaHeader;
   export let showBackLink = false;
   export let href = "#0";
 </script>
@@ -9,7 +9,7 @@
   <div class="ons-header__main {description ? 'ons-header__main--with-description' : ''}">
     <div class="ons-container">
       {#if showBackLink}
-        <ONSBacklink inverted />
+        <ONSBacklink inverted on:click={() => (showChangeAreaHeader = false)} />
       {/if}
       <div
         class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
