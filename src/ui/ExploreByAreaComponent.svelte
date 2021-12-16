@@ -1,4 +1,5 @@
 <script>
+  import config from "../config";
   export let id = "search-field";
   export let labelText, userInputValue, autosuggestData, renderError, invertTextColor;
   export let hint = "Enter a postcode or a town, city or area";
@@ -7,7 +8,7 @@
   import ONSAutosuggest from "./ons/ONSAutosuggest.svelte";
   import ONSError from "./ons/partials/ONSError.svelte";
   export let header = false;
-  let errorText = "Not a valid search";
+  let errorText = config.error.text;
 </script>
 
 <div class="component-margin--2">

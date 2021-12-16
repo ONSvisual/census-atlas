@@ -74,6 +74,9 @@ export default {
       },
     },
   },
+  error: {
+    text: "Not a valid search",
+  },
 };
 
 export const indexPageSuggestions = [
