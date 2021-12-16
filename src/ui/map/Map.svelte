@@ -4,6 +4,9 @@
   import mapstyle from "./../../data/mapstyle";
   import { selectedGeography } from "../../model/geography/geography";
   import ladBoundsLookup from "../../data/ladMapBoundsLookup";
+  import {writable} from "svelte/store"
+
+  export let mapBbox = writable([])
 
   export let map = null;
   export let minzoom = 0;
@@ -11,6 +14,7 @@
 
   export let bounds = [3.2, 55.17, -6.17, 50.38];
   export let zoom = 6;
+
 
   let options = {
     bounds: bounds,
@@ -61,6 +65,12 @@
       map.on("zoom", () => {
         zoom = map.getZoom();
       });
+
+      map.on('drag', () => {    
+        const bBoxCodes = map.queryRenderedFeatures({layers: ['lad-interactive-layer', 'lsoa-boundaries']}).map(feature => feature.id)
+        const filteredCodes = [...new Set(bBoxCodes)];
+        mapBbox.set(filteredCodes)
+})
     };
 
     document.head.appendChild(link);

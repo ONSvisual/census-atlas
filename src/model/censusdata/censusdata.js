@@ -57,6 +57,12 @@ export async function fetchSelectedDataForGeographies(censusDataService, geoCode
   mapGeographyData.set(data);
 }
 
+export async function fetchSelectedDataForBoundingBox(censusDataService, geoCodes, catCodes) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes)
+  mapGeographyData.set([...mapGeographyData, ...data])
+}
+
 export async function initialiseCensusData(censusDataService) {
   dataService = censusDataService;
   await fetchTableStructure();
