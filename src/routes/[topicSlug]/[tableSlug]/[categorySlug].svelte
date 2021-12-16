@@ -80,6 +80,13 @@
   }
 
   $: {
+    if (!showChangeAreaHeader) {
+      renderError = false;
+      invertTextColor = true;
+    }
+  }
+
+  $: {
     locationId = $page.query.get("location");
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);

@@ -50,6 +50,13 @@
     }
   }
 
+  $: {
+    if (!showChangeAreaHeader) {
+      renderError = false;
+      invertTextColor = true;
+    }
+  }
+
   function initialisePage() {
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
