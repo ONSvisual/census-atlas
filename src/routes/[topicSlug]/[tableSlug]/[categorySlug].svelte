@@ -14,6 +14,7 @@
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
+  import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -194,7 +195,9 @@
     </footer>
   </span>
 
-  <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
+  <div class="map-legend">
+    <MapLegend />
+  </div>
 
   <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} {categoryCodesArr} />
 
@@ -219,6 +222,10 @@
 <style lang="scss">
   @import "../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
+  .map-legend {
+    height: 60px;
+    margin-bottom: 24px;
+  }
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }
 </style>
