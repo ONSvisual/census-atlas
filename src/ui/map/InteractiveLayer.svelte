@@ -152,8 +152,6 @@
       }
     });
 
-
-
     map.on("mouseleave", id, (e) => {
       if (hovered) {
         map.setFeatureState({ source: source, sourceLayer: sourceLayer, id: hovered }, { hovered: false });
