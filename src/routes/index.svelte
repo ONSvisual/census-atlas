@@ -23,12 +23,12 @@
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
 
-  fetchSelectedDataForGeographies(
-    new GeodataApiDataService(),
-    ["E06000001", "E06000002", "E06000003"],
-    ["QS802EW0001", "QS802EW0004", "QS802EW0005"],
-  );
-  $: console.log($mapGeographyData);
+  // fetchSelectedDataForGeographies(
+  //   new GeodataApiDataService(),
+  //   ["E06000001", "E06000002", "E06000003"],
+  //   ["QS802EW0001", "QS802EW0004", "QS802EW0005"],
+  // );
+  // $: console.log("mapGeographyData", $mapGeographyData);
 
   function submitFunction(ladInput) {
     if (reverseLadLookup[ladInput]) {

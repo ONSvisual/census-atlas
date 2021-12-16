@@ -36,6 +36,13 @@
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
   import { isNotEmpty } from "../../../utils";
+  import {
+    mapGeographyData,
+    fetchSelectedDataForBoundingBox,
+    fetchSelectedDataForGeographies,
+  } from "../../../model/censusdata/censusdata";
+  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
+  import { mapBboxCodes } from "../../../model/censusdata/stores";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -47,6 +54,16 @@
   let locationId = null;
   let locationName = "";
   locationId = $page.query.get("location");
+
+  fetchSelectedDataForGeographies(
+    new GeodataApiDataService(),
+    ["E06000001", "E06000002", "E06000003"],
+    ["QS802EW0001"],
+  );
+  $: console.log("mapGeographyData", $mapGeographyData);
+
+  $: mapBboxCodes, fetchSelectedDataForBoundingBox(new GeodataApiDataService(), ["QS802EW0001"]);
+
   onMount(async () => {
     if (locationId) {
       updateSelectedGeography(locationId);

@@ -2,11 +2,10 @@
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
-  import { selectedGeography } from "../../model/geography/geography";
+  import { selectedGeography, setMapBBoxGeoCodes } from "../../model/geography/geography";
   import ladBoundsLookup from "../../data/ladMapBoundsLookup";
-  import { writable } from "svelte/store";
-
-  export let mapBbox = writable([]);
+  import { mapBboxCodes } from "../../model/censusdata/stores";
+  import { mapZoomBBox } from "../../model/geography/stores";
 
   export let map = null;
   export let minzoom = 0;
@@ -22,6 +21,8 @@
 
   let container;
 
+  $: mapZoomBBox, setMapBBoxGeoCodes(map, $mapBboxCodes);
+
   $: {
     if (map && $selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
       bounds = [
@@ -36,6 +37,24 @@
   setContext("map", {
     getMap: () => map,
   });
+
+  function getDebouncedMapZoomBBoxStore() {
+    var debounceTimer;
+    const debounceTimeout = 250;
+    return function (map) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let mapBBox = map.getBounds();
+        mapZoomBBox.set({
+          swCorner: mapBBox._sw,
+          neCorner: mapBBox._ne,
+          zoom: map.getZoom(),
+        });
+      }, debounceTimeout);
+    };
+  }
+
+  const debouncedMapZoomBBoxStore = getDebouncedMapZoomBBoxStore();
 
   onMount(() => {
     const link = document.createElement("link");
@@ -57,20 +76,18 @@
 
       // Get initial zoom level
       map.on("load", () => {
+        debouncedMapZoomBBoxStore(map);
         zoom = map.getZoom();
       });
 
       // Update zoom level when the view zooms
       map.on("zoom", () => {
+        debouncedMapZoomBBoxStore(map);
         zoom = map.getZoom();
       });
 
       map.on("drag", () => {
-        const bBoxCodes = map
-          .queryRenderedFeatures({ layers: ["lad-interactive-layer", "lsoa-boundaries"] })
-          .map((feature) => feature.id);
-        const filteredCodes = [...new Set(bBoxCodes)];
-        mapBbox.set(filteredCodes);
+        debouncedMapZoomBBoxStore(map);
       });
     };
 

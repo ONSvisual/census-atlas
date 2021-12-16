@@ -1,6 +1,5 @@
-import { writable } from "svelte/store";
-
-//geodata API stores
+import { writable, get } from "svelte/store";
+import { mapBboxCodes } from "./stores";
 
 export let selectedGeographyData = writable(Map);
 export let mapGeographyData = writable(Map);
@@ -57,8 +56,13 @@ export async function fetchSelectedDataForGeographies(censusDataService, geoCode
   mapGeographyData.set(data);
 }
 
-export async function fetchSelectedDataForBoundingBox(censusDataService, geoCodes, catCodes) {
+function filterMapBboxCodes(mapGeographyData, mapBboxCodes) {
+  return mapBboxCodes.filter((item) => !mapGeographyData.has(item));
+}
+
+export async function fetchSelectedDataForBoundingBox(censusDataService, catCodes) {
   dataService = censusDataService;
+  let geoCodes = filterMapBboxCodes(get(mapGeographyData), get(mapBboxCodes));
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
   mapGeographyData.set([...mapGeographyData, ...data]);
 }
