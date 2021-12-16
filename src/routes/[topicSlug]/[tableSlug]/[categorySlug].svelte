@@ -14,6 +14,7 @@
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import DataHeader from "../../../ui/DataHeader.svelte";
+  import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -85,6 +86,7 @@
 <svelte:head>
   <title>2021 Census Data Atlas Category & Location</title>
 </svelte:head>
+
 <BasePage>
   <span slot="header">
     <DataHeader tableName={table ? table.name : null} location={locationName} {locationId} />
@@ -180,7 +182,9 @@
     </footer>
   </span>
 
-  <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
+  <div class="map-legend">
+    <MapLegend />
+  </div>
 
   <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} />
 
@@ -205,6 +209,10 @@
 <style lang="scss">
   @import "../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
+  .map-legend {
+    height: 60px;
+    margin-bottom: 24px;
+  }
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }
 </style>
