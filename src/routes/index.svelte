@@ -16,19 +16,10 @@
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
-  import { fetchSelectedDataForGeographies, mapGeographyData } from "../model/censusdata/censusdata";
-  import GeodataApiDataService from "../model/censusdata/services/geodataApiDataService";
-
+ 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
-
-  // fetchSelectedDataForGeographies(
-  //   new GeodataApiDataService(),
-  //   ["E06000001", "E06000002", "E06000003"],
-  //   ["QS802EW0001", "QS802EW0004", "QS802EW0005"],
-  // );
-  // $: console.log("mapGeographyData", $mapGeographyData);
 
   function submitFunction(ladInput) {
     if (reverseLadLookup[ladInput]) {

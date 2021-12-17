@@ -1,8 +1,9 @@
 import { writable, get } from "svelte/store";
-import { mapBboxCodes } from "./stores";
+import { mapBBoxCodes } from "./stores";
 
 export let selectedGeographyData = writable(Map);
-export let mapGeographyData = writable(Map);
+export let dataByGeography = writable(Map);
+export let newDataByGeography = writable(false)
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
@@ -47,24 +48,28 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode)
 export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
-  mapGeographyData.set(data);
+  dataByGeography.set(data);
 }
 
 export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  mapGeographyData.set(data);
+  dataByGeography.set(data);
 }
 
-function filterMapBboxCodes(mapGeographyData, mapBboxCodes) {
-  return mapBboxCodes.filter((item) => !mapGeographyData.has(item));
+function filtermapBBoxCodes(dataByGeography, mapBBoxCodes) {
+  return mapBBoxCodes.filter((item) => !dataByGeography.has(item));
 }
 
-export async function fetchSelectedDataForBoundingBox(censusDataService, catCodes) {
+export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes) {
   dataService = censusDataService;
-  let geoCodes = filterMapBboxCodes(get(mapGeographyData), get(mapBboxCodes));
+  let geoCodes = filtermapBBoxCodes(get(dataByGeography), get(mapBBoxCodes));
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  mapGeographyData.set([...mapGeographyData, ...data]);
+  data.forEach((data, key) => {
+    const catCode = Object.keys(data)
+    get(dataByGeography).set(key, {[catCode]: data[catCode]})
+  })
+  newDataByGeography.set(true)
 }
 
 export async function initialiseCensusData(censusDataService) {

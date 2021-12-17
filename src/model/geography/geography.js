@@ -127,10 +127,9 @@ function buildLsoaLookup(lsoaData) {
   return lsoaLookup;
 }
 
-export function setMapBBoxGeoCodes(map, mapBboxCodes) {
+export function getMapBBoxGeoCodes(map) {
   const bBoxCodes = map
     .queryRenderedFeatures({ layers: ["lad-interactive-layer", "lsoa-boundaries"] })
     .map((feature) => feature.id);
-  const filteredCodes = [...new Set(bBoxCodes)];
-  mapBboxCodes.set(filteredCodes);
+  return [...new Set(bBoxCodes)];
 }

@@ -53,7 +53,7 @@ export default class GeodataApiDataService {
   //   }
   // }
 
-  // mapGeographyData store:
+  // dataByGeography store:
   // {
   //   geoCode: {
   //     catCode: {

@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
 
-export let mapBboxCodes = writable([]);
+export let mapBBoxCodes = writable([]);

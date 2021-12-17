@@ -2,9 +2,9 @@
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
-  import { selectedGeography, setMapBBoxGeoCodes } from "../../model/geography/geography";
+  import { selectedGeography, getMapBBoxGeoCodes } from "../../model/geography/geography";
   import ladBoundsLookup from "../../data/ladMapBoundsLookup";
-  import { mapBboxCodes } from "../../model/censusdata/stores";
+  import { mapBBoxCodes } from "../../model/censusdata/stores";
   import { mapZoomBBox } from "../../model/geography/stores";
 
   export let map = null;
@@ -21,8 +21,9 @@
 
   let container;
 
-  $: mapZoomBBox, setMapBBoxGeoCodes(map, $mapBboxCodes);
-
+  $: if ($mapZoomBBox){
+    mapBBoxCodes.set(getMapBBoxGeoCodes(map))
+  }
   $: {
     if (map && $selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
       bounds = [

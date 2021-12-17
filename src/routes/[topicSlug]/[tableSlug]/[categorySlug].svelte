@@ -22,6 +22,7 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
+    newDataByGeography,
   } from "../../../model/censusdata/censusdata";
   import {
     updateHoveredGeography,
@@ -37,12 +38,12 @@
   import { appIsInitialised } from "../../../model/appstate";
   import { isNotEmpty } from "../../../utils";
   import {
-    mapGeographyData,
-    fetchSelectedDataForBoundingBox,
+    dataByGeography,
+    fetchSelectedDataForNewBoundingBoxGeographies,
     fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
-  import { mapBboxCodes } from "../../../model/censusdata/stores";
+  import { mapBBoxCodes } from "../../../model/censusdata/stores";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -60,9 +61,10 @@
     ["E06000001", "E06000002", "E06000003"],
     ["QS802EW0001"],
   );
-  $: console.log("mapGeographyData", $mapGeographyData);
 
-  $: mapBboxCodes, fetchSelectedDataForBoundingBox(new GeodataApiDataService(), ["QS802EW0001"]);
+  $: $newDataByGeography, console.log("dataByGeography", $dataByGeography);
+
+  $: $mapBBoxCodes, fetchSelectedDataForNewBoundingBoxGeographies(new GeodataApiDataService(), ["QS802EW0001"]);
 
   onMount(async () => {
     if (locationId) {
