@@ -3,8 +3,6 @@ import { csvParse } from "d3-dsv";
 const baseURL = "https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny";
 
 export default class GeodataApiDataService {
-  
-
   async fetchAllDataForGeography(geographyId) {
     const url = `${baseURL}?rows=${geographyId}`;
     const response = await fetch(url);
@@ -66,11 +64,11 @@ export default class GeodataApiDataService {
 
   async fetchSelectedDataForBoundingBox(geoType, catCodes, bBox) {
     const geoTypesString = geoType.toString();
-    const catCodesString = catCodes.toString()
-    const url = `${baseURL}?bbox=${bBox.neCorner.lng},${bBox.neCorner.lat},${bBox.swCorner.lng},${bBox.swCorner.lat}&cols=geography_code,${catCodesString}&geotype=${geoTypesString}`
-    const response = await fetch(url)
-    const string = await response.text()
-    let data = new Map()
+    const catCodesString = catCodes.toString();
+    const url = `${baseURL}?bbox=${bBox.neCorner.lng},${bBox.neCorner.lat},${bBox.swCorner.lng},${bBox.swCorner.lat}&cols=geography_code,${catCodesString}&geotype=${geoTypesString}`;
+    const response = await fetch(url);
+    const string = await response.text();
+    let data = new Map();
     csvParse(string, (row, i, cols) => {
       let geoDataObject = {};
       cols.forEach((col, i) => {

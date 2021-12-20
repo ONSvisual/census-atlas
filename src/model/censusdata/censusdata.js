@@ -3,7 +3,7 @@ import { mapBBoxCodes } from "./stores";
 
 export let selectedGeographyData = writable(Map);
 export let dataByGeography = writable(Map);
-export let newDataByGeography = writable(false)
+export let newDataByGeography = writable(false);
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
@@ -65,18 +65,18 @@ export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataSe
   let geoCodes = filtermapBBoxCodes(get(dataByGeography), get(mapBBoxCodes));
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
   data.forEach((data, key) => {
-    const catCode = Object.keys(data)
-    get(dataByGeography).set(key, {[catCode]: data[catCode]})
-  })
+    const catCode = Object.keys(data);
+    get(dataByGeography).set(key, { [catCode]: data[catCode] });
+  });
   //temporarily sets store to true to so components can listen for new data
-  newDataByGeography.set(true)
-  newDataByGeography.set(false)
+  newDataByGeography.set(true);
+  newDataByGeography.set(false);
 }
 
-export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox){
+export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox) {
   dataService = censusDataService;
-  const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox)
-  dataByGeography.set(data)
+  const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
+  dataByGeography.set(data);
 }
 
 export async function initialiseCensusData(censusDataService) {

@@ -21,8 +21,8 @@
 
   let container;
 
-  $: if ($mapZoomBBox){
-    mapBBoxCodes.set(getMapBBoxGeoCodes(map))
+  $: if ($mapZoomBBox) {
+    mapBBoxCodes.set(getMapBBoxGeoCodes(map));
   }
   $: {
     if (map && $selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {

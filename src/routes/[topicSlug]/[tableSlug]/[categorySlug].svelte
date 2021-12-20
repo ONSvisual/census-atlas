@@ -51,7 +51,7 @@
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-import { mapZoomBBox } from "../../../model/geography/stores";
+  import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -65,18 +65,15 @@ import { mapZoomBBox } from "../../../model/geography/stores";
   //   fetchSelectedDataForWholeBoundingBox(new GeodataApiDataService(), ['LSOA'], ["QS802EW0001"], $mapZoomBBox)
   // }
 
-  $: console.log("selectedGeographyData", $selectedGeographyData)
+  $: console.log("selectedGeographyData", $selectedGeographyData);
 
   setTimeout(() => {
-    fetchAllDataForGeography(
-    new GeodataApiDataService(),
-    "W06000023",
-  );
-  }, 4000)
+    fetchAllDataForGeography(new GeodataApiDataService(), "W06000023");
+  }, 4000);
 
   // $: $newDataByGeography, console.log("NEW dataByGeography", $dataByGeography);
 
-  // $: if ($mapBBoxCodes){ 
+  // $: if ($mapBBoxCodes){
   //   console.log($mapBBoxCodes)
   //   fetchSelectedDataForNewBoundingBoxGeographies(new GeodataApiDataService(), ["QS802EW0001"]);
   // }
