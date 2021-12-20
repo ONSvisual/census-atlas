@@ -1,5 +1,5 @@
 import { csvParse } from "d3-dsv";
-import {writeDataToMapObj} from "../../utils"
+import { writeDataToMapObj } from "../../utils";
 
 const baseURL = "https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny";
 
