@@ -39,7 +39,6 @@ export function reset() {
 }
 
 export async function fetchAllDataForGeography(censusDataService, geographyCode) {
-  selectedGeographyData.clear();
   dataService = censusDataService;
   const data = await dataService.fetchAllDataForGeography(geographyCode);
   selectedGeographyData.set(data);
@@ -69,7 +68,15 @@ export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataSe
     const catCode = Object.keys(data)
     get(dataByGeography).set(key, {[catCode]: data[catCode]})
   })
+  //temporarily sets store to true to so components can listen for new data
   newDataByGeography.set(true)
+  newDataByGeography.set(false)
+}
+
+export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox){
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox)
+  dataByGeography.set(data)
 }
 
 export async function initialiseCensusData(censusDataService) {

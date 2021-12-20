@@ -39,14 +39,19 @@
   import { isNotEmpty } from "../../../utils";
   import {
     dataByGeography,
+    selectedGeographyData,
+    fetchAllDataForGeography,
+    fetchSelectedDataForGeoType,
     fetchSelectedDataForNewBoundingBoxGeographies,
     fetchSelectedDataForGeographies,
+    fetchSelectedDataForWholeBoundingBox,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import { mapBBoxCodes } from "../../../model/censusdata/stores";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
+import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -56,15 +61,25 @@
   let locationName = "";
   locationId = $page.query.get("location");
 
-  fetchSelectedDataForGeographies(
+  // $: if ($mapZoomBBox) {
+  //   fetchSelectedDataForWholeBoundingBox(new GeodataApiDataService(), ['LSOA'], ["QS802EW0001"], $mapZoomBBox)
+  // }
+
+  $: console.log("selectedGeographyData", $selectedGeographyData)
+
+  setTimeout(() => {
+    fetchAllDataForGeography(
     new GeodataApiDataService(),
-    ["E06000001", "E06000002", "E06000003"],
-    ["QS802EW0001"],
+    "W06000023",
   );
+  }, 4000)
 
-  $: $newDataByGeography, console.log("dataByGeography", $dataByGeography);
+  // $: $newDataByGeography, console.log("NEW dataByGeography", $dataByGeography);
 
-  $: $mapBBoxCodes, fetchSelectedDataForNewBoundingBoxGeographies(new GeodataApiDataService(), ["QS802EW0001"]);
+  // $: if ($mapBBoxCodes){ 
+  //   console.log($mapBBoxCodes)
+  //   fetchSelectedDataForNewBoundingBoxGeographies(new GeodataApiDataService(), ["QS802EW0001"]);
+  // }
 
   onMount(async () => {
     if (locationId) {

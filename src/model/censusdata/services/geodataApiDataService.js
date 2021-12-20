@@ -3,31 +3,7 @@ import { csvParse } from "d3-dsv";
 const baseURL = "https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny";
 
 export default class GeodataApiDataService {
-  constructor() {
-    this.reset();
-  }
-
-  reset() {
-    this.dataset = {
-      lsoa: {
-        data: [],
-        index: {},
-        breaks: [],
-      },
-      higher: {
-        data: [],
-        index: {},
-      },
-      lad: {
-        data: [],
-        index: {},
-      },
-      englandAndWales: {
-        count: 0,
-        value: 0,
-      },
-    };
-  }
+  
 
   async fetchAllDataForGeography(geographyId) {
     const url = `${baseURL}?rows=${geographyId}`;
@@ -45,23 +21,6 @@ export default class GeodataApiDataService {
     });
     return data;
   }
-
-  // selectedGeographyData store
-  // {
-  //   geographyCode: {
-  //     catCode: 50
-  //   }
-  // }
-
-  // dataByGeography store:
-  // {
-  //   geoCode: {
-  //     catCode: {
-  //       number: 99
-  //       total: 100
-  //     }
-  //   }
-  // }
 
   async fetchSelectedDataForGeographyType(geoType, categories) {
     const categoriesString = categories.toString();
@@ -105,8 +64,23 @@ export default class GeodataApiDataService {
     return data;
   }
 
-  async fetchSelectedDataForBoundingBox() {
-    //presumably this will only be called given a certain zoom level
+  async fetchSelectedDataForBoundingBox(geoType, catCodes, bBox) {
+    const geoTypesString = geoType.toString();
+    const catCodesString = catCodes.toString()
+    const url = `${baseURL}?bbox=${bBox.neCorner.lng},${bBox.neCorner.lat},${bBox.swCorner.lng},${bBox.swCorner.lat}&cols=geography_code,${catCodesString}&geotype=${geoTypesString}`
+    const response = await fetch(url)
+    const string = await response.text()
+    let data = new Map()
+    csvParse(string, (row, i, cols) => {
+      let geoDataObject = {};
+      cols.forEach((col, i) => {
+        if (i > 0) {
+          geoDataObject[col] = +row[col];
+        }
+      });
+      data.set(row.geography_code, geoDataObject);
+    });
+    return data;
   }
 
   async fetchCensusTableStructure() {
