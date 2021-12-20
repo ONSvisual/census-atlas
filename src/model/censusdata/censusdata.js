@@ -1,8 +1,8 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes } from "./stores";
 
-export let selectedGeographyData = writable(Map);
-export let dataByGeography = writable(Map);
+export let selectedGeographyData = writable(new Map());
+export let dataByGeography = writable(new Map());
 export let newDataByGeography = writable(false);
 
 export let censusTableStructureIsLoaded = writable(false);
@@ -57,17 +57,20 @@ export async function fetchSelectedDataForGeographies(censusDataService, geoCode
 }
 
 function filtermapBBoxCodes(dataByGeography, mapBBoxCodes) {
+  if (dataByGeography.length == 0){
+    return mapBBoxCodes
+  }
   return mapBBoxCodes.filter((item) => !dataByGeography.has(item));
 }
 
 export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes) {
   dataService = censusDataService;
-  let geoCodes = filtermapBBoxCodes(get(dataByGeography), get(mapBBoxCodes));
+  const geoCodes = filtermapBBoxCodes(get(dataByGeography), get(mapBBoxCodes));
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  data.forEach((data, key) => {
-    const catCode = Object.keys(data);
-    get(dataByGeography).set(key, { [catCode]: data[catCode] });
-  });
+    data.forEach((data, key) => {
+      const catCode = Object.keys(data);
+      get(dataByGeography).set(key, { [catCode]: data[catCode] });
+    });
   //temporarily sets store to true to so components can listen for new data
   newDataByGeography.set(true);
   newDataByGeography.set(false);

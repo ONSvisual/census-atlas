@@ -22,7 +22,6 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
-    newDataByGeography,
   } from "../../../model/censusdata/censusdata";
   import {
     updateHoveredGeography,
@@ -37,21 +36,9 @@
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
   import { isNotEmpty } from "../../../utils";
-  import {
-    dataByGeography,
-    selectedGeographyData,
-    fetchAllDataForGeography,
-    fetchSelectedDataForGeoType,
-    fetchSelectedDataForNewBoundingBoxGeographies,
-    fetchSelectedDataForGeographies,
-    fetchSelectedDataForWholeBoundingBox,
-  } from "../../../model/censusdata/censusdata";
-  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
-  import { mapBBoxCodes } from "../../../model/censusdata/stores";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-  import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -60,23 +47,6 @@
   let locationId = null;
   let locationName = "";
   locationId = $page.query.get("location");
-
-  // $: if ($mapZoomBBox) {
-  //   fetchSelectedDataForWholeBoundingBox(new GeodataApiDataService(), ['LSOA'], ["QS802EW0001"], $mapZoomBBox)
-  // }
-
-  $: console.log("selectedGeographyData", $selectedGeographyData);
-
-  setTimeout(() => {
-    fetchAllDataForGeography(new GeodataApiDataService(), "W06000023");
-  }, 4000);
-
-  // $: $newDataByGeography, console.log("NEW dataByGeography", $dataByGeography);
-
-  // $: if ($mapBBoxCodes){
-  //   console.log($mapBBoxCodes)
-  //   fetchSelectedDataForNewBoundingBoxGeographies(new GeodataApiDataService(), ["QS802EW0001"]);
-  // }
 
   onMount(async () => {
     if (locationId) {
