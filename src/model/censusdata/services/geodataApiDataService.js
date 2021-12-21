@@ -4,15 +4,15 @@ import { writeDataToMapObj } from "../../utils";
 const baseURL = "https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny";
 
 export default class GeodataApiDataService {
-  async fetchAllDataForGeography(geographyId) {
-    const url = `${baseURL}?rows=${geographyId}`;
+  async fetchAllDataForGeography(geographyCode) {
+    const url = `${baseURL}?rows=${geographyCode}`;
     const response = await fetch(url);
     const string = await response.text();
     let data = new Map();
     csvParse(string, (row, i, cols) => {
       cols.forEach((col, i) => {
         if (i == 0) {
-          data.set("geographyId", row[cols[0]]);
+          data.set("geographyCode", row[cols[0]]);
         } else {
           data.set(col, +row[col]);
         }

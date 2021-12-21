@@ -13,10 +13,10 @@ export default class MockCensusDataService {
 
   async fetchCategoryAggregateData(categoryId) {}
 
-  async fetchTableForGeography(tableId, geographyId) {
+  async fetchTableForGeography(tableId, geographyCode) {
     return {
       tableId: tableId,
-      geographyId: geographyId,
+      geographyCode: geographyCode,
       rows: [
         // { category: 'Female', value: 4801, perc: 0.49 }
       ],

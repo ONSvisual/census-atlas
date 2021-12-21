@@ -56,7 +56,7 @@ export async function fetchSelectedDataForGeographies(censusDataService, geoCode
   dataByGeography.set(data);
 }
 
-function filtermapBBoxCodes(dataByGeography, mapBBoxCodes) {
+function filterOutMapBBoxCodesWithCachedData(dataByGeography, mapBBoxCodes) {
   if (dataByGeography.length == 0) {
     return mapBBoxCodes;
   }
@@ -65,7 +65,7 @@ function filtermapBBoxCodes(dataByGeography, mapBBoxCodes) {
 
 export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes) {
   dataService = censusDataService;
-  const geoCodes = filtermapBBoxCodes(get(dataByGeography), get(mapBBoxCodes));
+  const geoCodes = filterOutMapBBoxCodesWithCachedData(get(dataByGeography), get(mapBBoxCodes));
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
   data.forEach((data, key) => {
     const catCode = Object.keys(data);
