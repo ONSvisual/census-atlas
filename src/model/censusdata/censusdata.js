@@ -1,9 +1,9 @@
 import { writable, get } from "svelte/store";
-import { mapBBoxCodes } from "./stores";
+import { mapBBoxCodes, toggleable } from "./stores";
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
-export let newDataByGeography = writable(false);
+export let newDataByGeography = toggleable(false);
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
@@ -72,8 +72,7 @@ export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataSe
     get(dataByGeography).set(key, { [catCode]: data[catCode] });
   });
   //temporarily sets store to true to so components can listen for new data
-  newDataByGeography.set(true);
-  newDataByGeography.set(false);
+  newDataByGeography.notify()
 }
 
 export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox) {
