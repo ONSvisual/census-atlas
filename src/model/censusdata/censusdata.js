@@ -44,16 +44,32 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode)
   selectedGeographyData.set(data);
 }
 
-export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories) {
+export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
-  dataByGeography.set(data);
+  if (overwriteCache){
+    dataByGeography.set(data);
+  } else {
+    data.forEach((data, key) => {
+      const catCode = Object.keys(data);
+      get(dataByGeography).set(key, { [catCode]: data[catCode] });
+    });
+    newDataByGeography.notify()
+  }
 }
 
-export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes) {
+export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  dataByGeography.set(data);
+  if (overwriteCache){
+    dataByGeography.set(data);
+  } else {
+    data.forEach((data, key) => {
+      const catCode = Object.keys(data);
+      get(dataByGeography).set(key, { [catCode]: data[catCode] });
+    });
+    newDataByGeography.notify()
+  }
 }
 
 function filterOutMapBBoxCodesWithCachedData(dataByGeography, mapBBoxCodes) {
@@ -63,22 +79,33 @@ function filterOutMapBBoxCodesWithCachedData(dataByGeography, mapBBoxCodes) {
   return mapBBoxCodes.filter((item) => !dataByGeography.has(item));
 }
 
-export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes) {
+export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes, overwriteCache) {
   dataService = censusDataService;
   const geoCodes = filterOutMapBBoxCodesWithCachedData(get(dataByGeography), get(mapBBoxCodes));
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  data.forEach((data, key) => {
-    const catCode = Object.keys(data);
-    get(dataByGeography).set(key, { [catCode]: data[catCode] });
-  });
-  //temporarily sets store to true to so components can listen for new data
-  newDataByGeography.notify()
+  if (overwriteCache){
+    dataByGeography.set(data);
+  } else {
+    data.forEach((data, key) => {
+      const catCode = Object.keys(data);
+      get(dataByGeography).set(key, { [catCode]: data[catCode] });
+    });
+    newDataByGeography.notify()
+  }
 }
 
-export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox) {
+export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox, overwriteCache) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
-  dataByGeography.set(data);
+  if (overwriteCache){
+    dataByGeography.set(data);
+  } else {
+    data.forEach((data, key) => {
+      const catCode = Object.keys(data);
+      get(dataByGeography).set(key, { [catCode]: data[catCode] });
+    });
+    newDataByGeography.notify()
+  }
 }
 
 export async function initialiseCensusData(censusDataService) {
