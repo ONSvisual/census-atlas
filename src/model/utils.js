@@ -32,7 +32,15 @@ export function addNewGeoDataToCache(data){
     catCodes.forEach((catCode) => {
       catDataObj[catCode] = data[catCode]
     })
-    get(dataByGeography).set(key, catDataObj);
+    //if cache already contains category data for given geography...
+    if (get(dataByGeography).has(key)){
+      //add new category data to existing data for given geography
+      const cachedGeoData = get(dataByGeography).get(key)
+      get(dataByGeography).set(key, {...cachedGeoData, ...catDataObj})
+    } else {
+      //otherwise add new geography & data to store
+      get(dataByGeography).set(key, catDataObj);
+    }
   });
   newDataByGeography.notify()
 }
