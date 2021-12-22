@@ -1,4 +1,9 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
+import { mapBBoxCodes, toggleable } from "./stores";
+
+export let selectedGeographyData = writable(new Map());
+export let dataByGeography = writable(new Map());
+export let newDataByGeography = toggleable(false);
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
@@ -31,6 +36,49 @@ export function reset() {
   categories = {};
 
   categoryCodeLookup = {};
+}
+
+export async function fetchAllDataForGeography(censusDataService, geographyCode) {
+  dataService = censusDataService;
+  const data = await dataService.fetchAllDataForGeography(geographyCode);
+  selectedGeographyData.set(data);
+}
+
+export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
+  dataByGeography.set(data);
+}
+
+export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+  dataByGeography.set(data);
+}
+
+function filterOutMapBBoxCodesWithCachedData(dataByGeography, mapBBoxCodes) {
+  if (dataByGeography.length == 0) {
+    return mapBBoxCodes;
+  }
+  return mapBBoxCodes.filter((item) => !dataByGeography.has(item));
+}
+
+export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes) {
+  dataService = censusDataService;
+  const geoCodes = filterOutMapBBoxCodesWithCachedData(get(dataByGeography), get(mapBBoxCodes));
+  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+  data.forEach((data, key) => {
+    const catCode = Object.keys(data);
+    get(dataByGeography).set(key, { [catCode]: data[catCode] });
+  });
+  //temporarily sets store to true to so components can listen for new data
+  newDataByGeography.notify()
+}
+
+export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
+  dataByGeography.set(data);
 }
 
 export async function initialiseCensusData(censusDataService) {

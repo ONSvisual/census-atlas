@@ -1,6 +1,5 @@
 <script>
-  import { getContext } from "svelte";
-  import { createEventDispatcher } from "svelte";
+  import { getContext, createEventDispatcher } from "svelte";
   import config from "./../../config";
 
   const dispatch = createEventDispatcher();
