@@ -1,5 +1,6 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
+import {addNewGeoDataToCache} from "../utils"
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
@@ -50,11 +51,7 @@ export async function fetchSelectedDataForGeoType(censusDataService, geoType, ca
   if (overwriteCache){
     dataByGeography.set(data);
   } else {
-    data.forEach((data, key) => {
-      const catCode = Object.keys(data);
-      get(dataByGeography).set(key, { [catCode]: data[catCode] });
-    });
-    newDataByGeography.notify()
+    addNewGeoDataToCache(data)
   }
 }
 
@@ -64,11 +61,7 @@ export async function fetchSelectedDataForGeographies(censusDataService, geoCode
   if (overwriteCache){
     dataByGeography.set(data);
   } else {
-    data.forEach((data, key) => {
-      const catCode = Object.keys(data);
-      get(dataByGeography).set(key, { [catCode]: data[catCode] });
-    });
-    newDataByGeography.notify()
+    addNewGeoDataToCache(data)
   }
 }
 
@@ -86,11 +79,7 @@ export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataSe
   if (overwriteCache){
     dataByGeography.set(data);
   } else {
-    data.forEach((data, key) => {
-      const catCode = Object.keys(data);
-      get(dataByGeography).set(key, { [catCode]: data[catCode] });
-    });
-    newDataByGeography.notify()
+    addNewGeoDataToCache(data)
   }
 }
 
@@ -100,11 +89,7 @@ export async function fetchSelectedDataForWholeBoundingBox(censusDataService, ge
   if (overwriteCache){
     dataByGeography.set(data);
   } else {
-    data.forEach((data, key) => {
-      const catCode = Object.keys(data);
-      get(dataByGeography).set(key, { [catCode]: data[catCode] });
-    });
-    newDataByGeography.notify()
+    addNewGeoDataToCache(data)
   }
 }
 
