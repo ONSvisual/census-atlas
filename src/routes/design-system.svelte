@@ -61,7 +61,7 @@
   <DesignSystemPanel title="Header" code={`<ONSExternalHeaderWithDescription />`}>
     <ONSExternalHeaderWithDescription
       serviceTitle="Explore Census"
-      description="Here's a place where we tell users what the Census Atlas is and what it can do for them."
+      description="Use our interactive map to find out what people's lives are like across England and Wales."
     />
   </DesignSystemPanel>
 
