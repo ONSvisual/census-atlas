@@ -128,8 +128,11 @@ function buildLsoaLookup(lsoaData) {
 }
 
 export function getMapBBoxGeoCodes(map) {
-  const bBoxCodes = map
-    .queryRenderedFeatures({ layers: ["lad-interactive-layer", "lsoa-boundaries"] })
-    .map((feature) => feature.id);
-  return [...new Set(bBoxCodes)];
+  if (map) {
+    const bBoxCodes = map
+      .queryRenderedFeatures({ layers: ["lad-interactive-layer", "lsoa-boundaries"] })
+      .map((feature) => feature.id);
+    return [...new Set(bBoxCodes)];
+  }
+  return [];
 }
