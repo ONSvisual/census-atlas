@@ -1,6 +1,6 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
-import {addNewGeoDataToCache} from "../utils"
+import { addNewGeoDataToCache } from "../utils";
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
@@ -48,20 +48,20 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode)
 export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
-  if (overwriteCache){
+  if (overwriteCache) {
     dataByGeography.set(data);
   } else {
-    addNewGeoDataToCache(data)
+    addNewGeoDataToCache(data);
   }
 }
 
 export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  if (overwriteCache){
+  if (overwriteCache) {
     dataByGeography.set(data);
   } else {
-    addNewGeoDataToCache(data)
+    addNewGeoDataToCache(data);
   }
 }
 
@@ -76,20 +76,26 @@ export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataSe
   dataService = censusDataService;
   const geoCodes = filterOutMapBBoxCodesWithCachedData(get(dataByGeography), get(mapBBoxCodes));
   const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  if (overwriteCache){
+  if (overwriteCache) {
     dataByGeography.set(data);
   } else {
-    addNewGeoDataToCache(data)
+    addNewGeoDataToCache(data);
   }
 }
 
-export async function fetchSelectedDataForWholeBoundingBox(censusDataService, geoTypes, catCodes, bBox, overwriteCache) {
+export async function fetchSelectedDataForWholeBoundingBox(
+  censusDataService,
+  geoTypes,
+  catCodes,
+  bBox,
+  overwriteCache,
+) {
   dataService = censusDataService;
   const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
-  if (overwriteCache){
+  if (overwriteCache) {
     dataByGeography.set(data);
   } else {
-    addNewGeoDataToCache(data)
+    addNewGeoDataToCache(data);
   }
 }
 

@@ -25,22 +25,22 @@ export function writeDataToMapObj(responseStr) {
   return data;
 }
 
-export function addNewGeoDataToCache(data){
+export function addNewGeoDataToCache(data) {
   data.forEach((data, key) => {
-    let catDataObj = {}
+    let catDataObj = {};
     const catCodes = Object.keys(data);
     catCodes.forEach((catCode) => {
-      catDataObj[catCode] = data[catCode]
-    })
+      catDataObj[catCode] = data[catCode];
+    });
     //if cache already contains category data for given geography...
-    if (get(dataByGeography).has(key)){
+    if (get(dataByGeography).has(key)) {
       //add new category data to existing data for given geography
-      const cachedGeoData = get(dataByGeography).get(key)
-      get(dataByGeography).set(key, {...cachedGeoData, ...catDataObj})
+      const cachedGeoData = get(dataByGeography).get(key);
+      get(dataByGeography).set(key, { ...cachedGeoData, ...catDataObj });
     } else {
       //otherwise add new geography & data to store
       get(dataByGeography).set(key, catDataObj);
     }
   });
-  newDataByGeography.notify()
+  newDataByGeography.notify();
 }
