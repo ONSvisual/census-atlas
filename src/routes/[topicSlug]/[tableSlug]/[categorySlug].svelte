@@ -22,7 +22,9 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
+    fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
+  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService"
   import {
     updateHoveredGeography,
     updateSelectedGeography,
@@ -35,7 +37,7 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty } from "../../../utils";
+  import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -63,8 +65,21 @@
     table = category ? tables[category.table] : null;
     populatesSelectedData(table.name, table.categoriesArray, category.code);
     fetchCensusData(category.code, null);
+    if (isNotEmpty($selectedData)){
+    const totalsCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
+    // populateCensusTable["total"] = { code: queryParams["totalsCode"] };
+    // populateCensusTable["categories"] = [];
+    const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
+      const dbCategoryCode = categoryIDToDBColumn(category.code);
+      // populateCensusTable["categories"][i] = { code: [dbCategoryCode], name: category.name };
+      return dbCategoryCode;
+    });
+    categoryCodesArr.unshift(totalsCatCode)
+    console.log(categoryCodesArr)
+  }
     locationName = getLadName(locationId);
   };
+
 </script>
 
 <svelte:head>
