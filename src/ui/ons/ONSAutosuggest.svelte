@@ -1,8 +1,21 @@
 <script>
+  import { onMount } from "svelte";
   export let labelText, id, hint, autosuggestValue, autosuggestData, header;
   let n;
   let inverted = header ? "input--with-white-description" : "";
   let inputContainer = header ? "header-input-container" : "non-header-input-container";
+
+  onMount(async () => {
+    const autosuggests = [...document.querySelectorAll(".ons-js-autosuggest")];
+
+    if (autosuggests.length) {
+      const Autosuggest = (
+        await import("./../../../node_modules/@ons/design-system/components/autosuggest/autosuggest")
+      ).default;
+
+      autosuggests.forEach((autosuggest) => new Autosuggest(autosuggest));
+    }
+  });
 
   function onClick({ target }) {
     autosuggestValue = target.innerText;

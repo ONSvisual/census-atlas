@@ -36,7 +36,6 @@
 
 <svelte:head>
   <title>2021 Census Data Atlas Topic</title>
-  <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
 
 <BasePage>
