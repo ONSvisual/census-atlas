@@ -2,8 +2,10 @@
   import { onMount, setContext } from "svelte";
   import { Map, NavigationControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
-  import { selectedGeography } from "../../model/geography/geography";
+  import { selectedGeography, getMapBBoxGeoCodes } from "../../model/geography/geography";
   import ladBoundsLookup from "../../data/ladMapBoundsLookup";
+  import { mapBBoxCodes } from "../../model/censusdata/stores";
+  import { mapZoomBBox } from "../../model/geography/stores";
 
   export let map = null;
   export let minzoom = 0;
@@ -19,6 +21,9 @@
 
   let container;
 
+  $: if ($mapZoomBBox) {
+    mapBBoxCodes.set(getMapBBoxGeoCodes(map));
+  }
   $: {
     if (map && $selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
       bounds = [
@@ -33,6 +38,24 @@
   setContext("map", {
     getMap: () => map,
   });
+
+  function getDebouncedMapZoomBBoxStore() {
+    var debounceTimer;
+    const debounceTimeout = 250;
+    return function (map) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let mapBBox = map.getBounds();
+        mapZoomBBox.set({
+          swCorner: mapBBox._sw,
+          neCorner: mapBBox._ne,
+          zoom: map.getZoom(),
+        });
+      }, debounceTimeout);
+    };
+  }
+
+  const debouncedMapZoomBBoxStore = getDebouncedMapZoomBBoxStore();
 
   onMount(() => {
     const link = document.createElement("link");
@@ -54,12 +77,18 @@
 
       // Get initial zoom level
       map.on("load", () => {
+        debouncedMapZoomBBoxStore(map);
         zoom = map.getZoom();
       });
 
       // Update zoom level when the view zooms
       map.on("zoom", () => {
+        debouncedMapZoomBBoxStore(map);
         zoom = map.getZoom();
+      });
+
+      map.on("drag", () => {
+        debouncedMapZoomBBoxStore(map);
       });
     };
 

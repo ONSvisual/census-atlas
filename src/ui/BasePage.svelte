@@ -132,16 +132,13 @@
   }
 
   @media only screen and (min-width: map-get($grid-bp, s)) {
-    .wrapper .ons-container {
-      padding: 0 45px;
-    }
     .header,
     .body {
       width: 489px;
     }
     .body {
-      padding-top: 24px;
-      padding-bottom: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
     }
     .map {
       position: absolute;

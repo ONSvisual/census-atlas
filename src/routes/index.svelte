@@ -34,14 +34,13 @@
 <svelte:head>
   <title>2021 Census Data Atlas</title>
   <meta name="description" content="Explore 2021 census data for England and Wales at a neighbourhood level." />
-  <script defer src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
 </svelte:head>
 
 <BasePage mobileMap={false}>
   <span slot="header">
     <Header
       serviceTitle="Explore Census"
-      description="Here’s a place where we tell users what the Census Atlas is and what it can do for them."
+      description="Use our interactive map to find out what people's lives are like across England and Wales."
     />
   </span>
 

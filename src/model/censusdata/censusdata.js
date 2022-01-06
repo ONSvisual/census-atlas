@@ -1,4 +1,10 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
+import { mapBBoxCodes, toggleable } from "./stores";
+import { addNewGeoDataToCache } from "../utils";
+
+export let selectedGeographyData = writable(new Map());
+export let dataByGeography = writable(new Map());
+export let newDataByGeography = toggleable(false);
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
@@ -31,6 +37,66 @@ export function reset() {
   categories = {};
 
   categoryCodeLookup = {};
+}
+
+export async function fetchAllDataForGeography(censusDataService, geographyCode) {
+  dataService = censusDataService;
+  const data = await dataService.fetchAllDataForGeography(geographyCode);
+  selectedGeographyData.set(data);
+}
+
+export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
+  if (overwriteCache) {
+    dataByGeography.set(data);
+  } else {
+    addNewGeoDataToCache(data);
+  }
+}
+
+export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+  if (overwriteCache) {
+    dataByGeography.set(data);
+  } else {
+    addNewGeoDataToCache(data);
+  }
+}
+
+function filterOutMapBBoxCodesWithCachedData(dataByGeography, mapBBoxCodes) {
+  if (dataByGeography.length == 0) {
+    return mapBBoxCodes;
+  }
+  return mapBBoxCodes.filter((item) => !dataByGeography.has(item));
+}
+
+export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes, overwriteCache) {
+  dataService = censusDataService;
+  const geoCodes = filterOutMapBBoxCodesWithCachedData(get(dataByGeography), get(mapBBoxCodes));
+  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+  if (overwriteCache) {
+    dataByGeography.set(data);
+  } else {
+    addNewGeoDataToCache(data);
+  }
+}
+
+export async function fetchSelectedDataForWholeBoundingBox(
+  censusDataService,
+  geoTypes,
+  catCodes,
+  bBox,
+  overwriteCache,
+) {
+  dataService = censusDataService;
+  const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
+  if (overwriteCache) {
+    dataByGeography.set(data);
+  } else {
+    addNewGeoDataToCache(data);
+  }
 }
 
 export async function initialiseCensusData(censusDataService) {
