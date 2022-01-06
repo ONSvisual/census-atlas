@@ -40,7 +40,7 @@
     "d3-fetch": "^3.0.1",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.0.1",
-    "fuse.js": "^6.5.3",
+    "fuse.js": "^3.6.1",
     "normalize.css": "^8.0.1",
     "simple-statistics": "^7.7.0",
     "slugify": "^1.6.5",
