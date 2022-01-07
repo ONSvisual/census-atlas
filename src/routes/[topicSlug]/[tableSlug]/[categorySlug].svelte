@@ -84,6 +84,7 @@
     if (!showChangeAreaHeader) {
       renderError = false;
       invertTextColor = true;
+      userInputValue = "";
     }
   }
 
