@@ -23,6 +23,8 @@
     populatesSelectedData,
     selectedData,
     fetchSelectedDataForGeographies,
+    dataByGeography,
+    newDataByGeography,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import {
@@ -46,9 +48,10 @@
   let category = null;
   let table = null;
 
-  let locationId = null;
   let locationName = "";
-  locationId = $page.query.get("location");
+
+  //if no location in url, set locationId to England & Wales
+  const locationId = $page.query.get("location") ? $page.query.get("location") : "K04000001"
 
   onMount(async () => {
     if (locationId) {
@@ -67,18 +70,18 @@
     fetchCensusData(category.code, null);
     if (isNotEmpty($selectedData)) {
       const totalsCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
-      // populateCensusTable["total"] = { code: queryParams["totalsCode"] };
-      // populateCensusTable["categories"] = [];
       const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
         const dbCategoryCode = categoryIDToDBColumn(category.code);
-        // populateCensusTable["categories"][i] = { code: [dbCategoryCode], name: category.name };
         return dbCategoryCode;
       });
       categoryCodesArr.unshift(totalsCatCode);
-      console.log(categoryCodesArr);
+      console.log(categoryCodesArr)
+      fetchSelectedDataForGeographies(new GeodataApiDataService(), locationId, categoryCodesArr);
     }
     locationName = getLadName(locationId);
   };
+
+  $: $newDataByGeography, console.log($dataByGeography);
 </script>
 
 <svelte:head>
@@ -184,8 +187,6 @@
 
   {#if $selectedGeography.lad && isNotEmpty($selectedData)}
     <CensusTableByLocation {locationId} />
-  {:else if isNotEmpty($selectedData)}
-    <CensusTableByLocation locationId="K04000001" />
   {/if}
 
   <Topic cardTitle="General health with other indicators"

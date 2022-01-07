@@ -3,41 +3,14 @@
   import { isEmpty } from "../utils";
   import { csvParse, autoType } from "d3-dsv";
   export let locationId;
+  import {dataByGeography, newDataByGeography} from "../model/censusdata/censusdata"
 
-  let url;
-  let queryParams = {};
   let populateCensusTable = { categories: [] };
 
-  if (!isEmpty($selectedData)) {
-    retrieveTableData($selectedData);
-  }
+  let tableData
+  $: $newDataByGeography, tableData = $dataByGeography.get(locationId)
 
-  async function retrieveTableData(selected) {
-    queryParams["totalsCode"] = categoryIDToDBTotalsColumn(selected.categorySelected);
-    populateCensusTable["total"] = { code: queryParams["totalsCode"] };
-    populateCensusTable["categories"] = [];
-    const categoryCodesArr = selected.tableCategories.map((category, i) => {
-      const dbCategoryCode = categoryIDToDBColumn(category.code);
-      populateCensusTable["categories"][i] = { code: [dbCategoryCode], name: category.name };
-      return dbCategoryCode;
-    });
-    queryParams["categoryCodes"] = categoryCodesArr.toString();
-    const data = await fetchTableData(queryParams);
-    processData(data);
-  }
-
-  async function fetchTableData(queryParams) {
-    if (locationId) {
-      url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=${locationId}&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
-    } else {
-      url = `https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/skinny?rows=K04000001&cols=${queryParams.totalsCode},${queryParams.categoryCodes}`;
-    }
-
-    const response = await fetch(url);
-    const string = await response.text();
-    let data = await csvParse(string, autoType);
-    return data;
-  }
+  $: console.log(tableData)
 
   function processData(data) {
     if (data[0][populateCensusTable.total.code]) {
@@ -52,27 +25,6 @@
         category["value"] = category["value"].toLocaleString();
       }
     });
-  }
-
-  function decomposeCategoryId(categoryId) {
-    const digitsSuffix = categoryId.match(/\d+$/)[0];
-    return {
-      digitsSuffix: digitsSuffix,
-      prefix: categoryId.substring(categoryId.lastIndexOf(digitsSuffix), 0),
-    };
-  }
-
-  // adjust for 1-based (nomis bulk, in the db) vs 0-based (nomis api) categories: QS101EW001 -> QS101EW0002
-  function categoryIDToDBColumn(categoryId) {
-    const categoryIdParts = decomposeCategoryId(categoryId);
-    const adjustedSuffix = (parseInt(categoryIdParts.digitsSuffix) + 1).toString().padStart(4, "0");
-    return categoryIdParts.prefix + adjustedSuffix;
-  }
-
-  // get totals column (1-based, in the db) from category ID: QS101EW010 -> QS101EW0001
-  function categoryIDToDBTotalsColumn(categoryId) {
-    const categoryIdParts = decomposeCategoryId(categoryId);
-    return categoryIdParts.prefix + "0001";
   }
 </script>
 
