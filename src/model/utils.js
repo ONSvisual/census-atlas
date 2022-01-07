@@ -11,35 +11,30 @@ export function getLegendSection(value, breakpoints) {
   return breakpoints.length;
 }
 
-export function writeDataToMapObj(responseStr) {
+export function writeCsvDataToMapObj(responseStr) {
   let data = new Map();
   csvParse(responseStr, (row, i, cols) => {
-    let geoDataObject = {};
+    let geoDataMap = new Map();
     cols.forEach((col, i) => {
       if (i > 0) {
-        geoDataObject[col] = +row[col];
+        geoDataMap.set(col, +row[col]);
       }
     });
-    data.set(row.geography_code, geoDataObject);
+    data.set(row.geography_code, geoDataMap);
   });
   return data;
 }
 
 export function addNewGeoDataToCache(data) {
-  data.forEach((data, key) => {
-    let catDataObj = {};
-    const catCodes = Object.keys(data);
-    catCodes.forEach((catCode) => {
-      catDataObj[catCode] = data[catCode];
-    });
+  data.forEach((value, key) => {
     //if cache already contains category data for given geography...
     if (get(dataByGeography).has(key)) {
       //add new category data to existing data for given geography
       const cachedGeoData = get(dataByGeography).get(key);
-      get(dataByGeography).set(key, { ...cachedGeoData, ...catDataObj });
+      get(dataByGeography).set(key, new Map([...cachedGeoData, ...value]));
     } else {
       //otherwise add new geography & data to store
-      get(dataByGeography).set(key, catDataObj);
+      get(dataByGeography).set(key, new Map(value));
     }
   });
   newDataByGeography.notify();
