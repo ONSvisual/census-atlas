@@ -1,26 +1,15 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
-  export let locationId, populateCensusTable;
   import { dataByGeography, newDataByGeography } from "../model/censusdata/censusdata";
+  import { processData } from "../utils";
+  export let locationId, populateCensusTable;
 
   $: {
     $newDataByGeography;
     if ($dataByGeography.get(locationId)) {
-      processData($dataByGeography.get(locationId));
+      //reassign variable to trigger reactivity
+      populateCensusTable = processData($dataByGeography.get(locationId), populateCensusTable);
     }
-  }
-
-  function processData(data) {
-    const [firstValue] = data.values();
-    populateCensusTable.categories.forEach((category) => {
-      if (data.has(category.code)) {
-        category["value"] = data.get(category.code);
-        category["percentage"] = (Math.round((category.value / firstValue) * 100 * 10) / 10).toFixed(1);
-        category["value"] = category["value"].toLocaleString();
-      }
-    });
-    //reassign variable to trigger reactivity
-    populateCensusTable = populateCensusTable;
   }
 </script>
 

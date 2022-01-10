@@ -176,11 +176,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <!-- {#if $selectedGeography.lad && isNotEmpty($selectedData)}
-    <CensusTableByLocation {locationId} {populateCensusTable}/>
-  {/if} -->
-
-  <CensusTableByLocation {locationId} bind:populateCensusTable />
+  <CensusTableByLocation {locationId} {populateCensusTable} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

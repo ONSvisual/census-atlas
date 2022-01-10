@@ -230,3 +230,15 @@ export function categoryIDToDBTotalsColumn(categoryId) {
   const categoryIdParts = decomposeCategoryId(categoryId);
   return categoryIdParts.prefix + "0001";
 }
+
+export function processData(data, populateCensusTable) {
+  const [firstValue] = data.values();
+  populateCensusTable.categories.forEach((category) => {
+    if (data.has(category.code)) {
+      category["value"] = data.get(category.code);
+      category["percentage"] = (Math.round((category.value / firstValue) * 100 * 10) / 10).toFixed(1);
+      category["value"] = category["value"].toLocaleString();
+    }
+  });
+  return populateCensusTable;
+}
