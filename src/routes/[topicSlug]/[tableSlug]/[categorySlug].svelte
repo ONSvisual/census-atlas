@@ -47,11 +47,12 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
+  let populateCensusTable = { categories: [] };
 
   let locationName = "";
 
   //if no location in url, set locationId to England & Wales
-  const locationId = $page.query.get("location") ? $page.query.get("location") : "K04000001"
+  const locationId = $page.query.get("location") ? $page.query.get("location") : "K04000001";
 
   onMount(async () => {
     if (locationId) {
@@ -72,16 +73,14 @@
       const totalsCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
       const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
         const dbCategoryCode = categoryIDToDBColumn(category.code);
+        populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
         return dbCategoryCode;
       });
       categoryCodesArr.unshift(totalsCatCode);
-      console.log(categoryCodesArr)
       fetchSelectedDataForGeographies(new GeodataApiDataService(), locationId, categoryCodesArr);
     }
     locationName = getLadName(locationId);
   };
-
-  $: $newDataByGeography, console.log($dataByGeography);
 </script>
 
 <svelte:head>
@@ -184,9 +183,11 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  {#if $selectedGeography.lad && isNotEmpty($selectedData)}
-    <CensusTableByLocation {locationId} />
-  {/if}
+  <!-- {#if $selectedGeography.lad && isNotEmpty($selectedData)}
+    <CensusTableByLocation {locationId} {populateCensusTable}/>
+  {/if} -->
+
+  <CensusTableByLocation {locationId} bind:populateCensusTable />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
