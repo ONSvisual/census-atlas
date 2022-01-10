@@ -1,27 +1,24 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
   import { isEmpty } from "../utils";
-  import { csvParse, autoType } from "d3-dsv";
-  export let locationId;
-  import {dataByGeography, newDataByGeography} from "../model/censusdata/censusdata"
+  export let locationId, populateCensusTable;
+  import { dataByGeography, newDataByGeography } from "../model/censusdata/censusdata";
 
-  let populateCensusTable = { categories: [] };
+  $: {
+    $newDataByGeography;
+    if ($dataByGeography.get(locationId)) {
+      processData($dataByGeography.get(locationId));
+    }
+  }
 
-  let tableData
-  $: $newDataByGeography, tableData = $dataByGeography.get(locationId)
-
-  $: console.log(tableData)
+  $: populateCensusTable, console.log("reactive populateCensusTable", populateCensusTable);
 
   function processData(data) {
-    if (data[0][populateCensusTable.total.code]) {
-      populateCensusTable.total.value = data[0][populateCensusTable.total.code];
-    }
-    populateCensusTable["categories"].forEach((category) => {
-      if (data[0][category.code]) {
-        category["value"] = data[0][category.code];
-        category["percentage"] = (
-          Math.round((category.value / populateCensusTable.total.value) * 100 * 10) / 10
-        ).toFixed(1);
+    const [firstValue] = data.values();
+    populateCensusTable.categories.forEach((category) => {
+      if (data.has(category.code)) {
+        category["value"] = data.get(category.code);
+        category["percentage"] = (Math.round((category.value / firstValue) * 100 * 10) / 10).toFixed(1);
         category["value"] = category["value"].toLocaleString();
       }
     });
