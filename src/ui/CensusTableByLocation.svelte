@@ -1,6 +1,5 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
-  import { isEmpty } from "../utils";
   export let locationId, populateCensusTable;
   import { dataByGeography, newDataByGeography } from "../model/censusdata/censusdata";
 
@@ -21,7 +20,7 @@
       }
     });
     //reassign variable to trigger reactivity
-    populateCensusTable = populateCensusTable
+    populateCensusTable = populateCensusTable;
   }
 </script>
 

@@ -23,16 +23,9 @@
     populatesSelectedData,
     selectedData,
     fetchSelectedDataForGeographies,
-    dataByGeography,
-    newDataByGeography,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
-  import {
-    updateHoveredGeography,
-    updateSelectedGeography,
-    getLadName,
-    selectedGeography,
-  } from "../../../model/geography/geography";
+  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
