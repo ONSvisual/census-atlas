@@ -12,7 +12,6 @@
   export let maxzoom = getContext("maxzoom");
 
   let loaded = false;
-  $: loaded, console.log("boundary set loaded");
 
   const { getMap } = getContext("map");
   const map = getMap();

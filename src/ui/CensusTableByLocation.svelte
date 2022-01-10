@@ -11,8 +11,6 @@
     }
   }
 
-  $: populateCensusTable, console.log("reactive populateCensusTable", populateCensusTable);
-
   function processData(data) {
     const [firstValue] = data.values();
     populateCensusTable.categories.forEach((category) => {
@@ -22,6 +20,8 @@
         category["value"] = category["value"].toLocaleString();
       }
     });
+    //reassign variable to trigger reactivity
+    populateCensusTable = populateCensusTable
   }
 </script>
 
