@@ -44,13 +44,17 @@
 
   let locationName = "";
 
-  //if no location in url, set locationId to England & Wales
-  const locationId = $page.query.get("location") ? $page.query.get("location") : "K04000001";
+  const locationId = $page.query.get("location");
+
+  //if no location in url, set geoCode to England & Wales
+  let geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
 
   onMount(async () => {
     if (locationId) {
       updateSelectedGeography(locationId);
       locationName = getLadName(locationId);
+    } else {
+      updateSelectedGeography("K04000001");
     }
   });
 
@@ -70,7 +74,7 @@
         return dbCategoryCode;
       });
       categoryCodesArr.unshift(totalsCatCode);
-      fetchSelectedDataForGeographies(new GeodataApiDataService(), locationId, categoryCodesArr);
+      fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
     }
     locationName = getLadName(locationId);
   };
@@ -176,7 +180,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation {locationId} {populateCensusTable} />
+  <CensusTableByLocation {populateCensusTable} {geoCode} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
