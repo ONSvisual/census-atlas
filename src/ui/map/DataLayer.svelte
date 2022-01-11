@@ -1,8 +1,9 @@
 <script>
   import { getContext } from "svelte";
   import { getLegendSection } from "./../../model/utils";
-  import { breaks } from "./../../model/censusdata/censusdata";
+  // import { breaks } from "./../../model/censusdata/censusdata";
   import config from "./../../config";
+  import { censusDataBreaks } from "../../model/metadata/metadata";
 
   export let id;
   export let source = getContext("source");
@@ -28,7 +29,7 @@
   let selectedPrev = null;
   let highlightedPrev = null;
 
-  console.log("rendering data layer");
+  $: console.log("breaks", $censusDataBreaks);
 
   // remove map if present
   if (map.getLayer(id)) {
@@ -62,7 +63,7 @@
 
   function updateData() {
     for (const key of Object.keys(data)) {
-      let legendSection = getLegendSection(data[key].perc, breaks);
+      let legendSection = getLegendSection(data[key].value, $censusDataBreaks);
       map.setFeatureState(
         {
           source: source,

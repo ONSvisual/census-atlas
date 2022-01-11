@@ -36,6 +36,8 @@
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
   import { isNotEmpty } from "../../../utils";
+  import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
+  import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -65,6 +67,8 @@
     fetchCensusData(category.code, null);
     locationName = getLadName(locationId);
   };
+
+  fetchCensusDataBreaks(new MetadataApiDataService(), "LAD", "QS302EW0003", 5);
 </script>
 
 <svelte:head>
