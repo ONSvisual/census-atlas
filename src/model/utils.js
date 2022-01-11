@@ -2,13 +2,18 @@ import { csvParse } from "d3-dsv";
 import { dataByGeography, newDataByGeography } from "./censusdata/censusdata";
 import { get } from "svelte/store";
 
+// export function getLegendSection(value, breakpoints) {
+//   for (let i = 1; i < breakpoints.length; i++) {
+//     if (value <= breakpoints[i]) {
+//       return i;
+//     }
+//   }
+//   return breakpoints.length;
+// }
+
+//returns the index of the first breakpoint matching the value - the breakpoints array is sorted in ascending order
 export function getLegendSection(value, breakpoints) {
-  for (let i = 1; i < breakpoints.length; i++) {
-    if (value <= breakpoints[i]) {
-      return i;
-    }
-  }
-  return breakpoints.length;
+  return breakpoints.findIndex((breakpoint) => value <= breakpoint);
 }
 
 export function writeCsvDataToMapObj(responseStr) {

@@ -71,7 +71,7 @@
           id: key,
         },
         {
-          color: config.ux.legend_colours[legendSection - 1],
+          color: config.ux.legend_colours[legendSection],
         },
       );
     }
