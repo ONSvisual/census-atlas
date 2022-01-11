@@ -47,8 +47,6 @@
   let locationId = null;
   let locationName = "";
 
-  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
-
   locationId = $page.query.get("location");
 
   onMount(async () => {
@@ -86,7 +84,7 @@
     <HeaderWrapper
       {locationName}
       {locationId}
-      {autosuggestData}
+      autosuggestData={config.autosuggestData}
       {topicSlug}
       {tableSlug}
       {categorySlug}

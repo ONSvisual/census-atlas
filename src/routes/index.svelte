@@ -13,11 +13,11 @@
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
   import Map from "./../ui/map/Map.svelte";
   import Header from "../ui/Header.svelte";
+  import config from "../config.js";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
 
-  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
   let renderError = false;
@@ -61,7 +61,7 @@
   <hr class="component-margin--2" />
   <ExploreByAreaComponent
     {renderError}
-    {autosuggestData}
+    autosuggestData={config.autosuggestData}
     bind:userInputValue
     on:click={() => submitFunction(userInputValue)}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent

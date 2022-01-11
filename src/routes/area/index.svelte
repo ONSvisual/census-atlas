@@ -23,8 +23,6 @@
   let locationName, locationId;
   let topicSuggestions;
 
-  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
-
   function initialisePage() {
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
@@ -46,7 +44,7 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderWrapper {locationName} {locationId} {autosuggestData} />
+    <HeaderWrapper {locationName} {locationId} autosuggestData={config.autosuggestData} />
   </span>
 
   <span slot="map">

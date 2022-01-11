@@ -22,6 +22,7 @@
   import ONSTwitterIcon from "./../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
+  import config from "../config";
 
   let topicList1 = [
     {
@@ -64,7 +65,6 @@
     },
   ];
   let selectedCode = "QS302EW002";
-  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
 </script>
 
 <svelte:head>
@@ -129,9 +129,11 @@
 
   <DesignSystemPanel
     title="Choose an area header"
-    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} header /></Header>`}
+    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent autosuggestData={config.autosuggestData} header /></Header>`}
   >
-    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent {autosuggestData} header /></Header>
+    <Header showBackLink serviceTitle="Choose an area"
+      ><ExploreByAreaComponent autosuggestData={config.autosuggestData} header /></Header
+    >
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Category selector" code={`<CategorySelector {categories} {selectedCode} />`}>
@@ -140,9 +142,9 @@
 
   <DesignSystemPanel
     title="Explore by area"
-    code={`<ExploreByAreaComponent {autosuggestData} >Search for an area to find out how it compares to others</ExploreByAreaComponent>`}
+    code={`<ExploreByAreaComponent autosuggestData={config.autosuggestData} >Search for an area to find out how it compares to others</ExploreByAreaComponent>`}
   >
-    <ExploreByAreaComponent {autosuggestData}
+    <ExploreByAreaComponent autosuggestData={config.autosuggestData}
       >Search for an area to find out how it compares to others</ExploreByAreaComponent
     >
   </DesignSystemPanel>
