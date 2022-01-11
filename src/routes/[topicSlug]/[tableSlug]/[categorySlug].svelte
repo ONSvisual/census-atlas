@@ -13,9 +13,7 @@
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
-  import DataHeader from "../../../ui/DataHeader.svelte";
-  import Header from "../../../ui/Header.svelte";
-  import ExploreByAreaComponent from "../../../ui/ExploreByAreaComponent.svelte";
+  import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -29,7 +27,6 @@
     updateHoveredGeography,
     updateSelectedGeography,
     getLadName,
-    reverseLadLookup,
     selectedGeography,
   } from "../../../model/geography/geography";
   import config from "../../../config";
@@ -42,7 +39,6 @@
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -52,14 +48,6 @@
   let locationName = "";
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
-  let showChangeAreaHeader = false;
-  let userInputValue;
-  let renderError = false;
-  let invertTextColor = true;
-
-  const toggleChangeAreaHeader = () => {
-    showChangeAreaHeader = !showChangeAreaHeader;
-  };
 
   locationId = $page.query.get("location");
 
@@ -69,24 +57,6 @@
       locationName = getLadName(locationId);
     }
   });
-
-  function submitFunction(ladInput) {
-    if (reverseLadLookup[ladInput]) {
-      goto(`/${topicSlug}/${tableSlug}/${categorySlug}?location=${reverseLadLookup[ladInput]}`);
-      showChangeAreaHeader = !showChangeAreaHeader;
-    } else {
-      renderError = true;
-      invertTextColor = false;
-    }
-  }
-
-  $: {
-    if (!showChangeAreaHeader) {
-      renderError = false;
-      invertTextColor = true;
-      userInputValue = "";
-    }
-  }
 
   $: {
     locationId = $page.query.get("location");
@@ -110,29 +80,18 @@
 <svelte:head>
   <title>2021 Census Data Atlas Category & Location</title>
 </svelte:head>
+
 <BasePage>
   <span slot="header">
-    {#if showChangeAreaHeader}
-      <Header bind:showChangeAreaHeader showBackLink serviceTitle="Choose an area"
-        ><ExploreByAreaComponent
-          {renderError}
-          {autosuggestData}
-          {invertTextColor}
-          header
-          bind:userInputValue
-          on:click={() => submitFunction(userInputValue)}
-        /></Header
-      >
-    {:else}
-      <DataHeader
-        tableName={table ? table.name : null}
-        location={locationName}
-        {locationId}
-        on:click={toggleChangeAreaHeader}
-        {topicSlug}
-        {categorySlug}
-      />
-    {/if}
+    <HeaderWrapper
+      {locationName}
+      {locationId}
+      {autosuggestData}
+      {topicSlug}
+      {tableSlug}
+      {categorySlug}
+      tableName={table ? table.name : null}
+    />
 
     {#if isNotEmpty($selectedData)}
       <CategorySelector
