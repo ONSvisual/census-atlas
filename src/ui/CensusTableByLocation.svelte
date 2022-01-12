@@ -2,13 +2,13 @@
   import { selectedData } from "../model/censusdata/censusdata";
   import { dataByGeography, newDataByGeography } from "../model/censusdata/censusdata";
   import { processData } from "../utils";
-  export let geoCode, populateCensusTable;
+  export let geoCode, populateCensusTable, totalCatCode;
 
   $: {
     $newDataByGeography;
     if ($dataByGeography.get(geoCode)) {
       //reassign variable to trigger reactivity
-      populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable);
+      populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
     }
   }
 </script>

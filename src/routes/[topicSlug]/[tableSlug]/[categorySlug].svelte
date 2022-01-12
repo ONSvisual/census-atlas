@@ -42,6 +42,7 @@
   let category = null;
   let table = null;
   let populateCensusTable = { categories: [] };
+  let totalCatCode = "";
 
   let locationName = "";
 
@@ -68,13 +69,13 @@
     populatesSelectedData(table.name, table.categoriesArray, category.code);
     fetchCensusData(new LegacyCensusDataService(), category.code, null);
     if (isNotEmpty($selectedData)) {
-      const totalsCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
+      totalCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
       const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
         const dbCategoryCode = categoryIDToDBColumn(category.code);
         populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
         return dbCategoryCode;
       });
-      categoryCodesArr.unshift(totalsCatCode);
+      categoryCodesArr.push(totalCatCode);
       fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
     }
     locationName = getLadName(locationId);
@@ -181,7 +182,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation {populateCensusTable} {geoCode} />
+  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
