@@ -44,7 +44,7 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderWrapper {locationName} {locationId} autosuggestData={config.autosuggestData} />
+    <HeaderWrapper {locationName} {locationId} />
   </span>
 
   <span slot="map">

@@ -1,7 +1,7 @@
 <script>
   import config from "../config";
   export let id = "search-field";
-  export let labelText, userInputValue, autosuggestData, renderError, invertTextColor;
+  export let labelText, userInputValue, renderError, invertTextColor;
   export let hint = "Enter a postcode or a town, city or area";
   export let buttonText = "Choose";
   export let title = "Explore by area";
@@ -23,7 +23,7 @@
         {invertTextColor}
         {id}
         {hint}
-        {autosuggestData}
+        autosuggestData={config.autosuggestData}
         {renderError}
         {header}
         bind:autosuggestValue={userInputValue}

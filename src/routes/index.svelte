@@ -13,7 +13,6 @@
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
   import Map from "./../ui/map/Map.svelte";
   import Header from "../ui/Header.svelte";
-  import config from "../config.js";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
@@ -59,11 +58,7 @@
 
   <ExploreByTopic url="/categories" suggestions={indexPageSuggestions} />
   <hr class="component-margin--2" />
-  <ExploreByAreaComponent
-    {renderError}
-    autosuggestData={config.autosuggestData}
-    bind:userInputValue
-    on:click={() => submitFunction(userInputValue)}
+  <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
   >
 

@@ -84,7 +84,6 @@
     <HeaderWrapper
       {locationName}
       {locationId}
-      autosuggestData={config.autosuggestData}
       {topicSlug}
       {tableSlug}
       {categorySlug}

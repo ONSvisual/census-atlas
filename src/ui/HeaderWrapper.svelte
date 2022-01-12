@@ -6,7 +6,7 @@
   import ExploreByAreaComponent from "./ExploreByAreaComponent.svelte";
   import { reverseLadLookup } from "../model/geography/geography";
 
-  export let locationName, locationId, autosuggestData, topicSlug, tableSlug, categorySlug, tableName;
+  export let locationName, locationId, topicSlug, tableSlug, categorySlug, tableName;
 
   let showChangeAreaHeader = false;
   let userInputValue;
@@ -45,7 +45,6 @@
     ><ExploreByAreaComponent
       {renderError}
       {invertTextColor}
-      {autosuggestData}
       header
       bind:userInputValue
       on:click={() => submitFunction(userInputValue)}

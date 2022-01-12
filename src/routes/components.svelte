@@ -129,11 +129,9 @@
 
   <DesignSystemPanel
     title="Choose an area header"
-    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent autosuggestData={config.autosuggestData} header /></Header>`}
+    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent header /></Header>`}
   >
-    <Header showBackLink serviceTitle="Choose an area"
-      ><ExploreByAreaComponent autosuggestData={config.autosuggestData} header /></Header
-    >
+    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent header /></Header>
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Category selector" code={`<CategorySelector {categories} {selectedCode} />`}>
@@ -142,11 +140,9 @@
 
   <DesignSystemPanel
     title="Explore by area"
-    code={`<ExploreByAreaComponent autosuggestData={config.autosuggestData} >Search for an area to find out how it compares to others</ExploreByAreaComponent>`}
+    code={`<ExploreByAreaComponent >Search for an area to find out how it compares to others</ExploreByAreaComponent>`}
   >
-    <ExploreByAreaComponent autosuggestData={config.autosuggestData}
-      >Search for an area to find out how it compares to others</ExploreByAreaComponent
-    >
+    <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
   </DesignSystemPanel>
   <DesignSystemPanel title="Explore by topic" code={`<ExploreByTopic />`}>
     <ExploreByTopic />
