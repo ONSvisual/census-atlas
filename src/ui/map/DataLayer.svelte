@@ -29,8 +29,6 @@
   let selectedPrev = null;
   let highlightedPrev = null;
 
-  $: console.log("breaks", $censusDataBreaks);
-
   // remove map if present
   if (map.getLayer(id)) {
     map.removeLayer(id);
@@ -63,7 +61,7 @@
 
   function updateData() {
     for (const key of Object.keys(data)) {
-      let legendSection = getLegendSection(data[key].value, $censusDataBreaks);
+      let legendSection = getLegendSection(data[key].perc, $censusDataBreaks);
       map.setFeatureState(
         {
           source: source,

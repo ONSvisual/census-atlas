@@ -16,8 +16,6 @@
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
-  import {fetchCensusDataBreaks, censusDataBreaks} from "../model/metadata/metadata"
-  import MetadataApiDataService from "../model/metadata/services/metadataApiDataService"
 
   let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
@@ -28,8 +26,6 @@
       goto(`/area?location=${reverseLadLookup[ladInput]}`);
     }
   }
-  fetchCensusDataBreaks(new MetadataApiDataService(), "LAD", "QS802EW0007", 5)
-  $: console.log($censusDataBreaks)
 </script>
 
 <svelte:head>

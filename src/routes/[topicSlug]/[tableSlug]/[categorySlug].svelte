@@ -68,7 +68,7 @@
     locationName = getLadName(locationId);
   };
 
-  fetchCensusDataBreaks(new MetadataApiDataService(), "LAD", "QS302EW0003", 5);
+  fetchCensusDataBreaks(new MetadataApiDataService(), "QS302EW0003", 5);
 </script>
 
 <svelte:head>
