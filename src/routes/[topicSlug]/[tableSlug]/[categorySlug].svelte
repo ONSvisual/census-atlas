@@ -25,6 +25,7 @@
     fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
+  import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
@@ -65,7 +66,7 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     populatesSelectedData(table.name, table.categoriesArray, category.code);
-    fetchCensusData(category.code, null);
+    fetchCensusData(new LegacyCensusDataService(), category.code, null);
     if (isNotEmpty($selectedData)) {
       const totalsCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
       const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
