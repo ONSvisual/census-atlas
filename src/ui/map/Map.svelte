@@ -81,6 +81,10 @@
         zoom = map.getZoom();
       });
 
+      map.on("render", () => {
+        map.resize();
+      });
+
       // Update zoom level when the view zooms
       map.on("zoom", () => {
         debouncedMapZoomBBoxStore(map);
@@ -115,7 +119,5 @@
     min-height: 340px;
     width: 100%;
     height: 100%;
-    background: url("/img/background.png") no-repeat center center;
-    background-size: cover;
   }
 </style>
