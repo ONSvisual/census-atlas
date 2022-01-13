@@ -209,3 +209,36 @@ export function isEmpty(obj) {
 export function isNotEmpty(obj) {
   return !isEmpty(obj);
 }
+
+function decomposeCategoryId(categoryId) {
+  const digitsSuffix = categoryId.match(/\d+$/)[0];
+  return {
+    digitsSuffix: digitsSuffix,
+    prefix: categoryId.substring(categoryId.lastIndexOf(digitsSuffix), 0),
+  };
+}
+
+// adjust for 1-based (nomis bulk, in the db) vs 0-based (nomis api) categories: QS101EW001 -> QS101EW0002
+export function categoryIDToDBColumn(categoryId) {
+  const categoryIdParts = decomposeCategoryId(categoryId);
+  const adjustedSuffix = (parseInt(categoryIdParts.digitsSuffix) + 1).toString().padStart(4, "0");
+  return categoryIdParts.prefix + adjustedSuffix;
+}
+
+// get totals column (1-based, in the db) from category ID: QS101EW010 -> QS101EW0001
+export function categoryIDToDBTotalsColumn(categoryId) {
+  const categoryIdParts = decomposeCategoryId(categoryId);
+  return categoryIdParts.prefix + "0001";
+}
+
+export function processData(data, populateCensusTable, totalCatCode) {
+  const total = data.get(totalCatCode);
+  populateCensusTable.categories.forEach((category) => {
+    if (data.has(category.code)) {
+      category["value"] = data.get(category.code);
+      category["percentage"] = (Math.round((category.value / total) * 100 * 10) / 10).toFixed(1);
+      category["value"] = category["value"].toLocaleString();
+    }
+  });
+  return populateCensusTable;
+}

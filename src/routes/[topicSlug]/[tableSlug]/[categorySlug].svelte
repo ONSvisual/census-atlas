@@ -22,20 +22,18 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
+    fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
-  import {
-    updateHoveredGeography,
-    updateSelectedGeography,
-    getLadName,
-    selectedGeography,
-  } from "../../../model/geography/geography";
+  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
+  import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
+  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty } from "../../../utils";
+  import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -43,15 +41,22 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
+  let populateCensusTable = { categories: [] };
+  let totalCatCode = "";
 
-  let locationId = null;
   let locationName = "";
-  locationId = $page.query.get("location");
+
+  const locationId = $page.query.get("location");
+
+  //if no location in url, set geoCode to England & Wales
+  let geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
 
   onMount(async () => {
     if (locationId) {
       updateSelectedGeography(locationId);
       locationName = getLadName(locationId);
+    } else {
+      updateSelectedGeography("K04000001");
     }
   });
 
@@ -62,7 +67,17 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     populatesSelectedData(table.name, table.categoriesArray, category.code);
-    fetchCensusData(category.code, null);
+    fetchCensusData(new LegacyCensusDataService(), category.code, null);
+    if (isNotEmpty($selectedData)) {
+      totalCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
+      const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
+        const dbCategoryCode = categoryIDToDBColumn(category.code);
+        populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
+        return dbCategoryCode;
+      });
+      categoryCodesArr.push(totalCatCode);
+      fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+    }
     locationName = getLadName(locationId);
   };
 </script>
@@ -167,11 +182,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  {#if $selectedGeography.lad && isNotEmpty($selectedData)}
-    <CensusTableByLocation {locationId} />
-  {:else if isNotEmpty($selectedData)}
-    <CensusTableByLocation locationId="K04000001" />
-  {/if}
+  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
