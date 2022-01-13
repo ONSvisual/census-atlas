@@ -2,13 +2,19 @@
   import { selectedData } from "../model/censusdata/censusdata";
   import { dataByGeography, newDataByGeography } from "../model/censusdata/censusdata";
   import { processData } from "../utils";
-  export let geoCode, populateCensusTable, totalCatCode;
+  import { fetchSelectedDataForGeographies } from "../model/censusdata/censusdata";
+  import GeodataApiDataService from "../model/censusdata/services/geodataApiDataService";
+  export let geoCode, populateCensusTable, totalCatCode, categoryCodesArr;
 
   $: {
     $newDataByGeography;
-    if ($dataByGeography.get(geoCode)) {
-      //reassign variable to trigger reactivity
-      populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
+    geoCode;
+    if (categoryCodesArr.length > 0) {
+      fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+      if ($dataByGeography.get(geoCode)) {
+        //reassign variable to trigger reactivity
+        populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
+      }
     }
   }
 </script>

@@ -13,7 +13,7 @@
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
-  import DataHeader from "../../../ui/DataHeader.svelte";
+  import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -22,9 +22,7 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
-    fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
-  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
@@ -46,10 +44,11 @@
 
   let locationName = "";
 
-  const locationId = $page.query.get("location");
+  let locationId = $page.query.get("location");
 
   //if no location in url, set geoCode to England & Wales
   let geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
+  let categoryCodesArr = [];
 
   onMount(async () => {
     if (locationId) {
@@ -59,6 +58,14 @@
       updateSelectedGeography("K04000001");
     }
   });
+
+  $: {
+    locationId = $page.query.get("location");
+    geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
+    categorySlug = $page.params.categorySlug;
+    updateSelectedGeography(locationId);
+    locationName = getLadName(locationId);
+  }
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
@@ -70,13 +77,12 @@
     fetchCensusData(new LegacyCensusDataService(), category.code, null);
     if (isNotEmpty($selectedData)) {
       totalCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
-      const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
+      categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
         const dbCategoryCode = categoryIDToDBColumn(category.code);
         populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
         return dbCategoryCode;
       });
       categoryCodesArr.push(totalCatCode);
-      fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
     }
     locationName = getLadName(locationId);
   };
@@ -85,9 +91,17 @@
 <svelte:head>
   <title>2021 Census Data Atlas Category & Location</title>
 </svelte:head>
+
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={locationName} {locationId} />
+    <HeaderWrapper
+      {locationName}
+      {locationId}
+      {topicSlug}
+      {tableSlug}
+      {categorySlug}
+      tableName={table ? table.name : null}
+    />
 
     {#if isNotEmpty($selectedData)}
       <CategorySelector
@@ -182,7 +196,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} />
+  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} {categoryCodesArr} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

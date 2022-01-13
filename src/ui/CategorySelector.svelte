@@ -26,7 +26,7 @@
 
   export let selectedCategory = "QS302EW005";
 
-  let locationQueryParam = locationId ? `?location=${locationId}` : "";
+  $: locationQueryParam = locationId ? `?location=${locationId}` : "";
   let leftIndex, rightIndex, selectedCatIndex;
 
   const findSelectedCatIndex = (category) => category.code === selectedCategory;

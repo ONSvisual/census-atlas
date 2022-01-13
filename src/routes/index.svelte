@@ -17,13 +17,15 @@
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
 
-  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
+  let renderError = false;
 
   function submitFunction(ladInput) {
     if (reverseLadLookup[ladInput]) {
       goto(`/area?location=${reverseLadLookup[ladInput]}`);
+    } else {
+      renderError = true;
     }
   }
 </script>
@@ -56,7 +58,7 @@
 
   <ExploreByTopic url="/categories" suggestions={indexPageSuggestions} />
   <hr class="component-margin--2" />
-  <ExploreByAreaComponent {autosuggestData} bind:userInputValue on:click={() => submitFunction(userInputValue)}
+  <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
   >
 

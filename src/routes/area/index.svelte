@@ -5,7 +5,7 @@
   import ONSShare from "../../ui/ons/ONSShare.svelte";
   import UseCensusData from "../../ui/UseCensusData.svelte";
   import Feedback from "../../ui/Feedback.svelte";
-  import DataHeader from "../../ui/DataHeader.svelte";
+  import HeaderWrapper from "../../ui/HeaderWrapper.svelte";
   import ONSShareItem from "../../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "../../ui/ons/svg/ONSFacebookIcon.svelte";
   import ONSTwitterIcon from "../../ui/ons/svg/ONSTwitterIcon.svelte";
@@ -20,8 +20,7 @@
   import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
 
-  const locationId = $page.query.get("location");
-  let locationName;
+  let locationName, locationId;
   let topicSuggestions;
 
   function initialisePage() {
@@ -32,6 +31,9 @@
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
   $: {
+    locationId = $page.query.get("location");
+    updateSelectedGeography(locationId);
+    locationName = getLadName(locationId);
     topicSuggestions = areaSelectedTopicSuggestions(locationName, locationId);
   }
 </script>
@@ -42,7 +44,7 @@
 
 <BasePage>
   <span slot="header">
-    <DataHeader location={locationName} {locationId} />
+    <HeaderWrapper {locationName} {locationId} />
   </span>
 
   <span slot="map">

@@ -74,6 +74,10 @@ export default {
       },
     },
   },
+  error: {
+    text: "Not a valid search",
+  },
+  autosuggestData: "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json",
 };
 
 export const indexPageSuggestions = [
