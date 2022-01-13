@@ -1,4 +1,5 @@
 <script>
+  import { beforeUpdate } from "svelte";
   import { selectedData } from "../model/censusdata/censusdata";
   import { dataByGeography, newDataByGeography } from "../model/censusdata/censusdata";
   import { processData } from "../utils";
@@ -14,11 +15,21 @@
     }
   }
 
-  console.log(populateCensusTable.categories);
+  beforeUpdate(async () => {
+    let breaks = await populateCensusTable.categories.map((cat) => cat.percentage);
+    console.log(breaks);
+  });
 </script>
 
 {#if $selectedData}
   <div class="map-legend">
+    <!-- 
+    TODO
+    value: category.value
+    breaks: each populateCensusTable.categories value
+    average: England & Wales meanSimple (via simple-statistics)
+    -->
+
     <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 94.8]} average={50} />
   </div>
 
