@@ -21,8 +21,6 @@ export let categories = {};
 
 let categoryCodeLookup = {};
 
-let dataService = null;
-
 export function reset() {
   censusTableStructureIsLoaded.set(false);
   categoryDataIsLoaded.set(false);
@@ -40,14 +38,12 @@ export function reset() {
 }
 
 export async function fetchAllDataForGeography(censusDataService, geographyCode) {
-  dataService = censusDataService;
-  const data = await dataService.fetchAllDataForGeography(geographyCode);
+  const data = await censusDataService.fetchAllDataForGeography(geographyCode);
   selectedGeographyData.set(data);
 }
 
 export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
-  dataService = censusDataService;
-  const data = await dataService.fetchSelectedDataForGeographyType(geoType, categories);
+  const data = await censusDataService.fetchSelectedDataForGeographyType(geoType, categories);
   if (overwriteCache) {
     dataByGeography.set(data);
   } else {
@@ -56,8 +52,7 @@ export async function fetchSelectedDataForGeoType(censusDataService, geoType, ca
 }
 
 export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
-  dataService = censusDataService;
-  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+  const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
   if (overwriteCache) {
     dataByGeography.set(data);
   } else {
@@ -73,9 +68,8 @@ function filterOutMapBBoxCodesWithCachedData(dataByGeography, mapBBoxCodes) {
 }
 
 export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes, overwriteCache) {
-  dataService = censusDataService;
   const geoCodes = filterOutMapBBoxCodesWithCachedData(get(dataByGeography), get(mapBBoxCodes));
-  const data = await dataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+  const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
   if (overwriteCache) {
     dataByGeography.set(data);
   } else {
@@ -90,8 +84,7 @@ export async function fetchSelectedDataForWholeBoundingBox(
   bBox,
   overwriteCache,
 ) {
-  dataService = censusDataService;
-  const data = await dataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
+  const data = await censusDataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
   if (overwriteCache) {
     dataByGeography.set(data);
   } else {
@@ -100,12 +93,11 @@ export async function fetchSelectedDataForWholeBoundingBox(
 }
 
 export async function initialiseCensusData(censusDataService) {
-  dataService = censusDataService;
-  await fetchTableStructure();
+  await fetchTableStructure(censusDataService);
 }
 
-export async function fetchTableStructure() {
-  let structure = await dataService.fetchCensusTableStructure();
+export async function fetchTableStructure(censusDataService) {
+  let structure = await censusDataService.fetchCensusTableStructure();
 
   structure.forEach((topic) => {
     topics[topic.code] = {
@@ -160,15 +152,15 @@ export function getSlugByCategoryId(categoryId) {
   return `${topic.slug}/${table.slug}/${category.slug}`;
 }
 
-export async function fetchCensusData(categoryCode, geographyCode) {
+export async function fetchCensusData(censusDataService, categoryCode, geographyCode) {
   categoryDataIsLoaded.set(false);
 
   // Do a simple data load
-  let lsoaData = await dataService.fetchLsoaCategoryData(categoryCode);
-  let higherData = await dataService.fetchHigherGeographyCategoryData(categoryCode);
+  let lsoaData = await censusDataService.fetchLsoaCategoryData(categoryCode);
+  let higherData = await censusDataService.fetchHigherGeographyCategoryData(categoryCode);
 
   categoryData = { ...lsoaData, ...higherData };
-  breaks = await dataService.fetchLegendBreakpoints(categoryCode);
+  breaks = await censusDataService.fetchLegendBreakpoints(categoryCode);
   categoryDataIsLoaded.set(true);
 }
 
