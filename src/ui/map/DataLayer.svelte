@@ -3,7 +3,7 @@
   import { getLegendSection } from "./../../model/utils";
   // import { breaks } from "./../../model/censusdata/censusdata";
   import config from "./../../config";
-  import { censusDataBreaks } from "../../model/metadata/metadata";
+  import { selectedCategoryBreaks } from "../../model/metadata/metadata";
 
   export let id;
   export let source = getContext("source");
@@ -61,7 +61,12 @@
 
   function updateData() {
     for (const key of Object.keys(data)) {
-      let legendSection = getLegendSection(data[key].perc, $censusDataBreaks);
+      let legendSection;
+      if (key.startsWith("E01") || key.startsWith("W01")){
+        legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lsoa);
+      } else {
+        legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lad);
+      }
       map.setFeatureState(
         {
           source: source,

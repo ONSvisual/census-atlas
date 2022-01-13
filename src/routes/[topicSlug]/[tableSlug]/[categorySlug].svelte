@@ -33,7 +33,7 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
+  import { fetchCensusDataBreaks, selectedCategoryBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
   import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
 
@@ -81,9 +81,8 @@
       fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
     }
     locationName = getLadName(locationId);
+    fetchCensusDataBreaks(new MetadataApiDataService(), categoryIDToDBColumn(category.code), 5);
   };
-
-  fetchCensusDataBreaks(new MetadataApiDataService(), "QS302EW0003", 5);
 </script>
 
 <svelte:head>
