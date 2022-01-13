@@ -15,6 +15,7 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -222,9 +223,6 @@
 <style lang="scss">
   @import "../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
-  .map-legend {
-    margin-bottom: 24px;
-  }
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }
 </style>
