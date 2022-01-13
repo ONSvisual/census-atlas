@@ -51,7 +51,7 @@
     top: 0;
     height: 100%;
   }
-  .line {
+  /* .line {
     position: absolute;
     top: 0;
     height: 100%;
@@ -59,10 +59,10 @@
   .tick {
     position: absolute;
     z-index: 1;
-    top: 100%;
+    top: -4px;
     text-align: center;
     transform: translateX(-50%);
-  }
+  } */
   .average-marker {
     position: absolute;
     width: 20px;
@@ -80,7 +80,7 @@
   }
   .labels {
     display: flex;
-    font-size: 14px;
+    font-size: 16px;
   }
   .labels > div {
     flex: 1;
