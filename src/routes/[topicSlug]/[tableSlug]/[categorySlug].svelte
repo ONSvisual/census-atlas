@@ -22,9 +22,7 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
-    fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
-  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
@@ -46,10 +44,11 @@
 
   let locationName = "";
 
-  const locationId = $page.query.get("location");
+  let locationId = $page.query.get("location");
 
   //if no location in url, set geoCode to England & Wales
   let geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
+  let categoryCodesArr = [];
 
   onMount(async () => {
     if (locationId) {
@@ -62,6 +61,7 @@
 
   $: {
     locationId = $page.query.get("location");
+    geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
@@ -77,13 +77,12 @@
     fetchCensusData(new LegacyCensusDataService(), category.code, null);
     if (isNotEmpty($selectedData)) {
       totalCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
-      const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
+      categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
         const dbCategoryCode = categoryIDToDBColumn(category.code);
         populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
         return dbCategoryCode;
       });
       categoryCodesArr.push(totalCatCode);
-      fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
     }
     locationName = getLadName(locationId);
   };
@@ -197,7 +196,7 @@
 
   <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
 
-  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} />
+  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} {categoryCodesArr} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
