@@ -4,7 +4,6 @@
   import { processData } from "../utils";
   import { fetchSelectedDataForGeographies } from "../model/censusdata/censusdata";
   import GeodataApiDataService from "../model/censusdata/services/geodataApiDataService";
-  import MapLegend from "../ui/MapLegend/MapLegend.svelte";
   export let geoCode, populateCensusTable, totalCatCode, categoryCodesArr;
 
   $: {
@@ -18,15 +17,9 @@
       }
     }
   }
-
-  console.log(populateCensusTable.categories);
 </script>
 
 {#if $selectedData}
-  <div class="map-legend">
-    <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 94.8]} average={50} />
-  </div>
-
   <table class="ons-table">
     <thead class="ons-table__head">
       <tr class="ons-table__row">
@@ -56,10 +49,6 @@
 {/if}
 
 <style>
-  .map-legend {
-    margin-bottom: 24px;
-  }
-
   .ons-table__header {
     border-bottom: 0;
     color: #222222;
