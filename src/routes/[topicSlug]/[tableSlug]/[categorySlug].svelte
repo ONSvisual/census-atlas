@@ -34,7 +34,9 @@
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
   import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
+  import { selectedGeography } from "../../../model/geography/geography";
 
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
@@ -56,10 +58,16 @@
     if (locationId) {
       updateSelectedGeography(locationId);
       locationName = getLadName(locationId);
-    } else {
-      updateSelectedGeography("K04000001");
     }
   });
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+    }
+  }
 
   $: {
     locationId = $page.query.get("location");
