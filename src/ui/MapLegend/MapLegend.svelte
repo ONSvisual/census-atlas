@@ -28,13 +28,13 @@
   {/each}
   <!-- <div class="line" style="left: 100%;" />
   <div class="tick" style="left: 100%;">{breaks[breaks.length - 1]}</div> -->
-  <div class="average-marker" style="left: calc({pos(average)}% - 10px);" />
+  <div class="average-marker" style="left: calc({pos(average)}% - 12px);" />
   <div class="value">{value}%</div>
 </div>
 
 <div class="labels">
   <div class="label-lowest">Lowest</div>
-  <div class="label-average">Average <span class="average-value">{average}%</span></div>
+  <div class="label-average">Average <!-- <span class="average-value">{average}%</span> --></div>
   <div class="label-highest">Highest</div>
 </div>
 
@@ -43,7 +43,7 @@
     margin: 40px 0 4px;
     box-sizing: border-box;
     position: relative;
-    height: 20px;
+    height: 24px;
     width: 100%;
   }
   .block {
@@ -65,8 +65,8 @@
   } */
   .average-marker {
     position: absolute;
-    width: 20px;
-    border-radius: 10px;
+    width: 24px;
+    border-radius: 24px;
     z-index: 2;
     height: 100%;
     border: 2px solid #fff;
