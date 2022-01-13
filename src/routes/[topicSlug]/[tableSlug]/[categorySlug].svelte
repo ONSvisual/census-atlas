@@ -14,6 +14,8 @@
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
+  import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -194,7 +196,15 @@
     </footer>
   </span>
 
-  <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
+  <div class="map-legend">
+    <!-- 
+    TODO
+    - breaks - API?
+    - value - category.value?
+    - average: England & Wales only
+    -->
+    <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 40, 48.4, 94.8]} average={42} />
+  </div>
 
   <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} {categoryCodesArr} />
 
@@ -218,6 +228,10 @@
 
 <style lang="scss">
   @import "../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
+  .map-legend {
+    margin-bottom: 24px;
+  }
 
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }

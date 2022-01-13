@@ -39,7 +39,9 @@
         <tr class="ons-table__row">
           <td class="ons-table__cell ">{category.name}</td>
           <td class="ons-table__cell  ons-table__cell--numeric">{category.value}</td>
-          <td class="ons-table__cell  ons-table__cell--numeric">{category.percentage}% </td>
+          <td class="ons-table__cell  ons-table__cell--numeric ons-table__cell--key"
+            >{category.percentage}<span>%</span>
+          </td>
         </tr>
       {/each}
     </tbody>
@@ -49,12 +51,25 @@
 <style>
   .ons-table__header {
     border-bottom: 0;
+    color: #222222;
   }
   th {
     font-weight: normal;
   }
   .ons-table__cell {
     border-bottom: 0;
-    color: #414042;
+    color: #595959;
+  }
+
+  .ons-table__cell--key {
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: bold;
+    color: #222222;
+  }
+  .ons-table__cell--key span {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: normal;
   }
 </style>
