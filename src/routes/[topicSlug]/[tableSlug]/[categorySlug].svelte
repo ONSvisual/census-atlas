@@ -130,7 +130,7 @@
         {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
-          maxzoom={config.ux.map.lsoa_breakpoint}
+          maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
           }}
@@ -153,15 +153,6 @@
         {#if $categoryDataIsLoaded}
           <DataLayer id="lsoa-data" data={categoryData} />
         {/if}
-        <InteractiveLayer
-          id="lsoa-boundaries"
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-        />
       </TileSet>
       <TileSet
         id="lsoa-building"
