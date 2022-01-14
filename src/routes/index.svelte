@@ -20,11 +20,24 @@
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
+
   import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
   let renderError = false;
+
+  let locationId = $page.query.get("location");
+
+  onMount(async () => {
+    if (locationId) {
+      updateSelectedGeography(locationId);
+    } else {
+      updateSelectedGeography("K04000001");
+    }
+  });
 
   function submitFunction(ladInput) {
     if (reverseLadLookup[ladInput]) {
