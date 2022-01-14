@@ -6,18 +6,34 @@
   import TopicExplorer from "./../ui/TopicExplorer.svelte";
   import Topic from "../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
-  import { page } from "$app/stores";
   import { appIsInitialised } from "../model/appstate";
   import config from "../config";
   import TileSet from "../ui/map/TileSet.svelte";
   import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
-  import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../model/geography/geography";
+  import {
+    getLadName,
+    updateSelectedGeography,
+    updateHoveredGeography,
+    selectedGeography,
+  } from "../model/geography/geography";
+
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 
-  const locationId = $page.query.get("location");
+  let locationId = $page.query.get("location");
   let locationName;
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
+  }
 
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
@@ -27,7 +43,6 @@
       updateSelectedGeography(locationId);
     }
   }
-
   $: innerWidth = 0;
 </script>
 
