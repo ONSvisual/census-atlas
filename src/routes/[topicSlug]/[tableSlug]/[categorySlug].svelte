@@ -153,15 +153,6 @@
         {#if $categoryDataIsLoaded}
           <DataLayer id="lsoa-data" data={categoryData} />
         {/if}
-        <InteractiveLayer
-          id="lsoa-boundaries"
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-        />
       </TileSet>
       <TileSet
         id="lsoa-building"
