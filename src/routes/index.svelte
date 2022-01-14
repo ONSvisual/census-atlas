@@ -16,7 +16,7 @@
   import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
   import config from "../config";
-  import { updateSelectedGeography, updateHoveredGeography } from "../model/geography/geography";
+  import { updateSelectedGeography, updateHoveredGeography, ladLookup } from "../model/geography/geography";
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
@@ -44,6 +44,12 @@
       goto(`/area?location=${reverseLadLookup[ladInput]}`);
     } else {
       renderError = true;
+    }
+  }
+
+  function redirectOnSelect(geographyCode) {
+    if (ladLookup[geographyCode]) {
+      goto(`/area?location=${ladLookup[geographyCode].code}`);
     }
   }
 </script>
@@ -75,6 +81,7 @@
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
+            redirectOnSelect(code);
           }}
           onHover={(code) => {
             updateHoveredGeography(code);
