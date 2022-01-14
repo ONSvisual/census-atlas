@@ -1,6 +1,5 @@
 <script>
   import { getContext } from "svelte";
-  import { createEventDispatcher } from "svelte";
   import config from "./../../config";
 
   export let id;
@@ -10,7 +9,6 @@
   export let filter = null;
   export let layout = {};
   export let paint = config.ux.map.paint.boundary;
-  export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
 
@@ -43,5 +41,5 @@
     options["minzoom"] = minzoom;
   }
 
-  map.addLayer(options, order);
+  map.addLayer(options);
 </script>
