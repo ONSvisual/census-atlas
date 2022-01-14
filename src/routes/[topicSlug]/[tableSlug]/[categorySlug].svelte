@@ -62,19 +62,20 @@
   });
 
   $: {
-    if ($selectedGeography.lad) {
-      $page.query.set("location", $selectedGeography.lad);
-      goto(`?${$page.query.toString()}`);
-      locationId = $page.query.get("location");
-    }
-  }
-
-  $: {
     locationId = $page.query.get("location");
     geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
+  }
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
   }
 
   // temporary line to load some data
