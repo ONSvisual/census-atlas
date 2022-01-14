@@ -11,6 +11,7 @@
   export let paint = config.ux.map.paint.boundary;
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
+  export let order = "lad-interactive-layer-interactive-boundaries";
 
   const { getMap } = getContext("map");
   const map = getMap();
@@ -41,5 +42,5 @@
     options["minzoom"] = minzoom;
   }
 
-  map.addLayer(options);
+  map.addLayer(options, order);
 </script>
