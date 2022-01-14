@@ -58,7 +58,7 @@
       >
         <InteractiveLayer
           id="lad-interactive-layer"
-          maxzoom={config.ux.map.lsoa_breakpoint}
+          maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
           }}
@@ -77,17 +77,7 @@
         promoteId={config.legacy.lsoabounds.code}
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
-      >
-        <InteractiveLayer
-          id="lsoa-boundaries"
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-        />
-      </TileSet>
+      />
       <TileSet
         id="lsoa-building"
         type="vector"

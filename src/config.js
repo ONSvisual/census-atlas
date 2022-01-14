@@ -50,7 +50,7 @@ export default {
           "line-width": [0.75],
         },
         boundary: {
-          "line-color": "#3c388e",
+          "line-color": "#808080",
           "line-width": 2,
         },
         interactive: {
