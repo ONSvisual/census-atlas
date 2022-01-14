@@ -58,7 +58,7 @@
       >
         <InteractiveLayer
           id="lad-interactive-layer"
-          maxzoom={config.ux.map.lsoa_breakpoint}
+          maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
           }}
