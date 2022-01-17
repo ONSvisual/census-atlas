@@ -82,6 +82,7 @@
       >
         <InteractiveLayer
           id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);

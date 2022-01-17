@@ -16,7 +16,12 @@
   import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
   import config from "../config";
-  import { updateSelectedGeography, updateHoveredGeography, ladLookup } from "../model/geography/geography";
+  import {
+    selectedGeography,
+    updateSelectedGeography,
+    updateHoveredGeography,
+    ladLookup,
+  } from "../model/geography/geography";
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
@@ -80,6 +85,7 @@
       >
         <InteractiveLayer
           id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
