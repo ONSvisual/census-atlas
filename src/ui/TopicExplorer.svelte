@@ -39,7 +39,7 @@
         <ul class="ons-list ons-list--bare">
           {#if tableEntry.categories != null}
             {#each tableEntry.categories as category, i}
-              {#if i != 0}
+              {#if !category.code.endsWith("001")}
                 <li class="ons-list__item">
                   <a
                     href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
