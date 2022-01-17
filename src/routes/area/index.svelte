@@ -23,12 +23,18 @@
   import TileSet from "../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
+  import { categoryDataIsLoaded } from "../../model/censusdata/censusdata";
 
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import { onMount } from "svelte";
 
   let locationName, locationId;
   let topicSuggestions;
+
+  onMount(async () => {
+    $categoryDataIsLoaded = false;
+  });
 
   function initialisePage() {
     updateSelectedGeography(locationId);

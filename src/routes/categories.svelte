@@ -11,12 +11,14 @@
   import TileSet from "../ui/map/TileSet.svelte";
   import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
+  import DataLayer from "../ui/map/DataLayer.svelte";
   import {
     getLadName,
     updateSelectedGeography,
     updateHoveredGeography,
     selectedGeography,
   } from "../model/geography/geography";
+  import { categoryDataIsLoaded, categoryData } from "../model/censusdata/censusdata";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
@@ -71,6 +73,9 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
+        {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
           maxzoom={config.ux.map.buildings_breakpoint}
@@ -92,7 +97,11 @@
         promoteId={config.legacy.lsoabounds.code}
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
-      />
+      >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lsoa-data" data={categoryData} />
+        {/if}
+      </TileSet>
       <TileSet
         id="lsoa-building"
         type="vector"
@@ -100,7 +109,11 @@
         layer={config.legacy.lsoabldg.layer}
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
-      />
+      >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lsoa-data-zoom" data={categoryData} />
+        {/if}
+      </TileSet>
       <TileSet
         id="lad-boundaries"
         type="vector"
