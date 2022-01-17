@@ -4,6 +4,8 @@
   import { initialiseCensusData } from "./../model/censusdata/censusdata";
   import LegacyCensusDataService from "./../model/censusdata/services/legacyCensusDataService";
   import { setInitialised } from "./../model/appstate";
+  import MetadataApiDataService from "./../model/metadata/services/metadataApiDataService";
+  import { fetchCensusMetadata } from "./../model/metadata/metadata";
 
   initialiseGeography(new LegacyGeographyService()).then(() => {
     initialiseCensusData(new LegacyCensusDataService()).then(() => setInitialised());

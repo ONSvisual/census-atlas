@@ -16,16 +16,10 @@
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
-  import {fetchCensusMetadata, censusMetadata} from "../model/metadata/metadata"
-  import MetadataApiDataService from "../model/metadata/services/metadataApiDataService"
-
+  
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
   let renderError = false;
-
-  fetchCensusMetadata(new MetadataApiDataService())
-
-  $: console.log($censusMetadata)
 
   function submitFunction(ladInput) {
     if (reverseLadLookup[ladInput]) {
