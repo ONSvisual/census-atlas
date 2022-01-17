@@ -57,7 +57,7 @@
   <span slot="header">
     <Header
       showBackLink
-      serviceTitle="Choose a data option"
+      serviceTitle="Choose a data option {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName
         ? `${locationName}'s`
         : 'Census'} data."
