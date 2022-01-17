@@ -38,16 +38,18 @@
         <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">{tableEntry.name}</h3>
         <ul class="ons-list ons-list--bare">
           {#if tableEntry.categories != null}
-          {#each tableEntry.categories as category}
-            <li class="ons-list__item">
-              <a
-                href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                  category.name,
-                ).toLowerCase()}{locationQueryParam}"
-                class="ons-list__link">{category.name}</a
-              >
-            </li>
-          {/each}
+            {#each tableEntry.categories as category, i}
+              {#if i != 0}
+                <li class="ons-list__item">
+                  <a
+                    href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
+                      category.name,
+                    ).toLowerCase()}{locationQueryParam}"
+                    class="ons-list__link">{category.name}</a
+                  >
+                </li>
+              {/if}
+            {/each}
           {/if}
         </ul>
       {/each}

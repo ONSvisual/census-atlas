@@ -16,7 +16,7 @@
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
   import { goto } from "$app/navigation";
-  
+
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
   let renderError = false;
