@@ -33,7 +33,7 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
+  import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn, dbColumnToCategoryId } from "../../../utils";
 
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -76,15 +76,16 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     populatesSelectedData(table.name, table.categoriesArray, category.code);
-    fetchCensusData(new LegacyCensusDataService(), category.code, null);
+    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
-      totalCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
-      categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
-        const dbCategoryCode = categoryIDToDBColumn(category.code);
-        populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
-        return dbCategoryCode;
+      $selectedData.tableCategories.forEach((category) => {
+        if (category.code.endsWith("001")){
+          totalCatCode = category.code
+        } else {
+          populateCensusTable["categories"].push({ code: category.code, name: category.name });
+        }
+        categoryCodesArr.push(category.code)
       });
-      categoryCodesArr.push(totalCatCode);
     }
     locationName = getLadName(locationId);
   };

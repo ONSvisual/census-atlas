@@ -231,6 +231,12 @@ export function categoryIDToDBTotalsColumn(categoryId) {
   return categoryIdParts.prefix + "0001";
 }
 
+export function dbColumnToCategoryId(dbColumn){
+  const dbColumnParts = decomposeCategoryId(dbColumn);
+  const adjustedSuffix = (parseInt(dbColumnParts.digitsSuffix) - 1).toString().padStart(3, '0')
+  return dbColumnParts.prefix + adjustedSuffix
+}
+
 export function processData(data, populateCensusTable, totalCatCode) {
   const total = data.get(totalCatCode);
   populateCensusTable.categories.forEach((category) => {
