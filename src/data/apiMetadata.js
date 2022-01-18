@@ -7,11 +7,6 @@ export default [
       {
         categories: [
           {
-            code: "QS101EW0001",
-            name: "All categories: Residence type",
-            slug: "all-categories-residence-type",
-          },
-          {
             code: "QS101EW0002",
             name: "Lives in a household",
             slug: "lives-in-a-household",
@@ -30,14 +25,14 @@ export default [
         code: "QS101EW",
         name: "Residence type",
         slug: "residence-type",
+        total: {
+          code: "QS101EW0001",
+          name: "All categories: Residence type",
+          slug: "all-categories-residence-type",
+        },
       },
       {
         categories: [
-          {
-            code: "QS102EW0001",
-            name: "All usual residents",
-            slug: "all-usual-residents",
-          },
           {
             code: "QS102EW0002",
             name: "Area(Hectares)",
@@ -52,14 +47,14 @@ export default [
         code: "QS102EW",
         name: "Population density",
         slug: "population-density",
+        total: {
+          code: "QS102EW0001",
+          name: "All usual residents",
+          slug: "all-usual-residents",
+        },
       },
       {
         categories: [
-          {
-            code: "QS103EW0001",
-            name: "All categories: Age",
-            slug: "all-categories-age",
-          },
           {
             code: "QS103EW0002",
             name: "Age under 1",
@@ -569,14 +564,14 @@ export default [
         code: "QS103EW",
         name: "Age by single year",
         slug: "age-by-single-year",
+        total: {
+          code: "QS103EW0001",
+          name: "All categories: Age",
+          slug: "all-categories-age",
+        },
       },
       {
         categories: [
-          {
-            code: "QS104EW0001",
-            name: "All categories: Sex",
-            slug: "all-categories-sex",
-          },
           {
             code: "QS104EW0002",
             name: "Males",
@@ -591,14 +586,14 @@ export default [
         code: "QS104EW",
         name: "Sex",
         slug: "sex",
+        total: {
+          code: "QS104EW0001",
+          name: "All categories: Sex",
+          slug: "all-categories-sex",
+        },
       },
       {
         categories: [
-          {
-            code: "QS105EW0001",
-            name: "All categories: Sex",
-            slug: "all-categories-sex",
-          },
           {
             code: "QS105EW0002",
             name: "Males",
@@ -613,14 +608,14 @@ export default [
         code: "QS105EW",
         name: "Schoolchildren and full-time students at their non term-time address",
         slug: "schoolchildren-and-full-time-students-at-their-non-term-time-address",
+        total: {
+          code: "QS105EW0001",
+          name: "All categories: Sex",
+          slug: "all-categories-sex",
+        },
       },
       {
         categories: [
-          {
-            code: "QS106EW0001",
-            name: "All categories: Second address",
-            slug: "all-categories-second-address",
-          },
           {
             code: "QS106EW0002",
             name: "No second address",
@@ -640,14 +635,14 @@ export default [
         code: "QS106EW",
         name: "Second address",
         slug: "second-address",
+        total: {
+          code: "QS106EW0001",
+          name: "All categories: Second address",
+          slug: "all-categories-second-address",
+        },
       },
       {
         categories: [
-          {
-            code: "QS108EW0001",
-            name: "All categories: Living arrangements",
-            slug: "all-categories-living-arrangements",
-          },
           {
             code: "QS108EW0002",
             name: "Living in a couple: Total",
@@ -702,14 +697,14 @@ export default [
         code: "QS108EW",
         name: "Living arrangements",
         slug: "living-arrangements",
+        total: {
+          code: "QS108EW0001",
+          name: "All categories: Living arrangements",
+          slug: "all-categories-living-arrangements",
+        },
       },
       {
         categories: [
-          {
-            code: "QS110EW0001",
-            name: "All categories: Adult lifestage",
-            slug: "all-categories-adult-lifestage",
-          },
           {
             code: "QS110EW0002",
             name: "Age 16 to 24: Total",
@@ -844,14 +839,14 @@ export default [
         code: "QS110EW",
         name: "Adult lifestage (alternative adult definition)",
         slug: "adult-lifestage-alternative-adult-definition",
+        total: {
+          code: "QS110EW0001",
+          name: "All categories: Adult lifestage",
+          slug: "all-categories-adult-lifestage",
+        },
       },
       {
         categories: [
-          {
-            code: "QS111EW0001",
-            name: "All categories: Household lifestage",
-            slug: "all-categories-household-lifestage",
-          },
           {
             code: "QS111EW0002",
             name: "Age of HRP under 35: Total",
@@ -936,14 +931,14 @@ export default [
         code: "QS111EW",
         name: "Household lifestage",
         slug: "household-lifestage",
+        total: {
+          code: "QS111EW0001",
+          name: "All categories: Household lifestage",
+          slug: "all-categories-household-lifestage",
+        },
       },
       {
         categories: [
-          {
-            code: "QS112EW0001",
-            name: "All categories: Household composition",
-            slug: "all-categories-household-composition",
-          },
           {
             code: "QS112EW0002",
             name: "One person household: Total",
@@ -1098,14 +1093,14 @@ export default [
         code: "QS112EW",
         name: "Household composition - People",
         slug: "household-composition-people",
+        total: {
+          code: "QS112EW0001",
+          name: "All categories: Household composition",
+          slug: "all-categories-household-composition",
+        },
       },
       {
         categories: [
-          {
-            code: "QS113EW0001",
-            name: "All categories: Household composition",
-            slug: "all-categories-household-composition",
-          },
           {
             code: "QS113EW0002",
             name: "One person household: Total",
@@ -1260,14 +1255,14 @@ export default [
         code: "QS113EW",
         name: "Household composition - Households",
         slug: "household-composition-households",
+        total: {
+          code: "QS113EW0001",
+          name: "All categories: Household composition",
+          slug: "all-categories-household-composition",
+        },
       },
       {
         categories: [
-          {
-            code: "QS114EW0001",
-            name: "All categories: Household composition (alternative child and adult defintions)",
-            slug: "all-categories-household-composition-alternative-child-and-adult-defintions",
-          },
           {
             code: "QS114EW0002",
             name: "One person household: Total",
@@ -1327,14 +1322,14 @@ export default [
         code: "QS114EW",
         name: "Household composition (alternative child and adult definitions) - People",
         slug: "household-composition-alternative-child-and-adult-definitions-people",
+        total: {
+          code: "QS114EW0001",
+          name: "All categories: Household composition (alternative child and adult defintions)",
+          slug: "all-categories-household-composition-alternative-child-and-adult-defintions",
+        },
       },
       {
         categories: [
-          {
-            code: "QS115EW0001",
-            name: "All categories: Household composition (alternative child and adult defintions)",
-            slug: "all-categories-household-composition-alternative-child-and-adult-defintions",
-          },
           {
             code: "QS115EW0002",
             name: "One person household: Total",
@@ -1394,14 +1389,14 @@ export default [
         code: "QS115EW",
         name: "Household composition (alternative child and adult definitions) - Households",
         slug: "household-composition-alternative-child-and-adult-definitions-households",
+        total: {
+          code: "QS115EW0001",
+          name: "All categories: Household composition (alternative child and adult defintions)",
+          slug: "all-categories-household-composition-alternative-child-and-adult-defintions",
+        },
       },
       {
         categories: [
-          {
-            code: "QS116EW0001",
-            name: "All categories: Household type",
-            slug: "all-categories-household-type",
-          },
           {
             code: "QS116EW0002",
             name: "One person household",
@@ -1461,14 +1456,14 @@ export default [
         code: "QS116EW",
         name: "Household type",
         slug: "household-type",
+        total: {
+          code: "QS116EW0001",
+          name: "All categories: Household type",
+          slug: "all-categories-household-type",
+        },
       },
       {
         categories: [
-          {
-            code: "QS117EW0001",
-            name: "All categories: Number of adults in household",
-            slug: "all-categories-number-of-adults-in-household",
-          },
           {
             code: "QS117EW0002",
             name: "1 adult in household",
@@ -1483,14 +1478,14 @@ export default [
         code: "QS117EW",
         name: "People aged 18 to 64 living in a one adult household",
         slug: "people-aged-18-to-64-living-in-a-one-adult-household",
+        total: {
+          code: "QS117EW0001",
+          name: "All categories: Number of adults in household",
+          slug: "all-categories-number-of-adults-in-household",
+        },
       },
       {
         categories: [
-          {
-            code: "QS118EW0001",
-            name: "All categories: Dependent children in family",
-            slug: "all-categories-dependent-children-in-family",
-          },
           {
             code: "QS118EW0002",
             name: "No dependent children in family",
@@ -1550,14 +1545,14 @@ export default [
         code: "QS118EW",
         name: "Families with dependent children",
         slug: "families-with-dependent-children",
+        total: {
+          code: "QS118EW0001",
+          name: "All categories: Dependent children in family",
+          slug: "all-categories-dependent-children-in-family",
+        },
       },
       {
         categories: [
-          {
-            code: "QS119EW0001",
-            name: "All categories: Classification of household deprivation",
-            slug: "all-categories-classification-of-household-deprivation",
-          },
           {
             code: "QS119EW0002",
             name: "Household is not deprived in any dimension",
@@ -1587,6 +1582,11 @@ export default [
         code: "QS119EW",
         name: "Households by deprivation dimensions",
         slug: "households-by-deprivation-dimensions",
+        total: {
+          code: "QS119EW0001",
+          name: "All categories: Classification of household deprivation",
+          slug: "all-categories-classification-of-household-deprivation",
+        },
       },
     ],
   },
@@ -1597,16 +1597,6 @@ export default [
     tables: [
       {
         categories: [
-          {
-            code: "QS201EW0005",
-            name: "White: Other White",
-            slug: "white-other-white",
-          },
-          {
-            code: "QS201EW0001",
-            name: "All categories: Ethnic group",
-            slug: "all-categories-ethnic-group",
-          },
           {
             code: "QS201EW0002",
             name: "White: English/Welsh/Scottish/Northern Irish/British",
@@ -1621,6 +1611,11 @@ export default [
             code: "QS201EW0004",
             name: "White: Gypsy or Irish Traveller",
             slug: "white-gypsy-or-irish-traveller",
+          },
+          {
+            code: "QS201EW0005",
+            name: "White: Other White",
+            slug: "white-other-white",
           },
           {
             code: "QS201EW0006",
@@ -1696,14 +1691,14 @@ export default [
         code: "QS201EW",
         name: "Ethnic group",
         slug: "ethnic-group",
+        total: {
+          code: "QS201EW0001",
+          name: "All categories: Ethnic group",
+          slug: "all-categories-ethnic-group",
+        },
       },
       {
         categories: [
-          {
-            code: "QS202EW0001",
-            name: "All categories: Multiple ethnic groups",
-            slug: "all-categories-multiple-ethnic-groups",
-          },
           {
             code: "QS202EW0002",
             name: "One person household",
@@ -1733,14 +1728,14 @@ export default [
         code: "QS202EW",
         name: "Multiple ethnic groups",
         slug: "multiple-ethnic-groups",
+        total: {
+          code: "QS202EW0001",
+          name: "All categories: Multiple ethnic groups",
+          slug: "all-categories-multiple-ethnic-groups",
+        },
       },
       {
         categories: [
-          {
-            code: "QS203EW0001",
-            name: "All categories: Country of birth",
-            slug: "all-categories-country-of-birth",
-          },
           {
             code: "QS203EW0002",
             name: "Europe: Total",
@@ -2130,14 +2125,14 @@ export default [
         code: "QS203EW",
         name: "Country of birth (detailed)",
         slug: "country-of-birth-detailed",
+        total: {
+          code: "QS203EW0001",
+          name: "All categories: Country of birth",
+          slug: "all-categories-country-of-birth",
+        },
       },
       {
         categories: [
-          {
-            code: "QS204EW0001",
-            name: "All usual residents aged 3 and over",
-            slug: "all-usual-residents-aged-3-and-over",
-          },
           {
             code: "QS204EW0002",
             name: "English (English or Welsh if in Wales)",
@@ -2657,14 +2652,14 @@ export default [
         code: "QS204EW",
         name: "Main language (detailed)",
         slug: "main-language-detailed",
+        total: {
+          code: "QS204EW0001",
+          name: "All usual residents aged 3 and over",
+          slug: "all-usual-residents-aged-3-and-over",
+        },
       },
       {
         categories: [
-          {
-            code: "QS205EW0001",
-            name: "All categories: Proficiency in English",
-            slug: "all-categories-proficiency-in-english",
-          },
           {
             code: "QS205EW0002",
             name: "Main language is English (English or Welsh in Wales)",
@@ -2694,14 +2689,26 @@ export default [
         code: "QS205EW",
         name: "Proficiency in English",
         slug: "proficiency-in-english",
+        total: {
+          code: "QS205EW0001",
+          name: "All categories: Proficiency in English",
+          slug: "all-categories-proficiency-in-english",
+        },
+      },
+      {
+        categories: null,
+        code: "QS206WA",
+        name: "Welsh language skills",
+        slug: "welsh-language-skills",
+      },
+      {
+        categories: null,
+        code: "QS207WA",
+        name: "Welsh language skills (detailed)",
+        slug: "welsh-language-skills-detailed",
       },
       {
         categories: [
-          {
-            code: "QS208EW0001",
-            name: "All categories: Religion",
-            slug: "all-categories-religion",
-          },
           {
             code: "QS208EW0002",
             name: "Christian",
@@ -2751,14 +2758,14 @@ export default [
         code: "QS208EW",
         name: "Religion",
         slug: "religion",
+        total: {
+          code: "QS208EW0001",
+          name: "All categories: Religion",
+          slug: "all-categories-religion",
+        },
       },
       {
         categories: [
-          {
-            code: "QS210EW0001",
-            name: "All categories: Religion",
-            slug: "all-categories-religion",
-          },
           {
             code: "QS210EW0002",
             name: "Christian",
@@ -3053,14 +3060,14 @@ export default [
         code: "QS210EW",
         name: "Religion (detailed)",
         slug: "religion-detailed",
+        total: {
+          code: "QS210EW0001",
+          name: "All categories: Religion",
+          slug: "all-categories-religion",
+        },
       },
       {
         categories: [
-          {
-            code: "QS211EW0001",
-            name: "All categories: Ethnic group",
-            slug: "all-categories-ethnic-group",
-          },
           {
             code: "QS211EW0002",
             name: "White: English/Welsh/Scottish/Northern Irish/British",
@@ -4315,6 +4322,11 @@ export default [
         code: "QS211EW",
         name: "Ethnic group (detailed)",
         slug: "ethnic-group-detailed",
+        total: {
+          code: "QS211EW0001",
+          name: "All categories: Ethnic group",
+          slug: "all-categories-ethnic-group",
+        },
       },
     ],
   },
@@ -4325,11 +4337,6 @@ export default [
     tables: [
       {
         categories: [
-          {
-            code: "QS301EW0001",
-            name: "All categories: Provision of unpaid care",
-            slug: "all-categories-provision-of-unpaid-care",
-          },
           {
             code: "QS301EW0002",
             name: "Provides no unpaid care",
@@ -4354,9 +4361,19 @@ export default [
         code: "QS301EW",
         name: "Provision of unpaid care",
         slug: "provision-of-unpaid-care",
+        total: {
+          code: "QS301EW0001",
+          name: "All categories: Provision of unpaid care",
+          slug: "all-categories-provision-of-unpaid-care",
+        },
       },
       {
         categories: [
+          {
+            code: "QS302EW0002",
+            name: "Very good health",
+            slug: "very-good-health",
+          },
           {
             code: "QS302EW0003",
             name: "Good health",
@@ -4366,16 +4383,6 @@ export default [
             code: "QS302EW0004",
             name: "Fair health",
             slug: "fair-health",
-          },
-          {
-            code: "QS302EW0001",
-            name: "All categories: General health",
-            slug: "all-categories-general-health",
-          },
-          {
-            code: "QS302EW0002",
-            name: "Very good health",
-            slug: "very-good-health",
           },
           {
             code: "QS302EW0005",
@@ -4391,14 +4398,14 @@ export default [
         code: "QS302EW",
         name: "General health",
         slug: "general-health",
+        total: {
+          code: "QS302EW0001",
+          name: "All categories: General health",
+          slug: "all-categories-general-health",
+        },
       },
       {
         categories: [
-          {
-            code: "QS303EW0001",
-            name: "All categories: Long-term health problem or disability",
-            slug: "all-categories-long-term-health-problem-or-disability",
-          },
           {
             code: "QS303EW0002",
             name: "Day-to-day activities limited a lot",
@@ -4418,6 +4425,11 @@ export default [
         code: "QS303EW",
         name: "Long-term health problem or disability",
         slug: "long-term-health-problem-or-disability",
+        total: {
+          code: "QS303EW0001",
+          name: "All categories: Long-term health problem or disability",
+          slug: "all-categories-long-term-health-problem-or-disability",
+        },
       },
     ],
   },
@@ -4428,11 +4440,6 @@ export default [
     tables: [
       {
         categories: [
-          {
-            code: "QS401EW0001",
-            name: "All categories: Accommodation type",
-            slug: "all-categories-accommodation-type",
-          },
           {
             code: "QS401EW0002",
             name: "Unshared dwelling: Total",
@@ -4492,14 +4499,14 @@ export default [
         code: "QS401EW",
         name: "Accommodation type - People",
         slug: "accommodation-type-people",
+        total: {
+          code: "QS401EW0001",
+          name: "All categories: Accommodation type",
+          slug: "all-categories-accommodation-type",
+        },
       },
       {
         categories: [
-          {
-            code: "QS402EW0001",
-            name: "All categories: Accommodation type",
-            slug: "all-categories-accommodation-type",
-          },
           {
             code: "QS402EW0002",
             name: "Unshared dwelling: Total",
@@ -4559,14 +4566,14 @@ export default [
         code: "QS402EW",
         name: "Accommodation type - Households",
         slug: "accommodation-type-households",
+        total: {
+          code: "QS402EW0001",
+          name: "All categories: Accommodation type",
+          slug: "all-categories-accommodation-type",
+        },
       },
       {
         categories: [
-          {
-            code: "QS403EW0001",
-            name: "All categories: Tenure",
-            slug: "all-categories-tenure",
-          },
           {
             code: "QS403EW0002",
             name: "Owned: Total",
@@ -4636,14 +4643,14 @@ export default [
         code: "QS403EW",
         name: "Tenure - People",
         slug: "tenure-people",
+        total: {
+          code: "QS403EW0001",
+          name: "All categories: Tenure",
+          slug: "all-categories-tenure",
+        },
       },
       {
         categories: [
-          {
-            code: "QS404EW0001",
-            name: "All categories: Tenure",
-            slug: "all-categories-tenure",
-          },
           {
             code: "QS404EW0002",
             name: "Owned",
@@ -4678,14 +4685,14 @@ export default [
         code: "QS404EW",
         name: "Tenure - Household Reference Person aged 65 and over",
         slug: "tenure-household-reference-person-aged-65-and-over",
+        total: {
+          code: "QS404EW0001",
+          name: "All categories: Tenure",
+          slug: "all-categories-tenure",
+        },
       },
       {
         categories: [
-          {
-            code: "QS405EW0001",
-            name: "All categories: Tenure",
-            slug: "all-categories-tenure",
-          },
           {
             code: "QS405EW0002",
             name: "Owned: Total",
@@ -4755,14 +4762,14 @@ export default [
         code: "QS405EW",
         name: "Tenure - Households",
         slug: "tenure-households",
+        total: {
+          code: "QS405EW0001",
+          name: "All categories: Tenure",
+          slug: "all-categories-tenure",
+        },
       },
       {
         categories: [
-          {
-            code: "QS406EW0001",
-            name: "All categories: Household size",
-            slug: "all-categories-household-size",
-          },
           {
             code: "QS406EW0002",
             name: "1 person in household",
@@ -4807,14 +4814,14 @@ export default [
         code: "QS406EW",
         name: "Household size",
         slug: "household-size",
+        total: {
+          code: "QS406EW0001",
+          name: "All categories: Household size",
+          slug: "all-categories-household-size",
+        },
       },
       {
         categories: [
-          {
-            code: "QS407EW0001",
-            name: "All categories: Number of rooms",
-            slug: "all-categories-number-of-rooms",
-          },
           {
             code: "QS407EW0002",
             name: "1 room",
@@ -4864,14 +4871,14 @@ export default [
         code: "QS407EW",
         name: "Number of rooms",
         slug: "number-of-rooms",
+        total: {
+          code: "QS407EW0001",
+          name: "All categories: Number of rooms",
+          slug: "all-categories-number-of-rooms",
+        },
       },
       {
         categories: [
-          {
-            code: "QS408EW0001",
-            name: "All categories: Occupancy rating (rooms) ",
-            slug: "all-categories-occupancy-rating-rooms",
-          },
           {
             code: "QS408EW0002",
             name: "Occupancy rating (rooms) of +2 or more",
@@ -4901,6 +4908,11 @@ export default [
         code: "QS408EW",
         name: "Occupancy rating (rooms)",
         slug: "occupancy-rating-rooms",
+        total: {
+          code: "QS408EW0001",
+          name: "All categories: Occupancy rating (rooms) ",
+          slug: "all-categories-occupancy-rating-rooms",
+        },
       },
       {
         categories: [
@@ -4908,11 +4920,6 @@ export default [
             code: "QS409EW0002",
             name: "Up to 0.5 persons per room",
             slug: "up-to-0-5-persons-per-room",
-          },
-          {
-            code: "QS409EW0001",
-            name: "All categories: Number of persons per room in household",
-            slug: "all-categories-number-of-persons-per-room-in-household",
           },
           {
             code: "QS409EW0003",
@@ -4933,14 +4940,14 @@ export default [
         code: "QS409EW",
         name: "Persons per room - Households",
         slug: "persons-per-room-households",
+        total: {
+          code: "QS409EW0001",
+          name: "All categories: Number of persons per room in household",
+          slug: "all-categories-number-of-persons-per-room-in-household",
+        },
       },
       {
         categories: [
-          {
-            code: "QS410EW0001",
-            name: "All categories: Number of persons per room in household",
-            slug: "all-categories-number-of-persons-per-room-in-household",
-          },
           {
             code: "QS410EW0002",
             name: "Up to 0.5 persons per room",
@@ -4965,14 +4972,14 @@ export default [
         code: "QS410EW",
         name: "Persons per room - People",
         slug: "persons-per-room-people",
+        total: {
+          code: "QS410EW0001",
+          name: "All categories: Number of persons per room in household",
+          slug: "all-categories-number-of-persons-per-room-in-household",
+        },
       },
       {
         categories: [
-          {
-            code: "QS411EW0001",
-            name: "All categories: Number of bedrooms",
-            slug: "all-categories-number-of-bedrooms",
-          },
           {
             code: "QS411EW0002",
             name: "No bedrooms",
@@ -5007,14 +5014,14 @@ export default [
         code: "QS411EW",
         name: "Number of bedrooms",
         slug: "number-of-bedrooms",
+        total: {
+          code: "QS411EW0001",
+          name: "All categories: Number of bedrooms",
+          slug: "all-categories-number-of-bedrooms",
+        },
       },
       {
         categories: [
-          {
-            code: "QS412EW0001",
-            name: "All categories: Occupancy rating (bedrooms)",
-            slug: "all-categories-occupancy-rating-bedrooms",
-          },
           {
             code: "QS412EW0002",
             name: "Occupancy rating (bedrooms) of +2 or more",
@@ -5044,14 +5051,14 @@ export default [
         code: "QS412EW",
         name: "Occupancy rating (bedrooms)",
         slug: "occupancy-rating-bedrooms",
+        total: {
+          code: "QS412EW0001",
+          name: "All categories: Occupancy rating (bedrooms)",
+          slug: "all-categories-occupancy-rating-bedrooms",
+        },
       },
       {
         categories: [
-          {
-            code: "QS413EW0001",
-            name: "All categories: Number of persons per bedroom in household",
-            slug: "all-categories-number-of-persons-per-bedroom-in-household",
-          },
           {
             code: "QS413EW0002",
             name: "Up to 0.5 persons per bedroom",
@@ -5076,14 +5083,14 @@ export default [
         code: "QS413EW",
         name: "Persons per bedroom - Households",
         slug: "persons-per-bedroom-households",
+        total: {
+          code: "QS413EW0001",
+          name: "All categories: Number of persons per bedroom in household",
+          slug: "all-categories-number-of-persons-per-bedroom-in-household",
+        },
       },
       {
         categories: [
-          {
-            code: "QS414EW0001",
-            name: "All categories: Number of persons per bedroom in household",
-            slug: "all-categories-number-of-persons-per-bedroom-in-household",
-          },
           {
             code: "QS414EW0002",
             name: "Up to 0.5 persons per bedroom",
@@ -5108,14 +5115,14 @@ export default [
         code: "QS414EW",
         name: "Persons per bedroom - People",
         slug: "persons-per-bedroom-people",
+        total: {
+          code: "QS414EW0001",
+          name: "All categories: Number of persons per bedroom in household",
+          slug: "all-categories-number-of-persons-per-bedroom-in-household",
+        },
       },
       {
         categories: [
-          {
-            code: "QS415EW0001",
-            name: "All categories: Type of central heating in household",
-            slug: "all-categories-type-of-central-heating-in-household",
-          },
           {
             code: "QS415EW0002",
             name: "No central heating ",
@@ -5155,14 +5162,14 @@ export default [
         code: "QS415EW",
         name: "Central heating",
         slug: "central-heating",
+        total: {
+          code: "QS415EW0001",
+          name: "All categories: Type of central heating in household",
+          slug: "all-categories-type-of-central-heating-in-household",
+        },
       },
       {
         categories: [
-          {
-            code: "QS416EW0001",
-            name: "All categories: Car or van availability",
-            slug: "all-categories-car-or-van-availability",
-          },
           {
             code: "QS416EW0002",
             name: "No cars or vans in household",
@@ -5197,14 +5204,14 @@ export default [
         code: "QS416EW",
         name: "Car or van availability",
         slug: "car-or-van-availability",
+        total: {
+          code: "QS416EW0001",
+          name: "All categories: Car or van availability",
+          slug: "all-categories-car-or-van-availability",
+        },
       },
       {
         categories: [
-          {
-            code: "QS417EW0001",
-            name: "All categories: Household spaces",
-            slug: "all-categories-household-spaces",
-          },
           {
             code: "QS417EW0002",
             name: "Household spaces with at least one usual resident",
@@ -5219,14 +5226,14 @@ export default [
         code: "QS417EW",
         name: "Household spaces",
         slug: "household-spaces",
+        total: {
+          code: "QS417EW0001",
+          name: "All categories: Household spaces",
+          slug: "all-categories-household-spaces",
+        },
       },
       {
         categories: [
-          {
-            code: "QS418EW0001",
-            name: "All categories: Dwelling type",
-            slug: "all-categories-dwelling-type",
-          },
           {
             code: "QS418EW0002",
             name: "Unshared dwelling",
@@ -5241,14 +5248,14 @@ export default [
         code: "QS418EW",
         name: "Dwellings",
         slug: "dwellings",
+        total: {
+          code: "QS418EW0001",
+          name: "All categories: Dwelling type",
+          slug: "all-categories-dwelling-type",
+        },
       },
       {
         categories: [
-          {
-            code: "QS419EW0001",
-            name: "All categories: Position in communal establishment",
-            slug: "all-categories-position-in-communal-establishment",
-          },
           {
             code: "QS419EW0002",
             name: "Resident",
@@ -5268,14 +5275,14 @@ export default [
         code: "QS419EW",
         name: "Position in communal establishment",
         slug: "position-in-communal-establishment",
+        total: {
+          code: "QS419EW0001",
+          name: "All categories: Position in communal establishment",
+          slug: "all-categories-position-in-communal-establishment",
+        },
       },
       {
         categories: [
-          {
-            code: "QS420EW0001",
-            name: "All categories: Communal establishment management and type",
-            slug: "all-categories-communal-establishment-management-and-type",
-          },
           {
             code: "QS420EW0002",
             name: "Medical and care establishment: Total",
@@ -5450,14 +5457,14 @@ export default [
         code: "QS420EW",
         name: "Communal establishment management and type - Communal establishments",
         slug: "communal-establishment-management-and-type-communal-establishments",
+        total: {
+          code: "QS420EW0001",
+          name: "All categories: Communal establishment management and type",
+          slug: "all-categories-communal-establishment-management-and-type",
+        },
       },
       {
         categories: [
-          {
-            code: "QS421EW0001",
-            name: "All categories: Communal establishment management and type",
-            slug: "all-categories-communal-establishment-management-and-type",
-          },
           {
             code: "QS421EW0002",
             name: "Medical and care establishment: Total",
@@ -5632,6 +5639,11 @@ export default [
         code: "QS421EW",
         name: "Communal establishment management and type - People",
         slug: "communal-establishment-management-and-type-people",
+        total: {
+          code: "QS421EW0001",
+          name: "All categories: Communal establishment management and type",
+          slug: "all-categories-communal-establishment-management-and-type",
+        },
       },
     ],
   },
@@ -5642,11 +5654,6 @@ export default [
     tables: [
       {
         categories: [
-          {
-            code: "QS501EW0001",
-            name: "All categories: Highest level of qualification",
-            slug: "all-categories-highest-level-of-qualification",
-          },
           {
             code: "QS501EW0002",
             name: "No qualifications",
@@ -5686,14 +5693,14 @@ export default [
         code: "QS501EW",
         name: "Highest level of qualification",
         slug: "highest-level-of-qualification",
+        total: {
+          code: "QS501EW0001",
+          name: "All categories: Highest level of qualification",
+          slug: "all-categories-highest-level-of-qualification",
+        },
       },
       {
         categories: [
-          {
-            code: "QS502EW0001",
-            name: "All usual residents aged 16 and over",
-            slug: "all-usual-residents-aged-16-and-over",
-          },
           {
             code: "QS502EW0002",
             name: "No qualifications",
@@ -5763,6 +5770,11 @@ export default [
         code: "QS502EW",
         name: "Qualifications gained",
         slug: "qualifications-gained",
+        total: {
+          code: "QS502EW0001",
+          name: "All usual residents aged 16 and over",
+          slug: "all-usual-residents-aged-16-and-over",
+        },
       },
     ],
   },
@@ -5773,11 +5785,6 @@ export default [
     tables: [
       {
         categories: [
-          {
-            code: "QS601EW0001",
-            name: "All categories: Economic activity",
-            slug: "all-categories-economic-activity",
-          },
           {
             code: "QS601EW0002",
             name: "Economically active: Total",
@@ -5857,6 +5864,11 @@ export default [
         code: "QS601EW",
         name: "Economic activity",
         slug: "economic-activity",
+        total: {
+          code: "QS601EW0001",
+          name: "All categories: Economic activity",
+          slug: "all-categories-economic-activity",
+        },
       },
       {
         categories: [
@@ -5864,11 +5876,6 @@ export default [
             code: "QS602EW0002",
             name: "Economically active: Total",
             slug: "economically-active-total",
-          },
-          {
-            code: "QS602EW0001",
-            name: "All categories: Economic activity",
-            slug: "all-categories-economic-activity",
           },
           {
             code: "QS602EW0003",
@@ -5944,14 +5951,14 @@ export default [
         code: "QS602EW",
         name: "Economic activity of Household Reference Persons",
         slug: "economic-activity-of-household-reference-persons",
+        total: {
+          code: "QS602EW0001",
+          name: "All categories: Economic activity",
+          slug: "all-categories-economic-activity",
+        },
       },
       {
         categories: [
-          {
-            code: "QS603EW0001",
-            name: "All categories: Full-time students and economic activity",
-            slug: "all-categories-full-time-students-and-economic-activity",
-          },
           {
             code: "QS603EW0002",
             name: "Full-time students: Economically active: In employment",
@@ -5971,14 +5978,14 @@ export default [
         code: "QS603EW",
         name: "Economic activity - Full-time students",
         slug: "economic-activity-full-time-students",
+        total: {
+          code: "QS603EW0001",
+          name: "All categories: Full-time students and economic activity",
+          slug: "all-categories-full-time-students-and-economic-activity",
+        },
       },
       {
         categories: [
-          {
-            code: "QS604EW0001",
-            name: "All categories: Hours worked",
-            slug: "all-categories-hours-worked",
-          },
           {
             code: "QS604EW0002",
             name: "Part-time: Total",
@@ -6013,14 +6020,14 @@ export default [
         code: "QS604EW",
         name: "Hours worked",
         slug: "hours-worked",
+        total: {
+          code: "QS604EW0001",
+          name: "All categories: Hours worked",
+          slug: "all-categories-hours-worked",
+        },
       },
       {
         categories: [
-          {
-            code: "QS605EW0001",
-            name: "All categories: Industry",
-            slug: "all-categories-industry",
-          },
           {
             code: "QS605EW0002",
             name: "A Agriculture, forestry and fishing",
@@ -6160,14 +6167,14 @@ export default [
         code: "QS605EW",
         name: "Industry",
         slug: "industry",
+        total: {
+          code: "QS605EW0001",
+          name: "All categories: Industry",
+          slug: "all-categories-industry",
+        },
       },
       {
         categories: [
-          {
-            code: "QS606EW0001",
-            name: "All categories: Occupation",
-            slug: "all-categories-occupation",
-          },
           {
             code: "QS606EW0002",
             name: "Managers, directors and senior officials",
@@ -6792,14 +6799,14 @@ export default [
         code: "QS606EW",
         name: "Occupation (Minor Groups)",
         slug: "occupation-minor-groups",
+        total: {
+          code: "QS606EW0001",
+          name: "All categories: Occupation",
+          slug: "all-categories-occupation",
+        },
       },
       {
         categories: [
-          {
-            code: "QS607EW0001",
-            name: "All categories: NS-SeC",
-            slug: "all-categories-ns-sec",
-          },
           {
             code: "QS607EW0002",
             name: "1. Higher managerial, administrative and professional occupations",
@@ -7074,14 +7081,14 @@ export default [
         code: "QS607EW",
         name: "NS-SeC",
         slug: "ns-sec",
+        total: {
+          code: "QS607EW0001",
+          name: "All categories: NS-SeC",
+          slug: "all-categories-ns-sec",
+        },
       },
       {
         categories: [
-          {
-            code: "QS608EW0001",
-            name: "All categories: NS-SeC of Household Reference Person",
-            slug: "all-categories-ns-sec-of-household-reference-person",
-          },
           {
             code: "QS608EW0002",
             name: "1. Higher managerial, administrative and professional occupations",
@@ -7356,14 +7363,14 @@ export default [
         code: "QS608EW",
         name: "NS-SeC of Household Reference Person - People aged under 65",
         slug: "ns-sec-of-household-reference-person-people-aged-under-65",
+        total: {
+          code: "QS608EW0001",
+          name: "All categories: NS-SeC of Household Reference Person",
+          slug: "all-categories-ns-sec-of-household-reference-person",
+        },
       },
       {
         categories: [
-          {
-            code: "QS609EW0001",
-            name: "All categories: NS-SeC of Household Reference Person",
-            slug: "all-categories-ns-sec-of-household-reference-person",
-          },
           {
             code: "QS609EW0002",
             name: "1. Higher managerial, administrative and professional occupations",
@@ -7638,14 +7645,14 @@ export default [
         code: "QS609EW",
         name: "NS-SeC of Household Reference Person - People",
         slug: "ns-sec-of-household-reference-person-people",
+        total: {
+          code: "QS609EW0001",
+          name: "All categories: NS-SeC of Household Reference Person",
+          slug: "all-categories-ns-sec-of-household-reference-person",
+        },
       },
       {
         categories: [
-          {
-            code: "QS610EW0001",
-            name: "All categories: NS-SeC of Household Reference Person",
-            slug: "all-categories-ns-sec-of-household-reference-person",
-          },
           {
             code: "QS610EW0002",
             name: "1. Higher managerial, administrative and professional occupations",
@@ -7920,14 +7927,14 @@ export default [
         code: "QS610EW",
         name: "NS-SeC of Household Reference Person (HRP) - HRP aged under 65",
         slug: "ns-sec-of-household-reference-person-hrp-hrp-aged-under-65",
+        total: {
+          code: "QS610EW0001",
+          name: "All categories: NS-SeC of Household Reference Person",
+          slug: "all-categories-ns-sec-of-household-reference-person",
+        },
       },
       {
         categories: [
-          {
-            code: "QS611EW0001",
-            name: "All categories: Approximated social grade",
-            slug: "all-categories-approximated-social-grade",
-          },
           {
             code: "QS611EW0002",
             name: "Approximated social grade AB",
@@ -7952,14 +7959,14 @@ export default [
         code: "QS611EW",
         name: "Approximated social grade",
         slug: "approximated-social-grade",
+        total: {
+          code: "QS611EW0001",
+          name: "All categories: Approximated social grade",
+          slug: "all-categories-approximated-social-grade",
+        },
       },
       {
         categories: [
-          {
-            code: "QS612EW0001",
-            name: "All categories: Year last worked ",
-            slug: "all-categories-year-last-worked",
-          },
           {
             code: "QS612EW0002",
             name: "In employment",
@@ -8019,6 +8026,11 @@ export default [
         code: "QS612EW",
         name: "Year last worked",
         slug: "year-last-worked",
+        total: {
+          code: "QS612EW0001",
+          name: "All categories: Year last worked ",
+          slug: "all-categories-year-last-worked",
+        },
       },
     ],
   },
@@ -8029,11 +8041,6 @@ export default [
     tables: [
       {
         categories: [
-          {
-            code: "QS701EW0001",
-            name: "All categories: Method of travel to work",
-            slug: "all-categories-method-of-travel-to-work",
-          },
           {
             code: "QS701EW0002",
             name: "Work mainly at or from home",
@@ -8098,6 +8105,11 @@ export default [
         code: "QS701EW",
         name: "Method of travel to work",
         slug: "method-of-travel-to-work",
+        total: {
+          code: "QS701EW0001",
+          name: "All categories: Method of travel to work",
+          slug: "all-categories-method-of-travel-to-work",
+        },
       },
     ],
   },
@@ -8108,11 +8120,6 @@ export default [
     tables: [
       {
         categories: [
-          {
-            code: "QS801EW0001",
-            name: "All categories: Year of arrival in the UK",
-            slug: "all-categories-year-of-arrival-in-the-uk",
-          },
           {
             code: "QS801EW0002",
             name: "Born in the UK",
@@ -8177,14 +8184,14 @@ export default [
         code: "QS801EW",
         name: "Year of arrival in UK",
         slug: "year-of-arrival-in-uk",
+        total: {
+          code: "QS801EW0001",
+          name: "All categories: Year of arrival in the UK",
+          slug: "all-categories-year-of-arrival-in-the-uk",
+        },
       },
       {
         categories: [
-          {
-            code: "QS802EW0001",
-            name: "All categories: Age of arrival in the UK",
-            slug: "all-categories-age-of-arrival-in-the-uk",
-          },
           {
             code: "QS802EW0002",
             name: "Born in the UK",
@@ -8274,14 +8281,14 @@ export default [
         code: "QS802EW",
         name: "Age of arrival in the UK",
         slug: "age-of-arrival-in-the-uk",
+        total: {
+          code: "QS802EW0001",
+          name: "All categories: Age of arrival in the UK",
+          slug: "all-categories-age-of-arrival-in-the-uk",
+        },
       },
       {
         categories: [
-          {
-            code: "QS803EW0001",
-            name: "All categories: Length of residence in the UK",
-            slug: "all-categories-length-of-residence-in-the-uk",
-          },
           {
             code: "QS803EW0002",
             name: "Born in the UK",
@@ -8311,6 +8318,11 @@ export default [
         code: "QS803EW",
         name: "Length of residence in the UK",
         slug: "length-of-residence-in-the-uk",
+        total: {
+          code: "QS803EW0001",
+          name: "All categories: Length of residence in the UK",
+          slug: "all-categories-length-of-residence-in-the-uk",
+        },
       },
     ],
   },

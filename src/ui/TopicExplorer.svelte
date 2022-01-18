@@ -40,9 +40,8 @@
             {#each tableEntry.categories as category, i}
               {#if !category.code.endsWith("001")}
                 <li class="ons-list__item">
-                  <a
-                    href="/{topic.slug}/{tableEntry.slug}/{category.slug}{locationQueryParam}"
-                    class="ons-list__link">{category.name}</a
+                  <a href="/{topic.slug}/{tableEntry.slug}/{category.slug}{locationQueryParam}" class="ons-list__link"
+                    >{category.name}</a
                   >
                 </li>
               {/if}

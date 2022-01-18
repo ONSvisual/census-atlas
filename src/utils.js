@@ -231,10 +231,10 @@ export function categoryIDToDBTotalsColumn(categoryId) {
   return categoryIdParts.prefix + "0001";
 }
 
-export function dbColumnToCategoryId(dbColumn){
+export function dbColumnToCategoryId(dbColumn) {
   const dbColumnParts = decomposeCategoryId(dbColumn);
-  const adjustedSuffix = (parseInt(dbColumnParts.digitsSuffix) - 1).toString().padStart(3, '0')
-  return dbColumnParts.prefix + adjustedSuffix
+  const adjustedSuffix = (parseInt(dbColumnParts.digitsSuffix) - 1).toString().padStart(3, "0");
+  return dbColumnParts.prefix + adjustedSuffix;
 }
 
 export function processData(data, populateCensusTable, totalCatCode) {
@@ -247,4 +247,23 @@ export function processData(data, populateCensusTable, totalCatCode) {
     }
   });
   return populateCensusTable;
+}
+
+export function extractTotalsInMetadata(metadata) {
+  return metadata.map((topic) => {
+    const tables = topic.tables.map((table) => {
+      let total;
+      if (table.categories != null) {
+        table.categories.forEach((category, i) => {
+          if (category.code.endsWith("0001")) {
+            total = category;
+            table.categories.splice(i, 1);
+          }
+        });
+        table["total"] = total;
+      }
+      return table;
+    });
+    return { ...topic, tables };
+  });
 }
