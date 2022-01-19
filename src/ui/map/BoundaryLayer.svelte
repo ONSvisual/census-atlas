@@ -1,6 +1,5 @@
 <script>
   import { getContext } from "svelte";
-  import { createEventDispatcher } from "svelte";
   import config from "./../../config";
 
   export let id;
@@ -10,9 +9,9 @@
   export let filter = null;
   export let layout = {};
   export let paint = config.ux.map.paint.boundary;
-  export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
+  export let order = "lad-interactive-layer-interactive-boundaries";
 
   const { getMap } = getContext("map");
   const map = getMap();

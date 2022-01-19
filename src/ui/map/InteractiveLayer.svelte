@@ -15,7 +15,6 @@
   export let click = true;
   export let clickCenter = false;
   export let hover = true;
-  export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
   export let onSelect = (selectedItem) => {};
@@ -81,8 +80,8 @@
     boundaryLayerOptions["minzoom"] = minzoom;
   }
 
-  map.addLayer(options, order);
-  map.addLayer(boundaryLayerOptions, order);
+  map.addLayer(options);
+  map.addLayer(boundaryLayerOptions);
 
   $: if (click && selected !== selectedPrev) {
     if (selectedPrev) {

@@ -35,8 +35,10 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn, dbColumnToCategoryId } from "../../../utils";
+  import { isNotEmpty, dbColumnToCategoryId } from "../../../utils";
+  import { selectedGeography } from "../../../model/geography/geography";
 
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
@@ -58,8 +60,6 @@
     if (locationId) {
       updateSelectedGeography(locationId);
       locationName = getLadName(locationId);
-    } else {
-      updateSelectedGeography("K04000001");
     }
   });
 
@@ -69,6 +69,15 @@
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
+  }
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
   }
 
   // temporary line to load some data
@@ -131,7 +140,8 @@
         {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
-          maxzoom={config.ux.map.lsoa_breakpoint}
+          selected={$selectedGeography.lad}
+          maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
           }}
@@ -154,15 +164,6 @@
         {#if $categoryDataIsLoaded}
           <DataLayer id="lsoa-data" data={categoryData} />
         {/if}
-        <InteractiveLayer
-          id="lsoa-boundaries"
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-        />
       </TileSet>
       <TileSet
         id="lsoa-building"

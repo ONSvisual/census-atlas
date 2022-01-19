@@ -6,7 +6,8 @@
 
   export let selectedTopic;
   export let locationId;
-  let locationQueryParam = locationId ? `?location=${locationId}` : "";
+
+  $: locationQueryParam = locationId ? `?location=${locationId}` : "";
 
   let topicIndex;
 
