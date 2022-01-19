@@ -36,7 +36,9 @@
       </button>
     </div>
     {#if description}
-      <p>topic description - {description}</p>
+      <p class="ons-collapsible__title-description">
+        topic description - {description}
+      </p>
     {/if}
   </div>
   <div id="{id}-content" class="ons-collapsible__content ons-js-collapsible-content">
@@ -45,7 +47,14 @@
 </div>
 
 <style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
   .ons-collapsible--noTopBorder:first-child .ons-collapsible__heading {
     border-top: 0;
+  }
+
+  .ons-collapsible__title-description {
+    color: #222;
+    margin: 0 9rem 0 0;
   }
 </style>
