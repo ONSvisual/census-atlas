@@ -44,7 +44,7 @@
               ).toLowerCase()}{locationQueryParam}">{tableEntry.name}</a
             >
           </h3>
-          <p>nomis table description - {tableEntry.code}</p>
+          <p class="ons-collapsible__table-description">nomis table description - {tableEntry.code}</p>
         </div>
         <OnsCollapsible title={`Show ${tableEntry.name} options`}>
           <ul class="ons-list ons-list--bare">
@@ -65,3 +65,10 @@
     <!-- <OnsCollapsible title={"test test"}/> -->
   {/each}
 </ONSAccordion>
+
+<style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  .ons-collapsible__table-description {
+    margin: 0 2rem 0 0;
+  }
+</style>
