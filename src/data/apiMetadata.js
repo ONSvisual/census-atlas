@@ -2696,18 +2696,6 @@ export default [
         },
       },
       {
-        categories: null,
-        code: "QS206WA",
-        name: "Welsh language skills",
-        slug: "welsh-language-skills",
-      },
-      {
-        categories: null,
-        code: "QS207WA",
-        name: "Welsh language skills (detailed)",
-        slug: "welsh-language-skills-detailed",
-      },
-      {
         categories: [
           {
             code: "QS208EW0002",

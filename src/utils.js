@@ -267,3 +267,15 @@ export function extractTotalsInMetadata(metadata) {
     return { ...topic, tables };
   });
 }
+
+export function filterSelectedTable(metadata, category) {
+  let selectedTable;
+  metadata.forEach((topic) => {
+    topic.tables.forEach((table) => {
+      if (table.code == category.table) {
+        selectedTable = table;
+      }
+    });
+  });
+  return selectedTable;
+}

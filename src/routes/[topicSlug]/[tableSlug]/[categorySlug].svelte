@@ -15,6 +15,8 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+  import metadata from "../../../data/apiMetadata";
+  import { filterSelectedTable } from "../../../utils";
 
   import {
     categoryDataIsLoaded,
@@ -74,17 +76,15 @@
 
   const initialisePage = () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
-    table = category ? tables[category.table] : null;
-    populatesSelectedData(table.name, table.categoriesArray, category.code);
+    table = category ? filterSelectedTable(metadata, category) : null;
+    populatesSelectedData(table.name, table.categories, category.code, table.total);
     fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
+      totalCatCode = table.total.code;
+      categoryCodesArr.push(totalCatCode);
       $selectedData.tableCategories.forEach((category) => {
-        if (category.code.endsWith("001")){
-          totalCatCode = category.code
-        } else {
-          populateCensusTable["categories"].push({ code: category.code, name: category.name });
-        }
-        categoryCodesArr.push(category.code)
+        populateCensusTable["categories"].push({ code: category.code, name: category.name });
+        categoryCodesArr.push(category.code);
       });
     }
     locationName = getLadName(locationId);
