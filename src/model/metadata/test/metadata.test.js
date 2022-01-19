@@ -1,6 +1,6 @@
 import MockMetadataService from "../services/mockMetadataService";
 import { fetchCensusMetadata, censusMetadata } from "../metadata";
-import {get} from "svelte/store"
+import { get } from "svelte/store";
 
 describe("fetchCensusMetadata", () => {
   it("calls functions from the metadata service", async () => {
@@ -18,6 +18,6 @@ describe("fetchCensusMetadata", () => {
 
     //and
     //it stores the response in the censusMetadata store
-    expect(get(censusMetadata)).toEqual(["metadata"])
+    expect(get(censusMetadata)).toEqual(["metadata"]);
   });
 });

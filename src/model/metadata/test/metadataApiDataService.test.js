@@ -1,27 +1,17 @@
-import { describe, test } from "jest-circus";
-import { jest } from "@jest/globals";
+import { enableFetchMocks } from "jest-fetch-mock";
+import { describe } from "jest-circus";
 import MetadataApiDataService from "../services/metadataApiDataService";
+import config from "../../../config";
 
-const unmockedFetch = global.fetch;
-
-beforeAll(() => {
-  global.fetch = () =>
-    Promise.resolve({
-      json: () => Promise.resolve([{ test: "test" }]),
-    });
-});
-
-afterAll(() => {
-  global.fetch = unmockedFetch;
-});
-
-// const fetchMock = jest.spyOn(global, "fetch").mockImplementation(() => Promise.resolve({json: () => Promise.resolve([{test: "test"}])}))
+enableFetchMocks();
 
 describe("Metadata api data service", () => {
   it("fetchCensusMetadata function", async () => {
+    fetch.mockResponseOnce(JSON.stringify([{ test: "test" }]));
+
     const dataService = new MetadataApiDataService();
     const json = await dataService.fetchCensusMetadata();
-    // expect(fetchMock).toHaveBeenCalledWith("http://ec2-18-193-78-190.eu-central-1.compute.amazonaws.com:25252/metadata")
+    expect(fetch).toHaveBeenCalledWith(`${config.api.baseUrl}${config.api.censusMetadataEndpoint}`);
     expect(Array.isArray(json)).toEqual(true);
     expect(json).toEqual([{ test: "test" }]);
   });
