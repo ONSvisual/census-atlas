@@ -10,7 +10,6 @@ it('it renders', async () => {
   const radio = container.querySelector("input");
   const label = getByText(radioOptionName);
 
-  console.log(radio.value);
   expect(radio.value).toBe(radioOptionName);
   expect(label).not.toBe(null);
 });
