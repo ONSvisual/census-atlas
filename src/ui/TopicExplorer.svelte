@@ -1,6 +1,7 @@
 <script>
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
+  import OnsCollapsible from "./ons/ONSCollapsible.svelte";
   import censusData from "./../data/simpleTopicTableCategoryData";
   import { onMount } from "svelte";
   import slugify from "slugify";
@@ -33,22 +34,34 @@
 
 <ONSAccordion showAll={false}>
   {#each censusData as topic, i}
-    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder>
+    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.code}>
       {#each topic.tables as tableEntry}
-        <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">{tableEntry.name}</h3>
-        <ul class="ons-list ons-list--bare">
-          {#each tableEntry.categories as category}
-            <li class="ons-list__item">
-              <a
-                href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                  category.name,
-                ).toLowerCase()}{locationQueryParam}"
-                class="ons-list__link">{category.name}</a
-              >
-            </li>
-          {/each}
-        </ul>
+        <div>
+          <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">
+            <a
+              href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
+                tableEntry.categories[0].slug,
+              ).toLowerCase()}{locationQueryParam}">{tableEntry.name}</a
+            >
+          </h3>
+          <p>nomis table description - {tableEntry.code}</p>
+        </div>
+        <OnsCollapsible title={`Show ${tableEntry.name} options`}>
+          <ul class="ons-list ons-list--bare">
+            {#each tableEntry.categories as category}
+              <li class="ons-list__item">
+                <a
+                  href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
+                    category.name,
+                  ).toLowerCase()}{locationQueryParam}"
+                  class="ons-list__link">{category.name}</a
+                >
+              </li>
+            {/each}
+          </ul>
+        </OnsCollapsible>
       {/each}
     </ONSAccordionPanel>
+    <!-- <OnsCollapsible title={"test test"}/> -->
   {/each}
 </ONSAccordion>

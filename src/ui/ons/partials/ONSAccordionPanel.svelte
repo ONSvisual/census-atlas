@@ -1,5 +1,5 @@
 <script>
-  export let id, title;
+  export let id, title, description;
   export let noTopBorder = false;
 
   let hasTopBorder = noTopBorder ? "ons-collapsible--noTopBorder" : "";
@@ -35,6 +35,9 @@
         <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
       </button>
     </div>
+    {#if description}
+      <p>topic description - {description}</p>
+    {/if}
   </div>
   <div id="{id}-content" class="ons-collapsible__content ons-js-collapsible-content">
     <slot />
