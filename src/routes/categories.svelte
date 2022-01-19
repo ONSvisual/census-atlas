@@ -6,18 +6,36 @@
   import TopicExplorer from "./../ui/TopicExplorer.svelte";
   import Topic from "../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
-  import { page } from "$app/stores";
   import { appIsInitialised } from "../model/appstate";
   import config from "../config";
   import TileSet from "../ui/map/TileSet.svelte";
   import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
-  import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../model/geography/geography";
+  import DataLayer from "../ui/map/DataLayer.svelte";
+  import {
+    getLadName,
+    updateSelectedGeography,
+    updateHoveredGeography,
+    selectedGeography,
+  } from "../model/geography/geography";
+  import { categoryDataIsLoaded, categoryData } from "../model/censusdata/censusdata";
+
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
 
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 
-  const locationId = $page.query.get("location");
+  let locationId = $page.query.get("location");
   let locationName;
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
+  }
 
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
@@ -27,7 +45,6 @@
       updateSelectedGeography(locationId);
     }
   }
-
   $: innerWidth = 0;
 </script>
 
@@ -40,7 +57,7 @@
   <span slot="header">
     <Header
       showBackLink
-      serviceTitle="Choose a data option"
+      serviceTitle="Choose a data option {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName
         ? `${locationName}'s`
         : 'Census'} data."
@@ -56,8 +73,12 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
+        {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
@@ -77,7 +98,11 @@
         promoteId={config.legacy.lsoabounds.code}
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
-      />
+      >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lsoa-data" data={categoryData} />
+        {/if}
+      </TileSet>
       <TileSet
         id="lsoa-building"
         type="vector"
@@ -85,7 +110,11 @@
         layer={config.legacy.lsoabldg.layer}
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
-      />
+      >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lsoa-data-zoom" data={categoryData} />
+        {/if}
+      </TileSet>
       <TileSet
         id="lad-boundaries"
         type="vector"

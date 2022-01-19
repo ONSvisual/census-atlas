@@ -10,15 +10,42 @@
   import TopicExplorer from "./../../ui/TopicExplorer.svelte";
   import Topic from "../../ui/Topic.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
-  import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../../model/geography/geography";
+  import {
+    getLadName,
+    updateSelectedGeography,
+    updateHoveredGeography,
+    selectedGeography,
+  } from "../../model/geography/geography";
+  import { appIsInitialised } from "../../model/appstate";
+
   import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+
   let { topicSlug } = $page.params;
-  const locationId = $page.query.get("location");
+  let locationId = $page.query.get("location");
   let locationName;
 
   $: {
     if (locationId) {
       locationName = getLadName(locationId);
+    }
+  }
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
+  }
+
+  $: appIsInitialised, $appIsInitialised && initialisePage();
+
+  function initialisePage() {
+    if (locationId) {
+      locationName = getLadName(locationId);
+      updateSelectedGeography(locationId);
     }
   }
 
@@ -37,7 +64,7 @@
   <span slot="header">
     <Header
       showBackLink
-      serviceTitle="Choose a data option"
+      serviceTitle="Choose a data option {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName
         ? `${locationName}'s`
         : 'Census'} data."
@@ -55,6 +82,7 @@
       >
         <InteractiveLayer
           id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
@@ -95,7 +123,7 @@
     </Map>
   </span>
 
-  <TopicExplorer selectedTopic={topicSlug} />
+  <TopicExplorer selectedTopic={topicSlug} {locationId} />
 
   {#if innerWidth >= 500}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
