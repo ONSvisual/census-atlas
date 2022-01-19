@@ -249,18 +249,18 @@ export function processData(data, populateCensusTable, totalCatCode) {
   return populateCensusTable;
 }
 
-export function extractTotalsInMetadata(metadata) {
+export function addTotalLevelToMetadata(metadata) {
   return metadata.map((topic) => {
     const tables = topic.tables.map((table) => {
       let total;
       if (table.categories != null) {
         table.categories.forEach((category, i) => {
           if (category.code.endsWith("0001")) {
-            total = category;
+            total = category.code;
             table.categories.splice(i, 1);
           }
         });
-        table["total"] = total;
+        table["totalCode"] = total;
       }
       return table;
     });

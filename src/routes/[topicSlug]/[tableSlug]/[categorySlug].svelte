@@ -77,10 +77,10 @@
   const initialisePage = () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? filterSelectedTable(metadata, category) : null;
-    populatesSelectedData(table.name, table.categories, category.code, table.total);
+    populatesSelectedData(table.name, table.categories, category.code, table.totalCode);
     fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
-      totalCatCode = table.total.code;
+      totalCatCode = table.totalCode;
       categoryCodesArr.push(totalCatCode);
       $selectedData.tableCategories.forEach((category) => {
         populateCensusTable["categories"].push({ code: category.code, name: category.name });
