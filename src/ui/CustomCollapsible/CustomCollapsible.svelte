@@ -1,5 +1,6 @@
 <script>
   export let title = "";
+  export let id = "collapsible";
   let expanded = false;
   $: expandedCollapsible = expanded ? "ons-collapsible--open" : "";
   $: displayContent = expanded ? "ons-collapsible--open__content" : "ons-collapsible--initialised__content";
@@ -9,7 +10,7 @@
 </script>
 
 <div
-  id="collapsible"
+  {id}
   class="ons-collapsible ons-collapsible--initialised {expandedCollapsible}"
   data-btn-close="Hide this"
   role="group"

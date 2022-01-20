@@ -35,7 +35,7 @@
 <ONSAccordion showAll={false}>
   {#each censusData as topic, i}
     <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.code}>
-      {#each topic.tables as tableEntry}
+      {#each topic.tables as tableEntry, i}
         <div class="table-margin--2">
           <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">
             <a
@@ -45,7 +45,7 @@
             >
           </h3>
           <p class="ons-collapsible__table-description">nomis table description - {tableEntry.code}</p>
-          <CustomCollapsible title={tableEntry.name}>
+          <CustomCollapsible id="{topic.name}-table-{i}" title={tableEntry.name}>
             <ul class="ons-list ons-list--bare">
               {#each tableEntry.categories as category}
                 <li class="ons-list__item">
