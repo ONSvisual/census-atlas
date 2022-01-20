@@ -1,13 +1,27 @@
 <script>
-  export let difference;
+  export let difference = 0.5;
   export let comparisonGeography = "England and Wales";
+
+  function populateComparisonString(difference) {
+    if (difference > 0) {
+      return `${difference.toString()}% higher`;
+    } else if (difference < 0) {
+      return `${difference.toString()}% lower`;
+    }
+    return "The same as";
+  }
+
+  const comparisonString = populateComparisonString(difference);
 </script>
 
 <div class="data-comparison-container">
   <div class="data-display">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-      <path d="M24 22h-24l12-20z" />
-    </svg>
+    <span>
+      <svg class="data-comparison-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path d="M24 22h-24l12-20z" />
+      </svg>
+      <p class="data-comparison-string">{comparisonString}</p>
+    </span>
   </div>
 
   <div class="data-comparison-text">
@@ -30,10 +44,14 @@
   }
 
   .data-display {
-    background-color: $color-night-blue;
+    background-color: $color-ocean-blue;
   }
 
   .data-comparison-text {
     background-color: $color-white;
+  }
+
+  .data-comparison-icon, .data-comparison-string {
+    display: inline-block;
   }
 </style>
