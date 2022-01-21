@@ -6,15 +6,22 @@
   import { onMount } from "svelte";
   import slugify from "slugify";
 
-  export let selectedTopic;
-  export let locationId;
-  let locationQueryParam = locationId ? `?location=${locationId}` : "";
+  export let selectedTopic, visitedTable, locationId;
+  let topicIndex, tableIndex;
 
-  let topicIndex;
+  let locationQueryParam = locationId ? `?location=${locationId}` : "";
 
   $: {
     if (selectedTopic) {
       censusData.forEach((topic) => {
+        if (visitedTable) {
+          topic.tables.forEach((table) => {
+            if (slugify(table.name).toLowerCase() == visitedTable.toLowerCase()) {
+              tableIndex = topic.tables.indexOf(table);
+              console.log("tableIndex", tableIndex);
+            }
+          });
+        }
         if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
           topicIndex = censusData.indexOf(topic);
         }
@@ -27,6 +34,9 @@
     if (selectedTopic) {
       setTimeout(() => {
         document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
+        if (visitedTable) {
+          document.querySelector(`#collapsible-table-${tableIndex}`).click();
+        }
       }, 250);
     }
   });
@@ -45,7 +55,7 @@
             >
           </h3>
           <p class="ons-collapsible__table-description">nomis table description - {tableEntry.code}</p>
-          <CustomCollapsible id="{topic.name}-table-{i}" title={tableEntry.name}>
+          <CustomCollapsible id="collapsible-table-{i}" title={tableEntry.name}>
             <ul class="ons-list ons-list--bare">
               {#each tableEntry.categories as category}
                 <li class="ons-list__item">

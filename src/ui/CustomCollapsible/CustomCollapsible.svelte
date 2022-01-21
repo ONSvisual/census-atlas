@@ -1,6 +1,6 @@
 <script>
   export let title = "";
-  export let id = "collapsible";
+  export let id = "collapsible-table";
   let expanded = false;
   $: expandedCollapsible = expanded ? "ons-collapsible--open" : "";
   $: displayContent = expanded ? "ons-collapsible--open__content" : "ons-collapsible--initialised__content";
@@ -10,13 +10,14 @@
 </script>
 
 <div
-  {id}
+  id="collapsible"
   class="ons-collapsible ons-collapsible--initialised {expandedCollapsible}"
   data-btn-close="Hide this"
   role="group"
   aria-expanded={expanded}
 >
   <div
+    {id}
     class="ons-collapsible__heading"
     role="link"
     aria-controls="collapsible"

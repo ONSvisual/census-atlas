@@ -1,7 +1,8 @@
 <script>
   import slugify from "slugify";
-  export let tableName, location, topicPage, topicSlug, categorySlug;
-  export let locationId;
+
+  export let tableName, location, topicPage, topicSlug, tableSlug, categorySlug, locationId;
+
   let locationQueryParam, href;
   $: {
     locationQueryParam = locationId ? `?location=${locationId}` : "";
@@ -28,7 +29,7 @@
                 : ""}
             </h2>
           </div>
-          <a href="/categories{locationQueryParam}">Change</a>
+          <a href="/categories/{topicSlug}/{tableSlug}/{categorySlug}{locationQueryParam}">Change</a>
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
             <h2 id="census-atlas-header-2__title">
