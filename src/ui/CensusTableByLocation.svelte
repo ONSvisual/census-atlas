@@ -4,7 +4,9 @@
   import { processData } from "../utils";
   import { fetchSelectedDataForGeographies } from "../model/censusdata/censusdata";
   import GeodataApiDataService from "../model/censusdata/services/geodataApiDataService";
-  export let geoCode, populateCensusTable, totalCatCode, categoryCodesArr;
+  export let locationId, populateCensusTable, totalCatCode, categoryCodesArr;
+
+  $: geoCode = locationId ? locationId : "K04000001";
 
   $: {
     $newDataByGeography;

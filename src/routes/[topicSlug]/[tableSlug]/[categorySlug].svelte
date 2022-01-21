@@ -52,8 +52,6 @@
 
   let locationId = $page.query.get("location");
 
-  //if no location in url, set geoCode to England & Wales
-  let geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
   let categoryCodesArr = [];
 
   onMount(async () => {
@@ -65,7 +63,6 @@
 
   $: {
     locationId = $page.query.get("location");
-    geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
@@ -208,7 +205,7 @@
     <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 40, 48.4, 94.8]} average={42} />
   </div>
 
-  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} {categoryCodesArr} />
+  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
