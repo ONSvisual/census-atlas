@@ -1,5 +1,4 @@
 <script>
-  import slugify from "slugify";
   export let topicSlug, tableSlug, locationId;
   export let categories = [
     {
@@ -70,7 +69,7 @@
       <span>&#60;&#160;</span>
       <a
         class="category-selector__button cut-text"
-        href="/{topicSlug}/{tableSlug}/{slugify(categories[selectedCatIndex].name).toLowerCase()}{locationQueryParam}"
+        href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
         on:click={clickLeft}
       >
         {categories[leftIndex].name}
@@ -86,7 +85,7 @@
     <div class="ons-pl-grid-col ons-grid--flex" style="justify-content:right">
       <a
         class="category-selector__button category-selector__button__left cut-text"
-        href="/{topicSlug}/{tableSlug}/{slugify(categories[selectedCatIndex].name).toLowerCase()}{locationQueryParam}"
+        href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
         on:click={clickRight}
       >
         {categories[rightIndex].name}

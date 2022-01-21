@@ -1,11 +1,12 @@
 import { csvParse } from "d3-dsv";
 import { writeCsvDataToMapObj } from "../../utils";
+import config from "../../../config";
 
-const baseURL = "https://5laefo1cxd.execute-api.eu-central-1.amazonaws.com/dev/hello/census";
+const censusDataBaseUrl = `${config.api.baseUrl}${config.api.censusDataEndpoint}`;
 
 export default class GeodataApiDataService {
   async fetchAllDataForGeography(geographyCode) {
-    const url = `${baseURL}?rows=${geographyCode}`;
+    const url = `${censusDataBaseUrl}?rows=${geographyCode}`;
     const response = await fetch(url);
     const string = await response.text();
     let data = new Map();
@@ -25,9 +26,9 @@ export default class GeodataApiDataService {
     const categoriesString = categories.toString();
     let url = "";
     if (geoType.toLowerCase().trim() == "lad") {
-      url = `${baseURL}?cols=geography_code,${categoriesString}&geotype=LAD`;
+      url = `${censusDataBaseUrl}?cols=geography_code,${categoriesString}&geotype=LAD`;
     } else if (geoType.toLowerCase().trim() == "lsoa") {
-      url = `${baseURL}?cols=geography_code,${categoriesString}&geotype=LSOA`;
+      url = `${censusDataBaseUrl}?cols=geography_code,${categoriesString}&geotype=LSOA`;
     }
     const response = await fetch(url);
     const string = await response.text();
@@ -37,7 +38,7 @@ export default class GeodataApiDataService {
   async fetchSelectedDataForGeographies(geoCodes, catCodes) {
     const geoCodesString = geoCodes.toString();
     const catCodesString = catCodes.toString();
-    const url = `${baseURL}?cols=geography_code,${catCodesString}&rows=${geoCodesString}`;
+    const url = `${censusDataBaseUrl}?cols=geography_code,${catCodesString}&rows=${geoCodesString}`;
     const response = await fetch(url);
     const string = await response.text();
     return writeCsvDataToMapObj(string);
@@ -46,7 +47,7 @@ export default class GeodataApiDataService {
   async fetchSelectedDataForBoundingBox(geoType, catCodes, bBox) {
     const geoTypesString = geoType.toString();
     const catCodesString = catCodes.toString();
-    const url = `${baseURL}?bbox=${bBox.neCorner.lng},${bBox.neCorner.lat},${bBox.swCorner.lng},${bBox.swCorner.lat}&cols=geography_code,${catCodesString}&geotype=${geoTypesString}`;
+    const url = `${censusDataBaseUrl}?bbox=${bBox.neCorner.lng},${bBox.neCorner.lat},${bBox.swCorner.lng},${bBox.swCorner.lat}&cols=geography_code,${catCodesString}&geotype=${geoTypesString}`;
     const response = await fetch(url);
     const string = await response.text();
     return writeCsvDataToMapObj(string);
