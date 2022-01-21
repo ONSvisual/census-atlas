@@ -2,9 +2,9 @@
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
   import CustomCollapsible from "./CustomCollapsible/CustomCollapsible.svelte";
-  import censusData from "./../data/simpleTopicTableCategoryData";
+  import censusMetadata from "./../data/apiMetadata";
+
   import { onMount } from "svelte";
-  import slugify from "slugify";
 
   export let selectedTopic, visitedTable, locationId;
   let topicIndex, tableIndex;
@@ -13,17 +13,16 @@
 
   $: {
     if (selectedTopic) {
-      censusData.forEach((topic) => {
+      censusMetadata.forEach((topic) => {
         if (visitedTable) {
           topic.tables.forEach((table) => {
-            if (slugify(table.name).toLowerCase() == visitedTable.toLowerCase()) {
+            if (table.slug == visitedTable.toLowerCase()) {
               tableIndex = topic.tables.indexOf(table);
-              console.log("tableIndex", tableIndex);
             }
           });
         }
-        if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
-          topicIndex = censusData.indexOf(topic);
+        if (topic.slug == selectedTopic.toLowerCase()) {
+          topicIndex = censusMetadata.indexOf(topic);
         }
       });
     }
@@ -43,27 +42,22 @@
 </script>
 
 <ONSAccordion showAll={false}>
-  {#each censusData as topic, i}
+  {#each censusMetadata as topic, i}
     <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.code}>
       {#each topic.tables as tableEntry, i}
         <div class="table-margin--2">
           <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">
-            <a
-              href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                tableEntry.categories[0].slug,
-              ).toLowerCase()}{locationQueryParam}">{tableEntry.name}</a
+            <a href="/{topic.slug}/{tableEntry.slug}/{tableEntry.categories[0].slug}{locationQueryParam}"
+              >{tableEntry.name}</a
             >
           </h3>
-          <p class="ons-collapsible__table-description">nomis table description - {tableEntry.code}</p>
+          <p class="ons-collapsible__table-description">{tableEntry.desc}</p>
           <CustomCollapsible id="collapsible-table-{i}" title={tableEntry.name}>
             <ul class="ons-list ons-list--bare">
               {#each tableEntry.categories as category}
                 <li class="ons-list__item">
-                  <a
-                    href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                      category.name,
-                    ).toLowerCase()}{locationQueryParam}"
-                    class="ons-list__link">{category.name}</a
+                  <a href="/{topic.slug}/{tableEntry.slug}/{category.slug}{locationQueryParam}" class="ons-list__link"
+                    >{category.name}</a
                   >
                 </li>
               {/each}
