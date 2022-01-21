@@ -164,7 +164,12 @@ export async function fetchCensusData(censusDataService, categoryCode, geography
   categoryDataIsLoaded.set(true);
 }
 
-export function populatesSelectedData(tableName, tableCategories, selectedCategory) {
+export function populatesSelectedData(tableName, tableCategories, selectedCategory, tableTotal) {
   selectedData.set({});
-  selectedData.set({ tableName: tableName, tableCategories: tableCategories, categorySelected: selectedCategory });
+  selectedData.set({
+    tableName: tableName,
+    tableCategories: tableCategories,
+    categorySelected: selectedCategory,
+    total: tableTotal,
+  });
 }

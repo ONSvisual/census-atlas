@@ -15,6 +15,8 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+  import metadata from "../../../data/apiMetadata";
+  import { filterSelectedTable } from "../../../utils";
 
   import {
     categoryDataIsLoaded,
@@ -33,7 +35,7 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
+  import { isNotEmpty, dbColumnToCategoryId } from "../../../utils";
   import { selectedGeography } from "../../../model/geography/geography";
 
   import { goto } from "$app/navigation";
@@ -83,17 +85,16 @@
 
   const initialisePage = () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
-    table = category ? tables[category.table] : null;
-    populatesSelectedData(table.name, table.categoriesArray, category.code);
-    fetchCensusData(new LegacyCensusDataService(), category.code, null);
+    table = category ? filterSelectedTable(metadata, category) : null;
+    populatesSelectedData(table.name, table.categories, category.code, table.total.code);
+    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
-      totalCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
-      categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
-        const dbCategoryCode = categoryIDToDBColumn(category.code);
-        populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
-        return dbCategoryCode;
-      });
+      totalCatCode = table.total.code;
       categoryCodesArr.push(totalCatCode);
+      $selectedData.tableCategories.forEach((category) => {
+        populateCensusTable["categories"].push({ code: category.code, name: category.name });
+        categoryCodesArr.push(category.code);
+      });
     }
     locationName = getLadName(locationId);
   };

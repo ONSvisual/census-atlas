@@ -1,9 +1,8 @@
 <script>
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
-  import censusData from "./../data/simpleTopicTableCategoryData";
+  import censusMetadata from "./../data/apiMetadata";
   import { onMount } from "svelte";
-  import slugify from "slugify";
 
   export let selectedTopic;
   export let locationId;
@@ -14,9 +13,9 @@
 
   $: {
     if (selectedTopic) {
-      censusData.forEach((topic) => {
-        if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
-          topicIndex = censusData.indexOf(topic);
+      censusMetadata.forEach((topic) => {
+        if (topic.slug == selectedTopic.toLowerCase()) {
+          topicIndex = censusMetadata.indexOf(topic);
         }
       });
     }
@@ -33,21 +32,22 @@
 </script>
 
 <ONSAccordion showAll={false}>
-  {#each censusData as topic, i}
+  {#each censusMetadata as topic, i}
     <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder>
       {#each topic.tables as tableEntry}
         <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">{tableEntry.name}</h3>
         <ul class="ons-list ons-list--bare">
-          {#each tableEntry.categories as category}
-            <li class="ons-list__item">
-              <a
-                href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                  category.name,
-                ).toLowerCase()}{locationQueryParam}"
-                class="ons-list__link">{category.name}</a
-              >
-            </li>
-          {/each}
+          {#if tableEntry.categories != null}
+            {#each tableEntry.categories as category, i}
+              {#if !category.code.endsWith("001")}
+                <li class="ons-list__item">
+                  <a href="/{topic.slug}/{tableEntry.slug}/{category.slug}{locationQueryParam}" class="ons-list__link"
+                    >{category.name}</a
+                  >
+                </li>
+              {/if}
+            {/each}
+          {/if}
         </ul>
       {/each}
     </ONSAccordionPanel>
