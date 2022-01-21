@@ -11,17 +11,30 @@
   import ONSTwitterIcon from "../../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../ui/ons/svg/ONSEmailIcon.svelte";
-  import { page } from "$app/stores";
-  import { getLadName, updateSelectedGeography, updateHoveredGeography } from "../../model/geography/geography";
+  import {
+    getLadName,
+    updateSelectedGeography,
+    updateHoveredGeography,
+    selectedGeography,
+  } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
   import { areaSelectedTopicSuggestions } from "../../config";
   import config from "../../config";
   import TileSet from "../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
+  import { categoryDataIsLoaded } from "../../model/censusdata/censusdata";
+
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+  import { onMount } from "svelte";
 
   let locationName, locationId;
   let topicSuggestions;
+
+  onMount(async () => {
+    $categoryDataIsLoaded = false;
+  });
 
   function initialisePage() {
     updateSelectedGeography(locationId);
@@ -35,6 +48,14 @@
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
     topicSuggestions = areaSelectedTopicSuggestions(locationName, locationId);
+  }
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
   }
 </script>
 
@@ -58,6 +79,7 @@
       >
         <InteractiveLayer
           id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);

@@ -18,9 +18,16 @@
           <div class="ons-header__title {description ? 'header__title--with-description' : ''}">
             <h2>{serviceTitle}</h2>
           </div>
+
           {#if !description}
             <slot />
-            <p><a {href}>See data for all England and Wales</a></p>
+            <!--  TODO
+              - add functionality : 
+                 - display data for England and Wales
+                 - the map should zoom back out to refocus on the whole of England and Wales.
+              - check to see if this is needed on the routes/area/index.svelte screen
+            -->
+            <!-- <p><a {href}>See data for all England and Wales</a></p> -->
           {/if}
         </div>
       </div>

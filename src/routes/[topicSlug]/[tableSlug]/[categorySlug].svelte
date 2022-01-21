@@ -34,7 +34,9 @@
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
   import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
+  import { selectedGeography } from "../../../model/geography/geography";
 
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
@@ -56,8 +58,6 @@
     if (locationId) {
       updateSelectedGeography(locationId);
       locationName = getLadName(locationId);
-    } else {
-      updateSelectedGeography("K04000001");
     }
   });
 
@@ -67,6 +67,15 @@
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
+  }
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
   }
 
   // temporary line to load some data
@@ -130,6 +139,7 @@
         {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);

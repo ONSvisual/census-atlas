@@ -4,7 +4,7 @@
 </script>
 
 <div>
-  <input type="radio" bind:group={selected} value={props} />
+  <input type="radio" bind:group={selected} value={props.name} />
   <span>{props.name}</span>
 </div>
 

@@ -9,7 +9,7 @@
   export let selectedTopic, visitedTable, locationId;
   let topicIndex, tableIndex;
 
-  let locationQueryParam = locationId ? `?location=${locationId}` : "";
+  $: locationQueryParam = locationId ? `?location=${locationId}` : "";
 
   $: {
     if (selectedTopic) {

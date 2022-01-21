@@ -15,7 +15,7 @@
   import TileSet from "../ui/map/TileSet.svelte";
   import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
-  import { updateSelectedGeography, updateHoveredGeography } from "../model/geography/geography";
+  import { updateSelectedGeography, updateHoveredGeography, selectedGeography } from "../model/geography/geography";
   import config from "../config";
   import Topic from "../ui/Topic.svelte";
   import ONSShare from "../ui/ons/ONSShare.svelte";
@@ -59,6 +59,7 @@
       >
         <InteractiveLayer
           id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
           maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
