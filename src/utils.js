@@ -249,25 +249,6 @@ export function processData(data, populateCensusTable, totalCatCode) {
   return populateCensusTable;
 }
 
-export function addTotalLevelToMetadata(metadata) {
-  return metadata.map((topic) => {
-    const tables = topic.tables.map((table) => {
-      let total;
-      if (table.categories != null) {
-        table.categories.forEach((category, i) => {
-          if (category.code.endsWith("0001")) {
-            total = category.code;
-            table.categories.splice(i, 1);
-          }
-        });
-        table["totalCode"] = total;
-      }
-      return table;
-    });
-    return { ...topic, tables };
-  });
-}
-
 export function filterSelectedTable(metadata, category) {
   let selectedTable;
   metadata.forEach((topic) => {
