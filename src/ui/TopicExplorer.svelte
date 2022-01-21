@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
 
   export let selectedTopic, visitedTable, locationId;
-  let topicIndex, tableIndex;
+  let topicIndex, tableIndex, tableSlug;
 
   $: locationQueryParam = locationId ? `?location=${locationId}` : "";
 
@@ -18,6 +18,7 @@
           topic.tables.forEach((table) => {
             if (table.slug == visitedTable.toLowerCase()) {
               tableIndex = topic.tables.indexOf(table);
+              tableSlug = table.slug;
             }
           });
         }
@@ -34,7 +35,7 @@
       setTimeout(() => {
         document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
         if (visitedTable) {
-          document.querySelector(`#collapsible-table-${tableIndex}`).click();
+          document.querySelector(`#${tableSlug}-${tableIndex}`).click();
         }
       }, 250);
     }
@@ -43,7 +44,7 @@
 
 <ONSAccordion showAll={false}>
   {#each censusMetadata as topic, i}
-    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.code}>
+    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.desc}>
       {#each topic.tables as tableEntry, i}
         <div class="table-margin--2">
           <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">
@@ -52,7 +53,7 @@
             >
           </h3>
           <p class="ons-collapsible__table-description">{tableEntry.desc}</p>
-          <CustomCollapsible id="collapsible-table-{i}" title={tableEntry.name}>
+          <CustomCollapsible id="{tableEntry.slug}-{i}" title={tableEntry.name}>
             <ul class="ons-list ons-list--bare">
               {#each tableEntry.categories as category}
                 <li class="ons-list__item">

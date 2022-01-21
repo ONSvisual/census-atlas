@@ -37,7 +37,7 @@
     </div>
     {#if description}
       <p class="ons-collapsible__title-description">
-        topic description - {description}
+        {description}
       </p>
     {/if}
   </div>
