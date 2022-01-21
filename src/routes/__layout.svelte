@@ -132,8 +132,4 @@
   /* @import "./../../node_modules/@ons/design-system/scss/main.scss"; */
 
   /* TODO: Better yet, only include vars here (with overridden $static variable) and include component specific SCSS on per component basis */
-
-  a:visited {
-    color: $color-indigo-blue;
-  }
 </style>
