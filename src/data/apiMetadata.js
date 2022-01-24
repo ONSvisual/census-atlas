@@ -1,7 +1,7 @@
 export default [
   {
-      "code": "education",
-      "name": "education",
+      "code": "Education",
+      "name": "Education",
       "slug": "education",
       "desc": "Residents in education and qualifications they hold.",
       "tables": [
@@ -44,7 +44,7 @@ export default [
                   }
               ],
               "code": "QS501EW",
-              "name": "highest level of qualification gained",
+              "name": "Highest level of qualification gained",
               "slug": "highest-level-of-qualification-gained",
               "desc": "Highest qualification gained by residents.",
               "total": {
@@ -57,8 +57,8 @@ export default [
       ]
   },
   {
-      "code": "health",
-      "name": "health",
+      "code": "Health",
+      "name": "Health",
       "slug": "health",
       "desc": "General health and caring responsibilities.",
       "tables": [
@@ -91,7 +91,7 @@ export default [
                   }
               ],
               "code": "QS302EW",
-              "name": "general health",
+              "name": "General health",
               "slug": "general-health",
               "desc": "How people rate their general health.",
               "total": {
@@ -120,7 +120,7 @@ export default [
                   }
               ],
               "code": "QS303EW",
-              "name": "long-term health problem or disability",
+              "name": "Long-term health problem or disability",
               "slug": "long-term-health-problem-or-disability",
               "desc": "How people's heath affect their day-to-day activities.",
               "total": {
@@ -154,7 +154,7 @@ export default [
                   }
               ],
               "code": "QS301EW",
-              "name": "unpaid care ",
+              "name": "Unpaid care ",
               "slug": "unpaid-care",
               "desc": "People who provide unpaid care.",
               "total": {
@@ -167,8 +167,8 @@ export default [
       ]
   },
   {
-      "code": "housing",
-      "name": "housing",
+      "code": "Housing",
+      "name": "Housing",
       "slug": "housing",
       "desc": "Types of homes and the people living in them.",
       "tables": [
@@ -216,7 +216,7 @@ export default [
                   }
               ],
               "code": "QS406EW",
-              "name": "size of household",
+              "name": "Size of household",
               "slug": "size-of-household",
               "desc": "How many people living in the same home.",
               "total": {
@@ -285,7 +285,7 @@ export default [
                   }
               ],
               "code": "QS402EW",
-              "name": "type of home",
+              "name": "Type of home",
               "slug": "type-of-home",
               "desc": "Types of homes people live in.",
               "total": {
@@ -329,7 +329,7 @@ export default [
                   }
               ],
               "code": "QS411EW",
-              "name": "number of bedrooms",
+              "name": "Number of bedrooms",
               "slug": "number-of-bedrooms",
               "desc": "",
               "total": {
@@ -398,7 +398,7 @@ export default [
                   }
               ],
               "code": "QS402EW",
-              "name": "owned and renting",
+              "name": "Owned and renting",
               "slug": "owned-and-renting",
               "desc": "People that live in a home they rent or own.",
               "total": {
@@ -442,7 +442,7 @@ export default [
                   }
               ],
               "code": "QS416EW",
-              "name": "car or van availability",
+              "name": "Car or van availability",
               "slug": "car-or-van-availability",
               "desc": "People that have access to cars or vans.",
               "total": {
@@ -491,7 +491,7 @@ export default [
                   }
               ],
               "code": "QS415EW",
-              "name": "heating",
+              "name": "Heating",
               "slug": "heating",
               "desc": "Types of central heating",
               "total": {
@@ -520,7 +520,7 @@ export default [
                   }
               ],
               "code": "QS106EW",
-              "name": "second address",
+              "name": "Second address",
               "slug": "second-address",
               "desc": "",
               "total": {
@@ -533,8 +533,8 @@ export default [
       ]
   },
   {
-      "code": "identity",
-      "name": "identity",
+      "code": "Identity",
+      "name": "Identity",
       "slug": "identity",
       "desc": "How residents identify themselves and their beliefs.",
       "tables": [
@@ -632,7 +632,7 @@ export default [
                   }
               ],
               "code": "QS201EW",
-              "name": "ethnicity",
+              "name": "Ethnicity",
               "slug": "ethnicity",
               "desc": "How people identify the ethnic group they belong to.",
               "total": {
@@ -671,7 +671,7 @@ export default [
                   }
               ],
               "code": "QS202EW",
-              "name": "households with more than one ethnic group",
+              "name": "Households with more than one ethnic group",
               "slug": "households-with-more-than-one-ethnic-group",
               "desc": "",
               "total": {
@@ -1050,7 +1050,7 @@ export default [
                   }
               ],
               "code": "KS202EW",
-              "name": "national identity",
+              "name": "National identity",
               "slug": "national-identity",
               "desc": "The countries people think of as home.",
               "total": {
@@ -1109,7 +1109,7 @@ export default [
                   }
               ],
               "code": "QS208EW",
-              "name": "religion and beliefs",
+              "name": "Religion and beliefs",
               "slug": "religion-and-beliefs",
               "desc": "People's religion and beliefs. ",
               "total": {
@@ -1508,7 +1508,7 @@ export default [
                   }
               ],
               "code": "QS203EW",
-              "name": "place of birth",
+              "name": "Place of birth",
               "slug": "place-of-birth",
               "desc": "People born in or outside the UK.",
               "total": {
@@ -1547,7 +1547,7 @@ export default [
                   }
               ],
               "code": "QS803EW",
-              "name": "length of time people have lived in the uk",
+              "name": "Length of time people have lived in the uk",
               "slug": "length-of-time-people-have-lived-in-the-uk",
               "desc": "People born or have moved to the UK,",
               "total": {
@@ -1560,8 +1560,8 @@ export default [
       ]
   },
   {
-      "code": "population",
-      "name": "population",
+      "code": "Population",
+      "name": "Population",
       "slug": "population",
       "desc": "Residents and their living arrangements.",
       "tables": [
@@ -1579,7 +1579,7 @@ export default [
                   }
               ],
               "code": "QS104EW",
-              "name": "sex",
+              "name": "Sex",
               "slug": "sex",
               "desc": "The biological sex recorded by the person completing the census.",
               "total": {
@@ -1763,7 +1763,7 @@ export default [
                   }
               ],
               "code": "KS102EW",
-              "name": "age",
+              "name": "Age",
               "slug": "age",
               "desc": "The age of a person on Census Day, 21 March 2021.",
               "total": {
@@ -1927,7 +1927,7 @@ export default [
                   }
               ],
               "code": "QS113EW",
-              "name": "marital status",
+              "name": "Marital status",
               "slug": "marital-status",
               "desc": "People married of in civil partnerships.",
               "total": {
@@ -2091,7 +2091,7 @@ export default [
                   }
               ],
               "code": "QS112EW",
-              "name": "families living in the same home",
+              "name": "Families living in the same home",
               "slug": "families-living-in-the-same-home",
               "desc": "Types of families living in the same home.",
               "total": {
@@ -2120,7 +2120,7 @@ export default [
                   }
               ],
               "code": "QS101EW",
-              "name": "residence type",
+              "name": "Residence type",
               "slug": "residence-type",
               "desc": "Families and other groups living in the same home or communal establishment.",
               "total": {
@@ -2174,7 +2174,7 @@ export default [
                   }
               ],
               "code": "KS206EW",
-              "name": "language",
+              "name": "Language",
               "slug": "language",
               "desc": "English is the main household language.",
               "total": {
@@ -2187,8 +2187,8 @@ export default [
       ]
   },
   {
-      "code": "work",
-      "name": "work",
+      "code": "Work",
+      "name": "Work",
       "slug": "work",
       "desc": "Residents employment status.",
       "tables": [
@@ -2271,7 +2271,7 @@ export default [
                   }
               ],
               "code": "QS601EW",
-              "name": "economic activity",
+              "name": "Economic activity",
               "slug": "economic-activity",
               "desc": "People who are in work, starting work, looking for or do not work.",
               "total": {
@@ -2315,7 +2315,7 @@ export default [
                   }
               ],
               "code": "QS604EW",
-              "name": "working hours",
+              "name": "Working hours",
               "slug": "working-hours",
               "desc": "Hours people work per week.",
               "total": {
@@ -2464,7 +2464,7 @@ export default [
                   }
               ],
               "code": "QS605EW",
-              "name": "sector",
+              "name": "Sector",
               "slug": "sector",
               "desc": "Types of sectors people who have a job or their last job worked in.",
               "total": {
@@ -3098,7 +3098,7 @@ export default [
                   }
               ],
               "code": "QS606EW",
-              "name": "job",
+              "name": "Job",
               "slug": "job",
               "desc": "The types of jobs people do",
               "total": {
@@ -3172,7 +3172,7 @@ export default [
                   }
               ],
               "code": "QS701EW",
-              "name": "travel to work",
+              "name": "Travel to work",
               "slug": "travel-to-work",
               "desc": "Types of transport people use to travel to work.",
               "total": {
