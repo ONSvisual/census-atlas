@@ -15,6 +15,7 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+  import DataComparison from "../../../ui/DataComparison.svelte"
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable } from "../../../utils";
 
@@ -209,6 +210,14 @@
   </div>
 
   <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} {categoryCodesArr} />
+
+  <div class="ons-grid">
+    <div class="ons-grid__col ons-col-6@m ">
+      <div class="ons-pl-grid-col">
+        <DataComparison />
+      </div>
+    </div>
+  </div>
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

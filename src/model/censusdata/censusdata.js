@@ -4,6 +4,7 @@ import { addNewGeoDataToCache } from "../utils";
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
+export let englandAndWalesData = writable(new Map())
 export let newDataByGeography = toggleable(false);
 
 export let censusTableStructureIsLoaded = writable(false);
@@ -37,9 +38,21 @@ export function reset() {
   categoryCodeLookup = {};
 }
 
-export async function fetchAllDataForGeography(censusDataService, geographyCode) {
+export async function fetchAllDataForGeography(censusDataService, geographyCode, selectedGeography, overwriteCache) {
   const data = await censusDataService.fetchAllDataForGeography(geographyCode);
-  selectedGeographyData.set(data);
+  //if E&W data - call on app initialise
+  if (geographyCode == "K04000001") {
+    englandAndWalesData.set(data)
+  } else if (selectedGeography){
+    //write data to selectedGeographyData store
+    selectedGeographyData.set(data);
+  } else if (overwriteCache) {
+    //overwrite dataByGeography store
+    dataByGeography.set(data);
+  } else {
+    //add to existing data in dataByGeography store
+    addNewGeoDataToCache(data);
+  }
 }
 
 export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
