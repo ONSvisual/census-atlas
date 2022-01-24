@@ -79,6 +79,7 @@
       $page.query.set("location", $selectedGeography.lad);
       goto(`?${$page.query.toString()}`);
       locationId = $page.query.get("location");
+      geoCode = locationId;
       locationName = getLadName(locationId);
     }
   }
