@@ -27,7 +27,7 @@ export default {
     lsoadata: "https://bothness.github.io/census-atlas/data/lsoa2011_lad2020.csv",
   },
   api: {
-    baseUrl: "http://ec2-18-193-78-190.eu-central-1.compute.amazonaws.com:25252/",
+    baseUrl: "https://cep5lmkia0.execute-api.eu-west-1.amazonaws.com/dev/",
     censusMetadataEndpoint: "metadata",
     censusDataEndpoint: "dev/hello/census",
   },
