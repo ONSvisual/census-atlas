@@ -28,7 +28,10 @@
     populatesSelectedData,
     selectedData,
     englandAndWalesData,
+    dataByGeography,
+    fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
+  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService"
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
@@ -37,7 +40,7 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty, dbColumnToCategoryId } from "../../../utils";
+  import { isNotEmpty, dbColumnToCategoryId, processData, calculateEnglandWalesDiff } from "../../../utils";
   import { selectedGeography } from "../../../model/geography/geography";
 
   import { goto } from "$app/navigation";
@@ -49,13 +52,14 @@
   let table = null;
   let populateCensusTable = { categories: [] };
   let totalCatCode = "";
+  let eAndWDiff;
 
   let locationName = "";
 
   let locationId = $page.query.get("location");
 
   //if no location in url, set geoCode to England & Wales
-  let geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
+  let geoCode = $page.query.get("location") ? $page.query.get("location") : config.eAndWGeoCode;
   let categoryCodesArr = [];
 
   onMount(async () => {
@@ -67,7 +71,7 @@
 
   $: {
     locationId = $page.query.get("location");
-    geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
+    geoCode = $page.query.get("location") ? $page.query.get("location") : config.eAndWGeoCode;
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
@@ -85,7 +89,7 @@
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
-  const initialisePage = () => {
+  const initialisePage = async () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? filterSelectedTable(metadata, category) : null;
     populatesSelectedData(table.name, table.categories, category.code, table.total.code);
@@ -97,12 +101,16 @@
         populateCensusTable["categories"].push({ code: category.code, name: category.name });
         categoryCodesArr.push(category.code);
       });
+      await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+      if ($dataByGeography.get(geoCode)) {
+        //reassign variable to trigger reactivity
+        populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
+        eAndWDiff = calculateEnglandWalesDiff(geoCode, totalCatCode, category)
+      }
     }
     locationName = getLadName(locationId);
   };
 
-  $: console.log("englandAndWalesData store", $englandAndWalesData.get("K04000001").get(totalCatCode)),
-    console.log($selectedData);
 </script>
 
 <svelte:head>
@@ -218,7 +226,7 @@
   <div class="ons-grid">
     <div class="ons-grid__col ons-col-6@m ">
       <div class="ons-pl-grid-col">
-        <DataComparison />
+        <DataComparison difference={eAndWDiff}/>
       </div>
     </div>
   </div>

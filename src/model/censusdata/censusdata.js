@@ -1,6 +1,7 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
 import { addNewGeoDataToCache } from "../utils";
+import config from "../../config"
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
@@ -41,7 +42,7 @@ export function reset() {
 export async function fetchAllDataForGeography(censusDataService, geographyCode, selectedGeography, overwriteCache) {
   const data = await censusDataService.fetchAllDataForGeography(geographyCode);
   //if E&W data - call on app initialise
-  if (geographyCode == "K04000001") {
+  if (geographyCode == config.eAndWGeoCode) {
     englandAndWalesData.set(data)
   } else if (selectedGeography){
     //write data to selectedGeographyData store
