@@ -15,7 +15,7 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
-  import DataComparison from "../../../ui/DataComparison.svelte"
+  import DataComparison from "../../../ui/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable } from "../../../utils";
 
@@ -27,6 +27,7 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
+    englandAndWalesData,
   } from "../../../model/censusdata/censusdata";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
@@ -99,6 +100,9 @@
     }
     locationName = getLadName(locationId);
   };
+
+  $: console.log("englandAndWalesData store", $englandAndWalesData.get("K04000001").get(totalCatCode)),
+    console.log($selectedData);
 </script>
 
 <svelte:head>
