@@ -23,7 +23,7 @@
     };
   }
 
-  const comparisonObj = populateComparisonString(difference, comparator);
+  $: comparisonObj = populateComparisonString(difference, comparator);
 </script>
 
 <div class="data-comparison-container">
@@ -36,39 +36,51 @@
   >
     <div class={difference > 0 ? "text-white" : "text-black"}>
       <div class="ons-grid--flex ons-grid--align-mid">
-      <div class="data-comparison-icon">
-        {#if difference == 0}
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="22.354px" height="22.354px" viewBox="0 0 22.354 22.354" style="enable-background:new 0 0 22.354 22.354;" xml:space="preserve">
-          <g>
-            <g>
-              <rect y="3.78" width="22.354" height="5.132"/>
-              <rect y="13.441" width="22.354" height="5.133"/>
-            </g>
-          </g>
-          </svg>
-        {:else}
-        <svg
-          class={difference < 0 ? "upside-down-icon" : ""}
-          fill={difference < 0 ? "#222222": "#ffffff"}
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          viewBox="0 0 24 24"
-        >
-          <path d="M24 22h-24l12-20z" />
-        </svg>
+        <div class="data-comparison-icon">
+          {#if difference == 0}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              version="1.1"
+              id="Capa_1"
+              x="0px"
+              y="0px"
+              width="22.354px"
+              height="22.354px"
+              viewBox="0 0 22.354 22.354"
+              style="enable-background:new 0 0 22.354 22.354;"
+              xml:space="preserve"
+            >
+              <g>
+                <g>
+                  <rect y="3.78" width="22.354" height="5.132" />
+                  <rect y="13.441" width="22.354" height="5.133" />
+                </g>
+              </g>
+            </svg>
+          {:else}
+            <svg
+              class={difference < 0 ? "upside-down-icon" : ""}
+              fill={difference < 0 ? "#222222" : "#ffffff"}
+              xmlns="http://www.w3.org/2000/svg"
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+            >
+              <path d="M24 22h-24l12-20z" />
+            </svg>
+          {/if}
+        </div>
+        {#if comparisonObj.percentage != null}
+          <p class="ons-u-fs-xl data-comparison-graphic-text">{comparisonObj.percentage}</p>
         {/if}
-      </div>
-      {#if comparisonObj.percentage != null}
-      <p class="ons-u-fs-xl data-comparison-graphic-text">{comparisonObj.percentage}</p>
-      {/if}
-      <p
-        class="ons-u-fs-m data-comparison-graphic-text
+        <p
+          class="ons-u-fs-m data-comparison-graphic-text
             data-comparison-graphic-text--small"
-      >
-        {comparisonObj.comparative}
-      </p>
-    </div>
+        >
+          {comparisonObj.comparative}
+        </p>
+      </div>
     </div>
   </div>
 

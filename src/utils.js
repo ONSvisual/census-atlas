@@ -1,8 +1,8 @@
 import { csvParse, autoType } from "d3-dsv";
 import { get } from "svelte/store";
 import { ckmeans } from "simple-statistics";
-import {englandAndWalesData, dataByGeography} from "./model/censusdata/censusdata"
-import config from "./config"
+import { englandAndWalesData, dataByGeography } from "./model/censusdata/censusdata";
+import config from "./config";
 
 export async function getLsoaData(url) {
   let response = await fetch(url);
@@ -262,11 +262,11 @@ export function filterSelectedTable(metadata, category) {
   return selectedTable;
 }
 
-export function calculateEnglandWalesDiff(geoCode, totalCatCode, category){
-  const eAndWTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode)
-  const eAndWVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code)
-  const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode)
-  const localVal = get(dataByGeography).get(geoCode).get(category.code)
-  const percentageDiff = (eAndWVal / eAndWTotal)*100 - (localVal / localTotal)*100
-  return Math.round(percentageDiff * 10) / 10
+export function calculateEnglandWalesDiff(geoCode, totalCatCode, category) {
+  const eAndWTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode);
+  const eAndWVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code);
+  const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
+  const localVal = get(dataByGeography).get(geoCode).get(category.code);
+  const percentageDiff = (localVal / localTotal) * 100 - (eAndWVal / eAndWTotal) * 100;
+  return Math.round(percentageDiff * 10) / 10;
 }
