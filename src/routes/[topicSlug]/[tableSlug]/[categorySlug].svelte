@@ -83,8 +83,10 @@
     }
   }
 
+  $: geoCode, fetchSelectedDataset();
+
   // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && initialisePage();
+  $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
 
   const initialisePage = async () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
@@ -98,14 +100,17 @@
         populateCensusTable["categories"].push({ code: category.code, name: category.name });
         categoryCodesArr.push(category.code);
       });
-      await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
-      if ($dataByGeography.get(geoCode)) {
-        //reassign variable to trigger reactivity
-        populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
-        eAndWDiff = calculateEnglandWalesDiff(geoCode, totalCatCode, category);
-      }
     }
     locationName = getLadName(locationId);
+  };
+
+  const fetchSelectedDataset = async () => {
+    await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+    if ($dataByGeography.get(geoCode)) {
+      //reassign variable to trigger reactivity
+      populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
+      eAndWDiff = calculateEnglandWalesDiff(geoCode, totalCatCode, category);
+    }
   };
 </script>
 
