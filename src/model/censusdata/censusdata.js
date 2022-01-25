@@ -1,11 +1,11 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
 import { addNewGeoDataToCache } from "../utils";
-import config from "../../config"
+import config from "../../config";
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
-export let englandAndWalesData = writable(new Map())
+export let englandAndWalesData = writable(new Map());
 export let newDataByGeography = toggleable(false);
 
 export let censusTableStructureIsLoaded = writable(false);
@@ -43,8 +43,8 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode,
   const data = await censusDataService.fetchAllDataForGeography(geographyCode);
   //if E&W data - call on app initialise
   if (geographyCode == config.eAndWGeoCode) {
-    englandAndWalesData.set(data)
-  } else if (selectedGeography){
+    englandAndWalesData.set(data);
+  } else if (selectedGeography) {
     //write data to selectedGeographyData store
     selectedGeographyData.set(data);
   } else if (overwriteCache) {

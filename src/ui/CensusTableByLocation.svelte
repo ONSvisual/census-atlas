@@ -1,7 +1,6 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
   export let populateCensusTable;
-
 </script>
 
 {#if $selectedData}

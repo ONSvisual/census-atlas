@@ -228,7 +228,9 @@
   <div class="ons-grid">
     <div class="ons-grid__col ons-col-6@m ">
       <div class="ons-pl-grid-col">
-        <DataComparison difference={eAndWDiff} />
+        {#if geoCode != config.eAndWGeoCode}
+          <DataComparison difference={eAndWDiff} />
+        {/if}
       </div>
     </div>
   </div>
