@@ -25,7 +25,6 @@
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
-  import { categoryDataIsLoaded } from "../model/censusdata/censusdata";
 
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
@@ -38,7 +37,6 @@
   let locationId = $page.query.get("location");
 
   onMount(async () => {
-    $categoryDataIsLoaded = false;
     if (locationId) {
       updateSelectedGeography(locationId);
     } else {

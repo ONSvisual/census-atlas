@@ -1,27 +1,29 @@
 <script>
-  import BasePage from "./../ui/BasePage.svelte";
+  import BasePage from "../../../../ui/BasePage.svelte";
 
-  import Header from "./../ui/Header.svelte";
-  import Map from "../ui/map/Map.svelte";
-  import TopicExplorer from "./../ui/TopicExplorer.svelte";
-  import Topic from "../ui/Topic.svelte";
-  import Feedback from "./../ui/Feedback.svelte";
-  import { appIsInitialised } from "../model/appstate";
-  import config from "../config";
-  import TileSet from "../ui/map/TileSet.svelte";
-  import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
-  import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
+  import Header from "../../../../ui/Header.svelte";
+  import Map from "../../../../ui/map/Map.svelte";
+  import InteractiveLayer from "../../../../ui/map/InteractiveLayer.svelte";
+  import TileSet from "../../../../ui/map/TileSet.svelte";
+  import BoundaryLayer from "../../../../ui/map/BoundaryLayer.svelte";
+  import DataLayer from "../../../../ui/map/DataLayer.svelte";
+  import config from "../../../../config";
+  import TopicExplorer from "../../../../ui/TopicExplorer.svelte";
+  import Topic from "../../../../ui/Topic.svelte";
+  import Feedback from "../../../../ui/Feedback.svelte";
   import {
     getLadName,
     updateSelectedGeography,
     updateHoveredGeography,
     selectedGeography,
-  } from "../model/geography/geography";
+  } from "../../../../model/geography/geography";
+  import { categoryDataIsLoaded, categoryData } from "../../../../model/censusdata/censusdata";
+  import { appIsInitialised } from "../../../../model/appstate";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
 
-  let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
+  let { topicSlug, tableSlug } = $page.params;
 
   let locationId = $page.query.get("location");
   let locationName;
@@ -43,6 +45,7 @@
       updateSelectedGeography(locationId);
     }
   }
+
   $: innerWidth = 0;
 </script>
 
@@ -71,6 +74,9 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
+        {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
           selected={$selectedGeography.lad}
@@ -93,7 +99,11 @@
         promoteId={config.legacy.lsoabounds.code}
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
-      />
+      >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lsoa-data" data={categoryData} />
+        {/if}
+      </TileSet>
       <TileSet
         id="lsoa-building"
         type="vector"
@@ -101,7 +111,11 @@
         layer={config.legacy.lsoabldg.layer}
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
-      />
+      >
+        {#if $categoryDataIsLoaded}
+          <DataLayer id="lsoa-data-zoom" data={categoryData} />
+        {/if}
+      </TileSet>
       <TileSet
         id="lad-boundaries"
         type="vector"
@@ -114,7 +128,7 @@
     </Map>
   </span>
 
-  <TopicExplorer {locationId} />
+  <TopicExplorer {locationId} selectedTopic={topicSlug} visitedTable={tableSlug} />
 
   {#if innerWidth >= config.ux.conditional_rendering_breakpoints.innerWidth}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">

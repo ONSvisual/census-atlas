@@ -1,5 +1,5 @@
 <script>
-  export let id, title;
+  export let id, title, description;
   export let noTopBorder = false;
 
   let hasTopBorder = noTopBorder ? "ons-collapsible--noTopBorder" : "";
@@ -35,6 +35,11 @@
         <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
       </button>
     </div>
+    {#if description}
+      <p class="ons-collapsible__title-description">
+        {description}
+      </p>
+    {/if}
   </div>
   <div id="{id}-content" class="ons-collapsible__content ons-js-collapsible-content">
     <slot />
@@ -42,7 +47,14 @@
 </div>
 
 <style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
   .ons-collapsible--noTopBorder:first-child .ons-collapsible__heading {
     border-top: 0;
+  }
+
+  .ons-collapsible__title-description {
+    color: #222;
+    margin: 0 9rem 0 0;
   }
 </style>

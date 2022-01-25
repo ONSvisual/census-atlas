@@ -223,7 +223,7 @@
     <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 40, 48.4, 94.8]} average={42} />
   </div>
 
-  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} {categoryCodesArr} />
+  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
   <div class="ons-grid">
     <div class="ons-grid__col ons-col-6@m ">

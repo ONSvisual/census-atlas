@@ -58,5 +58,6 @@
     on:click={toggleChangeAreaHeader}
     {topicSlug}
     {categorySlug}
+    {tableSlug}
   />
 {/if}
