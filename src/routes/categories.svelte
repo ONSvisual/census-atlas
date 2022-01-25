@@ -116,7 +116,7 @@
 
   <TopicExplorer {locationId} />
 
-  {#if innerWidth >= 500}
+  {#if innerWidth >= config.ux.conditional_rendering_breakpoints.innerWidth}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
       Explore correlations between two indicators in <a href="#0">advanced mode</a>.
     </Topic>
