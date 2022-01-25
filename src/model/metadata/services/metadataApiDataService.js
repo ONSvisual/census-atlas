@@ -1,9 +1,9 @@
 import config from "../../../config";
 export default class MetadataApiDataService {
-  async fetchCensusDataBreaks(geoType, cat, k) {
+  async fetchCensusDataBreaks(geoType, catCode, totalCode, k) {
     const url = `${config.api.baseUrl}${
       config.api.censusDataBreaksEndpoint
-    }?category=${cat}&geotype=${geoType}&k=${k.toString()}`;
+    }?cat1=${catCode}&cat2=${totalCode}&geotype=${geoType}&k=${k.toString()}`;
     const response = await fetch(url);
     return await response.json();
   }

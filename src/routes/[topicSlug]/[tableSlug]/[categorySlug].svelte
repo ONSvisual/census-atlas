@@ -96,7 +96,7 @@
       });
     }
     locationName = getLadName(locationId);
-    fetchCensusDataBreaks(new MetadataApiDataService(), categoryIDToDBColumn(category.code), 5);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
 </script>
 
