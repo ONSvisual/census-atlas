@@ -1,7 +1,6 @@
 <script>
   import { getContext } from "svelte";
   import { getLegendSection } from "./../../model/utils";
-  // import { breaks } from "./../../model/censusdata/censusdata";
   import config from "./../../config";
   import { selectedCategoryBreaks } from "../../model/metadata/metadata";
 
