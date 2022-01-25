@@ -39,7 +39,13 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty, dbColumnToCategoryId, processData, calculateEnglandWalesDiff } from "../../../utils";
+  import {
+    isNotEmpty,
+    dbColumnToCategoryId,
+    processData,
+    calculateEnglandWalesDiff,
+    updateEnglandWalesDiff,
+  } from "../../../utils";
   import { selectedGeography } from "../../../model/geography/geography";
 
   import { goto } from "$app/navigation";
@@ -85,6 +91,7 @@
   }
 
   $: geoCode, fetchSelectedDataset();
+  $: categorySlug, (eAndWDiff = updateEnglandWalesDiff(tableSlug, categorySlug, metadata, geoCode));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
