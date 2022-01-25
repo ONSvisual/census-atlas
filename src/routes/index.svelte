@@ -12,18 +12,49 @@
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
   import Map from "./../ui/map/Map.svelte";
+  import TileSet from "../ui/map/TileSet.svelte";
+  import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
+  import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
+  import config from "../config";
+  import {
+    selectedGeography,
+    updateSelectedGeography,
+    updateHoveredGeography,
+    ladLookup,
+  } from "../model/geography/geography";
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
-  import { goto } from "$app/navigation";
 
-  let autosuggestData = "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json";
+  import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
+
   let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
+  let renderError = false;
+
+  let locationId = $page.query.get("location");
+
+  onMount(async () => {
+    if (locationId) {
+      updateSelectedGeography(locationId);
+    } else {
+      updateSelectedGeography("");
+    }
+  });
 
   function submitFunction(ladInput) {
     if (reverseLadLookup[ladInput]) {
       goto(`/area?location=${reverseLadLookup[ladInput]}`);
+    } else {
+      renderError = true;
+    }
+  }
+
+  function redirectOnSelect(geographyCode) {
+    if (ladLookup[geographyCode]) {
+      goto(`/area?location=${ladLookup[geographyCode].code}`);
     }
   }
 </script>
@@ -42,7 +73,56 @@
   </span>
 
   <span slot="map">
-    <Map bounds={englandWalesBounds} />
+    <Map maxzoom={14} bounds={englandWalesBounds}>
+      <TileSet
+        id="lad"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <InteractiveLayer
+          id="lad-interactive-layer"
+          selected={$selectedGeography.lad}
+          maxzoom={config.ux.map.buildings_breakpoint}
+          onSelect={(code) => {
+            updateSelectedGeography(code);
+            redirectOnSelect(code);
+          }}
+          onHover={(code) => {
+            updateHoveredGeography(code);
+          }}
+          filter={config.ux.map.filter}
+        />
+      </TileSet>
+
+      <TileSet
+        id="lsoa"
+        type="vector"
+        url={config.legacy.lsoabounds.url}
+        layer={config.legacy.lsoabounds.layer}
+        promoteId={config.legacy.lsoabounds.code}
+        minzoom={config.ux.map.lsoa_breakpoint}
+        maxzoom={config.ux.map.buildings_breakpoint}
+      />
+      <TileSet
+        id="lsoa-building"
+        type="vector"
+        url={config.legacy.lsoabldg.url}
+        layer={config.legacy.lsoabldg.layer}
+        promoteId={config.legacy.lsoabldg.code}
+        minzoom={config.ux.map.buildings_breakpoint}
+      />
+      <TileSet
+        id="lad-boundaries"
+        type="vector"
+        url={config.legacy.ladvector.url}
+        layer={config.legacy.ladvector.layer}
+        promoteId={config.legacy.ladvector.code}
+      >
+        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
+      </TileSet>
+    </Map>
   </span>
 
   <span slot="footer">
@@ -56,7 +136,7 @@
 
   <ExploreByTopic url="/categories" suggestions={indexPageSuggestions} />
   <hr class="component-margin--2" />
-  <ExploreByAreaComponent {autosuggestData} bind:userInputValue on:click={() => submitFunction(userInputValue)}
+  <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
   >
 

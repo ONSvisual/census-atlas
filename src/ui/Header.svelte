@@ -1,6 +1,6 @@
 <script>
   import ONSBacklink from "./ons/ONSBacklink.svelte";
-  export let serviceTitle, description;
+  export let serviceTitle, description, showChangeAreaHeader;
   export let showBackLink = false;
   export let href = "#0";
 </script>
@@ -9,7 +9,7 @@
   <div class="ons-header__main {description ? 'ons-header__main--with-description' : ''}">
     <div class="ons-container">
       {#if showBackLink}
-        <ONSBacklink inverted />
+        <ONSBacklink inverted on:click={() => (showChangeAreaHeader = false)} />
       {/if}
       <div
         class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
@@ -18,9 +18,16 @@
           <div class="ons-header__title {description ? 'header__title--with-description' : ''}">
             <h2>{serviceTitle}</h2>
           </div>
+
           {#if !description}
             <slot />
-            <p><a {href}>See data for all England and Wales</a></p>
+            <!--  TODO
+              - add functionality : 
+                 - display data for England and Wales
+                 - the map should zoom back out to refocus on the whole of England and Wales.
+              - check to see if this is needed on the routes/area/index.svelte screen
+            -->
+            <!-- <p><a {href}>See data for all England and Wales</a></p> -->
           {/if}
         </div>
       </div>

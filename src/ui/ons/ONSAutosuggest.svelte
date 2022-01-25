@@ -1,9 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  export let labelText, id, hint, autosuggestValue, autosuggestData, header;
+  export let labelText, id, hint, autosuggestValue, autosuggestData, header, invertTextColor, renderError;
   let n;
-  let inverted = header ? "input--with-white-description" : "";
-  let inputContainer = header ? "header-input-container" : "non-header-input-container";
+  let inverted = invertTextColor ? "input--with-white-description" : "";
+  let inputContainer = header || renderError ? "header-input-container" : "non-header-input-container";
 
   onMount(async () => {
     const autosuggests = [...document.querySelectorAll(".ons-js-autosuggest")];

@@ -62,7 +62,7 @@
   function updateData() {
     for (const key of Object.keys(data)) {
       let legendSection;
-      if (key.startsWith("E01") || key.startsWith("W01")){
+      if (key.startsWith("E01") || key.startsWith("W01")) {
         legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lsoa);
       } else {
         legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lad);

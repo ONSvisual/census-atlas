@@ -13,7 +13,11 @@
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
-  import DataHeader from "../../../ui/DataHeader.svelte";
+  import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
+  import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+  import metadata from "../../../data/apiMetadata";
+  import { filterSelectedTable } from "../../../utils";
+
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -22,9 +26,7 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
-    fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
-  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
@@ -33,10 +35,12 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { fetchCensusDataBreaks, selectedCategoryBreaks } from "../../../model/metadata/metadata";
+  import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import { isNotEmpty, categoryIDToDBColumn, categoryIDToDBTotalsColumn } from "../../../utils";
+  import { isNotEmpty, categoryIDToDBColumn, dbColumnToCategoryId } from "../../../utils";
+  import { selectedGeography } from "../../../model/geography/geography";
 
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
@@ -48,37 +52,48 @@
 
   let locationName = "";
 
-  const locationId = $page.query.get("location");
+  let locationId = $page.query.get("location");
 
-  //if no location in url, set geoCode to England & Wales
-  let geoCode = $page.query.get("location") ? $page.query.get("location") : "K04000001";
+  let categoryCodesArr = [];
 
   onMount(async () => {
     if (locationId) {
       updateSelectedGeography(locationId);
       locationName = getLadName(locationId);
-    } else {
-      updateSelectedGeography("K04000001");
     }
   });
+
+  $: {
+    locationId = $page.query.get("location");
+    categorySlug = $page.params.categorySlug;
+    updateSelectedGeography(locationId);
+    locationName = getLadName(locationId);
+  }
+
+  $: {
+    if ($selectedGeography.lad) {
+      $page.query.set("location", $selectedGeography.lad);
+      goto(`?${$page.query.toString()}`);
+      locationId = $page.query.get("location");
+      locationName = getLadName(locationId);
+    }
+  }
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage();
 
   const initialisePage = () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
-    table = category ? tables[category.table] : null;
-    populatesSelectedData(table.name, table.categoriesArray, category.code);
-    fetchCensusData(new LegacyCensusDataService(), category.code, null);
+    table = category ? filterSelectedTable(metadata, category) : null;
+    populatesSelectedData(table.name, table.categories, category.code, table.total.code);
+    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
-      totalCatCode = categoryIDToDBTotalsColumn($selectedData.categorySelected);
-      const categoryCodesArr = $selectedData.tableCategories.map((category, i) => {
-        const dbCategoryCode = categoryIDToDBColumn(category.code);
-        populateCensusTable["categories"][i] = { code: dbCategoryCode, name: category.name };
-        return dbCategoryCode;
-      });
+      totalCatCode = table.total.code;
       categoryCodesArr.push(totalCatCode);
-      fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+      $selectedData.tableCategories.forEach((category) => {
+        populateCensusTable["categories"].push({ code: category.code, name: category.name });
+        categoryCodesArr.push(category.code);
+      });
     }
     locationName = getLadName(locationId);
     fetchCensusDataBreaks(new MetadataApiDataService(), categoryIDToDBColumn(category.code), 5);
@@ -88,9 +103,17 @@
 <svelte:head>
   <title>2021 Census Data Atlas Category & Location</title>
 </svelte:head>
+
 <BasePage>
   <span slot="header">
-    <DataHeader tableName={table ? table.name : null} location={locationName} {locationId} />
+    <HeaderWrapper
+      {locationName}
+      {locationId}
+      {topicSlug}
+      {tableSlug}
+      {categorySlug}
+      tableName={table ? table.name : null}
+    />
 
     {#if isNotEmpty($selectedData)}
       <CategorySelector
@@ -117,7 +140,8 @@
         {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
-          maxzoom={config.ux.map.lsoa_breakpoint}
+          selected={$selectedGeography.lad}
+          maxzoom={config.ux.map.buildings_breakpoint}
           onSelect={(code) => {
             updateSelectedGeography(code);
           }}
@@ -140,15 +164,6 @@
         {#if $categoryDataIsLoaded}
           <DataLayer id="lsoa-data" data={categoryData} />
         {/if}
-        <InteractiveLayer
-          id="lsoa-boundaries"
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-        />
       </TileSet>
       <TileSet
         id="lsoa-building"
@@ -183,9 +198,17 @@
     </footer>
   </span>
 
-  <img src="/img/tmp-table-overview-mockup.png" class="tmp-placeholder" />
+  <div class="map-legend">
+    <!-- 
+    TODO
+    - breaks - API?
+    - value - category.value?
+    - average: England & Wales only
+    -->
+    <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 40, 48.4, 94.8]} average={42} />
+  </div>
 
-  <CensusTableByLocation {populateCensusTable} {geoCode} {totalCatCode} />
+  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
@@ -207,6 +230,10 @@
 
 <style lang="scss">
   @import "../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
+  .map-legend {
+    margin-bottom: 24px;
+  }
 
   @media only screen and (max-width: map-get($grid-bp, s)) {
   }

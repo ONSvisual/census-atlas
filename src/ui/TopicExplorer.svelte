@@ -1,21 +1,29 @@
 <script>
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
-  import censusData from "./../data/simpleTopicTableCategoryData";
+  import NestableCollapsible from "./NestableCollapsible/NestableCollapsible.svelte";
+  import censusMetadata from "./../data/apiMetadata";
+
   import { onMount } from "svelte";
-  import slugify from "slugify";
 
-  export let selectedTopic;
-  export let locationId;
-  let locationQueryParam = locationId ? `?location=${locationId}` : "";
+  export let selectedTopic, visitedTable, locationId;
+  let topicIndex, tableIndex, tableSlug;
 
-  let topicIndex;
+  $: locationQueryParam = locationId ? `?location=${locationId}` : "";
 
   $: {
     if (selectedTopic) {
-      censusData.forEach((topic) => {
-        if (slugify(topic.name).toLowerCase() == selectedTopic.toLowerCase()) {
-          topicIndex = censusData.indexOf(topic);
+      censusMetadata.forEach((topic) => {
+        if (visitedTable) {
+          topic.tables.forEach((table) => {
+            if (table.slug == visitedTable.toLowerCase()) {
+              tableIndex = topic.tables.indexOf(table);
+              tableSlug = table.slug;
+            }
+          });
+        }
+        if (topic.slug == selectedTopic.toLowerCase()) {
+          topicIndex = censusMetadata.indexOf(topic);
         }
       });
     }
@@ -26,29 +34,51 @@
     if (selectedTopic) {
       setTimeout(() => {
         document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
+        if (visitedTable) {
+          document.querySelector(`#${tableSlug}-${tableIndex}`).click();
+        }
       }, 250);
     }
   });
 </script>
 
 <ONSAccordion showAll={false}>
-  {#each censusData as topic, i}
-    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder>
-      {#each topic.tables as tableEntry}
-        <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">{tableEntry.name}</h3>
-        <ul class="ons-list ons-list--bare">
-          {#each tableEntry.categories as category}
-            <li class="ons-list__item">
-              <a
-                href="/{slugify(topic.name).toLowerCase()}/{slugify(tableEntry.name).toLowerCase()}/{slugify(
-                  category.name,
-                ).toLowerCase()}{locationQueryParam}"
-                class="ons-list__link">{category.name}</a
-              >
-            </li>
-          {/each}
-        </ul>
+  {#each censusMetadata as topic, i}
+    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.desc}>
+      {#each topic.tables as tableEntry, i}
+        <div class="table-margin--2">
+          <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">
+            <a href="/{topic.slug}/{tableEntry.slug}/{tableEntry.categories[0].slug}{locationQueryParam}"
+              >{tableEntry.name}</a
+            >
+          </h3>
+          <p class="ons-collapsible__table-description">{tableEntry.desc}</p>
+          <NestableCollapsible id="{tableEntry.slug}-{i}" title={tableEntry.name}>
+            <ul class="ons-list ons-list--bare">
+              {#each tableEntry.categories as category}
+                <li class="ons-list__item">
+                  <a href="/{topic.slug}/{tableEntry.slug}/{category.slug}{locationQueryParam}" class="ons-list__link"
+                    >{category.name}</a
+                  >
+                </li>
+              {/each}
+            </ul>
+          </NestableCollapsible>
+        </div>
       {/each}
     </ONSAccordionPanel>
   {/each}
 </ONSAccordion>
+
+<style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  .ons-collapsible__table-description {
+    margin: 0 2rem 0 0;
+  }
+  .table-margin--2 {
+    margin: 1rem 0 2rem 0;
+  }
+  a:visited {
+    color: $color-indigo-blue;
+  }
+</style>

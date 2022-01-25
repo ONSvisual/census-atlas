@@ -26,7 +26,16 @@ export default {
     },
     lsoadata: "https://bothness.github.io/census-atlas/data/lsoa2011_lad2020.csv",
   },
+  api: {
+    baseUrl: "https://cep5lmkia0.execute-api.eu-west-1.amazonaws.com/dev/",
+    censusMetadataEndpoint: "metadata/2011",
+    censusDataEndpoint: "query/2011",
+    censusDataBreaksEndpoint: "ckmeansratio/2011",
+  },
   ux: {
+    conditional_rendering_breakpoints: {
+      innerWidth: 500,
+    },
     legend_sections: 5,
     legend_colours: ["#d5f690", "#5bc4b1", "#2e9daa", "#0079a2", "#005583"],
     map: {
@@ -50,7 +59,7 @@ export default {
           "line-width": [0.75],
         },
         boundary: {
-          "line-color": "#3c388e",
+          "line-color": "#808080",
           "line-width": 2,
         },
         interactive: {
@@ -74,6 +83,10 @@ export default {
       },
     },
   },
+  error: {
+    text: "Not a valid search",
+  },
+  autosuggestData: "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json",
 };
 
 export const indexPageSuggestions = [

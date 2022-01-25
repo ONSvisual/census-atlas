@@ -1,5 +1,5 @@
 <script>
-  export let href = "/";
+  export let href;
   export let inverted = false;
   let renderWhite = inverted ? "ons-breadcrumb__link--white" : "";
 </script>
@@ -7,7 +7,8 @@
 <nav class="ons-breadcrumb" aria-label="Back">
   <ol class="ons-breadcrumb__items ons-u-fs-s">
     <li class="ons-breadcrumb__item">
-      <a class="ons-breadcrumb__link {renderWhite}" {href} id="back" data-attribute="Example attribute">Back</a>
+      <a class="ons-breadcrumb__link {renderWhite}" {href} id="back" data-attribute="Example attribute" on:click>Back</a
+      >
       <svg
         class="ons-svg-icon "
         viewBox="0 0 8 13"

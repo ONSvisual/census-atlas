@@ -1,8 +1,18 @@
 <script>
   import slugify from "slugify";
-  export let tableName, location, topicPage;
-  export let locationId;
-  let locationQueryParam = locationId ? `?location=${locationId}` : "";
+
+  export let tableName, location, topicPage, topicSlug, tableSlug, categorySlug, locationId;
+
+  let locationQueryParam, href;
+  $: {
+    locationQueryParam = locationId ? `?location=${locationId}` : "";
+    href =
+      topicSlug && locationId
+        ? `${categorySlug}${locationQueryParam}`
+        : topicSlug && !locationId
+        ? `${categorySlug}`
+        : `area${locationQueryParam}`;
+  }
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
@@ -19,7 +29,7 @@
                 : ""}
             </h2>
           </div>
-          <a href="/categories{locationQueryParam}">Change</a>
+          <a href="/categories/{topicSlug}/{tableSlug}/{categorySlug}{locationQueryParam}">Change</a>
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
             <h2 id="census-atlas-header-2__title">
@@ -40,12 +50,12 @@
       {:else if location}
         <div class="ons-grid--flex ons-grid--between">
           <h2 class="ons-header__title" id="header-data-2__location">In {location}</h2>
-          <a href="0#">Change</a>
+          <a {href} on:click>Change</a>
         </div>
       {:else}
         <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
           <h3 class="ons-header__desc">In England & Wales</h3>
-          <a href="0#">Change</a>
+          <a {href} on:click>Change</a>
         </div>
       {/if}
     </div>
