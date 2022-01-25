@@ -1,7 +1,7 @@
 <script>
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
-  import CustomCollapsible from "./CustomCollapsible/CustomCollapsible.svelte";
+  import NestableCollapsible from "./NestableCollapsible/NestableCollapsible.svelte";
   import censusMetadata from "./../data/apiMetadata";
 
   import { onMount } from "svelte";
@@ -53,7 +53,7 @@
             >
           </h3>
           <p class="ons-collapsible__table-description">{tableEntry.desc}</p>
-          <CustomCollapsible id="{tableEntry.slug}-{i}" title={tableEntry.name}>
+          <NestableCollapsible id="{tableEntry.slug}-{i}" title={tableEntry.name}>
             <ul class="ons-list ons-list--bare">
               {#each tableEntry.categories as category}
                 <li class="ons-list__item">
@@ -63,7 +63,7 @@
                 </li>
               {/each}
             </ul>
-          </CustomCollapsible>
+          </NestableCollapsible>
         </div>
       {/each}
     </ONSAccordionPanel>
