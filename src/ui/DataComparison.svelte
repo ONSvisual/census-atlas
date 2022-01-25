@@ -72,7 +72,7 @@
           {/if}
         </div>
         {#if comparisonObj.percentage != null}
-          <p class="ons-u-fs-xl data-comparison-graphic-text">{comparisonObj.percentage}</p>
+          <p class="ons-u-fs-l data-comparison-graphic-text data-comparison-graphic-text--large">{comparisonObj.percentage}</p>
         {/if}
         <p
           class="ons-u-fs-m data-comparison-graphic-text
@@ -155,7 +155,7 @@
   }
 
   @media only screen and (max-width: map-get($grid-bp, m)) {
-    .data-comparison-graphic-text--small {
+    .data-comparison-graphic-text--small, .data-comparison-graphic-text--large {
       margin: 0 0 0.15rem 0;
     }
   }
