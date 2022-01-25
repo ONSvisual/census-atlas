@@ -28,8 +28,8 @@ export default {
   },
   api: {
     baseUrl: "https://cep5lmkia0.execute-api.eu-west-1.amazonaws.com/dev/",
-    censusMetadataEndpoint: "metadata",
-    censusDataEndpoint: "dev/hello/census",
+    censusMetadataEndpoint: "metadata/2011",
+    censusDataEndpoint: "query/2011",
   },
   ux: {
     legend_sections: 5,
