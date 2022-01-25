@@ -225,15 +225,20 @@
 
   <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
-  <div class="ons-grid">
-    <div class="ons-grid__col ons-col-6@m ">
-      <div class="ons-pl-grid-col">
-        {#if geoCode != config.eAndWGeoCode}
+  {#if geoCode != config.eAndWGeoCode}
+    <div class="ons-grid">
+      <div class="ons-grid__col ons-col-6@m ">
+        <div class="ons-pl-grid-col">
           <DataComparison difference={eAndWDiff} />
-        {/if}
+        </div>
+      </div>
+      <div class="ons-grid__col ons-col-6@m ">
+        <div class="ons-pl-grid-col">
+          <DataComparison difference={eAndWDiff} />
+        </div>
       </div>
     </div>
-  </div>
+  {/if}
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
