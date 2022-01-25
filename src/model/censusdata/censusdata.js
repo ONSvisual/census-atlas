@@ -39,14 +39,11 @@ export function reset() {
   categoryCodeLookup = {};
 }
 
-export async function fetchAllDataForGeography(censusDataService, geographyCode, selectedGeography, overwriteCache) {
+export async function fetchAllDataForGeography(censusDataService, geographyCode, overwriteCache) {
   const data = await censusDataService.fetchAllDataForGeography(geographyCode);
-  //if E&W data - call on app initialise
+  //if E&W data (call on app initialise)
   if (geographyCode == config.eAndWGeoCode) {
     englandAndWalesData.set(data);
-  } else if (selectedGeography) {
-    //write data to selectedGeographyData store
-    selectedGeographyData.set(data);
   } else if (overwriteCache) {
     //overwrite dataByGeography store
     dataByGeography.set(data);
