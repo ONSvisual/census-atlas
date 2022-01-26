@@ -90,14 +90,16 @@
     }
   }
 
-  $: geoCode, fetchSelectedDataset(), $appIsInitialised && (neighbouringLad = returnNeighbouringLad(geoCode));
+  $: geoCode, fetchSelectedDataset();
   $: categorySlug, (eAndWDiff = updateEnglandWalesDiff(tableSlug, categorySlug, metadata, geoCode));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
 
   const initialisePage = async () => {
-    neighbouringLad = returnNeighbouringLad(geoCode);
+    if (locationId != null) {
+      neighbouringLad = returnNeighbouringLad(locationId);
+    }
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? filterSelectedTable(metadata, category) : null;
     populatesSelectedData(table.name, table.categories, category.code, table.total.code);
@@ -114,12 +116,16 @@
   };
 
   const fetchSelectedDataset = async () => {
-    if (categoryCodesArr.length > 0 && neighbouringLad) {
-      await fetchSelectedDataForGeographies(
-        new GeodataApiDataService(),
-        [geoCode, neighbouringLad.code],
-        categoryCodesArr,
-      );
+    if (categoryCodesArr.length > 0) {
+      if (neighbouringLad) {
+        await fetchSelectedDataForGeographies(
+          new GeodataApiDataService(),
+          [geoCode, neighbouringLad.code],
+          categoryCodesArr,
+        );
+      } else {
+        await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+      }
     }
     if ($dataByGeography.get(geoCode)) {
       //reassign variable to trigger reactivity
