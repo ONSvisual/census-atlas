@@ -17,7 +17,7 @@
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
   import DataComparison from "../../../ui/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
-  import { filterSelectedTable } from "../../../utils";
+  import { filterSelectedTable, returnNeighbouringLad } from "../../../utils";
 
   import {
     categoryDataIsLoaded,
@@ -41,7 +41,13 @@
   import { appIsInitialised } from "../../../model/appstate";
   import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import { isNotEmpty, categoryIDToDBColumn, dbColumnToCategoryId, processData, calculateEnglandWalesDiff, updateData } from "../../../utils";
+  import {
+    isNotEmpty,
+    dbColumnToCategoryId,
+    processData,
+    calculateComparisonDiff,
+    updateMapAndComparisons,
+  } from "../../../utils";
 
   import { selectedGeography } from "../../../model/geography/geography";
 
@@ -54,7 +60,8 @@
   let table = null;
   let populateCensusTable = { categories: [] };
   let totalCatCode = "";
-  let eAndWDiff, geoCode;
+  let geoCode, neighbouringLad;
+  let comparisons = {};
 
   let locationName = "";
 
@@ -87,13 +94,18 @@
     }
   }
 
-  $: geoCode, fetchSelectedDataset();
-  $: categorySlug, (eAndWDiff = updateData(tableSlug, categorySlug, metadata, geoCode));
+  $: geoCode,
+    $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
+    fetchSelectedDataset();
+  $: categorySlug, (comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
 
   const initialisePage = async () => {
+    if (locationId != null) {
+      neighbouringLad = returnNeighbouringLad(locationId);
+    }
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? filterSelectedTable(metadata, category) : null;
     populatesSelectedData(table.name, table.categories, category.code, table.total.code);
@@ -111,11 +123,29 @@
   };
 
   const fetchSelectedDataset = async () => {
-    await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+    if (categoryCodesArr.length > 0) {
+      if (neighbouringLad) {
+        await fetchSelectedDataForGeographies(
+          new GeodataApiDataService(),
+          [geoCode, neighbouringLad.code],
+          categoryCodesArr,
+        );
+      } else {
+        await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+      }
+    }
     if ($dataByGeography.get(geoCode)) {
       //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
-      eAndWDiff = calculateEnglandWalesDiff(geoCode, totalCatCode, category);
+      comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
+      if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
+        comparisons.neighbouringLadDiff = calculateComparisonDiff(
+          geoCode,
+          neighbouringLad.code,
+          totalCatCode,
+          category,
+        );
+      }
     }
   };
 </script>
@@ -230,15 +260,22 @@
 
   <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
-  <div class="ons-grid">
-    <div class="ons-grid__col ons-col-6@m ">
-      <div class="ons-pl-grid-col">
-        {#if geoCode != config.eAndWGeoCode}
-          <DataComparison difference={eAndWDiff} />
-        {/if}
+  {#if geoCode != config.eAndWGeoCode}
+    <div class="ons-grid">
+      <div class="ons-grid__col ons-col-6@m ">
+        <div class="ons-pl-grid-col">
+          <DataComparison difference={comparisons.eAndWDiff} />
+        </div>
       </div>
+      {#if neighbouringLad}
+        <div class="ons-grid__col ons-col-6@m ">
+          <div class="ons-pl-grid-col">
+            <DataComparison difference={comparisons.neighbouringLadDiff} comparator={neighbouringLad.name} />
+          </div>
+        </div>
+      {/if}
     </div>
-  </div>
+  {/if}
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

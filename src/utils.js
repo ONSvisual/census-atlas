@@ -9,6 +9,7 @@ import {
 } from "./model/censusdata/censusdata";
 import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
 import config from "./config";
+import { ladLookup } from "./model/geography/geography";
 
 
 export async function getLsoaData(url) {
@@ -19,7 +20,6 @@ export async function getLsoaData(url) {
 }
 
 export async function getNomis(url, dataService, geographicCodesStore, selectedCategoryTotals, indicatorCode) {
-  console.log(indicatorCode);
   let geoCodesStore = get(geographicCodesStore);
   if (geoCodesStore.length == 0) {
     let geoCodes = await dataService.getGeographicCodes(url);
@@ -202,6 +202,35 @@ export function dbColumnToCategoryId(dbColumn) {
   return dbColumnParts.prefix + adjustedSuffix;
 }
 
+export function returnNeighbouringLad(selectedLadCode) {
+  let neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode);
+  if (ladLookup[neighbouringLadCode]) {
+    return {
+      name: ladLookup[neighbouringLadCode].name,
+      code: neighbouringLadCode,
+    };
+  }
+  neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode, true);
+  return {
+    name: ladLookup[neighbouringLadCode].name,
+    code: neighbouringLadCode,
+  };
+}
+
+function returnNeighbouringLadCode(ladCode, searchLowerLadCode) {
+  const ladCodeParts = {
+    prefix: ladCode.substr(0, 5),
+    suffix: ladCode.substr(5),
+  };
+  let adjustedSuffix;
+  if (searchLowerLadCode) {
+    adjustedSuffix = (parseInt(ladCodeParts.suffix) - 1).toString().padStart(4, "0");
+  } else {
+    adjustedSuffix = (parseInt(ladCodeParts.suffix) + 1).toString().padStart(4, "0");
+  }
+  return ladCodeParts.prefix + adjustedSuffix;
+}
+
 export function processData(data, populateCensusTable, totalCatCode) {
   const total = data.get(totalCatCode);
   populateCensusTable.categories.forEach((category) => {
@@ -226,23 +255,40 @@ export function filterSelectedTable(metadata, category) {
   return selectedTable;
 }
 
-export function calculateEnglandWalesDiff(geoCode, totalCatCode, category) {
-  const eAndWTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode);
-  const eAndWVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code);
+export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode, category) {
+  let comparatorTotal;
+  let comparatorVal;
+  if (comparatorGeoCode == config.eAndWGeoCode) {
+    comparatorTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode);
+    comparatorVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code);
+  } else {
+    comparatorTotal = get(dataByGeography).get(comparatorGeoCode).get(totalCatCode);
+    comparatorVal = get(dataByGeography).get(comparatorGeoCode).get(category.code);
+  }
   const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
   const localVal = get(dataByGeography).get(geoCode).get(category.code);
-  const percentageDiff = (localVal / localTotal) * 100 - (eAndWVal / eAndWTotal) * 100;
+  const percentageDiff =
+    ((localVal / localTotal - comparatorVal / comparatorTotal) / (comparatorVal / comparatorTotal)) * 100;
   return Math.round(percentageDiff * 10) / 10;
 }
 
-export const updateData = (tableSlug, categorySlug, metadata, geoCode) => {
+export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCode, neighbouringLad) => {
   let category = getCategoryBySlug(tableSlug, categorySlug);
   let table = category ? filterSelectedTable(metadata, category) : null;
+  let comparisons = {};
   if (category) {
     fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
   }
   if (get(dataByGeography).get(geoCode)) {
-    let eAndWDiff = calculateEnglandWalesDiff(geoCode, table.total.code, category);
-    return eAndWDiff;
+    comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
   }
+  if (neighbouringLad && get(dataByGeography).get(neighbouringLad.code)) {
+    comparisons.neighbouringLadDiff = calculateComparisonDiff(
+      geoCode,
+      neighbouringLad.code,
+      table.total.code,
+      category,
+    );
+  }
+  return comparisons;
 };
