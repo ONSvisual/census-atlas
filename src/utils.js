@@ -239,9 +239,12 @@ export function dbColumnToCategoryId(dbColumn) {
   return dbColumnParts.prefix + adjustedSuffix;
 }
 
-export function returnNeighbouringLadName(selectedLadCode){
+export function returnNeighbouringLad(selectedLadCode){
   const neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode)
-  return ladLookup[neighbouringLadCode].name
+  return {
+    name: ladLookup[neighbouringLadCode].name,
+    code: neighbouringLadCode,
+  }
 }
 
 function returnNeighbouringLadCode(ladCode){
