@@ -1,6 +1,5 @@
 import { csvParse, autoType } from "d3-dsv";
 import { get } from "svelte/store";
-import { ckmeans } from "simple-statistics";
 import {
   englandAndWalesData,
   dataByGeography,
@@ -10,7 +9,8 @@ import {
 import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";
-
+import { fetchCensusDataBreaks } from "./model/metadata/metadata";
+import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
 
 export async function getLsoaData(url) {
   let response = await fetch(url);
@@ -278,6 +278,7 @@ export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCo
   let comparisons = {};
   if (category) {
     fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
   }
   if (get(dataByGeography).get(geoCode)) {
     comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
