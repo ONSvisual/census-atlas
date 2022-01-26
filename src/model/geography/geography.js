@@ -129,10 +129,17 @@ function buildLsoaLookup(lsoaData) {
 
 export function getMapBBoxGeoCodes(map) {
   if (map) {
-    const bBoxCodes = map
-      .queryRenderedFeatures({ layers: ["lad-interactive-layer", "lsoa-boundaries"] })
-      .map((feature) => feature.id);
-    return [...new Set(bBoxCodes)];
+    let layerArray = [];
+    if (map.getLayer("lad-interactive-layer")) {
+      layerArray.push("lad-interactive-layer");
+    }
+    if (map.getLayer("lsoa-boundaries")) {
+      layerArray.push("lsoa-boundaries");
+    }
+    if (layerArray.length > 0) {
+      const bBoxCodes = map.queryRenderedFeatures({ layers: layerArray }).map((feature) => feature.id);
+      return [...new Set(bBoxCodes)];
+    }
   }
   return [];
 }
