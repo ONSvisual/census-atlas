@@ -272,14 +272,23 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode
   return Math.round(percentageDiff * 10) / 10;
 }
 
-export const updateData = (tableSlug, categorySlug, metadata, geoCode) => {
+export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCode, neighbouringLad) => {
   let category = getCategoryBySlug(tableSlug, categorySlug);
   let table = category ? filterSelectedTable(metadata, category) : null;
+  let comparisons = {};
   if (category) {
     fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
   }
   if (get(dataByGeography).get(geoCode)) {
-    let eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
-    return eAndWDiff;
+    comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
   }
+  if (neighbouringLad && get(dataByGeography).get(neighbouringLad.code)) {
+    comparisons.neighbouringLadDiff = calculateComparisonDiff(
+      geoCode,
+      neighbouringLad.code,
+      table.total.code,
+      category,
+    );
+  }
+  return comparisons;
 };

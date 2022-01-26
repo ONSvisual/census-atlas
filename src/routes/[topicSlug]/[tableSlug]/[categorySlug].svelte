@@ -46,7 +46,7 @@
     dbColumnToCategoryId,
     processData,
     calculateComparisonDiff,
-    updateData,
+    updateMapAndComparisons,
   } from "../../../utils";
 
   import { selectedGeography } from "../../../model/geography/geography";
@@ -60,7 +60,8 @@
   let table = null;
   let populateCensusTable = { categories: [] };
   let totalCatCode = "";
-  let eAndWDiff, geoCode, neighbouringLad, neighbouringLadDiff;
+  let geoCode, neighbouringLad;
+  let comparisons = {};
 
   let locationName = "";
 
@@ -96,7 +97,7 @@
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
     fetchSelectedDataset();
-  $: categorySlug, (eAndWDiff = updateData(tableSlug, categorySlug, metadata, geoCode));
+  $: categorySlug, (comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
@@ -136,9 +137,14 @@
     if ($dataByGeography.get(geoCode)) {
       //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
-      eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
+      comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
       if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
-        neighbouringLadDiff = calculateComparisonDiff(geoCode, neighbouringLad.code, totalCatCode, category);
+        comparisons.neighbouringLadDiff = calculateComparisonDiff(
+          geoCode,
+          neighbouringLad.code,
+          totalCatCode,
+          category,
+        );
       }
     }
   };
@@ -258,13 +264,13 @@
     <div class="ons-grid">
       <div class="ons-grid__col ons-col-6@m ">
         <div class="ons-pl-grid-col">
-          <DataComparison difference={eAndWDiff} />
+          <DataComparison difference={comparisons.eAndWDiff} />
         </div>
       </div>
       {#if neighbouringLad}
         <div class="ons-grid__col ons-col-6@m ">
           <div class="ons-pl-grid-col">
-            <DataComparison difference={neighbouringLadDiff} comparator={neighbouringLad.name} />
+            <DataComparison difference={comparisons.neighbouringLadDiff} comparator={neighbouringLad.name} />
           </div>
         </div>
       {/if}
