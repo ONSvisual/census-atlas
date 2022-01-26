@@ -3,6 +3,7 @@ import { get } from "svelte/store";
 import { ckmeans } from "simple-statistics";
 import { englandAndWalesData, dataByGeography, getCategoryBySlug } from "./model/censusdata/censusdata";
 import config from "./config";
+import { ladLookup } from "./model/geography/geography";
 
 export async function getLsoaData(url) {
   let response = await fetch(url);
@@ -236,6 +237,20 @@ export function dbColumnToCategoryId(dbColumn) {
   const dbColumnParts = decomposeCategoryId(dbColumn);
   const adjustedSuffix = (parseInt(dbColumnParts.digitsSuffix) - 1).toString().padStart(3, "0");
   return dbColumnParts.prefix + adjustedSuffix;
+}
+
+export function returnNeighbouringLadName(selectedLadCode){
+  const neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode)
+  return ladLookup[neighbouringLadCode].name
+}
+
+function returnNeighbouringLadCode(ladCode){
+  const ladCodeParts = {
+    prefix: ladCode.substr(0, 5),
+    suffix: ladCode.substr(5),
+  }
+  const adjustedSuffix = (parseInt(ladCodeParts.suffix) + 1).toString().padStart(4, "0")
+  return ladCodeParts.prefix + adjustedSuffix
 }
 
 export function processData(data, populateCensusTable, totalCatCode) {

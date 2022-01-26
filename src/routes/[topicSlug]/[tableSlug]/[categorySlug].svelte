@@ -17,7 +17,7 @@
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
   import DataComparison from "../../../ui/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
-  import { filterSelectedTable } from "../../../utils";
+  import { filterSelectedTable, returnNeighbouringLadName } from "../../../utils";
 
   import {
     categoryDataIsLoaded,
@@ -57,7 +57,7 @@
   let table = null;
   let populateCensusTable = { categories: [] };
   let totalCatCode = "";
-  let eAndWDiff, geoCode;
+  let eAndWDiff, geoCode, neighbouringLadName;
 
   let locationName = "";
 
@@ -90,7 +90,7 @@
     }
   }
 
-  $: geoCode, fetchSelectedDataset();
+  $: geoCode, fetchSelectedDataset(), neighbouringLadName = returnNeighbouringLadName(geoCode);
   $: categorySlug, (eAndWDiff = updateEnglandWalesDiff(tableSlug, categorySlug, metadata, geoCode));
 
   // temporary line to load some data
@@ -241,7 +241,7 @@
       </div>
       <div class="ons-grid__col ons-col-6@m ">
         <div class="ons-pl-grid-col">
-          <DataComparison difference={eAndWDiff} />
+          <DataComparison difference={eAndWDiff} comparator={neighbouringLadName}/>
         </div>
       </div>
     </div>
