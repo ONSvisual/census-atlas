@@ -58,7 +58,7 @@
 
   map.addLayer(options, order);
 
-  function updateData() {
+  function setMapGeographyColours() {
     for (const key of Object.keys(data)) {
       let legendSection;
       if (key.startsWith("E01") || key.startsWith("W01")) {
@@ -80,5 +80,5 @@
   }
 
   // when data updates colourise the map
-  $: data && updateData();
+  $: $selectedCategoryBreaks, data && setMapGeographyColours();
 </script>
