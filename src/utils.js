@@ -13,7 +13,6 @@ export async function getLsoaData(url) {
 }
 
 export async function getNomis(url, dataService, geographicCodesStore, selectedCategoryTotals, indicatorCode) {
-  console.log(indicatorCode);
   let geoCodesStore = get(geographicCodesStore);
   if (geoCodesStore.length == 0) {
     let geoCodes = await dataService.getGeographicCodes(url);
@@ -239,21 +238,21 @@ export function dbColumnToCategoryId(dbColumn) {
   return dbColumnParts.prefix + adjustedSuffix;
 }
 
-export function returnNeighbouringLad(selectedLadCode){
-  const neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode)
+export function returnNeighbouringLad(selectedLadCode) {
+  const neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode);
   return {
     name: ladLookup[neighbouringLadCode].name,
     code: neighbouringLadCode,
-  }
+  };
 }
 
-function returnNeighbouringLadCode(ladCode){
+function returnNeighbouringLadCode(ladCode) {
   const ladCodeParts = {
     prefix: ladCode.substr(0, 5),
     suffix: ladCode.substr(5),
-  }
-  const adjustedSuffix = (parseInt(ladCodeParts.suffix) + 1).toString().padStart(4, "0")
-  return ladCodeParts.prefix + adjustedSuffix
+  };
+  const adjustedSuffix = (parseInt(ladCodeParts.suffix) + 1).toString().padStart(4, "0");
+  return ladCodeParts.prefix + adjustedSuffix;
 }
 
 export function processData(data, populateCensusTable, totalCatCode) {
@@ -280,14 +279,20 @@ export function filterSelectedTable(metadata, category) {
   return selectedTable;
 }
 
-export function calculateComparisonDiff(geoCode, comparisonGeoCode, totalCatCode, category) {
-  // const eAndWTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode);
-  // const eAndWVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code);
-  // const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
-  // const localVal = get(dataByGeography).get(geoCode).get(category.code);
-  // const percentageDiff = (localVal / localTotal) * 100 - (eAndWVal / eAndWTotal) * 100;
-  // return Math.round(percentageDiff * 10) / 10;
-  return 10
+export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode, category) {
+  let comparatorTotal;
+  let comparatorVal;
+  if (comparatorGeoCode == config.eAndWGeoCode) {
+    comparatorTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode);
+    comparatorVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code);
+  } else {
+    comparatorTotal = get(dataByGeography).get(comparatorGeoCode).get(totalCatCode);
+    comparatorVal = get(dataByGeography).get(comparatorGeoCode).get(category.code);
+  }
+  const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
+  const localVal = get(dataByGeography).get(geoCode).get(category.code);
+  const percentageDiff = (localVal / localTotal) * 100 - (comparatorVal / comparatorTotal) * 100;
+  return Math.round(percentageDiff * 10) / 10;
 }
 
 export const updateEnglandWalesDiff = (tableSlug, categorySlug, metadata, geoCode) => {

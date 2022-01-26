@@ -90,14 +90,14 @@
     }
   }
 
-  $: geoCode, fetchSelectedDataset();
+  $: geoCode, fetchSelectedDataset(), $appIsInitialised && (neighbouringLad = returnNeighbouringLad(geoCode));
   $: categorySlug, (eAndWDiff = updateEnglandWalesDiff(tableSlug, categorySlug, metadata, geoCode));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
 
   const initialisePage = async () => {
-    neighbouringLad = returnNeighbouringLad(geoCode)
+    neighbouringLad = returnNeighbouringLad(geoCode);
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? filterSelectedTable(metadata, category) : null;
     populatesSelectedData(table.name, table.categories, category.code, table.total.code);
@@ -114,15 +114,19 @@
   };
 
   const fetchSelectedDataset = async () => {
-    if (categoryCodesArr.length > 0 && neighbouringLad){
-      await fetchSelectedDataForGeographies(new GeodataApiDataService(), [geoCode, neighbouringLad.code], categoryCodesArr);
+    if (categoryCodesArr.length > 0 && neighbouringLad) {
+      await fetchSelectedDataForGeographies(
+        new GeodataApiDataService(),
+        [geoCode, neighbouringLad.code],
+        categoryCodesArr,
+      );
     }
     if ($dataByGeography.get(geoCode)) {
       //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
       eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
-      if ($dataByGeography.get(neighbouringLad.code)){
-        neighbouringLadDiff = calculateComparisonDiff(geoCode, neighbouringLad.code, totalCatCode, category)
+      if ($dataByGeography.get(neighbouringLad.code)) {
+        neighbouringLadDiff = calculateComparisonDiff(geoCode, neighbouringLad.code, totalCatCode, category);
       }
     }
   };
@@ -246,11 +250,11 @@
         </div>
       </div>
       {#if neighbouringLad}
-      <div class="ons-grid__col ons-col-6@m ">
-        <div class="ons-pl-grid-col">
-          <DataComparison difference={eAndWDiff} comparator={neighbouringLad.name}/>
+        <div class="ons-grid__col ons-col-6@m ">
+          <div class="ons-pl-grid-col">
+            <DataComparison difference={neighbouringLadDiff} comparator={neighbouringLad.name} />
+          </div>
         </div>
-      </div>
       {/if}
     </div>
   {/if}
