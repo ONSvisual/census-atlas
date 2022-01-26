@@ -87,6 +87,7 @@ export default {
     text: "Not a valid search",
   },
   autosuggestData: "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json",
+  eAndWGeoCode: "K04000001",
 };
 
 export const indexPageSuggestions = [

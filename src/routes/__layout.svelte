@@ -4,10 +4,16 @@
   import { initialiseCensusData } from "./../model/censusdata/censusdata";
   import LegacyCensusDataService from "./../model/censusdata/services/legacyCensusDataService";
   import { setInitialised } from "./../model/appstate";
+  import { fetchAllDataForGeography } from "./../model/censusdata/censusdata";
+  import GeodataApiDataService from "./../model/censusdata/services/geodataApiDataService";
+  import config from "./../config";
 
   initialiseGeography(new LegacyGeographyService()).then(() => {
     initialiseCensusData(new LegacyCensusDataService()).then(() => setInitialised());
   });
+
+  //fetch and cache all England & Wales data on initialise
+  fetchAllDataForGeography(new GeodataApiDataService(), config.eAndWGeoCode);
 </script>
 
 <slot />

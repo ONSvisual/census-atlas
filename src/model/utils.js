@@ -11,7 +11,7 @@ export function getLegendSection(value, breakpoints) {
   return breakpoints.length;
 }
 
-export function writeCsvDataToMapObj(responseStr) {
+export function writeCsvDataToMapObj(responseStr, geographyCode) {
   let data = new Map();
   csvParse(responseStr, (row, i, cols) => {
     let geoDataMap = new Map();
@@ -20,7 +20,7 @@ export function writeCsvDataToMapObj(responseStr) {
         geoDataMap.set(col, +row[col]);
       }
     });
-    data.set(row.geography_code, geoDataMap);
+    data.set(geographyCode ? geographyCode : row.geography_code, geoDataMap);
   });
   return data;
 }

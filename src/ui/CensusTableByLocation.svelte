@@ -1,24 +1,6 @@
 <script>
   import { selectedData } from "../model/censusdata/censusdata";
-  import { dataByGeography, newDataByGeography } from "../model/censusdata/censusdata";
-  import { processData } from "../utils";
-  import { fetchSelectedDataForGeographies } from "../model/censusdata/censusdata";
-  import GeodataApiDataService from "../model/censusdata/services/geodataApiDataService";
-  export let locationId, populateCensusTable, totalCatCode, categoryCodesArr;
-
-  $: geoCode = locationId ? locationId : "K04000001";
-
-  $: {
-    $newDataByGeography;
-    geoCode;
-    if (categoryCodesArr.length > 0) {
-      fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
-      if ($dataByGeography.get(geoCode)) {
-        //reassign variable to trigger reactivity
-        populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
-      }
-    }
-  }
+  export let populateCensusTable;
 </script>
 
 {#if $selectedData}

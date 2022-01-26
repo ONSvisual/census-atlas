@@ -15,6 +15,7 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+  import DataComparison from "../../../ui/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable } from "../../../utils";
 
@@ -26,7 +27,10 @@
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
+    dataByGeography,
+    fetchSelectedDataForGeographies,
   } from "../../../model/censusdata/censusdata";
+  import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
@@ -37,7 +41,8 @@
   import { appIsInitialised } from "../../../model/appstate";
   import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import { isNotEmpty, categoryIDToDBColumn, dbColumnToCategoryId } from "../../../utils";
+  import { isNotEmpty, categoryIDToDBColumn, dbColumnToCategoryId, processData, calculateEnglandWalesDiff, updateData } from "../../../utils";
+
   import { selectedGeography } from "../../../model/geography/geography";
 
   import { goto } from "$app/navigation";
@@ -49,6 +54,7 @@
   let table = null;
   let populateCensusTable = { categories: [] };
   let totalCatCode = "";
+  let eAndWDiff, geoCode;
 
   let locationName = "";
 
@@ -65,6 +71,7 @@
 
   $: {
     locationId = $page.query.get("location");
+    geoCode = $page.query.get("location") ? $page.query.get("location") : config.eAndWGeoCode;
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
@@ -75,14 +82,18 @@
       $page.query.set("location", $selectedGeography.lad);
       goto(`?${$page.query.toString()}`);
       locationId = $page.query.get("location");
+      geoCode = locationId;
       locationName = getLadName(locationId);
     }
   }
 
-  // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && initialisePage();
+  $: geoCode, fetchSelectedDataset();
+  $: categorySlug, (eAndWDiff = updateData(tableSlug, categorySlug, metadata, geoCode));
 
-  const initialisePage = () => {
+  // temporary line to load some data
+  $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
+
+  const initialisePage = async () => {
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? filterSelectedTable(metadata, category) : null;
     populatesSelectedData(table.name, table.categories, category.code, table.total.code);
@@ -97,6 +108,15 @@
     }
     locationName = getLadName(locationId);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
+  };
+
+  const fetchSelectedDataset = async () => {
+    await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+    if ($dataByGeography.get(geoCode)) {
+      //reassign variable to trigger reactivity
+      populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
+      eAndWDiff = calculateEnglandWalesDiff(geoCode, totalCatCode, category);
+    }
   };
 </script>
 
@@ -209,6 +229,16 @@
   </div>
 
   <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
+
+  <div class="ons-grid">
+    <div class="ons-grid__col ons-col-6@m ">
+      <div class="ons-pl-grid-col">
+        {#if geoCode != config.eAndWGeoCode}
+          <DataComparison difference={eAndWDiff} />
+        {/if}
+      </div>
+    </div>
+  </div>
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

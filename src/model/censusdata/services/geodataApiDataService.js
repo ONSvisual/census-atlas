@@ -9,17 +9,7 @@ export default class GeodataApiDataService {
     const url = `${censusDataBaseUrl}?rows=${geographyCode}`;
     const response = await fetch(url);
     const string = await response.text();
-    let data = new Map();
-    csvParse(string, (row, i, cols) => {
-      cols.forEach((col, i) => {
-        if (i == 0) {
-          data.set("geographyCode", row[cols[0]]);
-        } else {
-          data.set(col, +row[col]);
-        }
-      });
-    });
-    return data;
+    return writeCsvDataToMapObj(string, geographyCode);
   }
 
   async fetchSelectedDataForGeographyType(geoType, categories) {
