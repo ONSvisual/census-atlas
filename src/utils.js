@@ -1,7 +1,13 @@
 import { csvParse, autoType } from "d3-dsv";
 import { get } from "svelte/store";
 import { ckmeans } from "simple-statistics";
-import { englandAndWalesData, dataByGeography, getCategoryBySlug } from "./model/censusdata/censusdata";
+import {
+  englandAndWalesData,
+  dataByGeography,
+  getCategoryBySlug,
+  fetchCensusData,
+} from "./model/censusdata/censusdata";
+import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
 import config from "./config";
 
 export async function getLsoaData(url) {
@@ -271,9 +277,12 @@ export function calculateEnglandWalesDiff(geoCode, totalCatCode, category) {
   return Math.round(percentageDiff * 10) / 10;
 }
 
-export const updateEnglandWalesDiff = (tableSlug, categorySlug, metadata, geoCode) => {
+export const updateData = (tableSlug, categorySlug, metadata, geoCode) => {
   let category = getCategoryBySlug(tableSlug, categorySlug);
   let table = category ? filterSelectedTable(metadata, category) : null;
+  if (category) {
+    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
+  }
   if (get(dataByGeography).get(geoCode)) {
     let eAndWDiff = calculateEnglandWalesDiff(geoCode, table.total.code, category);
     return eAndWDiff;
