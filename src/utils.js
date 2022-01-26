@@ -1,9 +1,16 @@
 import { csvParse, autoType } from "d3-dsv";
 import { get } from "svelte/store";
 import { ckmeans } from "simple-statistics";
-import { englandAndWalesData, dataByGeography, getCategoryBySlug } from "./model/censusdata/censusdata";
+import {
+  englandAndWalesData,
+  dataByGeography,
+  getCategoryBySlug,
+  fetchCensusData,
+} from "./model/censusdata/censusdata";
+import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";
+
 
 export async function getLsoaData(url) {
   let response = await fetch(url);
@@ -117,49 +124,6 @@ export async function storeNewCategoryAndTotals(
 
 export function sortNomisDataByPercentage(nomisData) {
   nomisData.sort((a, b) => a.perc - b.perc);
-}
-
-export function populateColors(nomisData, colors) {
-  sortNomisDataByPercentage(nomisData);
-  let dataset = {
-    lsoa: {},
-    lad: {},
-    englandAndWales: {},
-  };
-  dataset.lsoa.data = nomisData;
-  let vals = nomisData.map((d) => d.perc);
-  let chunks = ckmeans(vals, 5);
-  let breaks = getBreaks(chunks);
-  dataset.lsoa.breaks = breaks;
-  dataset.lsoa.data.forEach((d) => assignMapColors(d, colors, breaks));
-  return dataset;
-}
-
-function assignMapColors(d, colors, breaks) {
-  var n = 4;
-  if (d.perc <= breaks[1]) {
-    n = 0;
-  } else if (d.perc <= breaks[2]) {
-    n = 1;
-  } else if (d.perc <= breaks[3]) {
-    n = 2;
-  } else if (d.perc <= breaks[4]) {
-    n = 3;
-  }
-  d.color = colors.base[n];
-  d.muted = colors.muted[n];
-  d.fill = colors.base[n];
-}
-
-export function addLadDataToDataset(dataset, lsoalookup, nomisData) {
-  let proc = processAggregateData(nomisData, lsoalookup);
-  dataset.lsoa.index = proc.lsoa.index;
-  dataset.lad.data = proc.lad.data;
-  dataset.lad.index = proc.lad.index;
-  let ladVals = proc.lad.data.map((d) => d.perc);
-  let ladChunks = ckmeans(ladVals, 5);
-  dataset.lad.breaks = getBreaks(ladChunks);
-  dataset.englandAndWales.data = proc.englandAndWales.data;
 }
 
 export function setColors(data, active, lsoalookup, ladbounds, selectData, selectItem, ladtopo, map, lad_dta) {
@@ -308,9 +272,12 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode
   return Math.round(percentageDiff * 10) / 10;
 }
 
-export const updateEnglandWalesDiff = (tableSlug, categorySlug, metadata, geoCode) => {
+export const updateData = (tableSlug, categorySlug, metadata, geoCode) => {
   let category = getCategoryBySlug(tableSlug, categorySlug);
   let table = category ? filterSelectedTable(metadata, category) : null;
+  if (category) {
+    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
+  }
   if (get(dataByGeography).get(geoCode)) {
     let eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
     return eAndWDiff;

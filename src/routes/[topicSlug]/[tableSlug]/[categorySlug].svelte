@@ -39,13 +39,16 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
+  import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
+  import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
   import {
     isNotEmpty,
     dbColumnToCategoryId,
     processData,
     calculateComparisonDiff,
-    updateEnglandWalesDiff,
+    updateData,
   } from "../../../utils";
+
   import { selectedGeography } from "../../../model/geography/geography";
 
   import { goto } from "$app/navigation";
@@ -93,7 +96,7 @@
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
     fetchSelectedDataset();
-  $: categorySlug, (eAndWDiff = updateEnglandWalesDiff(tableSlug, categorySlug, metadata, geoCode));
+  $: categorySlug, (eAndWDiff = updateData(tableSlug, categorySlug, metadata, geoCode));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
@@ -115,6 +118,7 @@
       });
     }
     locationName = getLadName(locationId);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
 
   const fetchSelectedDataset = async () => {
@@ -133,7 +137,7 @@
       //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
       eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
-      if ($dataByGeography.get(neighbouringLad.code)) {
+      if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
         neighbouringLadDiff = calculateComparisonDiff(geoCode, neighbouringLad.code, totalCatCode, category);
       }
     }
