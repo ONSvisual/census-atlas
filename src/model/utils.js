@@ -3,7 +3,7 @@ import { dataByGeography, newDataByGeography } from "./censusdata/censusdata";
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
-  for (let i = 1; i < breakpoints.length; i++) {
+  for (let i = 0; i < breakpoints.length; i++) {
     if (value <= breakpoints[i]) {
       return i;
     }

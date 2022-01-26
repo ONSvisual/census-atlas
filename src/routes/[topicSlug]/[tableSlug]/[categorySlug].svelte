@@ -39,7 +39,10 @@
   import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
   import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
-  import { isNotEmpty, dbColumnToCategoryId, processData, calculateEnglandWalesDiff, updateData } from "../../../utils";
+  import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
+  import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
+  import { isNotEmpty, categoryIDToDBColumn, dbColumnToCategoryId, processData, calculateEnglandWalesDiff, updateData } from "../../../utils";
+
   import { selectedGeography } from "../../../model/geography/geography";
 
   import { goto } from "$app/navigation";
@@ -104,6 +107,7 @@
       });
     }
     locationName = getLadName(locationId);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
 
   const fetchSelectedDataset = async () => {

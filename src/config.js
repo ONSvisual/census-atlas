@@ -30,6 +30,7 @@ export default {
     baseUrl: "https://cep5lmkia0.execute-api.eu-west-1.amazonaws.com/dev/",
     censusMetadataEndpoint: "metadata/2011",
     censusDataEndpoint: "query/2011",
+    censusDataBreaksEndpoint: "ckmeansratio/2011",
   },
   ux: {
     conditional_rendering_breakpoints: {
