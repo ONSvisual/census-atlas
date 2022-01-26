@@ -1,7 +1,8 @@
-import { feature } from "topojson-client";
 import { csvParse, autoType } from "d3-dsv";
 import { get } from "svelte/store";
 import { ckmeans } from "simple-statistics";
+import { englandAndWalesData, dataByGeography, getCategoryBySlug } from "./model/censusdata/censusdata";
+import config from "./config";
 
 export async function getLsoaData(url) {
   let response = await fetch(url);
@@ -260,3 +261,21 @@ export function filterSelectedTable(metadata, category) {
   });
   return selectedTable;
 }
+
+export function calculateEnglandWalesDiff(geoCode, totalCatCode, category) {
+  const eAndWTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode);
+  const eAndWVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code);
+  const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
+  const localVal = get(dataByGeography).get(geoCode).get(category.code);
+  const percentageDiff = (localVal / localTotal) * 100 - (eAndWVal / eAndWTotal) * 100;
+  return Math.round(percentageDiff * 10) / 10;
+}
+
+export const updateEnglandWalesDiff = (tableSlug, categorySlug, metadata, geoCode) => {
+  let category = getCategoryBySlug(tableSlug, categorySlug);
+  let table = category ? filterSelectedTable(metadata, category) : null;
+  if (get(dataByGeography).get(geoCode)) {
+    let eAndWDiff = calculateEnglandWalesDiff(geoCode, table.total.code, category);
+    return eAndWDiff;
+  }
+};

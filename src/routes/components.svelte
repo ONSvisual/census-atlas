@@ -23,6 +23,7 @@
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
   import config from "../config";
+  import DataComparison from "./../ui/DataComparison.svelte";
 
   let topicList1 = [
     {
@@ -194,9 +195,9 @@
   <DesignSystemPanel title="Design system code block">
     <DesignSystemCode code={`<DesignSystemCode code={\`<App />\`} />`} />
   </DesignSystemPanel>
-  <DesignSystemPanel title="Display census data by location" code={`<CensusTableByLocation />`}>
+  <!-- <DesignSystemPanel title="Display census data by location" code={`<CensusTableByLocation />`}>
     <CensusTableByLocation />
-  </DesignSystemPanel>
+  </DesignSystemPanel> -->
 
   <DesignSystemPanel
     title="Share"
@@ -213,5 +214,9 @@
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
+  </DesignSystemPanel>
+
+  <DesignSystemPanel>
+    <DataComparison />
   </DesignSystemPanel>
 </BasePage>

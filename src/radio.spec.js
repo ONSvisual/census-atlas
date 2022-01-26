@@ -1,10 +1,10 @@
-import Radio from './Radio.svelte'
-import { render } from '@testing-library/svelte'
+import Radio from "./Radio.svelte";
+import { render } from "@testing-library/svelte";
 
-it('it renders', async () => {
+it("it renders", async () => {
   const radioOptionName = "Yes";
   const { container, getByText } = render(Radio, {
-    props: {props: {name: radioOptionName}}
+    props: { props: { name: radioOptionName } },
   });
 
   const radio = container.querySelector("input");
