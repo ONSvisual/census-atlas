@@ -90,7 +90,9 @@
     }
   }
 
-  $: geoCode, fetchSelectedDataset();
+  $: geoCode,
+    $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
+    fetchSelectedDataset();
   $: categorySlug, (eAndWDiff = updateEnglandWalesDiff(tableSlug, categorySlug, metadata, geoCode));
 
   // temporary line to load some data
