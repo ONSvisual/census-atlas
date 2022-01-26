@@ -291,7 +291,7 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode
   }
   const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
   const localVal = get(dataByGeography).get(geoCode).get(category.code);
-  const percentageDiff = (localVal / localTotal) * 100 - (comparatorVal / comparatorTotal) * 100;
+  const percentageDiff = (((localVal / localTotal) - (comparatorVal / comparatorTotal)) / (comparatorVal / comparatorTotal)) * 100;
   return Math.round(percentageDiff * 10) / 10;
 }
 

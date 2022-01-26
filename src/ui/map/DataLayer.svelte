@@ -28,8 +28,6 @@
   let selectedPrev = null;
   let highlightedPrev = null;
 
-  console.log("rendering data layer");
-
   // remove map if present
   if (map.getLayer(id)) {
     map.removeLayer(id);

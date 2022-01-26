@@ -2,28 +2,30 @@
   export let difference = 0;
   export let comparator = "England and Wales";
 
-  function populateComparisonString(difference, comparator) {
+  $: comparatorStr = comparator == "England and Wales" ? comparator : `nearby ${comparator}`
+
+  function populateComparisonString(difference, comparatorStr) {
     if (difference > 0) {
       return {
         percentage: difference.toString(),
         comparative: "% higher",
-        comparison: `Than in ${comparator}`,
+        comparison: `Than in ${comparatorStr}`,
       };
     } else if (difference < 0) {
       return {
         percentage: Math.abs(difference).toString(),
         comparative: "% lower",
-        comparison: `Than in ${comparator}`,
+        comparison: `Than in ${comparatorStr}`,
       };
     }
     return {
       percentage: null,
       comparative: "The same as",
-      comparison: `The value is the same as in ${comparator}`,
+      comparison: `The value is the same as in ${comparatorStr}`,
     };
   }
 
-  $: comparisonObj = populateComparisonString(difference, comparator);
+  $: comparisonObj = populateComparisonString(difference, comparatorStr);
 </script>
 
 <div class="data-comparison-container">
