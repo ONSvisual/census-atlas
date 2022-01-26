@@ -2,7 +2,7 @@
   export let difference = 0;
   export let comparator = "England and Wales";
 
-  $: comparatorStr = comparator == "England and Wales" ? comparator : `nearby ${comparator}`
+  $: comparatorStr = comparator == "England and Wales" ? comparator : `nearby ${comparator}`;
 
   function populateComparisonString(difference, comparatorStr) {
     if (difference > 0) {

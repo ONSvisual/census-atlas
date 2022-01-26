@@ -239,19 +239,31 @@ export function dbColumnToCategoryId(dbColumn) {
 }
 
 export function returnNeighbouringLad(selectedLadCode) {
-  const neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode);
+  let neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode);
+  if (ladLookup[neighbouringLadCode]) {
+    return {
+      name: ladLookup[neighbouringLadCode].name,
+      code: neighbouringLadCode,
+    };
+  }
+  neighbouringLadCode = returnNeighbouringLadCode(selectedLadCode, true);
   return {
     name: ladLookup[neighbouringLadCode].name,
     code: neighbouringLadCode,
   };
 }
 
-function returnNeighbouringLadCode(ladCode) {
+function returnNeighbouringLadCode(ladCode, searchLowerLadCode) {
   const ladCodeParts = {
     prefix: ladCode.substr(0, 5),
     suffix: ladCode.substr(5),
   };
-  const adjustedSuffix = (parseInt(ladCodeParts.suffix) + 1).toString().padStart(4, "0");
+  let adjustedSuffix;
+  if (searchLowerLadCode) {
+    adjustedSuffix = (parseInt(ladCodeParts.suffix) - 1).toString().padStart(4, "0");
+  } else {
+    adjustedSuffix = (parseInt(ladCodeParts.suffix) + 1).toString().padStart(4, "0");
+  }
   return ladCodeParts.prefix + adjustedSuffix;
 }
 
@@ -291,7 +303,8 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode
   }
   const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
   const localVal = get(dataByGeography).get(geoCode).get(category.code);
-  const percentageDiff = (((localVal / localTotal) - (comparatorVal / comparatorTotal)) / (comparatorVal / comparatorTotal)) * 100;
+  const percentageDiff =
+    ((localVal / localTotal - comparatorVal / comparatorTotal) / (comparatorVal / comparatorTotal)) * 100;
   return Math.round(percentageDiff * 10) / 10;
 }
 
