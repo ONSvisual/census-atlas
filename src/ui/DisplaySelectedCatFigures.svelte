@@ -1,15 +1,12 @@
 <script>
   export let selectedCatData = {};
-  //percentage
-  //cat value
-  //cat total
   //unit
-  console.log(selectedCatData);
+  $: selectedCatData;
 </script>
 
 <div>
-  <p>0.6%</p>
-  <p>40,000 of 60,000 households</p>
+  <p>{selectedCatData.perc}%</p>
+  <p>{selectedCatData.val} of {selectedCatData.total} households</p>
 </div>
 
 <style>

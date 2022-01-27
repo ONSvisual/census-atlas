@@ -255,13 +255,23 @@ export function filterSelectedTable(metadata, category) {
   return selectedTable;
 }
 
-export function populateSelectedCatData(geoData, totalCatCode, catCode) {
-  if (geoData.has(totalCatCode) && geoData.has(catCode)) {
-    return {
-      total: geoData.get(totalCatCode).toLocaleString(),
-      val: geoData.get(catCode).toLocaleString(),
-      perc: (Math.round((geoData.get(catCode) / geoData.get(totalCatCode)) * 100 * 10) / 10).toFixed(1),
-    };
+export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug) {
+  if (get(dataByGeography).has(geoCode)) {
+    let category = getCategoryBySlug(tableSlug, categorySlug);
+    if (get(dataByGeography).get(geoCode).has(totalCatCode) && get(dataByGeography).get(geoCode).has(category.code)) {
+      return {
+        total: get(dataByGeography).get(geoCode).get(totalCatCode).toLocaleString(),
+        val: get(dataByGeography).get(geoCode).get(category.code).toLocaleString(),
+        perc: (
+          Math.round(
+            (get(dataByGeography).get(geoCode).get(category.code) /
+              get(dataByGeography).get(geoCode).get(totalCatCode)) *
+              100 *
+              10,
+          ) / 10
+        ).toFixed(1),
+      };
+    }
   }
 }
 

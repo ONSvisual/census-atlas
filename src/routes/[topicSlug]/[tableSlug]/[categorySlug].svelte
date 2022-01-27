@@ -101,7 +101,7 @@
     fetchSelectedDataset();
   $: categorySlug,
     ((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
-    (selectedCatData = populateSelectedCatData($dataByGeography.get(geoCode), totalCatCode, tableSlug, categorySlug)));
+    (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug)));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
@@ -139,10 +139,9 @@
       }
     }
     if ($dataByGeography.get(geoCode)) {
-      category = getCategoryBySlug(tableSlug, categorySlug);
       //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
-      selectedCatData = populateSelectedCatData($dataByGeography.get(geoCode), totalCatCode, tableSlug, categorySlug);
+      selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
       comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
       if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
         comparisons.neighbouringLadDiff = calculateComparisonDiff(
