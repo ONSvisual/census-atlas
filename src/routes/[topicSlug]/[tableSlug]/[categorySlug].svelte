@@ -16,6 +16,7 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
   import DataComparison from "../../../ui/DataComparison.svelte";
+  import DisplayStatisticalFigures from "../../../ui/DisplayStatisticalFigures.svelte";
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable, returnNeighbouringLad } from "../../../utils";
 
@@ -247,6 +248,8 @@
       </div>
     </footer>
   </span>
+
+  <DisplayStatisticalFigures />
 
   <div class="map-legend">
     <!-- 
