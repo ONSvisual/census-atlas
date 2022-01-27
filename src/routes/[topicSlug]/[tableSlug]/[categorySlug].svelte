@@ -164,19 +164,12 @@
       {categorySlug}
       tableName={table ? table.name : null}
     />
-
-    {#if isNotEmpty($selectedData)}
-      <CategorySelector
-        {locationId}
-        {topicSlug}
-        {tableSlug}
-        categories={$selectedData.tableCategories}
-        selectedCategory={$selectedData.categorySelected}
-      />
-    {/if}
   </span>
 
   <span slot="map">
+    <div class="map-legend">
+      <MapLegend breaks={[0, 20, 40, 60, 80, 100]} />
+    </div>
     <Map maxzoom={14}>
       <TileSet
         id="lad"
@@ -248,15 +241,19 @@
     </footer>
   </span>
 
-  <div class="map-legend">
-    <!-- 
-    TODO
-    - breaks - API?
-    - value - category.value?
-    - average: England & Wales only
-    -->
-    <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 40, 48.4, 94.8]} average={42} />
-  </div>
+  <!-- NEW -->
+
+  {#if isNotEmpty($selectedData)}
+    <CategorySelector
+      {locationId}
+      {topicSlug}
+      {tableSlug}
+      categories={$selectedData.tableCategories}
+      selectedCategory={$selectedData.categorySelected}
+    />
+  {/if}
+
+  <div class="current-data">Showing Census 2011 map data.</div>
 
   <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
@@ -298,8 +295,10 @@
 <style lang="scss">
   @import "../../../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
-  .map-legend {
-    margin-bottom: 24px;
+  .current-data {
+    background: #e5e5e5;
+    padding: 10px 16px;
+    margin: 0 -1rem;
   }
 
   @media only screen and (max-width: map-get($grid-bp, s)) {
