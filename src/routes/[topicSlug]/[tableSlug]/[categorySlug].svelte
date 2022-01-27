@@ -16,9 +16,9 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
   import DataComparison from "../../../ui/DataComparison.svelte";
-  import DisplayStatisticalFigures from "../../../ui/DisplayStatisticalFigures.svelte";
+  import DisplaySelectedCatFigures from "../../../ui/DisplaySelectedCatFigures.svelte";
   import metadata from "../../../data/apiMetadata";
-  import { filterSelectedTable, returnNeighbouringLad } from "../../../utils";
+  import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
 
   import {
     categoryDataIsLoaded,
@@ -62,7 +62,8 @@
   let populateCensusTable = { categories: [] };
   let totalCatCode = "";
   let geoCode, neighbouringLad;
-  let comparisons = {};
+  let comparisons,
+    selectedCatData = {};
 
   let locationName = "";
 
@@ -98,7 +99,9 @@
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
     fetchSelectedDataset();
-  $: categorySlug, (comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad));
+  $: categorySlug,
+    ((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
+    (selectedCatData = populateSelectedCatData($dataByGeography.get(geoCode), totalCatCode, tableSlug, categorySlug)));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
@@ -136,8 +139,10 @@
       }
     }
     if ($dataByGeography.get(geoCode)) {
+      category = getCategoryBySlug(tableSlug, categorySlug);
       //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
+      selectedCatData = populateSelectedCatData($dataByGeography.get(geoCode), totalCatCode, tableSlug, categorySlug);
       comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
       if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
         comparisons.neighbouringLadDiff = calculateComparisonDiff(
@@ -249,7 +254,7 @@
     </footer>
   </span>
 
-  <DisplayStatisticalFigures />
+  <DisplaySelectedCatFigures {selectedCatData} />
 
   <div class="map-legend">
     <!-- 

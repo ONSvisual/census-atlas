@@ -255,6 +255,16 @@ export function filterSelectedTable(metadata, category) {
   return selectedTable;
 }
 
+export function populateSelectedCatData(geoData, totalCatCode, catCode) {
+  if (geoData.has(totalCatCode) && geoData.has(catCode)) {
+    return {
+      total: geoData.get(totalCatCode).toLocaleString(),
+      val: geoData.get(catCode).toLocaleString(),
+      perc: (Math.round((geoData.get(catCode) / geoData.get(totalCatCode)) * 100 * 10) / 10).toFixed(1),
+    };
+  }
+}
+
 export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode, category) {
   let comparatorTotal;
   let comparatorVal;
