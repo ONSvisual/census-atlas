@@ -14,7 +14,7 @@
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
-  import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
+  import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison.svelte";
   import DisplaySelectedCatFigures from "../../../ui/DisplaySelectedCatFigures.svelte";
   import metadata from "../../../data/apiMetadata";
@@ -172,8 +172,8 @@
   </span>
 
   <span slot="map">
-    <div class="map-legend">
-      <MapLegend breaks={[0, 20, 40, 60, 80, 100]} />
+    <div class="mapkey">
+      <MapKey breaks={[0, 20, 40, 60, 80, 100]} />
     </div>
     <Map maxzoom={14}>
       <TileSet
