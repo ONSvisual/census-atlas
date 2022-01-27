@@ -9,7 +9,7 @@
   import ONSTwitterIcon from "../../../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "../../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../../ui/ons/svg/ONSEmailIcon.svelte";
-  import CategorySelector from "../../../ui/CategorySelector.svelte";
+  import CategorySelector from "../../../ui/CategorySelector/CategorySelector.svelte";
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
