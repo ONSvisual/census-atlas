@@ -1,97 +1,62 @@
 <script>
   import config from "../../config";
-  const colours = config.ux.legend_colours;
+  let colours = config.ux.legend_colours;
 
-  export let value;
+  colours = colours.reverse();
+
   export let breaks;
-  export let average;
-
-  const pos = (val) => {
-    let i = 0;
-    while (val > breaks[i + 1]) i += 1;
-    let unit = 100 / (breaks.length - 1);
-    let offset = (val - breaks[i]) / (breaks[i + 1] - breaks[i]);
-    return (i + offset) * unit;
-  };
 </script>
 
-<div class="maplegend">
-  {#each breaks.slice(1) as brk, i}
-    <div
-      class="block"
-      style="width: {100 / (breaks.length - 1)}%; left: {i * (100 / (breaks.length - 1))}%; background-color: {colours[
-        i
-      ]};"
-    />
-    <!-- <div class="line" style="left: {i * (100 / (breaks.length - 1))}%;" />
-    <div class="tick" style="left: {i * (100 / (breaks.length - 1))}%;">{breaks[i]}</div> -->
-  {/each}
-  <!-- <div class="line" style="left: 100%;" />
-  <div class="tick" style="left: 100%;">{breaks[breaks.length - 1]}</div> -->
-  <div class="average-marker" style="left: calc({pos(average)}% - 12px);" />
-  <div class="value">{value}%</div>
+<div class="mapkey">
+  <div class="mapkey__label mapkey__label--high" style="background-color: {colours[0]}">High</div>
+  <div class="mapkey__blocks">
+    {#each breaks.slice(1) as brk, i}
+      <div
+        class="mapkey__block"
+        style="height: {100 / (breaks.length - 1)}%; top: {i *
+          (100 / (breaks.length - 1))}%; background-color: {colours[i]};"
+      />
+    {/each}
+  </div>
+  <div class="mapkey__label mapkey__label--low" style="background-color: {colours[colours.length - 1]}">Low</div>
 </div>
 
-<div class="labels">
-  <div class="label-lowest">Lowest</div>
-  <div class="label-average">Average <!-- <span class="average-value">{average}%</span> --></div>
-  <div class="label-highest">Highest</div>
-</div>
+<style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
-<style>
-  .maplegend {
-    margin: 40px 0 4px;
-    box-sizing: border-box;
+  .mapkey {
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.8);
+    @media (min-width: map-get($grid-bp, s)) {
+      padding: 5px 10px;
+    }
+  }
+  .mapkey__blocks {
     position: relative;
-    height: 24px;
-    width: 100%;
+    height: 100px;
+    @media (min-width: map-get($grid-bp, s)) {
+      height: 200px;
+    }
   }
-  .block {
+  .mapkey__block {
     position: absolute;
-    top: 0;
-    height: 100%;
+    right: 0;
+    width: 20px;
+    @media (min-width: map-get($grid-bp, s)) {
+      width: 30px;
+    }
   }
-  /* .line {
-    position: absolute;
-    top: 0;
-    height: 100%;
+  .mapkey__label {
+    font-size: 13px;
+    margin: 4px 0;
+    padding: 0 2px;
+    @media (min-width: map-get($grid-bp, s)) {
+      font-size: 14px;
+      margin: 5px 0;
+      padding: 1px 4px;
+    }
   }
-  .tick {
-    position: absolute;
-    z-index: 1;
-    top: -4px;
-    text-align: center;
-    transform: translateX(-50%);
-  } */
-  .average-marker {
-    position: absolute;
-    width: 24px;
-    border-radius: 24px;
-    z-index: 2;
-    height: 100%;
-    border: 2px solid #fff;
-    background-color: #000;
-  }
-  .value {
-    position: absolute;
-    top: -40px;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  .labels {
-    display: flex;
-    font-size: 16px;
-  }
-  .labels > div {
-    flex: 1;
-  }
-  .label-average {
-    text-align: center;
-  }
-  .label-average .average-value {
-    font-weight: bold;
-  }
-  .label-highest {
-    text-align: right;
+  .mapkey__label--high {
+    color: $color-white;
   }
 </style>

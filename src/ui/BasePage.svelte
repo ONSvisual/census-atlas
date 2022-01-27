@@ -107,7 +107,11 @@
     padding: 0;
   }
 
-  @media only screen and (max-width: map-get($grid-bp, s)) {
+  .map {
+    position: relative;
+  }
+
+  @media (max-width: map-get($grid-bp, s)) {
     .ons-page {
       background: url("/img/background.png") no-repeat center center;
       background-size: cover;
@@ -131,7 +135,7 @@
     }
   }
 
-  @media only screen and (min-width: map-get($grid-bp, s)) {
+  @media (min-width: map-get($grid-bp, s)) {
     .header,
     .body {
       width: 489px;

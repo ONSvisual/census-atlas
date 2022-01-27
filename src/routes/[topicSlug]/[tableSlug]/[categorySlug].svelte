@@ -318,6 +318,14 @@
     margin: 0 -1rem;
   }
 
-  @media only screen and (max-width: map-get($grid-bp, s)) {
+  .mapkey {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    float: right;
+  }
+
+  @media (min-width: map-get($grid-bp, s)) {
   }
 </style>
