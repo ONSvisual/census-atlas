@@ -253,8 +253,9 @@
     </footer>
   </span>
 
-  <DisplaySelectedCatFigures {selectedCatData} />
-
+  {#if selectedCatData}
+    <DisplaySelectedCatFigures {selectedCatData} />
+  {/if}
   <div class="map-legend">
     <!-- 
     TODO

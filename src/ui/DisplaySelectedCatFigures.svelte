@@ -6,7 +6,7 @@
 
 <div>
   <p>{selectedCatData.perc}%</p>
-  <p>{selectedCatData.val} of {selectedCatData.total} households</p>
+  <p>{selectedCatData.val} of {selectedCatData.total} {selectedCatData.unit.toLowerCase()}</p>
 </div>
 
 <style>

@@ -11,6 +11,7 @@ import config from "./config";
 import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
+import metadata from "./data/apiMetadata";
 
 export async function getLsoaData(url) {
   let response = await fetch(url);
@@ -270,6 +271,7 @@ export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, catego
               10,
           ) / 10
         ).toFixed(1),
+        unit: filterSelectedTable(metadata, category).units,
       };
     }
   }
