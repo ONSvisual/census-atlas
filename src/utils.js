@@ -272,6 +272,7 @@ export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, catego
           ) / 10
         ).toFixed(1),
         unit: filterSelectedTable(metadata, category).units,
+        geoCode: geoCode,
       };
     }
   }
