@@ -15,7 +15,7 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
-  import DataComparison from "../../../ui/DataComparison.svelte";
+  import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
 

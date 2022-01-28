@@ -28,6 +28,7 @@
   $: comparisonObj = populateComparisonString(difference, comparatorStr);
 </script>
 
+@@ -1,175 +0,0 @@
 <div class="data-comparison-container">
   <div
     class={difference > 0
