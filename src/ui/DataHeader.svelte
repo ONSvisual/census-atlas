@@ -67,6 +67,12 @@
 
   a {
     color: $color-white;
+    font-size: 13px;
+    line-height: 18px;
+    @media (min-width: map-get($grid-bp, s)) {
+      font-size: 16px;
+      line-height: 22px;
+    }
   }
   a:hover {
     color: $color-white;
@@ -86,23 +92,26 @@
     margin: 0.5rem 0;
   }
 
-  h2,
-  h3 {
+  .data-header-1__title h2 {
     margin: 0;
-  }
-
-  .data-header-1__title {
-    margin: 0;
-  }
-  #header-data-2__location {
-    font-size: 1.33333rem;
-  }
-
-  @media only screen and (max-width: map-get($grid-bp, m)) {
-    #header-data-2__location {
-      font-size: 1.11111rem;
+    font-size: 18px;
+    line-height: 22px;
+    @media (min-width: map-get($grid-bp, s)) {
+      font-size: 26px;
+      line-height: 25px;
     }
   }
+
+  h2#header-data-2__location {
+    font-size: 16px;
+    line-height: 25px;
+    margin: 0;
+    @media (min-width: map-get($grid-bp, s)) {
+      font-size: 20px;
+      line-height: 25px;
+    }
+  }
+
   #header-data-2__title {
     margin: 0.3rem 0;
   }
