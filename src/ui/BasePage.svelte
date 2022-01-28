@@ -25,12 +25,12 @@
           >
             <div class="ons-grid__col ons-col-auto">
               <div class="ons-header__logo--large">
-                <a class="ons-header__logo-link" href="#0">
+                <a class="ons-header__logo-link" href="/">
                   <ONSHeaderLogoLarge />
                 </a>
               </div>
               <div class="ons-header__logo--small">
-                <a class="ons-header__logo-link" href="#0">
+                <a class="ons-header__logo-link" href="/">
                   <ONSHeaderLogoSmall />
                 </a>
               </div>
