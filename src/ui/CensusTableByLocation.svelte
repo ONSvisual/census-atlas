@@ -43,6 +43,7 @@
   .ons-table__cell {
     border-bottom: 0;
     color: #595959;
+    overflow-wrap: anywhere;
   }
 
   .ons-table__cell--key {

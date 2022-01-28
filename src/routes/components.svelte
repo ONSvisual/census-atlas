@@ -6,7 +6,7 @@
   import TopicExplorer from "./../ui/TopicExplorer.svelte";
   import BasePage from "./../ui/BasePage.svelte";
   import DesignSystemPanel from "./../ui/DesignSystemPanel.svelte";
-  import CategorySelector from "./../ui/CategorySelector.svelte";
+  import CategorySelector from "./../ui/CategorySelector/CategorySelector.svelte";
   import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
   import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
   import Feedback from "./../ui/Feedback.svelte";

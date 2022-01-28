@@ -1,6 +1,6 @@
 <script>
   import { onMount, setContext } from "svelte";
-  import { Map, NavigationControl } from "mapbox-gl";
+  import { Map, NavigationControl, AttributionControl } from "mapbox-gl";
   import mapstyle from "./../../data/mapstyle";
   import { selectedGeography, getMapBBoxGeoCodes } from "../../model/geography/geography";
   import ladBoundsLookup from "../../data/ladMapBoundsLookup";
@@ -68,10 +68,13 @@
         style: mapstyle,
         minZoom: minzoom,
         maxZoom: maxzoom,
+        attributionControl: false,
         ...options,
       });
 
       map.addControl(new NavigationControl());
+
+      map.addControl(new AttributionControl(), "bottom-left");
 
       map.fitBounds(bounds, { padding: 20 });
 
