@@ -23,7 +23,6 @@
     ladLookup,
   } from "../model/geography/geography";
   import Header from "../ui/Header.svelte";
-  import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
 
   import { goto } from "$app/navigation";
@@ -134,7 +133,7 @@
     </footer>
   </span>
 
-  <ExploreByTopic url="/categories" suggestions={indexPageSuggestions} />
+  <ExploreByTopic url="/categories" suggestions={config.suggestions.indexPageSuggestions} />
   <hr class="component-margin--2" />
   <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
     >Search for an area to find out how it compares to others</ExploreByAreaComponent
