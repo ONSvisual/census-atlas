@@ -89,6 +89,7 @@
       line-height: 20px;
       font-weight: 700;
       padding-right: 18px;
+      overflow-wrap: anywhere;
       @media (min-width: map-get($grid-bp, s)) {
         font-size: 20px;
         line-height: 25px;
@@ -116,7 +117,7 @@
         color: $color-white;
         padding: 0 16px 0 16px;
         align-self: center;
-        justify-self: end;
+        overflow-wrap: anywhere;
       }
       &--previous {
         & span {
