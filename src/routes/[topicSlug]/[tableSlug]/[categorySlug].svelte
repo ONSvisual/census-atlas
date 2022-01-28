@@ -258,7 +258,6 @@
 
   <div class="current-data">Showing Census 2011 map data.</div>
 
-  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
   {#if geoCode != config.eAndWGeoCode}
     <div class="ons-grid">
       <div class="ons-grid__col ons-col-6@m ">
@@ -275,6 +274,8 @@
       {/if}
     </div>
   {/if}
+
+  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
