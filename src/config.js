@@ -220,15 +220,15 @@ export const topicSuggestions = [
 export function areaSelectedTopicSuggestions(ladName, ladCode) {
   return [
     {
-      text: `People with a Level 4 education or above`,
+      text: `People with a Level 4 education or above.`,
       url: `/education/highest-level-of-qualification-gained/level-4-qualifications-and-above?location=${ladCode}`,
     },
     {
-      text: `${ladName}'s ethnic mix`,
+      text: `${ladName}'s ethnic mix.`,
       url: `/identity/ethnicity/white-english-welsh-scottish-northern-irish-british?location=${ladCode}`,
     },
     {
-      text: `Residents general health`,
+      text: `Residents general health.`,
       url: `/health/general-health/good?location=${ladCode}`,
     },
     {
