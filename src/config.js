@@ -88,20 +88,23 @@ export default {
   },
   autosuggestData: "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json",
   eAndWGeoCode: "K04000001",
+  suggestions: {
+    indexPageSuggestions: [
+      {
+        text: "Which areas have the highest levels of shared ownership properties?",
+        url: "/housing/owned-and-renting/shared-ownership",
+      },
+      {
+        text: "Which areas of the country are the most healthy?",
+        url: "/health/general-health/very-good",
+      },
+      {
+        text: "Where are the highest levels of homes without central heating?",
+        url: "/housing/heating/no-central-heating",
+      },
+    ],
+  },
 };
-
-export const indexPageSuggestions = [
-  { text: "Where are the highest levels of home ownership?", url: "/housing/tenure-households/owned" },
-  {
-    text: "Where do people travel the furthest to get to work?",
-    url: "/travel-to-work/distance-travelled-to-work/60km-and-over",
-  },
-  {
-    text: "Where are the highest rates of unemployment?",
-    url: "/employment/economic-activity/economically-active",
-    // url: "/employment/economic-activity/economically-active/unemployed" ==> we are missing the category-subcategory levels in the simpleTopicTableCategoryData.js file
-  },
-];
 
 export const topicSuggestions = [
   {
