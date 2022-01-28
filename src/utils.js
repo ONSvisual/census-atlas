@@ -11,6 +11,7 @@ import config from "./config";
 import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
+import metadata from "./data/apiMetadata";
 
 export async function getLsoaData(url) {
   let response = await fetch(url);
@@ -253,6 +254,28 @@ export function filterSelectedTable(metadata, category) {
     });
   });
   return selectedTable;
+}
+
+export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug) {
+  if (get(dataByGeography).has(geoCode)) {
+    let category = getCategoryBySlug(tableSlug, categorySlug);
+    if (get(dataByGeography).get(geoCode).has(totalCatCode) && get(dataByGeography).get(geoCode).has(category.code)) {
+      return {
+        total: get(dataByGeography).get(geoCode).get(totalCatCode).toLocaleString(),
+        val: get(dataByGeography).get(geoCode).get(category.code).toLocaleString(),
+        perc: (
+          Math.round(
+            (get(dataByGeography).get(geoCode).get(category.code) /
+              get(dataByGeography).get(geoCode).get(totalCatCode)) *
+              100 *
+              10,
+          ) / 10
+        ).toFixed(1),
+        unit: filterSelectedTable(metadata, category).units,
+        geoCode: geoCode,
+      };
+    }
+  }
 }
 
 export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode, category) {

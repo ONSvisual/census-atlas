@@ -16,8 +16,9 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapLegend from "../../../ui/MapLegend/MapLegend.svelte";
   import DataComparison from "../../../ui/DataComparison.svelte";
+  import DisplaySelectedCatFigures from "../../../ui/DisplaySelectedCatFigures.svelte";
   import metadata from "../../../data/apiMetadata";
-  import { filterSelectedTable, returnNeighbouringLad } from "../../../utils";
+  import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
 
   import {
     categoryDataIsLoaded,
@@ -61,7 +62,8 @@
   let populateCensusTable = { categories: [] };
   let totalCatCode = "";
   let geoCode, neighbouringLad;
-  let comparisons = {};
+  let comparisons,
+    selectedCatData = {};
 
   let locationName = "";
 
@@ -97,7 +99,9 @@
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
     fetchSelectedDataset();
-  $: categorySlug, (comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad));
+  $: categorySlug,
+    ((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
+    (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug)));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
@@ -137,6 +141,7 @@
     if ($dataByGeography.get(geoCode)) {
       //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
+      selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
       comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
       if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
         comparisons.neighbouringLadDiff = calculateComparisonDiff(
@@ -241,6 +246,18 @@
     </footer>
   </span>
 
+  {#if selectedCatData}
+    <DisplaySelectedCatFigures {selectedCatData} />
+  {/if}
+  <div class="map-legend">
+    <!-- 
+    TODO
+    - breaks - API?
+    - value - category.value?
+    - average: England & Wales only
+    -->
+    <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 40, 48.4, 94.8]} average={42} />
+  </div>
   <!-- NEW -->
 
   {#if isNotEmpty($selectedData)}
