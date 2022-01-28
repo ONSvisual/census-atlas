@@ -41,6 +41,8 @@
     font-weight: normal;
   }
   .ons-table__cell {
+    font-size: 16px;
+    line-height: 24px;
     border-bottom: 0;
     color: #595959;
     overflow-wrap: anywhere;

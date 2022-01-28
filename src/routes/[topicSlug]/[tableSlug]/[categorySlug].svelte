@@ -15,7 +15,7 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
-  import DataComparison from "../../../ui/DataComparison.svelte";
+  import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
 
@@ -258,23 +258,20 @@
 
   <div class="current-data">Showing Census 2011 map data.</div>
 
-  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
   {#if geoCode != config.eAndWGeoCode}
     <div class="ons-grid">
-      <div class="ons-grid__col ons-col-6@m ">
-        <div class="ons-pl-grid-col">
-          <DataComparison difference={comparisons.eAndWDiff} />
-        </div>
+      <div class="ons-grid__col ons-col-6@xxs">
+        <DataComparison difference={comparisons.eAndWDiff} />
       </div>
       {#if neighbouringLad}
-        <div class="ons-grid__col ons-col-6@m ">
-          <div class="ons-pl-grid-col">
-            <DataComparison difference={comparisons.neighbouringLadDiff} comparator={neighbouringLad.name} />
-          </div>
+        <div class="ons-grid__col ons-col-6@xxs">
+          <DataComparison difference={comparisons.neighbouringLadDiff} comparator={neighbouringLad.name} />
         </div>
       {/if}
     </div>
   {/if}
+
+  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
@@ -300,7 +297,7 @@
   .current-data {
     background: #e5e5e5;
     padding: 8px 16px;
-    margin: 0 -1rem;
+    margin: 0 -1rem 1rem;
     font-size: 13px;
     line-height: 18px;
     color: #222222;

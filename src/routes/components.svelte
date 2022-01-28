@@ -23,7 +23,7 @@
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
   import config from "../config";
-  import DataComparison from "./../ui/DataComparison.svelte";
+  import DataComparison from "./../ui/DataComparison/DataComparison.svelte";
 
   let topicList1 = [
     {
