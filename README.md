@@ -2,6 +2,9 @@
 
 A prototype for exploring neighbourhood level Census data tables on a map, powered by [Svelte Kit](https://kit.svelte.dev).
 
+Latest version available at:
+<https://ons-data-map.netlify.app>
+
 ## Architecture
 
 See [ARCHITECTURE](ARCHITECTURE.md).
@@ -13,9 +16,16 @@ Clone the repository and install all dependencies with `npm install`, then start
 ```bash
 npm run dev
 
+# or start the server with https
+npm run dev -- --https
+
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
+
+There's an attempt at a kitchen sink with all the components at: [/components](http://localhost:3000/components) but please note it might be incomplete, or not up to date. This will eventually be replaced by something like [Storybook](https://storybook.js.org/).
+
+There's also a page dedicated to [ONS Design System](https://ons-design-system.netlify.app/) components specifically: [/design-system](http://localhost:3000/design-system)
 
 ## Deploy process
 

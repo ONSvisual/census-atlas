@@ -1,6 +1,6 @@
 <script>
   import config from "../../config";
-  let colours = config.ux.legend_colours;
+  let colours = [...config.ux.legend_colours];
 
   colours = colours.reverse();
 </script>
