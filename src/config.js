@@ -237,7 +237,7 @@ export function areaSelectedTopicSuggestions(ladName, ladCode) {
     },
     {
       text: `How people travel to work?`,
-      url: `Work > travel to work > Driving in a car or van?location=${ladCode}`,
+      url: `/work/travel-to-work/driving-in-a-car-or-van?location=${ladCode}`,
     },
   ];
 }
