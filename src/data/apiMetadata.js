@@ -130,48 +130,6 @@ export default [
       },
       {
         categories: [
-          { code: "QS402EW0004", name: "Whole house or bungalow: Detached", slug: "whole-house-or-bungalow-detached" },
-          {
-            code: "QS402EW0005",
-            name: "Whole house or bungalow: Semi-detached",
-            slug: "whole-house-or-bungalow-semi-detached",
-          },
-          {
-            code: "QS402EW0006",
-            name: "Whole house or bungalow: Terraced (including end-terrace)",
-            slug: "whole-house-or-bungalow-terraced-including-end-terrace",
-          },
-          {
-            code: "QS402EW0008",
-            name: "Flat, maisonette or apartment: Purpose-built block of flats or tenement",
-            slug: "flat-maisonette-or-apartment-purpose-built-block-of-flats-or-tenement",
-          },
-          {
-            code: "QS402EW0009",
-            name: "Flat, maisonette or apartment: Part of a converted or shared house (including bed-sits)",
-            slug: "flat-maisonette-or-apartment-part-of-a-converted-or-shared-house-including-bed-sits",
-          },
-          {
-            code: "QS402EW0010",
-            name: "Flat, maisonette or apartment: Commercial building",
-            slug: "flat-maisonette-or-apartment-commercial-building",
-          },
-          { code: "QS402EW0011", name: "Caravan", slug: "caravan" },
-          { code: "QS402EW0012", name: "Shared home", slug: "shared-home" },
-        ],
-        code: "QS402EW",
-        name: "Type of home",
-        slug: "type-of-home",
-        desc: "Types of homes people live in.",
-        total: {
-          code: "QS402EW0001",
-          name: "All categories: Accommodation type",
-          slug: "all-categories-accommodation-type",
-        },
-        units: "Households",
-      },
-      {
-        categories: [
           { code: "KS402EW0002", name: "Owned: Owned outright", slug: "owned-owned-outright" },
           {
             code: "KS402EW0003",
