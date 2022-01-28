@@ -91,7 +91,9 @@
     border: 0.5px solid $color-grey-35;
     margin: 0.5rem 0;
   }
-
+  .data-header-1__title {
+    max-width: 80%;
+  }
   .data-header-1__title h2 {
     margin: 0;
     font-size: 18px;
