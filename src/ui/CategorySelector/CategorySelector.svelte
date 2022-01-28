@@ -81,7 +81,7 @@
   .category-selector {
     background: #003c57;
     margin: -18px -18px 0;
-    padding: 18px;
+    padding: 12px 18px;
     color: $color-white;
 
     &__category {
@@ -96,7 +96,7 @@
       }
     }
     &__stats {
-      margin: -18px -18px 0 0;
+      margin: -12px -18px 0 0;
     }
 
     &__links {
