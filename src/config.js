@@ -220,20 +220,24 @@ export const topicSuggestions = [
 export function areaSelectedTopicSuggestions(ladName, ladCode) {
   return [
     {
-      text: `How is ${ladName}'s general health?`,
-      url: `/health/general-health/good-health?location=${ladCode}`,
+      text: `People with a Level 4 education or above`,
+      url: `/education/highest-level-of-qualification-gained/level-4-qualifications-and-above?location=${ladCode}`,
     },
     {
-      text: `How deprived is ${ladName}?`,
-      url: `/population-basics/households-by-deprivation-dimensions/household-is-deprived-in-4-dimensions?location=${ladCode}`,
+      text: `${ladName}'s ethnic mix`,
+      url: `/identity/ethnicity/white-english-welsh-scottish-northern-irish-british?location=${ladCode}`,
     },
     {
-      text: `How many students live in ${ladName}?`,
-      url: `/employment/economic-activity/economically-inactive?location=${ladCode}`,
+      text: `Residents general health`,
+      url: `/health/general-health/good?location=${ladCode}`,
     },
     {
-      text: `How many people living in ${ladName} are unemployed?`,
-      url: `/employment/economic-activity/economically-active?location=${ladCode}`,
+      text: `What is the most common household size?`,
+      url: `/housing/size-of-household/2-person-household?location=${ladCode}`,
+    },
+    {
+      text: `How people travel to work?`,
+      url: `Work > travel to work > Driving in a car or van?location=${ladCode}`,
     },
   ];
 }
