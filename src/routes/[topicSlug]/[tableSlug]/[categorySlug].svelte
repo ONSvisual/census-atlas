@@ -172,7 +172,7 @@
 
   <span slot="map">
     <div class="mapkey">
-      <MapKey breaks={[0, 20, 40, 60, 80, 100]} />
+      <MapKey />
     </div>
     <Map maxzoom={14}>
       <TileSet

@@ -3,18 +3,15 @@
   let colours = config.ux.legend_colours;
 
   colours = colours.reverse();
-
-  export let breaks;
 </script>
 
 <div class="mapkey">
   <div class="mapkey__label mapkey__label--high" style="background-color: {colours[0]}">High</div>
   <div class="mapkey__blocks">
-    {#each breaks.slice(1) as brk, i}
+    {#each colours as brk, i}
       <div
         class="mapkey__block"
-        style="height: {100 / (breaks.length - 1)}%; top: {i *
-          (100 / (breaks.length - 1))}%; background-color: {colours[i]};"
+        style="height: {100 / colours.length}%; top: {i * (100 / colours.length)}%; background-color: {colours[i]};"
       />
     {/each}
   </div>
@@ -33,7 +30,7 @@
   }
   .mapkey__blocks {
     position: relative;
-    height: 100px;
+    height: 140px;
     @media (min-width: map-get($grid-bp, s)) {
       height: 200px;
     }
@@ -47,7 +44,7 @@
     }
   }
   .mapkey__label {
-    font-size: 13px;
+    font-size: 12px;
     margin: 4px 0;
     padding: 0 2px;
     @media (min-width: map-get($grid-bp, s)) {
