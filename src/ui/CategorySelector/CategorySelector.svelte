@@ -1,5 +1,7 @@
 <script>
-  export let topicSlug, tableSlug, locationId;
+  import DisplaySelectedCatFigures from "./DisplaySelectedCatFigures.svelte";
+
+  export let topicSlug, tableSlug, locationId, selectedCatData;
   export let categories = [];
   export let selectedCategory = "";
 
@@ -43,13 +45,15 @@
 
 <div class="category-selector">
   <div class="ons-grid ons-grid--gutterless ons-grid--vertical-center">
-    <div class="ons-grid__col ons-col-9@xxs">
+    <div class="ons-grid__col ons-col-8@xxs">
       <div class="category-selector__category">
         {categories[selectedCatIndex].name}
       </div>
     </div>
-    <div class="ons-grid__col ons-col-3@xxs">
-      <div class="category-selector__stats">%</div>
+    <div class="ons-grid__col ons-col-4@xxs">
+      <div class="category-selector__stats">
+        <DisplaySelectedCatFigures {selectedCatData} />
+      </div>
     </div>
   </div>
   <div class="category-selector__links">
@@ -84,18 +88,21 @@
       font-size: 16px;
       line-height: 20px;
       font-weight: 700;
-      padding-bottom: 18px;
+      padding-right: 18px;
       @media (min-width: map-get($grid-bp, s)) {
         font-size: 20px;
         line-height: 25px;
       }
     }
+    &__stats {
+      margin: -18px -18px 0 0;
+    }
 
     &__links {
+      margin-top: 18px;
       display: flex;
       align-items: stretch;
     }
-
     &__link {
       display: flex;
       width: 50%;

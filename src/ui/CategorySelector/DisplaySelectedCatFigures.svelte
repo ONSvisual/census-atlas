@@ -1,7 +1,7 @@
 <script>
-  import { selectedCategoryBreaks } from "../model/metadata/metadata";
-  import config from "../config";
-  import { getLegendSection } from "../model/utils";
+  import { selectedCategoryBreaks } from "../../model/metadata/metadata";
+  import config from "../../config";
+  import { getLegendSection } from "../../model/utils";
   export let selectedCatData = {};
   let backgroundColour, legendSection, textColour;
   $: selectedCatData, backgroundColour;
@@ -24,13 +24,34 @@
   }
 </script>
 
-<div style="background-color: {backgroundColour}">
-  <p style="color: {textColour}">{selectedCatData.perc}%</p>
-  <p style="color: {textColour}">
+<div class="category-figures" style="background-color: {backgroundColour}">
+  <p class="category-figures__percentage" style="color: {textColour}">
+    {selectedCatData.perc}<span>%</span>
+  </p>
+  <p class="category-figures__totals" style="color: {textColour}">
     {selectedCatData.val} of {selectedCatData.total}
     {selectedCatData.unit.toLowerCase()}
   </p>
 </div>
 
 <style lang="scss">
+  .category-figures {
+    padding: 8px;
+    &__percentage {
+      font-size: 22px;
+      line-height: 25px;
+      font-weight: bold;
+      margin: 0;
+      & span {
+        font-size: 16px;
+        font-weight: normal;
+      }
+    }
+    &__totals {
+      font-size: 12px;
+      line-height: 14px;
+      letter-spacing: -0.02px;
+      margin: 0;
+    }
+  }
 </style>

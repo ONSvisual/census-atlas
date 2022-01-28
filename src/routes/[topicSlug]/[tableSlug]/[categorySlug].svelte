@@ -16,7 +16,6 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison.svelte";
-  import DisplaySelectedCatFigures from "../../../ui/DisplaySelectedCatFigures.svelte";
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
 
@@ -246,34 +245,20 @@
     </footer>
   </span>
 
-  {#if selectedCatData}
-    <DisplaySelectedCatFigures {selectedCatData} />
-  {/if}
-  <div class="map-legend">
-    <!-- 
-    TODO
-    - breaks - API?
-    - value - category.value?
-    - average: England & Wales only
-    -->
-    <MapLegend value={34.5} breaks={[0, 1.5, 3.7, 40, 48.4, 94.8]} average={42} />
-  </div>
-  <!-- NEW -->
-
-  {#if isNotEmpty($selectedData)}
+  {#if isNotEmpty($selectedData) && selectedCatData}
     <CategorySelector
       {locationId}
       {topicSlug}
       {tableSlug}
       categories={$selectedData.tableCategories}
       selectedCategory={$selectedData.categorySelected}
+      {selectedCatData}
     />
   {/if}
 
   <div class="current-data">Showing Census 2011 map data.</div>
 
   <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
-
   {#if geoCode != config.eAndWGeoCode}
     <div class="ons-grid">
       <div class="ons-grid__col ons-col-6@m ">
@@ -314,8 +299,11 @@
 
   .current-data {
     background: #e5e5e5;
-    padding: 10px 16px;
+    padding: 8px 16px;
     margin: 0 -1rem;
+    font-size: 13px;
+    line-height: 18px;
+    color: #222222;
   }
 
   .mapkey {
