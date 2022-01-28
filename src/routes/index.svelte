@@ -25,6 +25,7 @@
   import Header from "../ui/Header.svelte";
   import { indexPageSuggestions } from "../config.js";
   import { reverseLadLookup } from "../model/geography/geography";
+  import {pageUrl} from "../stores"
 
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
@@ -37,6 +38,7 @@
   let locationId = $page.query.get("location");
 
   onMount(async () => {
+    $pageUrl=$page.path
     if (locationId) {
       updateSelectedGeography(locationId);
     } else {

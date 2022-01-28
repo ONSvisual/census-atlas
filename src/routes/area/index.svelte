@@ -24,6 +24,7 @@
   import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
   import { categoryDataIsLoaded } from "../../model/censusdata/censusdata";
+  import {pageUrl} from "../../stores"
 
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
@@ -33,6 +34,7 @@
   let topicSuggestions;
 
   onMount(async () => {
+    $pageUrl=$page.path
     $categoryDataIsLoaded = false;
   });
 
