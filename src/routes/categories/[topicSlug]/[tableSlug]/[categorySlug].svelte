@@ -19,6 +19,7 @@
   } from "../../../../model/geography/geography";
   import { categoryDataIsLoaded, categoryData } from "../../../../model/censusdata/censusdata";
   import { appIsInitialised } from "../../../../model/appstate";
+  import { pageUrl } from "../../../../stores";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
@@ -57,6 +58,7 @@
 <BasePage mobileMap={false} withoutBackground>
   <span slot="header">
     <Header
+      href={$pageUrl}
       showBackLink
       serviceTitle="Choose a data option {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName
