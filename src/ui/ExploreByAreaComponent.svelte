@@ -2,7 +2,7 @@
   import config from "../config";
   export let id = "search-field";
   export let labelText, userInputValue, renderError, invertTextColor;
-  export let hint = "Enter a postcode or a town, city or area";
+  export let hint = "Enter the local council or city";
   export let buttonText = "Choose";
   export let title = "Explore by area";
   import ONSAutosuggest from "./ons/ONSAutosuggest.svelte";

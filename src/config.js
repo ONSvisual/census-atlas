@@ -84,7 +84,7 @@ export default {
     },
   },
   error: {
-    text: "Not a valid search",
+    text: "You must enter the name of the local council or city.",
   },
   autosuggestData: "https://raw.githubusercontent.com/ONSdigital/census-atlas/master/src/data/ladList.json",
   eAndWGeoCode: "K04000001",
