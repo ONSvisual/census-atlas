@@ -313,7 +313,4 @@
     bottom: 0;
     float: right;
   }
-
-  @media (min-width: map-get($grid-bp, s)) {
-  }
 </style>

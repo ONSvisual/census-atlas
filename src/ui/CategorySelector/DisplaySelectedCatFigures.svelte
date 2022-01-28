@@ -35,6 +35,8 @@
 </div>
 
 <style lang="scss">
+  @import "../../../node_modules/@ons/design-system/scss/vars/_index.scss";
+
   .category-figures {
     padding: 8px;
     &__percentage {
@@ -42,9 +44,16 @@
       line-height: 25px;
       font-weight: bold;
       margin: 0;
+      @media (min-width: map-get($grid-bp, s)) {
+        font-size: 28px;
+        line-height: 35px;
+      }
       & span {
         font-size: 16px;
         font-weight: normal;
+        @media (min-width: map-get($grid-bp, s)) {
+          font-size: 22px;
+        }
       }
     }
     &__totals {
@@ -52,6 +61,10 @@
       line-height: 14px;
       letter-spacing: -0.02px;
       margin: 0;
+      @media (min-width: map-get($grid-bp, s)) {
+        font-size: 16px;
+        line-height: 20px;
+      }
     }
   }
 </style>
