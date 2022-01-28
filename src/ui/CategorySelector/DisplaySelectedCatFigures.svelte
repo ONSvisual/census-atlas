@@ -4,16 +4,14 @@
   import { getLegendSection } from "../../model/utils";
   export let selectedCatData = {};
   let backgroundColour, legendSection, textColour;
-  $: selectedCatData, backgroundColour;
 
   function updateBackgroundColour() {
     if (selectedCatData.geoCode.startsWith("E01") || selectedCatData.geoCode.startsWith("W01")) {
       legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lsoa);
-      backgroundColour = config.ux.legend_colours[legendSection];
     } else {
       legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lad);
-      backgroundColour = config.ux.legend_colours[legendSection];
     }
+    backgroundColour = config.ux.legend_colours[legendSection];
   }
 
   $: {
