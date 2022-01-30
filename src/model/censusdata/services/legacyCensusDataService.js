@@ -36,7 +36,7 @@ export default class LegacyCensusDataService {
   }
 
   async fetchLsoaCategoryData(categoryId) {
-    let url = `https://bothness.github.io/census-atlas/data/lsoa/${categoryId}.csv`;
+    let url = `https://mwnicks.github.io/census-atlas-proto/data/lsoa/${categoryId}.csv`;
     let response = await fetch(url);
     let string = await response.text();
     let category = this._getCategory(categoryId);
