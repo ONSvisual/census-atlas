@@ -110,9 +110,9 @@
   </span>
 
   <Topic topicList={pageTopic.suggestions} cardTitle="{pageTopic.topicName} - Census 2021"
-    >The 2021 Census tells us a lot about the {pageTopic.topicName} of people living in England and Wales live and work.
-    <a href="/categories/{topicSlug}"> Choose a data option from the full list</a>
-    or explore one of these suggestions.
+    ><p>The 2021 Census tells us a lot about the {pageTopic.topicName} of people living in England and Wales live and work.</p>
+    <p><a href="/categories/{topicSlug}"> Choose a category from the full list</a>
+    or explore one of these suggestions.</p>
   </Topic>
 
   <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>

@@ -33,7 +33,7 @@
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
             <h2 id="census-atlas-header-2__title">
-              <a href="/categories{locationQueryParam}">Choose a data option</a>
+              <a href="/categories{locationQueryParam}">Choose a category</a>
             </h2>
           </div>
         {/if}
