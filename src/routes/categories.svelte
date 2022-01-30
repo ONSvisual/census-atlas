@@ -60,7 +60,7 @@
     <Header
       href={$pageUrl}
       showBackLink
-      serviceTitle="Choose a data option {locationId ? `for ${locationName}` : ''}"
+      serviceTitle="Choose a category {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName
         ? `${locationName}'s`
         : 'Census'} data."

@@ -95,16 +95,16 @@
   </DesignSystemPanel>
 
   <DesignSystemPanel
-    title="Choose a data option header"
+    title="Choose a category header"
     code={`<Header
       showBackLink
-      serviceTitle="Choose a data option"
+      serviceTitle="Choose a category"
       description="Choose a category and select an option within it to explore {false?'\${mapLocation}'s':'Census'} data."
     />`}
   >
     <Header
       showBackLink
-      serviceTitle="Choose a data option"
+      serviceTitle="Choose a category"
       description="Choose a category and select an option within it to explore {false
         ? `${mapLocation}'s`
         : 'Census'} data."
@@ -112,16 +112,16 @@
   </DesignSystemPanel>
 
   <DesignSystemPanel
-    title="Choose a data option header when there is a location"
+    title="Choose a category header when there is a location"
     code={`<Header
       showBackLink
-      serviceTitle="Choose a data option"
+      serviceTitle="Choose a category"
       description="Choose a category and select an option within it to explore {true?'\${mapLocation}'s':'Census'} data."
     />`}
   >
     <Header
       showBackLink
-      serviceTitle="Choose a data option"
+      serviceTitle="Choose a category"
       description="Choose a category and select an option within it to explore {true
         ? `${mapLocation}'s`
         : 'Census'} data."
@@ -156,12 +156,12 @@
     title="Topic component-1"
     code={`<Topic topicList={topicList1} cardTitle="Health - Census 2021">
   The 2021 Census tells us a lot about the health of people living in England and Wales live and. 
-  <a href="#0">Choose a data option from the full list</a> or explore one of these suggestions.
+  <a href="#0">Choose a category from the full list</a> or explore one of these suggestions.
 </Topic>`}
   >
     <Topic topicList={topicList1} cardTitle="Health - Census 2021"
       >The 2021 Census tells us a lot about the health of people living in England and Wales live and. <a href="#0">
-        Choose a data option from the full list</a
+        Choose a category from the full list</a
       > or explore one of these suggestions.
     </Topic>
   </DesignSystemPanel>

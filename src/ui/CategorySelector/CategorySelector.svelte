@@ -57,21 +57,23 @@
     </div>
   </div>
   <div class="category-selector__links">
-    <a
-      class="category-selector__link category-selector__link--previous"
-      href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
-      on:click={clickLeft}
-    >
-      <span>{categories[leftIndex].name}</span>
-    </a>
+    <p class="category-selector__link category-selector__link--previous">
+      <a
+        href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
+        on:click={clickLeft}
+      >
+        {categories[leftIndex].name}
+      </a>
+    </p>
 
-    <a
-      class="category-selector__link category-selector__link--next"
-      href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
-      on:click={clickRight}
-    >
-      <span>{categories[rightIndex].name}</span>
-    </a>
+    <p class="category-selector__link category-selector__link--next">
+      <a
+        href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
+        on:click={clickRight}
+      >
+        {categories[rightIndex].name}
+      </a>
+    </p>
   </div>
 </div>
 
@@ -113,24 +115,33 @@
         font-size: 16px;
         line-height: 22px;
       }
-      span {
-        color: $color-white;
-        padding: 0 16px 0 16px;
+      a {
+        margin: 0 16px 0 16px;
         align-self: center;
         overflow-wrap: anywhere;
+        color: $color-white;
+        &:hover {
+          text-decoration: underline solid $color-white 2px;
+        }
+        &:focus {
+          span {
+            background-color: $color-sun-yellow;
+            -webkit-box-shadow: 0 -2px $color-sun-yellow, 0 4px $color-black;
+            box-shadow: 0 -2px $color-sun-yellow, 0 4px $color-black;
+            color: $color-black;
+            outline: 3px solid transparent;
+            text-decoration: none;
+          }
+        }
       }
       &--previous {
-        & span {
-          background: url(./chevron--left.svg) no-repeat 0 50%;
-        }
+        background: url(./chevron--left.svg) no-repeat 0 50%;
       }
       &--next {
         text-align: right;
         justify-content: end;
         border-left: 1px solid rgba($color-white, 0.5);
-        & span {
-          background: url(./chevron--right.svg) no-repeat 100% 50%;
-        }
+        background: url(./chevron--right.svg) no-repeat 100% 50%;
       }
     }
   }
