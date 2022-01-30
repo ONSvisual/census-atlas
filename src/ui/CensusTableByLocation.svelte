@@ -48,6 +48,10 @@
     overflow-wrap: anywhere;
   }
 
+  .ons-table__cell--numeric {
+    overflow-wrap: initial;
+  }
+
   .ons-table__cell--key {
     font-size: 24px;
     line-height: 24px;
