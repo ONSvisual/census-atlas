@@ -48,6 +48,7 @@
     calculateComparisonDiff,
     updateMapAndComparisons,
   } from "../../../utils";
+  import { pageUrl } from "../../../stores";
 
   import { selectedGeography } from "../../../model/geography/geography";
 
@@ -71,6 +72,7 @@
   let categoryCodesArr = [];
 
   onMount(async () => {
+    $pageUrl = $page.path + (locationId ? `?location=${locationId}` : "");
     if (locationId) {
       updateSelectedGeography(locationId);
       locationName = getLadName(locationId);
@@ -83,6 +85,7 @@
     categorySlug = $page.params.categorySlug;
     updateSelectedGeography(locationId);
     locationName = getLadName(locationId);
+    $pageUrl = $page.path + (locationId ? `?location=${locationId}` : "");
   }
 
   $: {
@@ -100,7 +103,8 @@
     fetchSelectedDataset();
   $: categorySlug,
     ((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
-    (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug)));
+    (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug))),
+    ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : ""));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();

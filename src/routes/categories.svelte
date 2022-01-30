@@ -17,6 +17,7 @@
     updateHoveredGeography,
     selectedGeography,
   } from "../model/geography/geography";
+  import { pageUrl } from "../stores";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
@@ -32,6 +33,9 @@
       goto(`?${$page.query.toString()}`);
       locationId = $page.query.get("location");
       locationName = getLadName(locationId);
+      if ($pageUrl.includes("area")) {
+        $pageUrl = `area?location=${locationId}`;
+      }
     }
   }
 
@@ -54,6 +58,7 @@
 <BasePage mobileMap={false} withoutBackground>
   <span slot="header">
     <Header
+      href={$pageUrl}
       showBackLink
       serviceTitle="Choose a data option {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName

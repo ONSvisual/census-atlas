@@ -1,6 +1,7 @@
 import { writable, get } from "svelte/store";
 import { csv } from "d3-fetch";
 
+export let pageUrl = writable("");
 export const geographicCodes = writable([]);
 export const selectedCategoryTotals = writable([]);
 export const selectedCategory = writable("");
