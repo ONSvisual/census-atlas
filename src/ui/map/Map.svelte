@@ -6,12 +6,13 @@
   import ladBoundsLookup from "../../data/ladMapBoundsLookup";
   import { mapBBoxCodes } from "../../model/censusdata/stores";
   import { mapZoomBBox } from "../../model/geography/stores";
+  import config from "../../config";
 
   export let map = null;
   export let minzoom = 0;
   export let maxzoom = 14;
 
-  export let bounds = [3.2, 55.17, -6.17, 50.38];
+  export let bounds = config.ux.map.englandAndWalesBounds;
   export let zoom = 6;
 
   let options = {
@@ -34,7 +35,7 @@
           ladBoundsLookup[$selectedGeography.lad].minY,
         ];
       } else {
-        bounds = [3.2, 55.17, -6.17, 50.38];
+        bounds = config.ux.map.englandAndWalesBounds;
       }
       map.fitBounds(bounds, { padding: 30 });
     }

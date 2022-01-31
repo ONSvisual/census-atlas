@@ -74,7 +74,7 @@
   </span>
 
   <span slot="map">
-    <Map maxzoom={14} bounds={englandWalesBounds}>
+    <Map maxzoom={14} bounds={config.ux.map.englandAndWalesBounds}>
       <TileSet
         id="lad"
         type="vector"

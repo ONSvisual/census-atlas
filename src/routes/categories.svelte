@@ -22,8 +22,6 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
 
-  let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
-
   let locationId = $page.query.get("location");
   let locationName;
 
