@@ -303,16 +303,18 @@ export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCo
     fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
   }
-  if (get(dataByGeography).get(geoCode)) {
-    comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
-  }
-  if (neighbouringLad && get(dataByGeography).get(neighbouringLad.code)) {
-    comparisons.neighbouringLadDiff = calculateComparisonDiff(
-      geoCode,
-      neighbouringLad.code,
-      table.total.code,
-      category,
-    );
+  if (geoCode != config.eAndWGeoCode) {
+    if (get(dataByGeography).get(geoCode)) {
+      comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
+    }
+    if (neighbouringLad && get(dataByGeography).get(neighbouringLad.code)) {
+      comparisons.neighbouringLadDiff = calculateComparisonDiff(
+        geoCode,
+        neighbouringLad.code,
+        table.total.code,
+        category,
+      );
+    }
   }
   return comparisons;
 };

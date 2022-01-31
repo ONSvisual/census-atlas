@@ -24,7 +24,7 @@
   } from "../model/geography/geography";
   import Header from "../ui/Header.svelte";
   import { reverseLadLookup } from "../model/geography/geography";
-  import {pageUrl} from "../stores"
+  import { pageUrl } from "../stores";
 
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";

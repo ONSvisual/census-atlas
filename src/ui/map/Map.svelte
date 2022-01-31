@@ -25,13 +25,17 @@
     mapBBoxCodes.set(getMapBBoxGeoCodes(map));
   }
   $: {
-    if (map && $selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
-      bounds = [
-        ladBoundsLookup[$selectedGeography.lad].maxX,
-        ladBoundsLookup[$selectedGeography.lad].maxY,
-        ladBoundsLookup[$selectedGeography.lad].minX,
-        ladBoundsLookup[$selectedGeography.lad].minY,
-      ];
+    if (map) {
+      if ($selectedGeography.lad && ladBoundsLookup[$selectedGeography.lad]) {
+        bounds = [
+          ladBoundsLookup[$selectedGeography.lad].maxX,
+          ladBoundsLookup[$selectedGeography.lad].maxY,
+          ladBoundsLookup[$selectedGeography.lad].minX,
+          ladBoundsLookup[$selectedGeography.lad].minY,
+        ];
+      } else {
+        bounds = [3.2, 55.17, -6.17, 50.38];
+      }
       map.fitBounds(bounds, { padding: 30 });
     }
   }

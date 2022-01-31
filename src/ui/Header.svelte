@@ -1,8 +1,12 @@
 <script>
   import ONSBacklink from "./ons/ONSBacklink.svelte";
+  import { page } from "$app/stores";
+  import { updateSelectedGeography } from "../model/geography/geography";
   export let serviceTitle, description, showChangeAreaHeader;
   export let showBackLink = false;
   export let href;
+
+  $: href = $page.path;
 </script>
 
 <header class="ons-header ons-header--hero" role="banner">
@@ -21,13 +25,7 @@
 
           {#if !description}
             <slot />
-            <!--  TODO
-              - add functionality : 
-                 - display data for England and Wales
-                 - the map should zoom back out to refocus on the whole of England and Wales.
-              - check to see if this is needed on the routes/area/index.svelte screen
-            -->
-            <!-- <p><a {href}>See data for all England and Wales</a></p> -->
+            <p><a {href} on:click={() => updateSelectedGeography("")}>See data for all England and Wales</a></p>
           {/if}
         </div>
       </div>
