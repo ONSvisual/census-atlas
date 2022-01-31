@@ -1,9 +1,9 @@
-import Select from "./Select.svelte";
+import SelectTestExComp from "./SelectTestExComp.svelte";
 import { fireEvent, render } from "@testing-library/svelte";
 
-describe("Select", () => {
+describe("SelectTestExComp", () => {
   test("it renders", async () => {
-    const { container } = render(Select);
+    const { container } = render(SelectTestExComp);
 
     const selectElement = container.querySelector("#select");
     const toggleElement = container.querySelector("#toggle");
@@ -15,7 +15,7 @@ describe("Select", () => {
   });
 
   test("displays the placeholder when not selected", async () => {
-    const { getByText } = render(Select, {
+    const { getByText } = render(SelectTestExComp, {
       selected: false,
     });
 
@@ -26,7 +26,7 @@ describe("Select", () => {
 
   test("displays custom placeholder text if it is provided", async () => {
     const testPlaceholder = "a test placeholder";
-    const { getByText } = render(Select, {
+    const { getByText } = render(SelectTestExComp, {
       selected: false,
       placeholder: testPlaceholder,
     });
@@ -37,7 +37,7 @@ describe("Select", () => {
   });
 
   test("displays dropdown when the select clicked", async () => {
-    const { container } = render(Select, { options: [] });
+    const { container } = render(SelectTestExComp, { options: [] });
 
     const toggleElement = container.querySelector("#toggle");
     let dropdownElement = container.querySelector("#dropdown");
@@ -53,7 +53,7 @@ describe("Select", () => {
   });
 
   test('displays "No Results" in dropdown if no options provided', async () => {
-    const { container, getByText } = render(Select, { options: [] });
+    const { container, getByText } = render(SelectTestExComp, { options: [] });
 
     const toggleElement = container.querySelector("#toggle");
     expect(toggleElement).not.toBeNull();
@@ -68,7 +68,7 @@ describe("Select", () => {
   test("displays each option provided in dropdown if no filter applied", async () => {
     const area1Name = "Area 1";
     const area2Name = "Area 2";
-    const { container, getByText } = render(Select, {
+    const { container, getByText } = render(SelectTestExComp, {
       options: [{ AREANM: area1Name }, { AREANM: area2Name }],
     });
 
