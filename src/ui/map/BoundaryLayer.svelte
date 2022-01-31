@@ -42,5 +42,9 @@
     options["minzoom"] = minzoom;
   }
 
-  map.addLayer(options, order);
+  if (map.getLayer(order)) {
+    map.addLayer(options, order);
+  } else {
+    map.addLayer(options);
+  }
 </script>
