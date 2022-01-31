@@ -61,12 +61,16 @@ export default [
             name: "Day-to-day activities limited a little",
             slug: "day-to-day-activities-limited-a-little",
           },
-          { code: "QS303EW0004", name: "No long-term condition", slug: "no-long-term-condition" },
+          {
+            code: "QS303EW0004",
+            name: "Day-to-day activities are not limited",
+            slug: "day-to-day-activities-are-not-limited",
+          },
         ],
         code: "QS303EW",
         name: "Long-term health problem or disability",
         slug: "long-term-health-problem-or-disability",
-        desc: "How people's heath affect their day-to-day activities.",
+        desc: "How people's health affects their day-to-day activities.",
         total: {
           code: "QS303EW0001",
           name: "All categories: Long-term health problem or disability",
@@ -215,7 +219,7 @@ export default [
           { code: "QS411EW0004", name: "2 bedrooms", slug: "2-bedrooms" },
           { code: "QS411EW0005", name: "3 bedrooms", slug: "3-bedrooms" },
           { code: "QS411EW0006", name: "4 bedrooms", slug: "4-bedrooms" },
-          { code: "QS411EW0007", name: "5 bedrooms", slug: "5-bedrooms" },
+          { code: "QS411EW0007", name: "5 or more bedrooms", slug: "5-or-more-bedrooms" },
         ],
         code: "QS411EW",
         name: "Number of bedrooms",
@@ -360,8 +364,8 @@ export default [
           { code: "QS203EW0072", name: "Antarctica, Oceania, and other", slug: "antarctica-oceania-and-other" },
         ],
         code: "QS203EW",
-        name: "Place of birth",
-        slug: "place-of-birth",
+        name: "Country of birth",
+        slug: "country-of-birth",
         desc: "People born in or outside the UK.",
         total: {
           code: "QS203EW0001",
@@ -379,9 +383,9 @@ export default [
           { code: "QS803EW0006", name: "10 years or more", slug: "10-years-or-more" },
         ],
         code: "QS803EW",
-        name: "Length of time people have lived in the uk",
+        name: "Length of time people have lived in the UK",
         slug: "length-of-time-people-have-lived-in-the-uk",
-        desc: "People born or have moved to the UK,",
+        desc: "People born or have moved to the UK.",
         total: {
           code: "QS803EW0001",
           name: "All categories: Length of residence in the UK",
@@ -473,28 +477,28 @@ export default [
         categories: [
           {
             code: "KS103EW0002",
-            name: "Single never married or never registered a same-sex civil partnership",
-            slug: "single-never-married-or-never-registered-a-same-sex-civil-partnership",
+            name: "Single",
+            slug: "single",
           },
           {
             code: "KS103EW0003",
-            name: "Married or in a registered civil partnership",
-            slug: "married-or-in-a-registered-civil-partnership",
+            name: "Married",
+            slug: "married",
           },
           {
             code: "KS103EW0005",
-            name: "Separated (but still legally married or still legally in a same-sex civil partnership)",
-            slug: "separated-but-still-legally-married-or-still-legally-in-a-same-sex-civil-partnership",
+            name: "Separated",
+            slug: "separated",
           },
           {
             code: "KS103EW0006",
-            name: "Divorced or civil partnership dissolved",
-            slug: "divorced-or-civil-partnership-dissolved",
+            name: "Divorced",
+            slug: "divorced",
           },
           {
             code: "KS103EW0007",
-            name: "Widowed or surviving civil partnership",
-            slug: "widowed-or-surviving-civil-partnership",
+            name: "Widowed",
+            slug: "widowed",
           },
         ],
         code: "KS103EW",
@@ -542,7 +546,7 @@ export default [
       {
         categories: [
           { code: "QS113EW0002", name: "One person household", slug: "one-person-household" },
-          { code: "QS113EW0005", name: "Single family households", slug: "single-family-households" },
+          { code: "QS113EW0005", name: "One family households", slug: "one-family-households" },
           { code: "QS113EW0026", name: "Multiple family households", slug: "multiple-family-households" },
         ],
         code: "QS113EW",
@@ -582,8 +586,16 @@ export default [
       },
       {
         categories: [
-          { code: "QS604EW0002", name: "Part-time", slug: "part-time" },
-          { code: "QS604EW0005", name: "Full-time", slug: "full-time" },
+          {
+            code: "QS604EW0002",
+            name: "Part-time (less than 30 hours per week)",
+            slug: "part-time-less-than-30-hours-per-week",
+          },
+          {
+            code: "QS604EW0005",
+            name: "Full-time (more than 30 hours per week)",
+            slug: "full-time-more-than-30-hours-per-week",
+          },
         ],
         code: "QS604EW",
         name: "Working hours",
