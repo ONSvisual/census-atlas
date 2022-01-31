@@ -48,7 +48,7 @@
   $: {
     locationId = $page.query.get("location");
     updateSelectedGeography(locationId);
-    locationName = getLadName(locationId);
+    locationName = getLadName(locationId) ? getLadName(locationId) : "England and Wales";
     topicSuggestions = areaSelectedTopicSuggestions(locationName, locationId);
   }
   $: {

@@ -25,7 +25,14 @@
 
           {#if !description}
             <slot />
-            <p><a {href} on:click={() => updateSelectedGeography("")}>See data for all England and Wales</a></p>
+            <p>
+              <a
+                {href}
+                on:click={() => {
+                  updateSelectedGeography(""), (showChangeAreaHeader = false);
+                }}>See data for all England and Wales</a
+              >
+            </p>
           {/if}
         </div>
       </div>
