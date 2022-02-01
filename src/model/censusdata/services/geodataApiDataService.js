@@ -16,9 +16,9 @@ export default class GeodataApiDataService {
     const categoriesString = categories.toString();
     let url = "";
     if (geoType.toLowerCase().trim() == "lad") {
-      url = `${censusDataBaseUrl}?cols=geography_code,${categoriesString}&geotype=LAD`;
+      url = `${censusDataBaseUrl}?cols=geography_code,${categoriesString}&geotype=LAD&rows=all`;
     } else if (geoType.toLowerCase().trim() == "lsoa") {
-      url = `${censusDataBaseUrl}?cols=geography_code,${categoriesString}&geotype=LSOA`;
+      url = `${censusDataBaseUrl}?cols=geography_code,${categoriesString}&geotype=LSOA&rows=all`;
     }
     const response = await fetch(url);
     const string = await response.text();

@@ -1,6 +1,5 @@
 <script>
   import BasePage from "../../../ui/BasePage.svelte";
-
   import Map from "../../../ui/map/Map.svelte";
   import Topic from "../../../ui/Topic.svelte";
   import ONSShare from "../../../ui/ons/ONSShare.svelte";
@@ -18,17 +17,16 @@
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
   import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
-
   import {
     categoryDataIsLoaded,
     categoryData,
     fetchCensusData,
-    tables,
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
     dataByGeography,
     fetchSelectedDataForGeographies,
+    fetchSelectedDataForGeoType,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
@@ -49,9 +47,7 @@
     updateMapAndComparisons,
   } from "../../../utils";
   import { pageUrl } from "../../../stores";
-
   import { selectedGeography } from "../../../model/geography/geography";
-
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -116,7 +112,10 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? filterSelectedTable(metadata, category) : null;
     populatesSelectedData(table.name, table.categories, category.code, table.total.code);
-    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
+    // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code]);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code]);
+    console.log($dataByGeography);
     if (isNotEmpty($selectedData)) {
       totalCatCode = table.total.code;
       categoryCodesArr.push(totalCatCode);
@@ -187,8 +186,8 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
+        {#if $dataByGeography}
+          <DataLayer id="lad-data-zoom" catCode={category.code} maxzoom={config.ux.map.lsoa_breakpoint} />
         {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
@@ -213,8 +212,8 @@
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lsoa-data" data={categoryData} />
+        {#if $dataByGeography}
+          <DataLayer id="lsoa-data" catCode={category.code} />
         {/if}
       </TileSet>
       <TileSet
@@ -225,8 +224,8 @@
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lsoa-data-zoom" data={categoryData} />
+        {#if $dataByGeography}
+          <DataLayer id="lsoa-data-zoom" catCode={category.code} />
         {/if}
       </TileSet>
       <TileSet

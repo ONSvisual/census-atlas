@@ -3,6 +3,7 @@
   import { getLegendSection } from "./../../model/utils";
   import config from "./../../config";
   import { selectedCategoryBreaks } from "../../model/metadata/metadata";
+  import { dataByGeography, newDataByGeography } from "../../model/censusdata/censusdata";
 
   export let id;
   export let source = getContext("source");
@@ -17,10 +18,13 @@
       "rgba(255, 255, 255, 0)",
     ],
   };
-  export let data = null;
+  export let catCode;
   export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
+
+  console.log(catCode);
+  console.log($dataByGeography);
 
   const { getMap } = getContext("map");
   const map = getMap();
@@ -59,6 +63,10 @@
   map.addLayer(options, order);
 
   function setMapGeographyColours() {
+    $dataByGeography.forEach((geoData, geoCode) => {
+      
+      geoData.forEach((val, catCode))
+    });
     for (const key of Object.keys(data)) {
       let legendSection;
       if (key.startsWith("E01") || key.startsWith("W01")) {
@@ -80,5 +88,5 @@
   }
 
   // when data updates colourise the map
-  $: $selectedCategoryBreaks, data && setMapGeographyColours();
+  $: $selectedCategoryBreaks, $newDataByGeography && setMapGeographyColours();
 </script>

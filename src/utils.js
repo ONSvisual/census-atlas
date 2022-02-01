@@ -5,8 +5,10 @@ import {
   dataByGeography,
   getCategoryBySlug,
   fetchCensusData,
+  fetchSelectedDataForGeoType,
 } from "./model/censusdata/censusdata";
 import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
+import GeodataApiDataService from "./model/censusdata/services/geodataApiDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks } from "./model/metadata/metadata";
@@ -300,7 +302,8 @@ export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCo
   let table = category ? filterSelectedTable(metadata, category) : null;
   let comparisons = {};
   if (category) {
-    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
+    // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code]);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
   }
   if (geoCode != config.eAndWGeoCode) {
