@@ -1,9 +1,9 @@
-import Radio from "./Radio.svelte";
+import RadioTestExComp from "./RadioTestExComp.svelte";
 import { render } from "@testing-library/svelte";
 
 it("it renders", async () => {
   const radioOptionName = "Yes";
-  const { container, getByText } = render(Radio, {
+  const { container, getByText } = render(RadioTestExComp, {
     props: { props: { name: radioOptionName } },
   });
 
