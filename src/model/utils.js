@@ -1,5 +1,6 @@
 import { csvParse } from "d3-dsv";
 import { dataByGeography, newDataByGeography } from "./censusdata/censusdata";
+import { totalCatCodeLookup } from "./metadata/metadata";
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
@@ -15,11 +16,14 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
   let data = new Map();
   csvParse(responseStr, (row, i, cols) => {
     let geoDataMap = new Map();
-    cols.forEach((col, i) => {
-      if (i > 0) {
-        geoDataMap.set(col, +row[col]);
-      }
+    cols.forEach((col, i, arr) => {
+      console.log("test", row[get(totalCatCodeLookup)[col]]);
+      // if (totalCatCodeLookup[col]) {
+      //   //sets category Map
+      //   geoDataMap.set(col, { value: +row[col], total: 0, perc: 0.0 });
+      // }
     });
+    //sets geography Map
     data.set(geographyCode ? geographyCode : row.geography_code, geoDataMap);
   });
   return data;

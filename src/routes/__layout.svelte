@@ -11,13 +11,13 @@
   import config from "./../config";
 
   initialiseGeography(new LegacyGeographyService()).then(() => {
-    initialiseCensusData(new LegacyCensusDataService()).then(() => setInitialised());
+    initialiseCensusData(new LegacyCensusDataService())
+      .then(() => initialiseCensusMetadata(new MetadataApiDataService()))
+      .then(() => setInitialised());
   });
 
   //fetch and cache all England & Wales data on initialise
   fetchAllDataForGeography(new GeodataApiDataService(), config.eAndWGeoCode);
-
-  initialiseCensusMetadata(new MetadataApiDataService());
 </script>
 
 <slot />
