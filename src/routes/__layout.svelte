@@ -6,6 +6,8 @@
   import { setInitialised } from "./../model/appstate";
   import { fetchAllDataForGeography } from "./../model/censusdata/censusdata";
   import GeodataApiDataService from "./../model/censusdata/services/geodataApiDataService";
+  import { initialiseCensusMetadata } from "./../model/metadata/metadata";
+  import MetadataApiDataService from "./../model/metadata/services/metadataApiDataService";
   import config from "./../config";
 
   initialiseGeography(new LegacyGeographyService()).then(() => {
@@ -14,6 +16,8 @@
 
   //fetch and cache all England & Wales data on initialise
   fetchAllDataForGeography(new GeodataApiDataService(), config.eAndWGeoCode);
+
+  initialiseCensusMetadata(new MetadataApiDataService());
 </script>
 
 <slot />
