@@ -17,7 +17,7 @@
     updateHoveredGeography,
     selectedGeography,
   } from "../../../../model/geography/geography";
-  import { categoryDataIsLoaded, categoryData } from "../../../../model/censusdata/censusdata";
+  import { categoryDataIsLoaded, categoryData, dataByGeography } from "../../../../model/censusdata/censusdata";
   import { appIsInitialised } from "../../../../model/appstate";
   import { pageUrl } from "../../../../stores";
 
@@ -76,7 +76,7 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
-        {#if $categoryDataIsLoaded}
+        {#if $dataByGeography}
           <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
         {/if}
         <InteractiveLayer
@@ -102,7 +102,7 @@
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $categoryDataIsLoaded}
+        {#if $dataByGeography}
           <DataLayer id="lsoa-data" data={categoryData} />
         {/if}
       </TileSet>
@@ -114,7 +114,7 @@
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $categoryDataIsLoaded}
+        {#if $dataByGeography}
           <DataLayer id="lsoa-data-zoom" data={categoryData} />
         {/if}
       </TileSet>

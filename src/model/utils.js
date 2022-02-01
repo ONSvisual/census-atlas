@@ -16,12 +16,13 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
   let data = new Map();
   csvParse(responseStr, (row, i, cols) => {
     let geoDataMap = new Map();
-    cols.forEach((col, i, arr) => {
-      console.log("test", row[get(totalCatCodeLookup)[col]]);
-      // if (totalCatCodeLookup[col]) {
-      //   //sets category Map
-      //   geoDataMap.set(col, { value: +row[col], total: 0, perc: 0.0 });
-      // }
+    cols.forEach((col) => {
+      if (get(totalCatCodeLookup)[col]) {
+        const totalVal = row[get(totalCatCodeLookup)[col]];
+        const percentage = (Math.round((+row[col] / totalVal) * 100 * 10) / 10).toFixed(1);
+        //sets category Map
+        geoDataMap.set(col, { value: +row[col], total: totalVal, perc: percentage });
+      }
     });
     //sets geography Map
     data.set(geographyCode ? geographyCode : row.geography_code, geoDataMap);

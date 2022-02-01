@@ -23,9 +23,6 @@
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
 
-  console.log(catCode);
-  console.log($dataByGeography);
-
   const { getMap } = getContext("map");
   const map = getMap();
 
@@ -63,30 +60,27 @@
   map.addLayer(options, order);
 
   function setMapGeographyColours() {
+    console.log("test");
     $dataByGeography.forEach((geoData, geoCode) => {
-      
-      geoData.forEach((val, catCode))
-    });
-    for (const key of Object.keys(data)) {
       let legendSection;
-      if (key.startsWith("E01") || key.startsWith("W01")) {
-        legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lsoa);
+      if (geoCode.startsWith("E01") || geoCode.startsWith("W01")) {
+        legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lsoa);
       } else {
-        legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lad);
+        legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lad);
       }
       map.setFeatureState(
         {
           source: source,
           sourceLayer: sourceLayer,
-          id: key,
+          id: geoCode,
         },
         {
           color: config.ux.legend_colours[legendSection],
         },
       );
-    }
+    });
   }
 
   // when data updates colourise the map
-  $: $selectedCategoryBreaks, $newDataByGeography && setMapGeographyColours();
+  $: $selectedCategoryBreaks && setMapGeographyColours();
 </script>

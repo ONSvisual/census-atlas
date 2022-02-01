@@ -113,11 +113,11 @@
     table = category ? filterSelectedTable(metadata, category) : null;
     populatesSelectedData(table.name, table.categories, category.code, table.total.code);
     // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
     console.log($dataByGeography);
     if (isNotEmpty($selectedData)) {
       totalCatCode = table.total.code;
+      fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
+      fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
       categoryCodesArr.push(totalCatCode);
       $selectedData.tableCategories.forEach((category) => {
         populateCensusTable["categories"].push({ code: category.code, name: category.name });
