@@ -142,17 +142,18 @@
       }
     }
     if ($dataByGeography.get(geoCode)) {
-      //reassign variable to trigger reactivity
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
       selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
-      comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
-      if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
-        comparisons.neighbouringLadDiff = calculateComparisonDiff(
-          geoCode,
-          neighbouringLad.code,
-          totalCatCode,
-          category,
-        );
+      if (geoCode != config.eAndWGeoCode) {
+        comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
+        if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
+          comparisons.neighbouringLadDiff = calculateComparisonDiff(
+            geoCode,
+            neighbouringLad.code,
+            totalCatCode,
+            category,
+          );
+        }
       }
     }
   };

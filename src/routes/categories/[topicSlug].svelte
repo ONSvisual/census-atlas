@@ -50,8 +50,6 @@
   }
 
   $: innerWidth = 0;
-
-  let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
 </script>
 
 <svelte:window bind:innerWidth />
@@ -72,7 +70,7 @@
   </span>
 
   <span slot="map">
-    <Map maxzoom={14} bounds={englandWalesBounds}>
+    <Map maxzoom={14} bounds={config.ux.map.englandAndWalesBounds}>
       <TileSet
         id="lad"
         type="vector"

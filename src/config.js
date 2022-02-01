@@ -39,6 +39,7 @@ export default {
     legend_sections: 5,
     legend_colours: ["#d5f690", "#5bc4b1", "#2e9daa", "#0079a2", "#005583"],
     map: {
+      englandAndWalesBounds: [2.08, 55.68, -6.59, 48.53],
       default_zoom: 14,
       max_zoom: 14,
       min_zoom: 9,
@@ -217,27 +218,28 @@ export const topicSuggestions = [
   },
 ];
 
-export function areaSelectedTopicSuggestions(ladName, ladCode) {
+export function areaSelectedTopicSuggestions(locationName, ladCode) {
+  const locationQueryParam = ladCode ? `?location=${ladCode}` : "";
   return [
     {
       text: `People with a Level 4 education or above.`,
-      url: `/education/highest-level-of-qualification-gained/level-4-qualifications-and-above?location=${ladCode}`,
+      url: `/education/highest-level-of-qualification-gained/level-4-qualifications-and-above${locationQueryParam}`,
     },
     {
-      text: `${ladName}'s ethnic mix.`,
-      url: `/identity/ethnicity/white-english-welsh-scottish-northern-irish-british?location=${ladCode}`,
+      text: `${locationName}'s ethnic mix.`,
+      url: `/identity/ethnicity/white-english-welsh-scottish-northern-irish-british${locationQueryParam}`,
     },
     {
       text: `Residents general health.`,
-      url: `/health/general-health/good?location=${ladCode}`,
+      url: `/health/general-health/good${locationQueryParam}`,
     },
     {
       text: `What is the most common household size?`,
-      url: `/housing/size-of-household/2-person-household?location=${ladCode}`,
+      url: `/housing/size-of-household/2-person-household${locationQueryParam}`,
     },
     {
       text: `How people travel to work?`,
-      url: `/work/travel-to-work/driving-in-a-car-or-van?location=${ladCode}`,
+      url: `/work/travel-to-work/driving-in-a-car-or-van${locationQueryParam}`,
     },
   ];
 }
