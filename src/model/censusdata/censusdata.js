@@ -122,6 +122,8 @@ export async function fetchTableStructure(censusDataService) {
       tables[table.code] = {
         topic: topic.code,
         code: table.code,
+        total: table.total.code,
+        unit: table.units,
         name: table.name,
         slug: table.slug,
         categories: table.categories.map((category) => category.code),
@@ -140,7 +142,6 @@ export async function fetchTableStructure(censusDataService) {
       });
     });
   });
-
   censusTableStructureIsLoaded.set(true);
 }
 
@@ -175,10 +176,11 @@ export async function fetchCensusData(censusDataService, categoryCode, geography
   categoryDataIsLoaded.set(true);
 }
 
-export function populatesSelectedData(tableName, tableCategories, selectedCategory, tableTotal) {
+export function populatesSelectedData(tableName, tableCategories, selectedCategory, tableTotal, tableUnit) {
   selectedData.set({});
   selectedData.set({
     tableName: tableName,
+    tableUnit: tableUnit,
     tableCategories: tableCategories,
     categorySelected: selectedCategory,
     total: tableTotal,

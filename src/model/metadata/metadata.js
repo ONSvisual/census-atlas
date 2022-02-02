@@ -22,6 +22,13 @@ export async function initialiseCensusMetadata(metadataService) {
   censusMetadata.set(data);
 }
 
+export async function initialiseCensusMetadataFromFlatFile(flatfileMetadataService) {
+  const data = await flatfileMetadataService.fetchCensusTableStructure();
+  totalCatCodeLookup.set(buildTotalCatCodeStores(data));
+  reverseTotalCatCodeLookup.set(buildReverseTotalCatCodeLookup(data));
+  censusMetadata.set(data);
+}
+
 function buildTotalCatCodeStores(metadata) {
   let lookup = {};
   metadata.forEach((topic) => {

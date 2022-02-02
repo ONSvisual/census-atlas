@@ -1,7 +1,7 @@
 import metadata from "../../../data/apiMetadata";
 
 export default class FlatfileMetadataService {
-  async fetchCensusMetadata() {
+  async fetchCensusTableStructure() {
     return metadata;
   }
 }

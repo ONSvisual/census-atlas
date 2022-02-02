@@ -21,12 +21,14 @@
     categoryDataIsLoaded,
     categoryData,
     fetchCensusData,
+    tables,
     getCategoryBySlug,
     populatesSelectedData,
     selectedData,
     dataByGeography,
     fetchSelectedDataForGeographies,
     fetchSelectedDataForGeoType,
+    censusTableStructureIsLoaded,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
@@ -110,8 +112,11 @@
       neighbouringLad = returnNeighbouringLad(locationId);
     }
     category = getCategoryBySlug(tableSlug, categorySlug);
-    table = category ? filterSelectedTable(metadata, category) : null;
-    populatesSelectedData(table.name, table.categories, category.code, table.total.code);
+    // table = category ? filterSelectedTable(metadata, category) : null;
+    table = category ? tables[category.table] : null;
+    if ($censusTableStructureIsLoaded) {
+      populatesSelectedData(table.name, table.categoriesArray, category.code, table.total, table.unit);
+    }
     // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
       totalCatCode = table.total.code;
@@ -274,7 +279,7 @@
     </div>
   {/if}
 
-  <CensusTableByLocation/>
+  <CensusTableByLocation />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

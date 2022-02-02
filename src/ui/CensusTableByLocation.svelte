@@ -5,31 +5,31 @@
   import { isNotEmpty } from "../utils";
   import { appIsInitialised } from "../model/appstate";
 
-  let censusTableData = [];
-  const geoCode = $selectedGeography.lad
+  let censusTableData = { categories: [] };
+  $: geoCode = $selectedGeography.lad
     ? $selectedGeography.lad
     : $selectedGeography.lsoa
     ? $selectedGeography.lsoa
     : config.eAndWGeoCode;
 
-  console.log(geoCode);
-
   function populateCensusTable() {
-    console.log("test");
-    if (isNotEmpty($selectedData) && $dataByGeography.get(geoCode)) {
-      console.log($dataByGeography);
+    if ($dataByGeography.has(geoCode)) {
+      censusTableData["tableUnit"] = $selectedData.tableUnit;
       $selectedData.tableCategories.forEach((category) => {
-        censusTableData.push({
+        censusTableData.categories.push({
           code: category.code,
           name: category.name,
-          percentage: $dataByGeography.get(geoCode).get(category.code).percentage,
+          value: $dataByGeography.get(geoCode).get(category.code).value.toLocaleString(),
+          percentage: $dataByGeography.get(geoCode).get(category.code).perc,
         });
       });
     }
     console.log(censusTableData);
   }
 
-  $: $dataByGeography, isNotEmpty($selectedData) && $dataByGeography.get(geoCode) && populateCensusTable();
+  // $: $dataByGeography, isNotEmpty($selectedData) && $dataByGeography.get(geoCode) && populateCensusTable();
+  $: $selectedGeography.lad || $selectedGeography.lsoa,
+    ($dataByGeography.has(geoCode) || $appIsInitialised) && populateCensusTable();
 </script>
 
 {#if isNotEmpty(censusTableData)}
@@ -40,7 +40,7 @@
           <span>{$selectedData.tableName}</span>
         </th>
         <th scope="col" class="ons-table__header ons-table__header--numeric">
-          <span>People</span>
+          <span>{censusTableData.tableUnit}</span>
         </th>
         <th scope="col" class="ons-table__header ons-table__header--numeric">
           <span>Percentage</span>
@@ -48,7 +48,7 @@
       </tr>
     </thead>
     <tbody class="ons-table__body">
-      {#each censusTableData as category}
+      {#each censusTableData.categories as category}
         <tr class="ons-table__row">
           <td class="ons-table__cell ">{category.name}</td>
           <td class="ons-table__cell  ons-table__cell--numeric">{category.value}</td>
