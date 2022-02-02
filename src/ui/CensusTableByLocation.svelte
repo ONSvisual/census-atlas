@@ -1,9 +1,38 @@
 <script>
-  import { selectedData } from "../model/censusdata/censusdata";
-  export let populateCensusTable;
+  import { selectedData, dataByGeography, categories } from "../model/censusdata/censusdata";
+  import { selectedGeography } from "../model/geography/geography";
+  import config from "../config";
+  import { isNotEmpty } from "../utils";
+  import { appIsInitialised } from "../model/appstate";
+
+  let censusTableData = [];
+  const geoCode = $selectedGeography.lad
+    ? $selectedGeography.lad
+    : $selectedGeography.lsoa
+    ? $selectedGeography.lsoa
+    : config.eAndWGeoCode;
+
+  console.log(geoCode);
+
+  function populateCensusTable() {
+    console.log("test");
+    if (isNotEmpty($selectedData) && $dataByGeography.get(geoCode)) {
+      console.log($dataByGeography);
+      $selectedData.tableCategories.forEach((category) => {
+        censusTableData.push({
+          code: category.code,
+          name: category.name,
+          percentage: $dataByGeography.get(geoCode).get(category.code).percentage,
+        });
+      });
+    }
+    console.log(censusTableData);
+  }
+
+  $: $dataByGeography, isNotEmpty($selectedData) && $dataByGeography.get(geoCode) && populateCensusTable();
 </script>
 
-{#if $selectedData}
+{#if isNotEmpty(censusTableData)}
   <table class="ons-table">
     <thead class="ons-table__head">
       <tr class="ons-table__row">
@@ -19,7 +48,7 @@
       </tr>
     </thead>
     <tbody class="ons-table__body">
-      {#each populateCensusTable.categories as category}
+      {#each censusTableData as category}
         <tr class="ons-table__row">
           <td class="ons-table__cell ">{category.name}</td>
           <td class="ons-table__cell  ons-table__cell--numeric">{category.value}</td>

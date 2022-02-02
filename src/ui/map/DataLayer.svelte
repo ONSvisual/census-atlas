@@ -60,12 +60,11 @@
   map.addLayer(options, order);
 
   function setMapGeographyColours() {
-    console.log("test");
     $dataByGeography.forEach((geoData, geoCode) => {
       let legendSection;
-      if (geoCode.startsWith("E01") || geoCode.startsWith("W01")) {
+      if ($selectedCategoryBreaks.lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
         legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lsoa);
-      } else {
+      } else if ($selectedCategoryBreaks.lad.length > 0) {
         legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lad);
       }
       map.setFeatureState(
@@ -82,5 +81,5 @@
   }
 
   // when data updates colourise the map
-  $: $selectedCategoryBreaks && setMapGeographyColours();
+  $: ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) && setMapGeographyColours();
 </script>

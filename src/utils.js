@@ -151,7 +151,8 @@ export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCo
   let comparisons = {};
   if (category) {
     // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code]);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, table.total.code]);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, table.total.code]);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
   }
   if (geoCode != config.eAndWGeoCode) {
