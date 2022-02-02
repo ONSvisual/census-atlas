@@ -4,6 +4,7 @@ export const selectedCategoryBreaks = writable({});
 export const censusMetadata = writable([]);
 export const totalCatCodeLookup = writable({});
 export const totalCatCodes = writable(new Set());
+export const reverseTotalCatCodeLookup = writable({});
 
 export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k) {
   let breaks = {};
@@ -17,6 +18,7 @@ export async function fetchCensusDataBreaks(metadataDataService, catCode, totalC
 export async function initialiseCensusMetadata(metadataService) {
   const data = await metadataService.fetchCensusMetadata();
   totalCatCodeLookup.set(buildTotalCatCodeStores(data));
+  reverseTotalCatCodeLookup.set(buildReverseTotalCatCodeLookup(data));
   censusMetadata.set(data);
 }
 
@@ -37,4 +39,16 @@ function buildTotalCatCodeStores(metadata) {
 
 function addToTotalCatCodesSet(totalCatCode) {
   get(totalCatCodes).add(totalCatCode);
+}
+
+function buildReverseTotalCatCodeLookup(metadata) {
+  let reverseLookup = {};
+  metadata.forEach((topic) => {
+    topic.tables.forEach((table) => {
+      if (table.categories != null) {
+        reverseLookup[table.total.code] = table.categories;
+      }
+    });
+  });
+  return reverseLookup;
 }

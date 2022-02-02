@@ -1,6 +1,6 @@
 import { csvParse } from "d3-dsv";
 import { dataByGeography, newDataByGeography } from "./censusdata/censusdata";
-import { totalCatCodeLookup, totalCatCodes } from "./metadata/metadata";
+import { totalCatCodeLookup, totalCatCodes, reverseTotalCatCodeLookup } from "./metadata/metadata";
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
@@ -16,11 +16,11 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
   let data = new Map();
   csvParse(responseStr, (row, i, cols) => {
     let geoDataMap = new Map();
+    let missingCatCodes = [];
     cols.forEach((catCode) => {
       const totalCatCode = get(totalCatCodeLookup)[catCode];
       //if code is a total, ignore
-      console.log(get(totalCatCodes));
-      if (!get(totalCatCodes).has(totalCatCode)) {
+      if (get(totalCatCodes).has(totalCatCode)) {
         //if there is data for the total category in the CSV
         if (row[totalCatCode]) {
           const catVal = +row[catCode];
@@ -29,12 +29,17 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
           //sets category Map
           geoDataMap.set(catCode, { value: catVal, total: totalVal, perc: percentage });
         } else {
-          console.log(totalCatCode);
-          console.log(row[totalCatCode]);
           console.error("Total category data not found in API response.");
+        }
+      } else {
+        if (!get(reverseTotalCatCodeLookup)[catCode]) {
+          missingCatCodes.push(catCode);
         }
       }
     });
+    console.error(
+      `The following category codes were received from the API but are not available in the current metadata - ${missingCatCodes}.`,
+    );
     //sets geography Map
     data.set(geographyCode ? geographyCode : row.geography_code, geoDataMap);
   });
