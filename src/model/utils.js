@@ -14,35 +14,35 @@ export function getLegendSection(value, breakpoints) {
 
 export function writeCsvDataToMapObj(responseStr, geographyCode) {
   let data = new Map();
+  let missingCatCodes = [];
   csvParse(responseStr, (row, i, cols) => {
     let geoDataMap = new Map();
-    let missingCatCodes = [];
     cols.forEach((catCode) => {
-      const totalCatCode = get(totalCatCodeLookup)[catCode];
-      //if code is a total, ignore
-      if (get(totalCatCodes).has(totalCatCode)) {
-        //if there is data for the total category in the CSV
-        if (row[totalCatCode]) {
-          const catVal = +row[catCode];
-          const totalVal = row[get(totalCatCodeLookup)[catCode]];
-          const percentage = (Math.round((catVal / totalVal) * 100 * 10) / 10).toFixed(1);
-          //sets category Map
-          geoDataMap.set(catCode, { value: catVal, total: totalVal, perc: percentage });
-        } else {
-          console.error("Total category data not found in API response.");
-        }
-      } else {
-        if (!get(reverseTotalCatCodeLookup)[catCode] || !catCode == "geography_code") {
+      if (catCode.trim() != "geography_code") {
+        const totalCatCode = get(totalCatCodeLookup)[catCode];
+        //if code is a total, ignore
+        if (get(totalCatCodes).has(totalCatCode)) {
+          //if there is data for the total category in the CSV
+          if (row[totalCatCode]) {
+            const catVal = +row[catCode];
+            const totalVal = row[get(totalCatCodeLookup)[catCode]];
+            const percentage = (Math.round((catVal / totalVal) * 100 * 10) / 10).toFixed(1);
+            //sets category Map
+            geoDataMap.set(catCode, { value: catVal, total: totalVal, perc: percentage });
+          } else {
+            console.error("Total category data not found in API response.");
+          }
+        } else if (!get(reverseTotalCatCodeLookup)[catCode]) {
           missingCatCodes.push(catCode);
         }
       }
     });
-    console.error(
-      `The following category codes were received from the API but are not available in the current metadata - ${missingCatCodes}.`,
-    );
     //sets geography Map
     data.set(geographyCode ? geographyCode : row.geography_code, geoDataMap);
   });
+  console.error(
+    `The following category codes were received from the API but are not available in the current metadata - ${missingCatCodes}.`,
+  );
   return data;
 }
 
