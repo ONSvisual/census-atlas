@@ -25,7 +25,7 @@ function buildTotalCatCodeStores(metadata) {
   metadata.forEach((topic) => {
     topic.tables.forEach((table) => {
       if (table.categories != null) {
-        buildTotalCatCodesSet(table);
+        addToTotalCatCodesSet(table.total.code);
         table.categories.forEach((category) => {
           lookup[category.code] = table.total.code;
         });
@@ -35,6 +35,6 @@ function buildTotalCatCodeStores(metadata) {
   return lookup;
 }
 
-function buildTotalCatCodesSet(table) {
-  get(totalCatCodes).add(table.total.code);
+function addToTotalCatCodesSet(totalCatCode) {
+  get(totalCatCodes).add(totalCatCode);
 }
