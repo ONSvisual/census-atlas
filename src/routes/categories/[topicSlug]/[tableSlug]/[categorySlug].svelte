@@ -76,9 +76,9 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
-        {#if $dataByGeography}
+        <!-- {#if $dataByGeography}
           <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if}
+        {/if} -->
         <InteractiveLayer
           id="lad-interactive-layer"
           selected={$selectedGeography.lad}
@@ -102,9 +102,9 @@
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $dataByGeography}
+        <!-- {#if $dataByGeography}
           <DataLayer id="lsoa-data" data={categoryData} />
-        {/if}
+        {/if} -->
       </TileSet>
       <TileSet
         id="lsoa-building"
@@ -114,9 +114,9 @@
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $dataByGeography}
+        <!-- {#if $dataByGeography}
           <DataLayer id="lsoa-data-zoom" data={categoryData} />
-        {/if}
+        {/if} -->
       </TileSet>
       <TileSet
         id="lad-boundaries"

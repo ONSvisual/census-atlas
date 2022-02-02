@@ -32,7 +32,7 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
           console.error("Total category data not found in API response.");
         }
       } else {
-        if (!get(reverseTotalCatCodeLookup)[catCode]) {
+        if (!get(reverseTotalCatCodeLookup)[catCode] || !catCode == "geography_code") {
           missingCatCodes.push(catCode);
         }
       }

@@ -185,9 +185,9 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
-        {#if $dataByGeography}
+        <!-- {#if $dataByGeography}
           <DataLayer id="lad-data-zoom" catCode={category.code} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if}
+        {/if} -->
         <InteractiveLayer
           id="lad-interactive-layer"
           selected={$selectedGeography.lad}
@@ -211,9 +211,9 @@
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $dataByGeography}
+        <!-- {#if $dataByGeography}
           <DataLayer id="lsoa-data" catCode={category.code} />
-        {/if}
+        {/if} -->
       </TileSet>
       <TileSet
         id="lsoa-building"
@@ -223,9 +223,9 @@
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if $dataByGeography}
+        <!-- {#if $dataByGeography}
           <DataLayer id="lsoa-data-zoom" catCode={category.code} />
-        {/if}
+        {/if} -->
       </TileSet>
       <TileSet
         id="lad-boundaries"
@@ -274,7 +274,7 @@
     </div>
   {/if}
 
-  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
+  <CensusTableByLocation/>
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
