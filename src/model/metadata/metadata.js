@@ -1,8 +1,9 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
 
 export const selectedCategoryBreaks = writable({});
 export const censusMetadata = writable([]);
 export const totalCatCodeLookup = writable({});
+export const totalCatCodes = writable(new Set());
 
 export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k) {
   let breaks = {};
@@ -15,15 +16,16 @@ export async function fetchCensusDataBreaks(metadataDataService, catCode, totalC
 
 export async function initialiseCensusMetadata(metadataService) {
   const data = await metadataService.fetchCensusMetadata();
-  totalCatCodeLookup.set(buildTotalCatCodeLookup(data));
+  totalCatCodeLookup.set(buildTotalCatCodeStores(data));
   censusMetadata.set(data);
 }
 
-function buildTotalCatCodeLookup(metadata) {
+function buildTotalCatCodeStores(metadata) {
   let lookup = {};
   metadata.forEach((topic) => {
     topic.tables.forEach((table) => {
       if (table.categories != null) {
+        buildTotalCatCodesSet(table);
         table.categories.forEach((category) => {
           lookup[category.code] = table.total.code;
         });
@@ -31,4 +33,8 @@ function buildTotalCatCodeLookup(metadata) {
     });
   });
   return lookup;
+}
+
+function buildTotalCatCodesSet(table) {
+  get(totalCatCodes).add(table.total.code);
 }

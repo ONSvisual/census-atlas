@@ -3,7 +3,8 @@
   import LegacyGeographyService from "./../model/geography/services/legacyGeographyService";
   import { initialiseCensusData } from "./../model/censusdata/censusdata";
   import LegacyCensusDataService from "./../model/censusdata/services/legacyCensusDataService";
-  import { setInitialised } from "./../model/appstate";
+  import FlatfileMetadataService from "./../model/metadata/services/flatfileMetadataService";
+  import { setInitialised, appIsInitialised } from "./../model/appstate";
   import { fetchAllDataForGeography } from "./../model/censusdata/censusdata";
   import GeodataApiDataService from "./../model/censusdata/services/geodataApiDataService";
   import { initialiseCensusMetadata } from "./../model/metadata/metadata";
@@ -12,12 +13,12 @@
 
   initialiseGeography(new LegacyGeographyService()).then(() => {
     initialiseCensusData(new LegacyCensusDataService())
-      .then(() => initialiseCensusMetadata(new MetadataApiDataService()))
+      .then(() => initialiseCensusMetadata(new FlatfileMetadataService()))
       .then(() => setInitialised());
   });
 
   //fetch and cache all England & Wales data on initialise
-  fetchAllDataForGeography(new GeodataApiDataService(), config.eAndWGeoCode);
+  $: $appIsInitialised && fetchAllDataForGeography(new GeodataApiDataService(), config.eAndWGeoCode);
 </script>
 
 <slot />
