@@ -100,12 +100,13 @@
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
     fetchSelectedDataset();
   $: categorySlug,
-    ((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
-    (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug))),
-    ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : ""));
+    $appIsInitialised &&
+      (((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
+      (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug))),
+      ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
 
   // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
+  $: appIsInitialised, $appIsInitialised && (initialisePage(), fetchSelectedDataset());
 
   const initialisePage = async () => {
     if (locationId != null) {
@@ -150,17 +151,17 @@
     if ($dataByGeography.get(geoCode)) {
       populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
       selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
-      if (geoCode != config.eAndWGeoCode) {
-        comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
-        if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
-          comparisons.neighbouringLadDiff = calculateComparisonDiff(
-            geoCode,
-            neighbouringLad.code,
-            totalCatCode,
-            category,
-          );
-        }
-      }
+      // if (geoCode != config.eAndWGeoCode) {
+      //   comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
+      //   if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
+      //     comparisons.neighbouringLadDiff = calculateComparisonDiff(
+      //       geoCode,
+      //       neighbouringLad.code,
+      //       totalCatCode,
+      //       category,
+      //     );
+      //   }
+      // }
     }
   };
 </script>
@@ -256,7 +257,7 @@
     </footer>
   </span>
 
-  {#if isNotEmpty($selectedData) && selectedCatData}
+  <!-- {#if isNotEmpty($selectedData) && selectedCatData}
     <CategorySelector
       {locationId}
       {topicSlug}
@@ -265,11 +266,11 @@
       selectedCategory={$selectedData.categorySelected}
       {selectedCatData}
     />
-  {/if}
+  {/if} -->
 
   <div class="current-data">Showing Census 2011 map data.</div>
 
-  {#if geoCode != config.eAndWGeoCode}
+  <!-- {#if geoCode != config.eAndWGeoCode}
     <div class="ons-grid">
       <div class="ons-grid__col ons-col-6@xxs">
         <DataComparison difference={comparisons.eAndWDiff} />
@@ -280,9 +281,9 @@
         </div>
       {/if}
     </div>
-  {/if}
+  {/if} -->
 
-  <CensusTableByLocation />
+  <CensusTableByLocation {categorySlug} {tableSlug} />
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.

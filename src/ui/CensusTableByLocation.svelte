@@ -4,6 +4,9 @@
   import config from "../config";
   import { isNotEmpty } from "../utils";
   import { appIsInitialised } from "../model/appstate";
+  import { tables, getCategoryBySlug, newDataByGeography } from "../model/censusdata/censusdata";
+
+  export let categorySlug, tableSlug;
 
   let censusTableData = { categories: [] };
   $: geoCode = $selectedGeography.lad
@@ -13,7 +16,10 @@
     : config.eAndWGeoCode;
 
   function populateCensusTable() {
+    censusTableData = { categories: [] };
+    console.log($dataByGeography);
     if ($dataByGeography.has(geoCode)) {
+      const category = getCategoryBySlug(tableSlug, categorySlug);
       censusTableData["tableUnit"] = $selectedData.tableUnit;
       $selectedData.tableCategories.forEach((category) => {
         censusTableData.categories.push({
@@ -24,12 +30,14 @@
         });
       });
     }
-    console.log(censusTableData);
   }
 
   // $: $dataByGeography, isNotEmpty($selectedData) && $dataByGeography.get(geoCode) && populateCensusTable();
   $: $selectedGeography.lad || $selectedGeography.lsoa,
-    ($dataByGeography.has(geoCode) || $appIsInitialised) && populateCensusTable();
+    $newDataByGeography == true,
+    ($dataByGeography.has(geoCode) || $appIsInitialised) &&
+      $dataByGeography.get(geoCode).get(category.code) &&
+      populateCensusTable();
 </script>
 
 {#if isNotEmpty(censusTableData)}
