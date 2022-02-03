@@ -119,7 +119,7 @@
     }
     // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
-      totalCatCode = table.total.code;
+      totalCatCode = table.total;
       fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
       fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
       categoryCodesArr.push(totalCatCode);
@@ -138,10 +138,13 @@
         await fetchSelectedDataForGeographies(
           new GeodataApiDataService(),
           [geoCode, neighbouringLad.code],
-          categoryCodesArr,
+          [...table.categories, totalCatCode],
         );
       } else {
-        await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+        await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, [
+          ...table.categories,
+          totalCatCode,
+        ]);
       }
     }
     if ($dataByGeography.get(geoCode)) {
