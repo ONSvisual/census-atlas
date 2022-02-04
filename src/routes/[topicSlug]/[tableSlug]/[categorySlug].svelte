@@ -121,6 +121,7 @@
   };
 
   const fetchSelectedDataset = async () => {
+    tableDataFetched = false;
     if (table) {
       if (neighbouringLad) {
         await fetchSelectedDataForGeographies(
@@ -271,7 +272,7 @@
   {/if} -->
 
   {#if table && tableDataFetched}
-    <CensusTableByLocation {table} />
+    <CensusTableByLocation {table} {geoCode} />
   {/if}
 
   <Topic cardTitle="General health with other indicators"

@@ -1,17 +1,7 @@
 <script>
   import { dataByGeography } from "../model/censusdata/censusdata";
-  import { selectedGeography } from "../model/geography/geography";
-  import config from "../config";
-  import { isNotEmpty } from "../utils";
-  export let table;
-
+  export let table, geoCode;
   let censusTableData = [];
-
-  $: geoCode = $selectedGeography.lad
-    ? $selectedGeography.lad
-    : $selectedGeography.lsoa
-    ? $selectedGeography.lsoa
-    : config.eAndWGeoCode;
 
   function populateCensusTable() {
     if ($dataByGeography.has(geoCode)) {
@@ -26,10 +16,10 @@
     }
   }
 
-  $: $selectedGeography.lad || $selectedGeography.lsoa, populateCensusTable();
+  $: geoCode, populateCensusTable();
 </script>
 
-{#if isNotEmpty(censusTableData)}
+{#if censusTableData}
   <table class="ons-table">
     <thead class="ons-table__head">
       <tr class="ons-table__row">
