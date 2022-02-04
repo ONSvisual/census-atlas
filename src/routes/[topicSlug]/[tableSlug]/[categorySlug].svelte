@@ -57,7 +57,6 @@
   let comparisons,
     selectedCatData = {};
   let tableDataFetched = false;
-
   let locationName = "";
 
   let locationId = $page.query.get("location");
@@ -261,15 +260,22 @@
 
   {#if geoCode != config.eAndWGeoCode && category}
     <div class="ons-grid">
-      {#if $englandAndWalesData.size > 0 && tableDataFetched}
-        <div class="ons-grid__col ons-col-6@xxs">
-          <DataComparison comparatorGeoCode={config.eAndWGeoCode} {geoCode} catCode={category.code} {totalCatCode} />
-        </div>
-      {/if}
-      {#if neighbouringLad}
-        <div class="ons-grid__col ons-col-6@xxs">
-          <DataComparison {geoCode} catCode={category.code} {totalCatCode} />
-        </div>
+      {#if tableDataFetched}
+        {#if $englandAndWalesData.size > 0}
+          <div class="ons-grid__col ons-col-6@xxs">
+            <DataComparison comparatorGeoCode={config.eAndWGeoCode} {geoCode} catCode={category.code} />
+          </div>
+        {/if}
+        {#if neighbouringLad}
+          <div class="ons-grid__col ons-col-6@xxs">
+            <DataComparison
+              comparatorGeoCode={neighbouringLad.code}
+              comparatorGeoName={neighbouringLad.name}
+              {geoCode}
+              catCode={category.code}
+            />
+          </div>
+        {/if}
       {/if}
     </div>
   {/if}
