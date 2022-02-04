@@ -3,7 +3,7 @@
   import { selectedGeography } from "../model/geography/geography";
   import config from "../config";
   import { isNotEmpty } from "../utils";
-  export let tableDataFetched, table;
+  export let table;
 
   let censusTableData = [];
 

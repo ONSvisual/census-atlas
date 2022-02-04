@@ -271,7 +271,7 @@
   {/if} -->
 
   {#if table && tableDataFetched}
-    <CensusTableByLocation {table} {tableDataFetched} />
+    <CensusTableByLocation {table} />
   {/if}
 
   <Topic cardTitle="General health with other indicators"
