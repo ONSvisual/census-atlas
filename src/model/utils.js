@@ -3,12 +3,14 @@ import { dataByGeography, newDataByGeography } from "./censusdata/censusdata";
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
-  for (let i = 0; i < breakpoints.length; i++) {
-    if (value <= breakpoints[i]) {
-      return i;
+  if (value && breakpoints) {
+    for (let i = 0; i < breakpoints.length; i++) {
+      if (value <= breakpoints[i]) {
+        return i;
+      }
     }
+    return breakpoints.length;
   }
-  return breakpoints.length;
 }
 
 export function writeCsvDataToMapObj(responseStr, geographyCode) {

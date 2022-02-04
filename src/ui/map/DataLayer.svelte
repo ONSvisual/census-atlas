@@ -59,23 +59,25 @@
   map.addLayer(options, order);
 
   function setMapGeographyColours() {
-    for (const key of Object.keys(data)) {
-      let legendSection;
-      if (key.startsWith("E01") || key.startsWith("W01")) {
-        legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lsoa);
-      } else {
-        legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lad);
+    if (data) {
+      for (const key of Object.keys(data)) {
+        let legendSection;
+        if (key.startsWith("E01") || key.startsWith("W01")) {
+          legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lsoa);
+        } else {
+          legendSection = getLegendSection(data[key].perc, $selectedCategoryBreaks.lad);
+        }
+        map.setFeatureState(
+          {
+            source: source,
+            sourceLayer: sourceLayer,
+            id: key,
+          },
+          {
+            color: config.ux.legend_colours[legendSection],
+          },
+        );
       }
-      map.setFeatureState(
-        {
-          source: source,
-          sourceLayer: sourceLayer,
-          id: key,
-        },
-        {
-          color: config.ux.legend_colours[legendSection],
-        },
-      );
     }
   }
 
