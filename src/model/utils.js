@@ -40,9 +40,11 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
     //sets geography Map
     data.set(geographyCode ? geographyCode : row.geography_code, geoDataMap);
   });
-  console.error(
-    `The following category codes were received from the API but are not available in the current metadata - ${missingCatCodes}.`,
-  );
+  if (missingCatCodes.length > 0) {
+    console.error(
+      `The following category codes were received from the API but are not available in the current metadata - ${missingCatCodes}.`,
+    );
+  }
   return data;
 }
 

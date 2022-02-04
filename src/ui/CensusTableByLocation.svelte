@@ -6,7 +6,7 @@
   import { appIsInitialised } from "../model/appstate";
   import { tables, getCategoryBySlug, newDataByGeography } from "../model/censusdata/censusdata";
 
-  export let categorySlug, tableSlug;
+  export let category;
 
   let censusTableData = { categories: [] };
   $: geoCode = $selectedGeography.lad
@@ -17,16 +17,14 @@
 
   function populateCensusTable() {
     censusTableData = { categories: [] };
-    console.log($dataByGeography);
     if ($dataByGeography.has(geoCode)) {
-      const category = getCategoryBySlug(tableSlug, categorySlug);
       censusTableData["tableUnit"] = $selectedData.tableUnit;
       $selectedData.tableCategories.forEach((category) => {
         censusTableData.categories.push({
           code: category.code,
           name: category.name,
-          value: $dataByGeography.get(geoCode).get(category.code).value.toLocaleString(),
-          percentage: $dataByGeography.get(geoCode).get(category.code).perc,
+          value: $dataByGeography.get(geoCode).get(category.code)["value"].toLocaleString(),
+          percentage: $dataByGeography.get(geoCode).get(category.code)["perc"],
         });
       });
     }
@@ -35,8 +33,10 @@
   // $: $dataByGeography, isNotEmpty($selectedData) && $dataByGeography.get(geoCode) && populateCensusTable();
   $: $selectedGeography.lad || $selectedGeography.lsoa,
     $newDataByGeography == true,
-    ($dataByGeography.has(geoCode) || $appIsInitialised) &&
-      $dataByGeography.get(geoCode).get(category.code) &&
+    $dataByGeography.has(geoCode) &&
+      $appIsInitialised &&
+      $dataByGeography.get(geoCode) instanceof Map &&
+      $dataByGeography.get(geoCode).has(category.code) &&
       populateCensusTable();
 </script>
 

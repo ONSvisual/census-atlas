@@ -283,7 +283,9 @@
     </div>
   {/if} -->
 
-  <CensusTableByLocation {categorySlug} {tableSlug} />
+  {#if category}
+    <CensusTableByLocation {category} />
+  {/if}
 
   <Topic cardTitle="General health with other indicators"
     >Explore correlations between two indicators in <a href="#">advanced mode</a>.
