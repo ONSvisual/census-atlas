@@ -41,13 +41,7 @@
   import { appIsInitialised } from "../../../model/appstate";
   import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import {
-    isNotEmpty,
-    dbColumnToCategoryId,
-    processData,
-    calculateComparisonDiff,
-    updateMapAndComparisons,
-  } from "../../../utils";
+  import { isNotEmpty, dbColumnToCategoryId, calculateComparisonDiff, updateMapAndComparisons } from "../../../utils";
   import { pageUrl } from "../../../stores";
   import { selectedGeography } from "../../../model/geography/geography";
   import { goto } from "$app/navigation";
@@ -57,17 +51,15 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
-  let populateCensusTable = { categories: [] };
   let totalCatCode = "";
   let geoCode, neighbouringLad;
   let comparisons,
     selectedCatData = {};
+  let tableDataFetched = false;
 
   let locationName = "";
 
   let locationId = $page.query.get("location");
-
-  let categoryCodesArr = [];
 
   onMount(async () => {
     $pageUrl = $page.path + (locationId ? `?location=${locationId}` : "");
@@ -123,18 +115,13 @@
       totalCatCode = table.total;
       fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
       fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
-      categoryCodesArr.push(totalCatCode);
-      $selectedData.tableCategories.forEach((category) => {
-        populateCensusTable["categories"].push({ code: category.code, name: category.name });
-        categoryCodesArr.push(category.code);
-      });
     }
     locationName = getLadName(locationId);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
 
   const fetchSelectedDataset = async () => {
-    if (categoryCodesArr.length > 0) {
+    if (table) {
       if (neighbouringLad) {
         await fetchSelectedDataForGeographies(
           new GeodataApiDataService(),
@@ -147,9 +134,9 @@
           totalCatCode,
         ]);
       }
+      tableDataFetched = true;
     }
     if ($dataByGeography.get(geoCode)) {
-      populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
       selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
       // if (geoCode != config.eAndWGeoCode) {
       //   comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
@@ -283,8 +270,8 @@
     </div>
   {/if} -->
 
-  {#if category}
-    <CensusTableByLocation {category} />
+  {#if table && tableDataFetched}
+    <CensusTableByLocation {table} {tableDataFetched} />
   {/if}
 
   <Topic cardTitle="General health with other indicators"

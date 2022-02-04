@@ -82,18 +82,6 @@ function returnNeighbouringLadCode(ladCode, searchLowerLadCode) {
   return ladCodeParts.prefix + adjustedSuffix;
 }
 
-export function processData(data, populateCensusTable, totalCatCode) {
-  const total = data.get(totalCatCode);
-  populateCensusTable.categories.forEach((category) => {
-    if (data.has(category.code)) {
-      category["value"] = data.get(category.code);
-      category["percentage"] = (Math.round((category.value / total) * 100 * 10) / 10).toFixed(1);
-      category["value"] = category["value"].toLocaleString();
-    }
-  });
-  return populateCensusTable;
-}
-
 export function filterSelectedTable(metadata, category) {
   let selectedTable;
   metadata.forEach((topic) => {

@@ -1,14 +1,12 @@
 <script>
-  import { selectedData, dataByGeography, categories } from "../model/censusdata/censusdata";
+  import { dataByGeography } from "../model/censusdata/censusdata";
   import { selectedGeography } from "../model/geography/geography";
   import config from "../config";
   import { isNotEmpty } from "../utils";
-  import { appIsInitialised } from "../model/appstate";
-  import { tables, getCategoryBySlug, newDataByGeography } from "../model/censusdata/censusdata";
+  export let tableDataFetched, table;
 
-  export let category;
+  let censusTableData = [];
 
-  let censusTableData = { categories: [] };
   $: geoCode = $selectedGeography.lad
     ? $selectedGeography.lad
     : $selectedGeography.lsoa
@@ -16,11 +14,9 @@
     : config.eAndWGeoCode;
 
   function populateCensusTable() {
-    censusTableData = { categories: [] };
     if ($dataByGeography.has(geoCode)) {
-      censusTableData["tableUnit"] = $selectedData.tableUnit;
-      $selectedData.tableCategories.forEach((category) => {
-        censusTableData.categories.push({
+      table.categoriesArray.forEach((category) => {
+        censusTableData.push({
           code: category.code,
           name: category.name,
           value: $dataByGeography.get(geoCode).get(category.code)["value"].toLocaleString(),
@@ -30,14 +26,7 @@
     }
   }
 
-  // $: $dataByGeography, isNotEmpty($selectedData) && $dataByGeography.get(geoCode) && populateCensusTable();
-  $: $selectedGeography.lad || $selectedGeography.lsoa,
-    $newDataByGeography == true,
-    $dataByGeography.has(geoCode) &&
-      $appIsInitialised &&
-      $dataByGeography.get(geoCode) instanceof Map &&
-      $dataByGeography.get(geoCode).has(category.code) &&
-      populateCensusTable();
+  $: $selectedGeography.lad || $selectedGeography.lsoa, populateCensusTable();
 </script>
 
 {#if isNotEmpty(censusTableData)}
@@ -45,10 +34,10 @@
     <thead class="ons-table__head">
       <tr class="ons-table__row">
         <th scope="col" class="ons-table__header">
-          <span>{$selectedData.tableName}</span>
+          <span>{table.name}</span>
         </th>
         <th scope="col" class="ons-table__header ons-table__header--numeric">
-          <span>{censusTableData.tableUnit}</span>
+          <span>{table.unit}</span>
         </th>
         <th scope="col" class="ons-table__header ons-table__header--numeric">
           <span>Percentage</span>
@@ -56,7 +45,7 @@
       </tr>
     </thead>
     <tbody class="ons-table__body">
-      {#each censusTableData.categories as category}
+      {#each censusTableData as category}
         <tr class="ons-table__row">
           <td class="ons-table__cell ">{category.name}</td>
           <td class="ons-table__cell  ons-table__cell--numeric">{category.value}</td>
