@@ -29,6 +29,7 @@
     fetchSelectedDataForGeographies,
     fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
+    englandAndWalesData,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
@@ -41,7 +42,7 @@
   import { appIsInitialised } from "../../../model/appstate";
   import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import { isNotEmpty, dbColumnToCategoryId, calculateComparisonDiff, updateMapAndComparisons } from "../../../utils";
+  import { isNotEmpty, dbColumnToCategoryId, calculateComparisonDiff, updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
   import { selectedGeography } from "../../../model/geography/geography";
   import { goto } from "$app/navigation";
@@ -93,7 +94,7 @@
     fetchSelectedDataset();
   $: categorySlug,
     $appIsInitialised &&
-      (((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
+      (((comparisons = updateMap(tableSlug, categorySlug, metadata)),
       (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug))),
       ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
 
@@ -137,20 +138,20 @@
       }
       tableDataFetched = true;
     }
-    if ($dataByGeography.get(geoCode)) {
-      selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
-      // if (geoCode != config.eAndWGeoCode) {
-      //   comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
-      //   if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
-      //     comparisons.neighbouringLadDiff = calculateComparisonDiff(
-      //       geoCode,
-      //       neighbouringLad.code,
-      //       totalCatCode,
-      //       category,
-      //     );
-      //   }
-      // }
-    }
+    // if ($dataByGeography.get(geoCode)) {
+    //   selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
+    //   if (geoCode != config.eAndWGeoCode) {
+    //     comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
+    //     if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
+    //       comparisons.neighbouringLadDiff = calculateComparisonDiff(
+    //         geoCode,
+    //         neighbouringLad.code,
+    //         totalCatCode,
+    //         category,
+    //       );
+    //     }
+    //   }
+    // }
   };
 </script>
 
@@ -258,18 +259,20 @@
 
   <div class="current-data">Showing Census 2011 map data.</div>
 
-  <!-- {#if geoCode != config.eAndWGeoCode}
+  {#if geoCode != config.eAndWGeoCode && category}
     <div class="ons-grid">
-      <div class="ons-grid__col ons-col-6@xxs">
-        <DataComparison difference={comparisons.eAndWDiff} />
-      </div>
+      {#if $englandAndWalesData.size > 0 && tableDataFetched}
+        <div class="ons-grid__col ons-col-6@xxs">
+          <DataComparison comparatorGeoCode={config.eAndWGeoCode} {geoCode} catCode={category.code} {totalCatCode} />
+        </div>
+      {/if}
       {#if neighbouringLad}
         <div class="ons-grid__col ons-col-6@xxs">
-          <DataComparison difference={comparisons.neighbouringLadDiff} comparator={neighbouringLad.name} />
+          <DataComparison {geoCode} catCode={category.code} {totalCatCode} />
         </div>
       {/if}
     </div>
-  {/if} -->
+  {/if}
 
   {#if table && tableDataFetched}
     <CensusTableByLocation {table} {geoCode} />

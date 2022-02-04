@@ -1,8 +1,15 @@
 <script>
-  export let difference = 0;
-  export let comparator = "England and Wales";
+  import { calculateComparisonDiff, returnNeighbouringLad } from "../../utils";
+  import config from "../../config";
+  export let comparatorGeoCode, geoCode, catCode, totalCatCode;
 
-  $: comparatorStr = comparator == "England and Wales" ? comparator : `nearby ${comparator}`;
+  let difference = 0;
+  let comparatorStr;
+  let comparisonObj = {};
+
+  $: geoCode != config.eAndWGeoCode
+    ? (comparatorStr = `nearby ${returnNeighbouringLad(geoCode).name}`)
+    : (comparatorStr = "England and Wales");
 
   function populateComparisonString(difference, comparatorStr) {
     if (difference > 0) {
@@ -25,7 +32,10 @@
     };
   }
 
-  $: comparisonObj = populateComparisonString(difference, comparatorStr);
+  $: catCode,
+    geoCode,
+    ((difference = calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode, catCode)),
+    (comparisonObj = populateComparisonString(difference, comparatorStr)));
 </script>
 
 <div class="data-comparison-container">

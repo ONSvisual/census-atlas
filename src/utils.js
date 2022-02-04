@@ -133,28 +133,13 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode
   return Math.round(percentageDiff * 10) / 10;
 }
 
-export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCode, neighbouringLad) => {
+export const updateMap = (tableSlug, categorySlug, metadata) => {
   let category = getCategoryBySlug(tableSlug, categorySlug);
   let table = category ? filterSelectedTable(metadata, category) : null;
-  let comparisons = {};
   if (category) {
     // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, table.total.code]);
     fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, table.total.code]);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
   }
-  if (geoCode != config.eAndWGeoCode) {
-    if (get(dataByGeography).get(geoCode)) {
-      comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
-    }
-    if (neighbouringLad && get(dataByGeography).get(neighbouringLad.code)) {
-      comparisons.neighbouringLadDiff = calculateComparisonDiff(
-        geoCode,
-        neighbouringLad.code,
-        table.total.code,
-        category,
-      );
-    }
-  }
-  return comparisons;
 };
