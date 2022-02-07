@@ -10,7 +10,7 @@ import config from "./config";
 import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
-import metadata from "./data/apiMetadata";
+import { tables } from "./model/censusdata/censusdata";
 
 export function isEmpty(obj) {
   return (
@@ -80,18 +80,6 @@ function returnNeighbouringLadCode(ladCode, searchLowerLadCode) {
   return ladCodeParts.prefix + adjustedSuffix;
 }
 
-export function filterSelectedTable(metadata, category) {
-  let selectedTable;
-  metadata.forEach((topic) => {
-    topic.tables.forEach((table) => {
-      if (table.code == category.table) {
-        selectedTable = table;
-      }
-    });
-  });
-  return selectedTable;
-}
-
 export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug) {
   if (get(dataByGeography).has(geoCode)) {
     let category = getCategoryBySlug(tableSlug, categorySlug);
@@ -107,7 +95,7 @@ export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, catego
               10,
           ) / 10
         ).toFixed(1),
-        unit: filterSelectedTable(metadata, category).units,
+        unit: tables[category.table].unit,
         geoCode: geoCode,
       };
     }
@@ -126,12 +114,12 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, catCode) {
   return Math.round(percentageDiff * 10) / 10;
 }
 
-export const updateMap = (tableSlug, categorySlug, metadata) => {
+export const updateMap = (tableSlug, categorySlug) => {
   let category = getCategoryBySlug(tableSlug, categorySlug);
-  let table = category ? filterSelectedTable(metadata, category) : null;
+  let table = category ? tables[category.table] : null;
   if (category) {
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, table.total.code]);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, table.total.code]);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, table.total]);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, table.total]);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total, 5);
   }
 };

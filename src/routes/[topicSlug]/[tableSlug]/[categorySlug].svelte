@@ -16,7 +16,7 @@
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
-  import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
+  import { returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
   import {
     categoryDataIsLoaded,
     categoryData,
