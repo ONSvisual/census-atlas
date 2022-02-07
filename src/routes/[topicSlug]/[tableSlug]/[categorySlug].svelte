@@ -32,7 +32,6 @@
     englandAndWalesData,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
-  import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
   import config from "../../../config";
   import TileSet from "../../../ui/map/TileSet.svelte";
@@ -105,12 +104,10 @@
       neighbouringLad = returnNeighbouringLad(locationId);
     }
     category = getCategoryBySlug(tableSlug, categorySlug);
-    // table = category ? filterSelectedTable(metadata, category) : null;
     table = category ? tables[category.table] : null;
     if ($censusTableStructureIsLoaded) {
       populatesSelectedData(table.name, table.categoriesArray, category.code, table.total, table.unit);
     }
-    // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     if (isNotEmpty($selectedData)) {
       totalCatCode = table.total;
       fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
@@ -137,20 +134,6 @@
       }
       tableDataFetched = true;
     }
-    // if ($dataByGeography.get(geoCode)) {
-    //   selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
-    //   if (geoCode != config.eAndWGeoCode) {
-    //     comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
-    //     if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
-    //       comparisons.neighbouringLadDiff = calculateComparisonDiff(
-    //         geoCode,
-    //         neighbouringLad.code,
-    //         totalCatCode,
-    //         category,
-    //       );
-    //     }
-    //   }
-    // }
   };
 </script>
 

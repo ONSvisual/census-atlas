@@ -2,7 +2,6 @@
   import { initialiseGeography } from "./../model/geography/geography";
   import LegacyGeographyService from "./../model/geography/services/legacyGeographyService";
   import { initialiseCensusData } from "./../model/censusdata/censusdata";
-  import LegacyCensusDataService from "./../model/censusdata/services/legacyCensusDataService";
   import FlatfileMetadataService from "./../model/metadata/services/flatfileMetadataService";
   import { setInitialised, appIsInitialised } from "./../model/appstate";
   import { fetchAllDataForGeography } from "./../model/censusdata/censusdata";

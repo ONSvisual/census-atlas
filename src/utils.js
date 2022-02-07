@@ -3,10 +3,8 @@ import {
   englandAndWalesData,
   dataByGeography,
   getCategoryBySlug,
-  fetchCensusData,
   fetchSelectedDataForGeoType,
 } from "./model/censusdata/censusdata";
-import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
 import GeodataApiDataService from "./model/censusdata/services/geodataApiDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";
@@ -132,7 +130,6 @@ export const updateMap = (tableSlug, categorySlug, metadata) => {
   let category = getCategoryBySlug(tableSlug, categorySlug);
   let table = category ? filterSelectedTable(metadata, category) : null;
   if (category) {
-    // fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
     fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, table.total.code]);
     fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, table.total.code]);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
