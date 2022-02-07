@@ -2,8 +2,22 @@
   import { selectedCategoryBreaks } from "../../model/metadata/metadata";
   import config from "../../config";
   import { getLegendSection } from "../../model/utils";
-  export let selectedCatData = {};
+  import { populateSelectedCatData } from "../../utils";
+  export let locationId, category;
+
+  let selectedCatData = {};
   let backgroundColour, legendSection, textColour;
+
+  $: geoCode = locationId ? locationId : config.eAndWGeoCode;
+  $: category, $selectedCategoryBreaks, initialiseComponent();
+
+  function initialiseComponent() {
+    selectedCatData = populateSelectedCatData(geoCode, category);
+    if ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) {
+      updateBackgroundColour();
+      textColour = legendSection > 2 ? "#ffffff" : "#000000";
+    }
+  }
 
   function updateBackgroundColour() {
     if (selectedCatData.geoCode.startsWith("E01") || selectedCatData.geoCode.startsWith("W01")) {
@@ -13,24 +27,19 @@
     }
     backgroundColour = config.ux.legend_colours[legendSection];
   }
-
-  $: {
-    if ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) {
-      updateBackgroundColour();
-      textColour = legendSection > 2 ? "#ffffff" : "#000000";
-    }
-  }
 </script>
 
-<div class="category-figures" style="background-color: {backgroundColour}">
-  <p class="category-figures__percentage" style="color: {textColour}">
-    {selectedCatData.perc}<span>%</span>
-  </p>
-  <p class="category-figures__totals" style="color: {textColour}">
-    {selectedCatData.val} of {selectedCatData.total}
-    {selectedCatData.unit.toLowerCase()}
-  </p>
-</div>
+{#if selectedCatData}
+  <div class="category-figures" style="background-color: {backgroundColour}">
+    <p class="category-figures__percentage" style="color: {textColour}">
+      {selectedCatData.perc}<span>%</span>
+    </p>
+    <p class="category-figures__totals" style="color: {textColour}">
+      {selectedCatData.val} of {selectedCatData.total}
+      {selectedCatData.unit.toLowerCase()}
+    </p>
+  </div>
+{/if}
 
 <style lang="scss">
   @import "../../../node_modules/@ons/design-system/scss/vars/_index.scss";

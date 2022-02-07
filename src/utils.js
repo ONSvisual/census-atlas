@@ -80,25 +80,15 @@ function returnNeighbouringLadCode(ladCode, searchLowerLadCode) {
   return ladCodeParts.prefix + adjustedSuffix;
 }
 
-export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug) {
-  if (get(dataByGeography).has(geoCode)) {
-    let category = getCategoryBySlug(tableSlug, categorySlug);
-    if (get(dataByGeography).get(geoCode).has(totalCatCode) && get(dataByGeography).get(geoCode).has(category.code)) {
-      return {
-        total: get(dataByGeography).get(geoCode).get(totalCatCode).toLocaleString(),
-        val: get(dataByGeography).get(geoCode).get(category.code).toLocaleString(),
-        perc: (
-          Math.round(
-            (get(dataByGeography).get(geoCode).get(category.code) /
-              get(dataByGeography).get(geoCode).get(totalCatCode)) *
-              100 *
-              10,
-          ) / 10
-        ).toFixed(1),
-        unit: tables[category.table].unit,
-        geoCode: geoCode,
-      };
-    }
+export function populateSelectedCatData(geoCode, category) {
+  if (get(dataByGeography).has(geoCode) && get(dataByGeography).get(geoCode).has(category.code)) {
+    return {
+      total: get(dataByGeography).get(geoCode).get(category.code)["total"].toLocaleString(),
+      val: get(dataByGeography).get(geoCode).get(category.code)["value"].toLocaleString(),
+      perc: get(dataByGeography).get(geoCode).get(category.code)["perc"],
+      unit: tables[category.table].unit,
+      geoCode: geoCode,
+    };
   }
 }
 

@@ -16,7 +16,7 @@
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
   import metadata from "../../../data/apiMetadata";
-  import { returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
+  import { returnNeighbouringLad } from "../../../utils";
   import {
     categoryDataIsLoaded,
     categoryData,
@@ -53,8 +53,6 @@
   let table = null;
   let totalCatCode = "";
   let geoCode, neighbouringLad;
-  let comparisons,
-    selectedCatData = {};
   let tableDataFetched = false;
   let locationName = "";
 
@@ -92,9 +90,10 @@
     fetchSelectedDataset();
   $: categorySlug,
     $appIsInitialised &&
-      (((comparisons = updateMap(tableSlug, categorySlug, metadata)),
-      (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug))),
+      (updateMap(tableSlug, categorySlug, metadata),
       ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
+
+  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && (initialisePage(), fetchSelectedDataset());
@@ -228,16 +227,15 @@
     </footer>
   </span>
 
-  <!-- {#if isNotEmpty($selectedData) && selectedCatData}
+  {#if category && tables[category.table].categoriesArray}
     <CategorySelector
       {locationId}
       {topicSlug}
       {tableSlug}
-      categories={$selectedData.tableCategories}
-      selectedCategory={$selectedData.categorySelected}
-      {selectedCatData}
+      categories={tables[category.table].categoriesArray}
+      selectedCategory={category}
     />
-  {/if} -->
+  {/if}
 
   <div class="current-data">Showing Census 2011 map data.</div>
 

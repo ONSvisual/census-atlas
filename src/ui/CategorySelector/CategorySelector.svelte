@@ -1,14 +1,13 @@
 <script>
   import DisplaySelectedCatFigures from "./DisplaySelectedCatFigures.svelte";
 
-  export let topicSlug, tableSlug, locationId, selectedCatData;
+  export let topicSlug, tableSlug, locationId, selectedCategory;
   export let categories = [];
-  export let selectedCategory = "";
 
   $: locationQueryParam = locationId ? `?location=${locationId}` : "";
   let leftIndex, rightIndex, selectedCatIndex;
 
-  const findSelectedCatIndex = (category) => category.code === selectedCategory;
+  const findSelectedCatIndex = (category) => category.code === selectedCategory.code;
   selectedCatIndex = categories.findIndex(findSelectedCatIndex);
 
   if (categories && selectedCatIndex === categories.length - 1) {
@@ -52,7 +51,7 @@
     </div>
     <div class="ons-grid__col ons-col-4@xxs">
       <div class="category-selector__stats">
-        <DisplaySelectedCatFigures {selectedCatData} />
+        <DisplaySelectedCatFigures {locationId} category={selectedCategory} />
       </div>
     </div>
   </div>
