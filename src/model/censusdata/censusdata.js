@@ -7,11 +7,11 @@ export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
 export let englandAndWalesData = writable(new Map());
 export let newDataByGeography = toggleable(false);
+export let cachedMapCategories = writable(new Set());
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
 export let tableIsLoaded = writable(false);
-export let selectedData = writable({});
 
 export let categoryData = {};
 export let tableData = {};
@@ -57,9 +57,13 @@ export async function fetchSelectedDataForGeoType(censusDataService, geoType, ca
   const data = await censusDataService.fetchSelectedDataForGeographyType(geoType, categories);
   if (overwriteCache) {
     dataByGeography.set(data);
+    get(cachedMapCategories).clear();
   } else {
     addNewGeoDataToCache(data);
   }
+  categories.forEach((catCode) => {
+    get(cachedMapCategories).add(catCode);
+  });
 }
 
 export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
@@ -174,15 +178,4 @@ export async function fetchCensusData(censusDataService, categoryCode, geography
   categoryData = { ...lsoaData, ...higherData };
   breaks = await censusDataService.fetchLegendBreakpoints(categoryCode);
   categoryDataIsLoaded.set(true);
-}
-
-export function populatesSelectedData(tableName, tableCategories, selectedCategory, tableTotal, tableUnit) {
-  selectedData.set({});
-  selectedData.set({
-    tableName: tableName,
-    tableUnit: tableUnit,
-    tableCategories: tableCategories,
-    categorySelected: selectedCategory,
-    total: tableTotal,
-  });
 }

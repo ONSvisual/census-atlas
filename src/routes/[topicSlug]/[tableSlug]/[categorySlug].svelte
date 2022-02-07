@@ -23,13 +23,12 @@
     fetchCensusData,
     tables,
     getCategoryBySlug,
-    populatesSelectedData,
-    selectedData,
     dataByGeography,
     fetchSelectedDataForGeographies,
     fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
     englandAndWalesData,
+    cachedMapCategories,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
@@ -98,16 +97,15 @@
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && (initialisePage(), fetchSelectedDataset());
 
+  // $: console.log($cachedMapCategories.has(category.code));
+
   const initialisePage = async () => {
     if (locationId != null) {
       neighbouringLad = returnNeighbouringLad(locationId);
     }
-    category = getCategoryBySlug(tableSlug, categorySlug);
-    table = category ? tables[category.table] : null;
     if ($censusTableStructureIsLoaded) {
-      populatesSelectedData(table.name, table.categoriesArray, category.code, table.total, table.unit);
-    }
-    if (isNotEmpty($selectedData)) {
+      category = getCategoryBySlug(tableSlug, categorySlug);
+      table = category ? tables[category.table] : null;
       totalCatCode = table.total;
       fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
       fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
@@ -164,9 +162,9 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
-        <!-- {#if $dataByGeography}
+        {#if category && $cachedMapCategories.has(category.code)}
           <DataLayer id="lad-data-zoom" catCode={category.code} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if} -->
+        {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
           selected={$selectedGeography.lad}
@@ -190,9 +188,9 @@
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
       >
-        <!-- {#if $dataByGeography}
+        {#if category && $cachedMapCategories.has(category.code)}
           <DataLayer id="lsoa-data" catCode={category.code} />
-        {/if} -->
+        {/if}
       </TileSet>
       <TileSet
         id="lsoa-building"
@@ -202,9 +200,10 @@
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
       >
-        <!-- {#if $dataByGeography}
+        {#if category && $cachedMapCategories.has(category.code)}
+          <div>{(category, $cachedMapCategories.has(category.code))}</div>
           <DataLayer id="lsoa-data-zoom" catCode={category.code} />
-        {/if} -->
+        {/if}
       </TileSet>
       <TileSet
         id="lad-boundaries"

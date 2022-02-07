@@ -93,15 +93,17 @@ export function populateSelectedCatData(geoCode, category) {
 }
 
 export function calculateComparisonDiff(geoCode, comparatorGeoCode, catCode) {
-  let comparatorCategory;
-  if (comparatorGeoCode == config.eAndWGeoCode) {
-    comparatorCategory = get(englandAndWalesData).get(config.eAndWGeoCode).get(catCode);
-  } else {
-    comparatorCategory = get(dataByGeography).get(comparatorGeoCode).get(catCode);
+  if (get(dataByGeography).has(geoCode) && get(dataByGeography).get(geoCode).has(catCode)) {
+    let comparatorCategory;
+    if (comparatorGeoCode == config.eAndWGeoCode) {
+      comparatorCategory = get(englandAndWalesData).get(config.eAndWGeoCode).get(catCode);
+    } else {
+      comparatorCategory = get(dataByGeography).get(comparatorGeoCode).get(catCode);
+    }
+    const localCategory = get(dataByGeography).get(geoCode).get(catCode);
+    const percentageDiff = ((localCategory.perc - comparatorCategory.perc) / comparatorCategory.perc) * 100;
+    return Math.round(percentageDiff * 10) / 10;
   }
-  const localCategory = get(dataByGeography).get(geoCode).get(catCode);
-  const percentageDiff = ((localCategory.perc - comparatorCategory.perc) / comparatorCategory.perc) * 100;
-  return Math.round(percentageDiff * 10) / 10;
 }
 
 export const updateMap = (tableSlug, categorySlug) => {
