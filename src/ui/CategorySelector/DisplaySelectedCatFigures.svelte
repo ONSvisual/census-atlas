@@ -20,12 +20,14 @@
   }
 
   function updateBackgroundColour() {
-    if (selectedCatData.geoCode.startsWith("E01") || selectedCatData.geoCode.startsWith("W01")) {
-      legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lsoa);
-    } else {
-      legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lad);
+    if (selectedCatData) {
+      if (selectedCatData.geoCode.startsWith("E01") || selectedCatData.geoCode.startsWith("W01")) {
+        legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lsoa);
+      } else {
+        legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lad);
+      }
+      backgroundColour = config.ux.legend_colours[legendSection];
     }
-    backgroundColour = config.ux.legend_colours[legendSection];
   }
 </script>
 
