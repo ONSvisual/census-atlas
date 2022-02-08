@@ -1,10 +1,5 @@
 import { get } from "svelte/store";
-import {
-  englandAndWalesData,
-  dataByGeography,
-  getCategoryBySlug,
-  fetchSelectedDataForGeoType,
-} from "./model/censusdata/censusdata";
+import { englandAndWalesData, dataByGeography, fetchSelectedDataForGeoType } from "./model/censusdata/censusdata";
 import GeodataApiDataService from "./model/censusdata/services/geodataApiDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";

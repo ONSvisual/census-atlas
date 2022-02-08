@@ -15,20 +15,14 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
-  import metadata from "../../../data/apiMetadata";
   import { returnNeighbouringLad } from "../../../utils";
   import {
-    categoryDataIsLoaded,
-    categoryData,
-    fetchCensusData,
     tables,
     getCategoryBySlug,
-    dataByGeography,
     fetchSelectedDataForGeographies,
     fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
     englandAndWalesData,
-    cachedMapCategories,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
@@ -40,7 +34,7 @@
   import { appIsInitialised } from "../../../model/appstate";
   import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import { isNotEmpty, dbColumnToCategoryId, calculateComparisonDiff, updateMap } from "../../../utils";
+  import { updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
   import { selectedGeography } from "../../../model/geography/geography";
   import { goto } from "$app/navigation";
