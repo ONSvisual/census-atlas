@@ -17,17 +17,20 @@
     updateHoveredGeography,
     selectedGeography,
   } from "../../../../model/geography/geography";
-  import { categoryDataIsLoaded, categoryData, dataByGeography } from "../../../../model/censusdata/censusdata";
+  import { getCategoryBySlug } from "../../../../model/censusdata/censusdata";
   import { appIsInitialised } from "../../../../model/appstate";
   import { pageUrl } from "../../../../stores";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
 
-  let { topicSlug, tableSlug } = $page.params;
+  let { topicSlug, tableSlug, categorySlug } = $page.params;
 
   let locationId = $page.query.get("location");
   let locationName;
+  let category = null;
+
+  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
 
   $: {
     if ($selectedGeography.lad) {
@@ -76,9 +79,9 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
-        <!-- {#if $dataByGeography}
-          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if} -->
+        {#if category}
+          <DataLayer id="lad-data-zoom" catCode={category.code} maxzoom={config.ux.map.lsoa_breakpoint} />
+        {/if}
         <InteractiveLayer
           id="lad-interactive-layer"
           selected={$selectedGeography.lad}
@@ -102,9 +105,9 @@
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
       >
-        <!-- {#if $dataByGeography}
-          <DataLayer id="lsoa-data" data={categoryData} />
-        {/if} -->
+        {#if category}
+          <DataLayer id="lsoa-data" catCode={category.code} />
+        {/if}
       </TileSet>
       <TileSet
         id="lsoa-building"
@@ -114,9 +117,9 @@
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
       >
-        <!-- {#if $dataByGeography}
-          <DataLayer id="lsoa-data-zoom" data={categoryData} />
-        {/if} -->
+        {#if category}
+          <DataLayer id="lsoa-data-zoom" catCode={category.code} />
+        {/if}
       </TileSet>
       <TileSet
         id="lad-boundaries"
