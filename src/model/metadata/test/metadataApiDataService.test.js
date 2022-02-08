@@ -11,7 +11,7 @@ describe("Metadata api data service", () => {
 
     const dataService = new MetadataApiDataService();
     const json = await dataService.fetchCensusMetadata();
-    expect(fetch).toHaveBeenCalledWith(`${config.api.baseUrl}${config.api.censusMetadataEndpoint}`);
+    expect(fetch).toHaveBeenCalledWith(`${config.api.baseUrl}${config.api.censusMetadataEndpoint}?filtertotals=true`);
     expect(json).toEqual([{ test: "test" }]);
   });
 });

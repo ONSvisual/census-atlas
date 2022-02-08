@@ -1,8 +1,8 @@
-import mockTopicTableCategoryData from "../../../data/mockTopicTableCategoryData";
+import mockMetadata from "../../../data/mockMetadata";
 
 export default class MockCensusDataService {
   async fetchCensusTableStructure() {
-    return mockTopicTableCategoryData;
+    return mockMetadata;
   }
 
   async fetchLsoaCategoryData(categoryId) {}

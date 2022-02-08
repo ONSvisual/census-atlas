@@ -21,6 +21,7 @@ describe("initialise census", () => {
     expect(Object.keys(topics)).toStrictEqual(["TP1", "TP2"]);
     expect(Object.keys(tables)).toStrictEqual(["TB1", "TB2", "TB3", "TB4"]);
     expect(Object.keys(categories)).toStrictEqual(["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"]);
+    expect(tables["TB1"].total).toStrictEqual("TB1-T");
   });
 
   it("it switches censusTableStructureIsLoaded to true", async () => {
