@@ -19,6 +19,7 @@
     "@sveltejs/kit": "^1.0.0-next.200",
     "@testing-library/svelte": "^3.0.3",
     "@turf/turf": "latest",
+    "cypress": "^9.4.1",
     "d3-dsv": "latest",
     "esbuild": "^0.14.10",
     "eslint": "^8.6.0",
