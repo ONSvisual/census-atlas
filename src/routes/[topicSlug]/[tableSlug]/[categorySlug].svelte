@@ -83,16 +83,13 @@
       locationName = getLadName(locationId);
     }
   }
+  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
 
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
     fetchSelectedDataset();
   $: categorySlug,
-    $appIsInitialised &&
-      (updateMap(tableSlug, categorySlug, metadata),
-      ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
-
-  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
+    $appIsInitialised && (updateMap(category), ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
 
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && (initialisePage(), fetchSelectedDataset());

@@ -106,12 +106,10 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, catCode) {
   }
 }
 
-export const updateMap = (tableSlug, categorySlug) => {
-  let category = getCategoryBySlug(tableSlug, categorySlug);
-  let table = category ? tables[category.table] : null;
+export const updateMap = (category) => {
   if (category) {
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, table.total]);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, table.total]);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total, 5);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, tables[category.table].total]);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, tables[category.table].total]);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, tables[category.table].total, 5);
   }
 };
