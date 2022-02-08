@@ -97,8 +97,6 @@
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && (initialisePage(), fetchSelectedDataset());
 
-  // $: console.log($cachedMapCategories.has(category.code));
-
   const initialisePage = async () => {
     if (locationId != null) {
       neighbouringLad = returnNeighbouringLad(locationId);
@@ -162,7 +160,7 @@
         layer={config.legacy.ladvector.layer}
         promoteId={config.legacy.ladvector.code}
       >
-        {#if category && $cachedMapCategories.has(category.code)}
+        {#if category}
           <DataLayer id="lad-data-zoom" catCode={category.code} maxzoom={config.ux.map.lsoa_breakpoint} />
         {/if}
         <InteractiveLayer
@@ -188,7 +186,7 @@
         minzoom={config.ux.map.lsoa_breakpoint}
         maxzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if category && $cachedMapCategories.has(category.code)}
+        {#if category}
           <DataLayer id="lsoa-data" catCode={category.code} />
         {/if}
       </TileSet>
@@ -200,8 +198,7 @@
         promoteId={config.legacy.lsoabldg.code}
         minzoom={config.ux.map.buildings_breakpoint}
       >
-        {#if category && $cachedMapCategories.has(category.code)}
-          <div>{(category, $cachedMapCategories.has(category.code))}</div>
+        {#if category}
           <DataLayer id="lsoa-data-zoom" catCode={category.code} />
         {/if}
       </TileSet>

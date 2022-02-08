@@ -49,6 +49,7 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
 }
 
 export function addNewGeoDataToCache(data) {
+  newDataByGeography.setFalse();
   data.forEach((value, key) => {
     //if cache already contains category data for given geography...
     if (get(dataByGeography).has(key)) {
@@ -60,5 +61,5 @@ export function addNewGeoDataToCache(data) {
       get(dataByGeography).set(key, new Map(value));
     }
   });
-  newDataByGeography.notify();
+  newDataByGeography.setTrue();
 }

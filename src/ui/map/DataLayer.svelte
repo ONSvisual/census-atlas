@@ -3,7 +3,7 @@
   import { getLegendSection } from "./../../model/utils";
   import config from "./../../config";
   import { selectedCategoryBreaks } from "../../model/metadata/metadata";
-  import { dataByGeography, newDataByGeography } from "../../model/censusdata/censusdata";
+  import { dataByGeography, cachedMapCategories, newDataByGeography } from "../../model/censusdata/censusdata";
 
   export let id;
   export let source = getContext("source");
@@ -60,26 +60,33 @@
   map.addLayer(options, order);
 
   function setMapGeographyColours() {
-    $dataByGeography.forEach((geoData, geoCode) => {
-      let legendSection;
-      if ($selectedCategoryBreaks.lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
-        legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lsoa);
-      } else if ($selectedCategoryBreaks.lad.length > 0) {
-        legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lad);
-      }
-      map.setFeatureState(
-        {
-          source: source,
-          sourceLayer: sourceLayer,
-          id: geoCode,
-        },
-        {
-          color: config.ux.legend_colours[legendSection],
-        },
-      );
-    });
+    if ($cachedMapCategories.has(catCode) && $newDataByGeography) {
+      $dataByGeography.forEach((geoData, geoCode) => {
+        if (geoData.has(catCode)) {
+          let legendSection;
+          if ($selectedCategoryBreaks.lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
+            legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lsoa);
+          } else if ($selectedCategoryBreaks.lad.length > 0) {
+            legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lad);
+          }
+          map.setFeatureState(
+            {
+              source: source,
+              sourceLayer: sourceLayer,
+              id: geoCode,
+            },
+            {
+              color: config.ux.legend_colours[legendSection],
+            },
+          );
+        }
+      });
+    }
   }
 
   // when data updates colourise the map
-  $: ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) && setMapGeographyColours();
+  $: ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) &&
+    $cachedMapCategories.has(catCode) &&
+    $newDataByGeography &&
+    setMapGeographyColours();
 </script>
