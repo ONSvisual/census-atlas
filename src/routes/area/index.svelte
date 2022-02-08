@@ -23,8 +23,7 @@
   import TileSet from "../../ui/map/TileSet.svelte";
   import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
   import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
-  import { categoryDataIsLoaded } from "../../model/censusdata/censusdata";
-  import {pageUrl} from "../../stores"
+  import { pageUrl } from "../../stores";
 
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
@@ -34,8 +33,7 @@
   let topicSuggestions;
 
   onMount(async () => {
-    $pageUrl=$page.path
-    $categoryDataIsLoaded = false;
+    $pageUrl = $page.path;
   });
 
   function initialisePage() {
@@ -124,7 +122,10 @@
 
   <Topic cardTitle="{locationName}'s Census" topicList={topicSuggestions}>
     <p>The 2021 Census tells us a lot about how people in {locationName} live and work.</p>
-    <p><a href="/categories?location={locationId}">Choose a category from the full list</a> or explore one of these topics.</p>
+    <p>
+      <a href="/categories{locationId ? `?location=${locationId}` : ''}">Choose a category from the full list</a> or explore
+      one of these topics.
+    </p>
   </Topic>
 
   <div class="ons-u-mb-l">

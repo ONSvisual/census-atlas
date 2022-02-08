@@ -4,7 +4,7 @@
   import { updateSelectedGeography } from "../model/geography/geography";
   export let serviceTitle, description, showChangeAreaHeader;
   export let showBackLink = false;
-  export let href;
+  export let ONSBacklinkHref;
 
   $: href = $page.path;
 </script>
@@ -13,7 +13,7 @@
   <div class="ons-header__main {description ? 'ons-header__main--with-description' : ''}">
     <div class="ons-container">
       {#if showBackLink}
-        <ONSBacklink {href} inverted on:click={() => (showChangeAreaHeader = false)} />
+        <ONSBacklink href={ONSBacklinkHref} inverted on:click={() => (showChangeAreaHeader = false)} />
       {/if}
       <div
         class="ons-grid ons-grid--gutterless ons-grid--flex ons-grid--between ons-grid--vertical-center ons-grid--no-wrap"
