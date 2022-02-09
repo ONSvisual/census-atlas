@@ -1,7 +1,7 @@
 import MockMetadataService from "../services/mockMetadataService";
 import mockMetadata from "../../../data/mockMetadata";
 import metadata from "../../../data/apiMetadata";
-import { initialiseCensusMetadata, censusMetadata, totalCatCodeLookup } from "../metadata";
+import { initialiseCensusMetadata, censusMetadata, totalCatCodeLookup, reverseTotalCatCodeLookup } from "../metadata";
 import { get } from "svelte/store";
 
 describe("fetchCensusMetadata", () => {
@@ -42,6 +42,15 @@ describe("initialiseCensusMetadata with the real metadata", () => {
           expect(get(totalCatCodeLookup)).toHaveProperty(category.code);
           expect(get(totalCatCodeLookup)[category.code]).not.toEqual(undefined);
         });
+      });
+    });
+
+    //and
+    //reverseTotalCatCodeLookup contains category codes for each total code
+    metadata.forEach((topic) => {
+      topic.tables.forEach((table) => {
+        expect(get(reverseTotalCatCodeLookup)).toHaveProperty(table.total.code);
+        expect(get(reverseTotalCatCodeLookup)[table.total.code]).not.toEqual(undefined);
       });
     });
   });
