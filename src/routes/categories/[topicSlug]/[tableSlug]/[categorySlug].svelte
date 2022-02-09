@@ -2,21 +2,12 @@
   import BasePage from "../../../../ui/BasePage.svelte";
 
   import Header from "../../../../ui/Header.svelte";
-  import Map from "../../../../ui/map/Map.svelte";
-  import InteractiveLayer from "../../../../ui/map/InteractiveLayer.svelte";
-  import TileSet from "../../../../ui/map/TileSet.svelte";
-  import BoundaryLayer from "../../../../ui/map/BoundaryLayer.svelte";
-  import DataLayer from "../../../../ui/map/DataLayer.svelte";
+  import MapWrapper from "../../../../ui/map/MapWrapper.svelte";
   import config from "../../../../config";
   import TopicExplorer from "../../../../ui/TopicExplorer.svelte";
   import Topic from "../../../../ui/Topic.svelte";
   import Feedback from "../../../../ui/Feedback.svelte";
-  import {
-    getLadName,
-    updateSelectedGeography,
-    updateHoveredGeography,
-    selectedGeography,
-  } from "../../../../model/geography/geography";
+  import { getLadName, updateSelectedGeography, selectedGeography } from "../../../../model/geography/geography";
   import { getCategoryBySlug } from "../../../../model/censusdata/censusdata";
   import { appIsInitialised } from "../../../../model/appstate";
   import { pageUrl } from "../../../../stores";
@@ -71,66 +62,7 @@
   </span>
 
   <span slot="map">
-    <Map maxzoom={14}>
-      <TileSet
-        id="lad"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        {#if category}
-          <DataLayer id="lad-data-zoom" catCode={category.code} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if}
-        <InteractiveLayer
-          id="lad-interactive-layer"
-          selected={$selectedGeography.lad}
-          maxzoom={config.ux.map.buildings_breakpoint}
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-          filter={config.ux.map.filter}
-        />
-      </TileSet>
-
-      <TileSet
-        id="lsoa"
-        type="vector"
-        url={config.legacy.lsoabounds.url}
-        layer={config.legacy.lsoabounds.layer}
-        promoteId={config.legacy.lsoabounds.code}
-        minzoom={config.ux.map.lsoa_breakpoint}
-        maxzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if category}
-          <DataLayer id="lsoa-data" catCode={category.code} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lsoa-building"
-        type="vector"
-        url={config.legacy.lsoabldg.url}
-        layer={config.legacy.lsoabldg.layer}
-        promoteId={config.legacy.lsoabldg.code}
-        minzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if category}
-          <DataLayer id="lsoa-data-zoom" catCode={category.code} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lad-boundaries"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
-      </TileSet>
-    </Map>
+    <MapWrapper {category} showDataLayer={true} />
   </span>
 
   <TopicExplorer {locationId} selectedTopic={topicSlug} visitedTable={tableSlug} />
