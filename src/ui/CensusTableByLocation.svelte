@@ -40,7 +40,7 @@
           <td class="ons-table__cell ">{category.name}</td>
           <td class="ons-table__cell  ons-table__cell--numeric">{category.value}</td>
           <td class="ons-table__cell  ons-table__cell--numeric ons-table__cell--key"
-            >{category.percentage}<span>%</span>
+            >{(Math.round(category.percentage * 10) / 10).toFixed(1)}<span>%</span>
           </td>
         </tr>
       {/each}

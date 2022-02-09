@@ -34,7 +34,7 @@
 {#if selectedCatData}
   <div class="category-figures" style="background-color: {backgroundColour}">
     <p class="category-figures__percentage" style="color: {textColour}">
-      {selectedCatData.perc}<span>%</span>
+      {(Math.round(selectedCatData.perc * 10) / 10).toFixed(1)}<span>%</span>
     </p>
     <p class="category-figures__totals" style="color: {textColour}">
       {selectedCatData.val} of {selectedCatData.total}
