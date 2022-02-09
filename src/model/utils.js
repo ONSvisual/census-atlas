@@ -9,7 +9,7 @@ export function getLegendSection(value, breakpoints) {
       return i;
     }
   }
-  return breakpoints.length;
+  return breakpoints.length - 1;
 }
 
 export function writeCsvDataToMapObj(responseStr, geographyCode) {
@@ -26,7 +26,7 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
           if (row[totalCatCode]) {
             const catVal = +row[catCode];
             const totalVal = row[get(totalCatCodeLookup)[catCode]];
-            const percentage = (Math.round((catVal / totalVal) * 100 * 10) / 10).toFixed(1);
+            const percentage = (catVal / totalVal) * 100;
             //sets category Map
             geoDataMap.set(catCode, { value: catVal, total: totalVal, perc: percentage });
           } else {
