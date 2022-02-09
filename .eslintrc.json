@@ -1,7 +1,7 @@
 {
   "root": true,
-  "extends": ["eslint:recommended", "prettier"],
-  "plugins": ["svelte3"],
+  "extends": ["eslint:recommended", "plugin:cypress/recommended", "prettier"],
+  "plugins": ["svelte3", "cypress"],
   "overrides": [{ "files": ["*.svelte"], "processor": "svelte3/svelte3" }],
   "parserOptions": {
     "sourceType": "module",
