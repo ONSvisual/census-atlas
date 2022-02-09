@@ -1,6 +1,7 @@
 import MockMetadataService from "../services/mockMetadataService";
 import mockMetadata from "../../../data/mockMetadata";
-import { initialiseCensusMetadata, censusMetadata } from "../metadata";
+import metadata from "../../../data/apiMetadata";
+import { initialiseCensusMetadata, censusMetadata, totalCatCodeLookup, reverseTotalCatCodeLookup } from "../metadata";
 import { get } from "svelte/store";
 
 describe("fetchCensusMetadata", () => {
@@ -20,5 +21,37 @@ describe("fetchCensusMetadata", () => {
     //and
     //it stores the response in the censusMetadata store
     expect(get(censusMetadata)).toEqual(mockMetadata);
+  });
+});
+
+describe("initialiseCensusMetadata with the real metadata", () => {
+  it("provides a total category code for each category within the totalCatCodeLookup", async () => {
+    //given
+    //a mock for the metadata service, called with real metadata
+    const mockMetadataService = new MockMetadataService(metadata);
+
+    //when
+    //we call initialiseCensusMetadata
+    await initialiseCensusMetadata(mockMetadataService);
+
+    //then
+    //totalCatCodeLookup contains a total code for each category
+    metadata.forEach((topic) => {
+      topic.tables.forEach((table) => {
+        table.categories.forEach((category) => {
+          expect(get(totalCatCodeLookup)).toHaveProperty(category.code);
+          expect(get(totalCatCodeLookup)[category.code]).not.toEqual(undefined);
+        });
+      });
+    });
+
+    //and
+    //reverseTotalCatCodeLookup contains category codes for each total code
+    metadata.forEach((topic) => {
+      topic.tables.forEach((table) => {
+        expect(get(reverseTotalCatCodeLookup)).toHaveProperty(table.total.code);
+        expect(get(reverseTotalCatCodeLookup)[table.total.code]).not.toEqual(undefined);
+      });
+    });
   });
 });
