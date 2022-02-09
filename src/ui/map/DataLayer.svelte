@@ -59,7 +59,7 @@
 
   map.addLayer(options, order);
 
-  function setMapGeographyColours() {
+  export function setMapGeographyColours() {
     if ($cachedMapCategories.has(catCode) && $newDataByGeography) {
       $dataByGeography.forEach((geoData, geoCode) => {
         if (geoData.has(catCode)) {
