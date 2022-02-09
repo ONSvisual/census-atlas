@@ -1,6 +1,6 @@
 import { csvParse } from "d3-dsv";
 import { dataByGeography, newDataByGeography } from "./censusdata/censusdata";
-import { totalCatCodeLookup, totalCatCodes, reverseTotalCatCodeLookup } from "./metadata/metadata";
+import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "./metadata/metadata";
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
@@ -21,7 +21,7 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
       if (catCode.trim() != "geography_code") {
         const totalCatCode = get(totalCatCodeLookup)[catCode];
         //if code is a total, ignore
-        if (get(totalCatCodes).has(totalCatCode)) {
+        if (Object.prototype.hasOwnProperty.call(get(reverseTotalCatCodeLookup), totalCatCode)) {
           //if there is data for the total category in the CSV
           if (row[totalCatCode]) {
             const catVal = +row[catCode];
