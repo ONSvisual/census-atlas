@@ -54,6 +54,26 @@ To preview the built app:
 npm run preview
 ```
 
+## Testing
+
+### Unit
+
+Run Jest:
+
+```bash
+npm run test
+```
+
+### Integration
+
+Integration tests are based on tasks asked during actuall user testing.
+
+Run Cypress:
+
+```bash
+npx cypress open
+```
+
 ## Bugs
 
 Due to the [beta nature of Svelte Kit](https://svelte.dev/blog/sveltekit-beta) there might be issues requiring temporary workarounds.
