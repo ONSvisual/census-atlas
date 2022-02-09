@@ -77,7 +77,7 @@
       </p>
     {:else}
       {#if isInitialCat} <p class="category-selector__link" />{/if}
-      <p class={`category-selector__link category-selector__link--${isInitialCat ? "next" : "single-previous"}`}>
+      <p class={`category-selector__link category-selector__link--${isInitialCat ? "next" : "previous"}`}>
         <a
           href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
           on:click={() => (isInitialCat ? clickRight() : clickLeft())}
@@ -85,6 +85,7 @@
           {categories[isInitialCat ? rightIndex : leftIndex].name}
         </a>
       </p>
+      {#if !isInitialCat} <p class="category-selector__link--divider" />{/if}
     {/if}
   </div>
 </div>
@@ -149,9 +150,8 @@
       &--previous {
         background: url(./chevron--left.svg) no-repeat 0 50%;
       }
-      &--single-previous {
+      &--divider {
         border-right: 1px solid rgba($color-white, 0.5);
-        background: url(./chevron--left.svg) no-repeat 0% 50%;
       }
       &--next {
         text-align: right;
