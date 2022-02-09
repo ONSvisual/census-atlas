@@ -1,6 +1,6 @@
 <script>
   import BasePage from "../../../ui/BasePage.svelte";
-  import Map from "../../../ui/map/Map.svelte";
+  import MapWrapper from "../../../ui/map/MapWrapper.svelte";
   import Topic from "../../../ui/Topic.svelte";
   import ONSShare from "../../../ui/ons/ONSShare.svelte";
   import ONSShareItem from "../../../ui/ons/partials/ONSShareItem.svelte";
@@ -25,18 +25,13 @@
     englandAndWalesData,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
-  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
+  import { updateSelectedGeography, getLadName, selectedGeography } from "../../../model/geography/geography";
   import config from "../../../config";
-  import TileSet from "../../../ui/map/TileSet.svelte";
-  import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
-  import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
-  import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
   import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
   import { updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
-  import { selectedGeography } from "../../../model/geography/geography";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -143,66 +138,7 @@
     <div class="mapkey">
       <MapKey />
     </div>
-    <Map maxzoom={14}>
-      <TileSet
-        id="lad"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        {#if category}
-          <DataLayer id="lad-data-zoom" catCode={category.code} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if}
-        <InteractiveLayer
-          id="lad-interactive-layer"
-          selected={$selectedGeography.lad}
-          maxzoom={config.ux.map.buildings_breakpoint}
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-          filter={config.ux.map.filter}
-        />
-      </TileSet>
-
-      <TileSet
-        id="lsoa"
-        type="vector"
-        url={config.legacy.lsoabounds.url}
-        layer={config.legacy.lsoabounds.layer}
-        promoteId={config.legacy.lsoabounds.code}
-        minzoom={config.ux.map.lsoa_breakpoint}
-        maxzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if category}
-          <DataLayer id="lsoa-data" catCode={category.code} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lsoa-building"
-        type="vector"
-        url={config.legacy.lsoabldg.url}
-        layer={config.legacy.lsoabldg.layer}
-        promoteId={config.legacy.lsoabldg.code}
-        minzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if category}
-          <DataLayer id="lsoa-data-zoom" catCode={category.code} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lad-boundaries"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
-      </TileSet>
-    </Map>
+    <MapWrapper {category} showDataLayer={true} />
   </span>
 
   <span slot="footer">
