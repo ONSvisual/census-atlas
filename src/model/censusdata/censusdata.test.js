@@ -1,4 +1,15 @@
-import { categories, censusTableStructureIsLoaded, initialiseCensusData, reset, tables, topics } from "./censusdata";
+import { get } from "svelte/store";
+import mockDataByGeography from "../../data/test/mockDataByGeography";
+import {
+  categories,
+  censusTableStructureIsLoaded,
+  initialiseCensusData,
+  reset,
+  tables,
+  topics,
+  fetchSelectedDataForGeoType,
+  dataByGeography,
+} from "./censusdata";
 import MockCensusDataService from "./services/mockCensusDataService";
 
 describe("initialise census", () => {
@@ -42,5 +53,15 @@ describe("initialise census", () => {
     // then
     // it switches the value from false to true
     expect(changeHistory).toStrictEqual([false, true]);
+  });
+});
+
+describe("fetchSelectedDataForGeoType", () => {
+  it("writes data to the dataByGeography store", async () => {
+    const mockCensusDataService = new MockCensusDataService();
+
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", ["catCode1"]);
+
+    expect(get(dataByGeography)).toEqual(mockDataByGeography);
   });
 });

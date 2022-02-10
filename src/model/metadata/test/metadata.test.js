@@ -1,5 +1,5 @@
 import MockMetadataService from "../services/mockMetadataService";
-import mockMetadata from "../../../data/mockMetadata";
+import mockMetadata from "../../../data/test/mockMetadataadata";
 import metadata from "../../../data/apiMetadata";
 import { initialiseCensusMetadata, censusMetadata, totalCatCodeLookup, reverseTotalCatCodeLookup } from "../metadata";
 import { get } from "svelte/store";
