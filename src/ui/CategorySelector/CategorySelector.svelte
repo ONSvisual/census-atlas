@@ -6,11 +6,14 @@
   export let selectedCategory = "";
 
   $: locationQueryParam = locationId ? `?location=${locationId}` : "";
-  let leftIndex, rightIndex, selectedCatIndex;
+  let leftIndex, rightIndex, selectedCatIndex, isMultiSelect, isInitialCat;
 
   const findSelectedCatIndex = (category) => category.code === selectedCategory;
   selectedCatIndex = categories.findIndex(findSelectedCatIndex);
 
+  /* isMultiSelect, flag is used to fix a ui issue with an array less than or equal to two showing the same category for both the previous and next links */
+  isMultiSelect = categories.length > 2;
+  $: isInitialCat = selectedCatIndex === 0;
   if (categories && selectedCatIndex === categories.length - 1) {
     rightIndex = 0;
     leftIndex = selectedCatIndex - 1;
@@ -57,23 +60,33 @@
     </div>
   </div>
   <div class="category-selector__links">
-    <p class="category-selector__link category-selector__link--previous">
-      <a
-        href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
-        on:click={clickLeft}
-      >
-        {categories[leftIndex].name}
-      </a>
-    </p>
+    {#if isMultiSelect}
+      <p class="category-selector__link category-selector__link--previous">
+        <a href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}" on:click={clickLeft}>
+          {categories[leftIndex].name}
+        </a>
+      </p>
 
-    <p class="category-selector__link category-selector__link--next">
-      <a
-        href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
-        on:click={clickRight}
-      >
-        {categories[rightIndex].name}
-      </a>
-    </p>
+      <p class="category-selector__link category-selector__link--next">
+        <a
+          href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
+          on:click={clickRight}
+        >
+          {categories[rightIndex].name}
+        </a>
+      </p>
+    {:else}
+      {#if isInitialCat} <p class="category-selector__link" />{/if}
+      <p class={`category-selector__link category-selector__link--${isInitialCat ? "next" : "previous"}`}>
+        <a
+          href="/{topicSlug}/{tableSlug}/{categories[selectedCatIndex].slug}{locationQueryParam}"
+          on:click={() => (isInitialCat ? clickRight() : clickLeft())}
+        >
+          {categories[isInitialCat ? rightIndex : leftIndex].name}
+        </a>
+      </p>
+      {#if !isInitialCat} <p class="category-selector__link--divider" />{/if}
+    {/if}
   </div>
 </div>
 
@@ -136,6 +149,9 @@
       }
       &--previous {
         background: url(./chevron--left.svg) no-repeat 0 50%;
+      }
+      &--divider {
+        border-right: 1px solid rgba($color-white, 0.5);
       }
       &--next {
         text-align: right;
