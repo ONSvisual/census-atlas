@@ -14,9 +14,20 @@ jest.mock("../../model/censusdata/censusdata", () => ({
 
 import { render } from "@testing-library/svelte";
 import DataLayer from "./DataLayer.svelte";
+import MockMap from "./MockMap.svelte";
 
-test("setMapGeographyColours", async () => {
-  const component = render(DataLayer);
-  expect(component.setMapGeographyColours()).toHaveBeenCalled();
-  expect(component.legendSection).toEqual(1);
+describe("DataLayer", () => {
+  it("setMapGeographyColours", async () => {
+    const mockMap = render(MockMap, {
+      props: {
+        Component: DataLayer,
+        context_key: "map",
+        context_value: "test",
+      },
+    });
+
+    const component = render(DataLayer);
+    expect(component.setMapGeographyColours()).toEqual(1);
+    expect(component.legendSection).toEqual(1);
+  });
 });
