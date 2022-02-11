@@ -1,4 +1,3 @@
-import { csvParse } from "d3-dsv";
 import { writeCsvDataToMapObj } from "../../utils";
 import config from "../../../config";
 

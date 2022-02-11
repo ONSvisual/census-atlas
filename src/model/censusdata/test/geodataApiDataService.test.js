@@ -9,6 +9,11 @@ describe("GeodataApiDataService", () => {
   const categories = ["catCode1", "catCode2"];
   it("fetchSelectedDataForGeographyType for LAD", () => {
     const geoType = "lad";
+    fetch.mockResponseOnce({
+      text: async () => {
+        return Promise.resolve(`geography_code,catCode1,catCode2\ngeoCode1,92028,30117`);
+      },
+    });
 
     dataService.fetchSelectedDataForGeographyType(geoType, categories);
 
