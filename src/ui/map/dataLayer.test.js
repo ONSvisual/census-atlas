@@ -1,33 +1,31 @@
-jest.mock("../../model/metadata/metadata", () => ({
-  __esModule: true,
-  $selectedCategoryBreaks: {
-    lad: [10, 20, 30, 45, 50],
-    lsoa: [9, 15, 17, 26, 34],
-  },
-}));
-jest.mock("../../model/censusdata/censusdata", () => ({
-  __esModule: true,
-  $newDataByGeography: true,
-  $cachedMapCategories: new Set(["catCode1"]),
-  $dataByGeography: new Map([["geoCode1", new Map([["catCode1", { value: 1, perc: 20, total: 5 }]])]]),
+jest.mock("mapbox-gl", () => ({
+  Map: jest.fn(() => ({
+    getLayer: jest.fn(),
+    removeLayer: jest.fn(),
+    addLayer: jest.fn(),
+    setFeatureState: jest.fn(),
+  })),
 }));
 
 import { render } from "@testing-library/svelte";
 import DataLayer from "./DataLayer.svelte";
 import MockMap from "./MockMap.svelte";
+import { selectedCategoryBreaks } from "../../model/metadata/metadata";
+import { dataByGeography, cachedMapCategories, newDataByGeography } from "../../model/censusdata/censusdata";
 
 describe("DataLayer", () => {
-  it("setMapGeographyColours", async () => {
-    const mockMap = render(MockMap, {
-      props: {
-        Component: DataLayer,
-        context_key: "map",
-        context_value: "test",
-      },
+  beforeEach(() => {
+    dataByGeography.set(new Map([["geoCode1", new Map([["catCode1", { value: 1, perc: 20, total: 5 }]])]]));
+    selectedCategoryBreaks.set({
+      lad: [10, 20, 30, 45, 50],
+      lsoa: [9, 15, 17, 26, 34],
     });
+    newDataByGeography.set(true);
+    cachedMapCategories.set(new Set(["catCode1"]));
+  });
 
-    const component = render(DataLayer);
-    expect(component.setMapGeographyColours()).toEqual(1);
+  it("setMapGeographyColours", async () => {
+    const { component } = render(MockMap, { props: { Component: DataLayer, catCode: "catCode1" } });
     expect(component.legendSection).toEqual(1);
   });
 });

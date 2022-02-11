@@ -18,7 +18,7 @@
       "rgba(255, 255, 255, 0)",
     ],
   };
-  export let catCode;
+  export let catCode, legendSection;
   export let order = "tunnel_motorway_casing";
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
@@ -63,7 +63,6 @@
     if ($cachedMapCategories.has(catCode) && $newDataByGeography) {
       $dataByGeography.forEach((geoData, geoCode) => {
         if (geoData.has(catCode)) {
-          let legendSection;
           if ($selectedCategoryBreaks.lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
             legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lsoa);
           } else if ($selectedCategoryBreaks.lad.length > 0) {
