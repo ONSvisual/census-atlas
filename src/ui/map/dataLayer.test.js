@@ -1,3 +1,11 @@
+jest.mock("mapbox-gl", () => ({
+  Map: jest.fn(() => ({
+    getLayer: jest.fn(),
+    removeLayer: jest.fn(),
+    addLayer: jest.fn(),
+  })),
+}));
+
 jest.mock("../../model/metadata/metadata", () => ({
   __esModule: true,
   $selectedCategoryBreaks: {
@@ -18,15 +26,7 @@ import MockMap from "./MockMap.svelte";
 
 describe("DataLayer", () => {
   it("setMapGeographyColours", async () => {
-    const mockMap = render(MockMap, {
-      props: {
-        Component: DataLayer,
-        context_key: "map",
-        context_value: "test",
-      },
-    });
-
-    const component = render(DataLayer);
+    const component = render(MockMap, { props: { Component: DataLayer } });
     expect(component.setMapGeographyColours()).toEqual(1);
     expect(component.legendSection).toEqual(1);
   });

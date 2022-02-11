@@ -1,13 +1,11 @@
 <script>
-  import { setContext } from "svelte";
   import { Map } from "mapbox-gl";
+  import { setContext } from "svelte";
 
   export let Component;
-  export let context_key;
-  export let context_value;
 
   setContext("map", {
-    getMap: () => new Map({ container: "container" }),
+    getMap: () => new Map({}),
   });
 </script>
 
