@@ -1,5 +1,5 @@
-import { get } from "svelte/store";
-import mockDataByGeography from "../../data/test/mockDataByGeography";
+import { get, writable } from "svelte/store";
+import { initialMockData, integratedMockMap } from "../../data/test/mockDataByGeography";
 import {
   categories,
   censusTableStructureIsLoaded,
@@ -9,6 +9,7 @@ import {
   topics,
   fetchSelectedDataForGeoType,
   dataByGeography,
+  cachedMapCategories,
 } from "./censusdata";
 import MockCensusDataService from "./services/mockCensusDataService";
 
@@ -57,11 +58,27 @@ describe("initialise census", () => {
 });
 
 describe("fetchSelectedDataForGeoType", () => {
-  it("writes data to the dataByGeography store", async () => {
-    const mockCensusDataService = new MockCensusDataService();
+  beforeEach(() => {
+    get(dataByGeography).clear();
+  });
 
-    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", ["catCode1"]);
+  const mockCensusDataService = new MockCensusDataService();
+  const catCodes1 = ["catCode1"];
 
-    expect(get(dataByGeography)).toEqual(mockDataByGeography);
+  it("writes data to the dataByGeography and cachedMapCategories stores", async () => {
+    const catCodesSet = new Set(catCodes1);
+
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes1);
+
+    expect(get(dataByGeography)).toEqual(initialMockData);
+    expect(get(cachedMapCategories)).toEqual(catCodesSet);
+  });
+  it("adds new data to the existing dataByGeography cache", async () => {
+    const catCodes2 = ["catCode2"];
+
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes1);
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes2);
+
+    expect(get(dataByGeography)).toEqual(integratedMockMap);
   });
 });

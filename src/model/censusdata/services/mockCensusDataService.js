@@ -1,5 +1,5 @@
 import mockMetadata from "../../../data/test/mockMetadata";
-import mockDataByGeography from "../../../data/test/mockDataByGeography";
+import { initialMockData, secondMockData } from "../../../data/test/mockDataByGeography";
 
 export default class MockCensusDataService {
   async fetchCensusTableStructure() {
@@ -25,6 +25,9 @@ export default class MockCensusDataService {
   }
 
   async fetchSelectedDataForGeographyType(geoType, categories) {
-    return mockDataByGeography;
+    if (categories == "catCode1") {
+      return initialMockData;
+    }
+    return secondMockData;
   }
 }
