@@ -25,7 +25,7 @@ export function writeCsvDataToMapObj(responseStr, geographyCode) {
           //if there is data for the total category in the CSV
           if (row[totalCatCode]) {
             const catVal = +row[catCode];
-            const totalVal = row[get(totalCatCodeLookup)[catCode]];
+            const totalVal = +row[get(totalCatCodeLookup)[catCode]];
             const percentage = (catVal / totalVal) * 100;
             //sets category Map
             geoDataMap.set(catCode, { value: catVal, total: totalVal, perc: percentage });
