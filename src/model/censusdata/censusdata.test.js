@@ -1,4 +1,16 @@
-import { categories, censusTableStructureIsLoaded, initialiseCensusData, reset, tables, topics } from "./censusdata";
+import { get, writable } from "svelte/store";
+import { initialMockData, integratedMockMap, secondMockData } from "../../data/test/mockDataByGeography";
+import {
+  categories,
+  censusTableStructureIsLoaded,
+  initialiseCensusData,
+  reset,
+  tables,
+  topics,
+  fetchSelectedDataForGeoType,
+  dataByGeography,
+  cachedMapCategories,
+} from "./censusdata";
 import MockCensusDataService from "./services/mockCensusDataService";
 
 describe("initialise census", () => {
@@ -42,5 +54,42 @@ describe("initialise census", () => {
     // then
     // it switches the value from false to true
     expect(changeHistory).toStrictEqual([false, true]);
+  });
+});
+
+describe("fetchSelectedDataForGeoType", () => {
+  beforeEach(() => {
+    get(dataByGeography).clear();
+  });
+
+  const mockCensusDataService = new MockCensusDataService();
+  const catCodes1 = ["catCode1"];
+  const catCodes2 = ["catCode2"];
+
+  it("writes data to the dataByGeography and cachedMapCategories stores", async () => {
+    const catCodesSet = new Set(catCodes1);
+
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes1);
+
+    expect(get(dataByGeography)).toEqual(initialMockData);
+    expect(get(cachedMapCategories)).toEqual(catCodesSet);
+  });
+  it("adds new data to existing data in dataByGeography and cachedMapCategories stores", async () => {
+    const catCodesSet = new Set([...catCodes1, ...catCodes2]);
+
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes1);
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes2);
+
+    expect(get(dataByGeography)).toEqual(integratedMockMap);
+    expect(get(cachedMapCategories)).toEqual(catCodesSet);
+  });
+  it("overwrites dataByGeography and cachedMapCategories when overwriteCache=true", async () => {
+    const overwriteCache = true;
+    const catCodesSet = new Set(catCodes2);
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes1);
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes2, overwriteCache);
+
+    expect(get(dataByGeography)).toEqual(secondMockData);
+    expect(get(cachedMapCategories)).toEqual(catCodesSet);
   });
 });
