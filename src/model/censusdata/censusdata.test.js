@@ -12,6 +12,7 @@ import {
   cachedMapCategories,
 } from "./censusdata";
 import MockCensusDataService from "./services/mockCensusDataService";
+import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "../metadata/metadata";
 
 describe("initialise census", () => {
   beforeEach(() => {
@@ -61,11 +62,17 @@ describe("fetchSelectedDataForGeoType", () => {
   beforeEach(() => {
     get(dataByGeography).clear();
   });
-
+  jest.spyOn(console, "error").mockImplementation(() => {});
   const mockCensusDataService = new MockCensusDataService();
-  const catCodes1 = ["catCode1"];
-  const catCodes2 = ["catCode2"];
-
+  totalCatCodeLookup.set({ catCode1: "totalCode1", catCode2: "totalCode1" });
+  reverseTotalCatCodeLookup.set({
+    totalCode1: [
+      { code: "catCode1", name: "Cat code 1", slug: "cat-code-1" },
+      { code: "catCode2", name: "Cat code 2", slug: "cat-code-2" },
+    ],
+  });
+  const catCodes1 = ["catCode1", "totalCode1"];
+  const catCodes2 = ["catCode2", "totalCode1"];
   it("writes data to the dataByGeography and cachedMapCategories stores", async () => {
     const catCodesSet = new Set(catCodes1);
 

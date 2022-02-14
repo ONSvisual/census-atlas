@@ -25,7 +25,7 @@ export default class MockCensusDataService {
   }
 
   async fetchSelectedDataForGeographyType(geoType, categories) {
-    if (categories == "catCode1") {
+    if (categories[0] == "catCode1") {
       return initialMockData;
     }
     return secondMockData;
