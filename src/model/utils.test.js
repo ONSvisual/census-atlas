@@ -1,6 +1,5 @@
 import { getLegendSection, writeCsvDataToMapObj } from "./utils";
 import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "../model/metadata/metadata";
-import { diff } from "jest-diff";
 
 describe("getLegendSection", () => {
   it("returns the correct dataBreaks index", () => {
@@ -33,19 +32,13 @@ describe("getLegendSection", () => {
   });
 });
 
-describe("writeCsvDataToMapObj", () => {
-  //check:
-  //1. happy path return
-  //2. geography_code catCode
-  //3. code is a total
-  //4. total data not found in API resp
-  //5. missing cat code
+describe("writeCsvDataToMapObj function", () => {
+  const geoCode = "geoCode1";
+  totalCatCodeLookup.set({ catCode: "totalCode" });
+  reverseTotalCatCodeLookup.set({ totalCode: "catCode" });
+  const error = jest.spyOn(console, "error").mockImplementation(() => {});
   it("returns correctly structured data given correct inputs and store values", () => {
     const responseStr = `geography_code,catCode,totalCode\ngeoCode1,100,200`;
-    const geoCode = "geoCode1";
-    totalCatCodeLookup.set({ catCode: "totalCode" });
-    reverseTotalCatCodeLookup.set({ totalCode: "catCode" });
-
     const data = writeCsvDataToMapObj(responseStr, geoCode);
     const expectedData = new Map([["geoCode1", new Map([["catCode", { value: 100, total: 200, perc: 50 }]])]]);
 
@@ -55,5 +48,20 @@ describe("writeCsvDataToMapObj", () => {
     //check total code is not written to inner Map
     expect(data.get("geoCode1").has("totalCode")).toBe(false);
   });
-  // it("");
+  it("returns missing total category error if total category data is not in response string", () => {
+    const responseStr = `geography_code,catCode\ngeoCode1,100`;
+    writeCsvDataToMapObj(responseStr, geoCode);
+
+    expect(error).toBeCalledWith("Total category data not found in API response.");
+    error.mockReset();
+  });
+  it("returns missingCatCodes error if data in response is not in front end metadata structure", () => {
+    const responseStr = `geography_code,catCode2,totalCode\ngeoCode1,100,200`;
+    writeCsvDataToMapObj(responseStr, geoCode);
+
+    expect(error).toBeCalledWith(
+      "The following category codes were received from the API but are not available in the current metadata - catCode2.",
+    );
+    error.mockReset();
+  });
 });
