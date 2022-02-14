@@ -1,6 +1,6 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
-import { addNewGeoDataToCache } from "../utils";
+import { addNewGeoDataToCache, totalCodesRequested } from "../utils";
 import config from "../../config";
 
 export let selectedGeographyData = writable(new Map());
@@ -54,24 +54,28 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode,
 }
 
 export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
-  const data = await censusDataService.fetchSelectedDataForGeographyType(geoType, categories);
-  if (overwriteCache) {
-    dataByGeography.set(data);
-    get(cachedMapCategories).clear();
-  } else {
-    addNewGeoDataToCache(data);
+  if (totalCodesRequested(categories)) {
+    const data = await censusDataService.fetchSelectedDataForGeographyType(geoType, categories);
+    if (overwriteCache) {
+      dataByGeography.set(data);
+      get(cachedMapCategories).clear();
+    } else {
+      addNewGeoDataToCache(data);
+    }
+    categories.forEach((catCode) => {
+      get(cachedMapCategories).add(catCode);
+    });
   }
-  categories.forEach((catCode) => {
-    get(cachedMapCategories).add(catCode);
-  });
 }
 
 export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
-  const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  if (overwriteCache) {
-    dataByGeography.set(data);
-  } else {
-    addNewGeoDataToCache(data);
+  if (totalCodesRequested(catCodes)) {
+    const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+    if (overwriteCache) {
+      dataByGeography.set(data);
+    } else {
+      addNewGeoDataToCache(data);
+    }
   }
 }
 

@@ -63,3 +63,44 @@ export function addNewGeoDataToCache(data) {
   });
   newDataByGeography.setTrue();
 }
+
+export function totalCodesRequested(requestedCategories) {
+  let catCodesNoTotalRequested = [];
+  let totalsNoCatCodeRequested = [];
+  requestedCategories.forEach((catCode) => {
+    //if code is a total, ignore
+    if (get(reverseTotalCatCodeLookup)[catCode]) {
+      //check if category codes corresponding to total are also being requested
+      let catsRequestedWithTotal = 0;
+      get(reverseTotalCatCodeLookup)[catCode].forEach((category) => {
+        if (requestedCategories.includes(category.code)) {
+          catsRequestedWithTotal++;
+        }
+      });
+      if (catsRequestedWithTotal == 0) {
+        totalsNoCatCodeRequested.push(catCode);
+      }
+      return;
+    } // else if we have a total code for the category and the total code is in the request, ignore
+    else if (get(totalCatCodeLookup)[catCode] && requestedCategories.includes(get(totalCatCodeLookup)[catCode])) {
+      return;
+    } else {
+      catCodesNoTotalRequested.push(catCode);
+    }
+  });
+  if (catCodesNoTotalRequested.length > 0 || totalsNoCatCodeRequested.length > 0) {
+    if (catCodesNoTotalRequested.length > 0) {
+      console.error(
+        `The following category codes were requested without requesting a corresponding total code: ${catCodesNoTotalRequested}`,
+      );
+    }
+    if (totalsNoCatCodeRequested.length > 0) {
+      console.error(
+        `The following total codes were requested without requesting a corresponding category code: ${totalsNoCatCodeRequested}`,
+      );
+    }
+    return false;
+  } else {
+    return true;
+  }
+}
