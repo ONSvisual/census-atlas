@@ -81,19 +81,17 @@
     $appIsInitialised && (updateMap(category), ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
 
   // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && (initialisePage(), fetchSelectedDataset());
+  $: appIsInitialised, $appIsInitialised && $censusTableStructureIsLoaded && (initialisePage(), fetchSelectedDataset());
 
   const initialisePage = async () => {
     if (locationId != null) {
       neighbouringLad = returnNeighbouringLad(locationId);
     }
-    if ($censusTableStructureIsLoaded) {
-      category = getCategoryBySlug(tableSlug, categorySlug);
-      table = category ? tables[category.table] : null;
-      totalCatCode = table.total;
-      fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
-      fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
-    }
+    category = getCategoryBySlug(tableSlug, categorySlug);
+    table = category ? tables[category.table] : null;
+    totalCatCode = table.total;
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
     locationName = getLadName(locationId);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };

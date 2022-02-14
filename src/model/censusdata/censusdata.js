@@ -2,6 +2,7 @@ import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
 import { addNewGeoDataToCache, totalCodesRequested } from "../utils";
 import config from "../../config";
+import { censusMetadata } from "../metadata/metadata";
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
@@ -117,7 +118,7 @@ export async function initialiseCensusData(censusDataService) {
 
 export async function fetchTableStructure(censusDataService) {
   let structure = await censusDataService.fetchCensusTableStructure();
-
+  censusMetadata.set(structure);
   structure.forEach((topic) => {
     topics[topic.code] = {
       code: topic.code,
