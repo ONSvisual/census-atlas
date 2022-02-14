@@ -9,6 +9,7 @@
   import { appIsInitialised } from "../model/appstate";
   import config from "../config";
   import { getLadName, updateSelectedGeography, selectedGeography } from "../model/geography/geography";
+  import { censusTableStructureIsLoaded } from "../model/censusdata/censusdata";
   import { pageUrl } from "../stores";
 
   import { page } from "$app/stores";
@@ -61,7 +62,9 @@
     <MapWrapper showDataLayer={false} />
   </span>
 
-  <TopicExplorer {locationId} />
+  {#if $appIsInitialised && $censusTableStructureIsLoaded}
+    <TopicExplorer {locationId} />
+  {/if}
 
   {#if innerWidth >= config.ux.conditional_rendering_breakpoints.innerWidth}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">

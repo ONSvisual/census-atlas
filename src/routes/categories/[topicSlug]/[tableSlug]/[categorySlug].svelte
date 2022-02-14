@@ -8,7 +8,7 @@
   import Topic from "../../../../ui/Topic.svelte";
   import Feedback from "../../../../ui/Feedback.svelte";
   import { getLadName, updateSelectedGeography, selectedGeography } from "../../../../model/geography/geography";
-  import { getCategoryBySlug } from "../../../../model/censusdata/censusdata";
+  import { getCategoryBySlug, censusTableStructureIsLoaded } from "../../../../model/censusdata/censusdata";
   import { appIsInitialised } from "../../../../model/appstate";
   import { pageUrl } from "../../../../stores";
 
@@ -65,7 +65,9 @@
     <MapWrapper {category} showDataLayer={true} />
   </span>
 
-  <TopicExplorer {locationId} selectedTopic={topicSlug} visitedTable={tableSlug} />
+  {#if $appIsInitialised && $censusTableStructureIsLoaded}
+    <TopicExplorer {locationId} selectedTopic={topicSlug} visitedTable={tableSlug} />
+  {/if}
 
   {#if innerWidth >= config.ux.conditional_rendering_breakpoints.innerWidth}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
