@@ -66,7 +66,7 @@ export function addNewGeoDataToCache(data) {
   newDataByGeography.setTrue();
 }
 
-export function totalCodesRequested(requestedCategories) {
+export function catAndTotalCodesRequested(requestedCategories) {
   let catCodesNoTotalRequested = [];
   let totalsNoCatCodeRequested = [];
   requestedCategories.forEach((catCode) => {
