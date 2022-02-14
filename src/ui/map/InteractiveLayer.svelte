@@ -6,7 +6,6 @@
   export let id;
   export let source = getContext("source");
   export let sourceLayer = getContext("source-layer");
-  export let type = "fill";
   export let filter = null;
   export let layout = {};
   export let paint = config.ux.map.paint.interactive;

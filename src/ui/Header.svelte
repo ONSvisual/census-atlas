@@ -46,10 +46,6 @@
 <style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
 
-  h2 {
-    font-size: 1.33333rem;
-    margin: 0.5rem 0;
-  }
   .ons-container {
     padding: 0 1rem;
   }

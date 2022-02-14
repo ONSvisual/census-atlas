@@ -4,12 +4,14 @@ import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "./metadata/metada
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
-  for (let i = 0; i < breakpoints.length; i++) {
-    if (value <= breakpoints[i]) {
-      return i;
+  if (value && breakpoints) {
+    for (let i = 0; i < breakpoints.length; i++) {
+      if (value <= breakpoints[i]) {
+        return i;
+      }
     }
+    return breakpoints.length - 1;
   }
-  return breakpoints.length - 1;
 }
 
 export function writeCsvDataToMapObj(responseStr, geographyCode) {
