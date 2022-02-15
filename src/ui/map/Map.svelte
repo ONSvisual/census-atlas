@@ -60,6 +60,7 @@
     };
   }
 
+  /* TODO remove if not needed */
   const toLngLat = (bounds) =>
     /* Re-order config bounds to an array containing the longitude and latitude of 
       the southwest and northeast corners of the source's bounding box in the 
@@ -79,7 +80,6 @@
         style: mapstyle,
         minZoom: minzoom,
         maxZoom: maxzoom,
-        maxBounds: toLngLat(bounds),
         attributionControl: false,
         ...options,
       });
@@ -92,6 +92,7 @@
 
       // Get initial zoom level
       map.on("load", () => {
+        map.setMaxBounds(map.getBounds());
         debouncedMapZoomBBoxStore(map);
         zoom = map.getZoom();
       });
