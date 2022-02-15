@@ -11,7 +11,6 @@
   export let promoteId = null;
   export let minzoom = getContext("minzoom");
   export let maxzoom = getContext("maxzoom");
-  export let bounds = config.ux.map.englandAndWalesBounds;
 
   let loaded = false;
 
@@ -58,18 +57,6 @@
   if (maxzoom) {
     props.maxzoom = maxzoom;
   }
-
-  /* TODO - Can remove if sign off of using max bounds for map */
-  if (bounds) {
-    if (bounds.length === 4) {
-      /* Blocks api calls being made outside boundary box */
-      /* Re-order config bounds to an array containing the longitude and latitude of 
-      the southwest and northeast corners of the source's bounding box in the 
-      following order: [sw.lng, sw.lat, ne.lng, ne.lat]. */
-      const boundingBox = [bounds[2], bounds[3], bounds[0], bounds[1]];
-      props.bounds = boundingBox;
-    }
-  }
   if (layer && promoteId) {
     props.promoteId = {};
     props.promoteId[layer] = promoteId;
@@ -78,8 +65,8 @@
   }
 
   map.on("error", (e) => {
-    /* Still get some errors within boundary, can be ignored */
-    if (e.error && e.error.status === 403 && !e.error.url.includes("boundaries")) {
+    /* Ignores errors from boundaries and OSM, errors occur as unable to get data outside map boundary */
+    if (e.error && e.error.status === 403 && !e.error.url.includes("boundaries") && !e.error.url.includes("osm")) {
       console.error(e.error);
     }
   });
