@@ -60,6 +60,12 @@
     };
   }
 
+  const toLngLat = (bounds) =>
+    /* Re-order config bounds to an array containing the longitude and latitude of 
+      the southwest and northeast corners of the source's bounding box in the 
+      following order: [sw.lng, sw.lat, ne.lng, ne.lat]. */
+    bounds && bounds.length === 4 && [bounds[2], bounds[3], bounds[0], bounds[1]];
+
   const debouncedMapZoomBBoxStore = getDebouncedMapZoomBBoxStore();
 
   onMount(() => {
@@ -73,6 +79,7 @@
         style: mapstyle,
         minZoom: minzoom,
         maxZoom: maxzoom,
+        maxBounds: toLngLat(bounds),
         attributionControl: false,
         ...options,
       });
