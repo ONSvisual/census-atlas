@@ -22,8 +22,7 @@
 
   let container;
 
-  /* Custom bounding box */
-  const boundingBox = config.ux.map.customEnglandAndWalesBounds;
+  const outerMapBounds = config.ux.map.outerMapBounds;
 
   $: if ($mapZoomBBox) {
     mapBBoxCodes.set(getMapBBoxGeoCodes(map));
@@ -75,7 +74,7 @@
         style: mapstyle,
         minZoom: minzoom,
         maxZoom: maxzoom,
-        maxBounds: boundingBox,
+        maxBounds: outerMapBounds,
         attributionControl: false,
         ...options,
       });
