@@ -1,6 +1,5 @@
 <script>
   import { getContext, setContext } from "svelte";
-  import config from "../../config";
 
   export let id;
   export let type;
