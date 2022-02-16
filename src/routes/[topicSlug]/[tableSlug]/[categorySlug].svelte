@@ -23,18 +23,21 @@
     fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
     englandAndWalesData,
+    dataByGeography,
+    fetchSelectedDataForWholeBoundingBox,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import { updateSelectedGeography, getLadName, selectedGeography } from "../../../model/geography/geography";
   import config from "../../../config";
   import { appIsInitialised } from "../../../model/appstate";
-  import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
+  import { fetchCensusDataBreaks, reverseTotalCatCodeLookup } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
   import { updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
+  import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -43,6 +46,7 @@
   let geoCode, neighbouringLad;
   let tableDataFetched = false;
   let locationName = "";
+  let selectedCatMapDataFetched = false;
 
   let locationId = $page.query.get("location");
 
@@ -81,7 +85,8 @@
     $appIsInitialised && (updateMap(category), ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
 
   // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && $censusTableStructureIsLoaded && (initialisePage(), fetchSelectedDataset());
+  $: appIsInitialised,
+    $appIsInitialised && $censusTableStructureIsLoaded && $mapZoomBBox && (initialisePage(), fetchSelectedDataset());
 
   const initialisePage = async () => {
     if (locationId != null) {
@@ -90,11 +95,34 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     totalCatCode = table.total;
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
+    fetchMapDataForSelectedCat(category.code, totalCatCode);
     locationName = getLadName(locationId);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
+
+  function fetchMapDataForSelectedCat(catCode, totalCode) {
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [catCode, totalCode]);
+    fetchSelectedDataForWholeBoundingBox(new GeodataApiDataService(), "lsoa", [catCode, totalCode], $mapZoomBBox);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
+    selectedCatMapDataFetched = true;
+  }
+
+  $: selectedCatMapDataFetched,
+    selectedCatMapDataFetched && $appIsInitialised && lazyLoadFullTableMapData(category.code, totalCatCode);
+
+  function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
+    selectedCatMapDataFetched = false;
+    const catCodes = $reverseTotalCatCodeLookup[totalCode];
+    let catCodesToFetch = [];
+    catCodes.forEach((catCode) => {
+      if (catCode.code != selectedCatCode) {
+        catCodesToFetch.push(catCode.code);
+      }
+    });
+    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [...catCodesToFetch, totalCode]);
+    catCodesToFetch.forEach((catCode) => {
+      fetchCensusDataBreaks(new MetadataApiDataService(), catCode, totalCatCode, 5, "lad");
+    });
+  }
 
   const fetchSelectedDataset = async () => {
     tableDataFetched = false;

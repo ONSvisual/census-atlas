@@ -5,12 +5,16 @@ export const censusMetadata = writable([]);
 export const totalCatCodeLookup = writable({});
 export const reverseTotalCatCodeLookup = writable({});
 
-export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k) {
-  let breaks = {};
-  breaks.lad = await metadataDataService.fetchCensusDataBreaks("LAD", catCode, totalCode, k);
-  breaks.lsoa = await metadataDataService.fetchCensusDataBreaks("LSOA", catCode, totalCode, k);
-  breaks.lad = breaks.lad.map((dataBreak) => dataBreak * 100);
-  breaks.lsoa = breaks.lsoa.map((dataBreak) => dataBreak * 100);
+export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k, geoType) {
+  let breaks = { lad: [], lsoa: [] };
+  if (!geoType || geoType.toLowerCase() != "lsoa") {
+    const breaksResp = await metadataDataService.fetchCensusDataBreaks("LAD", catCode, totalCode, k);
+    breaks.lad = breaksResp.map((dataBreak) => dataBreak * 100);
+  }
+  if (!geoType || geoType.toLowerCase() != "lad") {
+    const breaksResp = await metadataDataService.fetchCensusDataBreaks("LSOA", catCode, totalCode, k);
+    breaks.lsoa = breaksResp.map((dataBreak) => dataBreak * 100);
+  }
   selectedCategoryBreaks.set(breaks);
 }
 

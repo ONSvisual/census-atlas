@@ -34,7 +34,7 @@ export default class GeodataApiDataService {
   }
 
   async fetchSelectedDataForBoundingBox(geoType, catCodes, bBox) {
-    const geoTypesString = geoType.toString();
+    const geoTypesString = geoType.toString().toUpperCase();
     const catCodesString = catCodes.toString();
     const url = `${censusDataBaseUrl}?bbox=${bBox.neCorner.lng},${bBox.neCorner.lat},${bBox.swCorner.lng},${bBox.swCorner.lat}&cols=geography_code,${catCodesString}&geotype=${geoTypesString}`;
     const response = await fetch(url);

@@ -1,11 +1,16 @@
 import { get } from "svelte/store";
-import { englandAndWalesData, dataByGeography, fetchSelectedDataForGeoType } from "./model/censusdata/censusdata";
+import {
+  englandAndWalesData,
+  dataByGeography,
+  fetchSelectedDataForWholeBoundingBox,
+  tables,
+} from "./model/censusdata/censusdata";
 import GeodataApiDataService from "./model/censusdata/services/geodataApiDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
-import { tables } from "./model/censusdata/censusdata";
+import { mapZoomBBox } from "./model/geography/stores";
 
 export function isEmpty(obj) {
   return (
@@ -103,8 +108,12 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, catCode) {
 
 export const updateMap = (category) => {
   if (category) {
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, tables[category.table].total]);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, tables[category.table].total]);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, tables[category.table].total, 5);
+    fetchSelectedDataForWholeBoundingBox(
+      new GeodataApiDataService(),
+      "lsoa",
+      [category.code, tables[category.table].total],
+      get(mapZoomBBox),
+    );
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, tables[category.table].total, 5, "lsoa");
   }
 };

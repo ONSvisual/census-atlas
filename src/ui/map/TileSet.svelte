@@ -29,7 +29,7 @@
 
   // watches for isSourceLoaded method on map
   function isSourceLoaded() {
-    if (map.isSourceLoaded(id)) {
+    if (map.getSource(id)) {
       loaded = true;
     } else {
       setTimeout(() => {
