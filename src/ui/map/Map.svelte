@@ -61,6 +61,9 @@
   }
   const debouncedMapZoomBBoxStore = getDebouncedMapZoomBBoxStore();
 
+  /* Custom bounding box */
+  const boundingBox = [-10.5, 47.5, 5.9, 57.8];
+
   onMount(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -72,6 +75,7 @@
         style: mapstyle,
         minZoom: minzoom,
         maxZoom: maxzoom,
+        maxBounds: boundingBox,
         attributionControl: false,
         ...options,
       });
@@ -84,7 +88,6 @@
 
       // Get initial zoom level
       map.on("load", () => {
-        map.setMaxBounds(map.getBounds());
         debouncedMapZoomBBoxStore(map);
         zoom = map.getZoom();
       });
