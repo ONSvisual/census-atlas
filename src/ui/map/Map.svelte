@@ -22,6 +22,9 @@
 
   let container;
 
+  /* Custom bounding box */
+  const boundingBox = config.ux.map.customEnglandAndWalesBounds;
+
   $: if ($mapZoomBBox) {
     mapBBoxCodes.set(getMapBBoxGeoCodes(map));
   }
@@ -60,9 +63,6 @@
     };
   }
   const debouncedMapZoomBBoxStore = getDebouncedMapZoomBBoxStore();
-
-  /* Custom bounding box */
-  const boundingBox = [-10.5, 47.5, 5.9, 57.8];
 
   onMount(() => {
     const link = document.createElement("link");
