@@ -33,7 +33,7 @@ export default {
     censusDataBreaksEndpoint: "ckmeansratio/2011",
   },
   stores: {
-    overwrite: true,
+    overwrite: false,
   },
   ux: {
     conditional_rendering_breakpoints: {

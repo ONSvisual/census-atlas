@@ -60,7 +60,7 @@
   map.addLayer(options, order);
 
   export function setMapGeographyColours() {
-    if ($cachedMapCategories.has(catCode)) {
+    if ($cachedMapCategories.has(catCode) && $newDataByGeography) {
       $dataByGeography.forEach((geoData, geoCode) => {
         if (geoData.has(catCode)) {
           if ($selectedCategoryBreaks.lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
@@ -85,6 +85,6 @@
 
   // when data updates colourise the map
   $: ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) &&
-    $cachedMapCategories.has(catCode) &&
+    $cachedMapCategories.has(catCode) && $newDataByGeography
     setMapGeographyColours();
 </script>
