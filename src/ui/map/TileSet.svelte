@@ -63,6 +63,13 @@
     props.promoteId = promoteId;
   }
 
+  map.on("error", (e) => {
+    /* Ignores errors from boundaries and OSM, errors occur as unable to get data outside map boundary */
+    if (e.error && e.error.status === 403 && !e.error.url.includes("boundaries") && !e.error.url.includes("osm")) {
+      console.error(e.error);
+    }
+  });
+
   // runs the addSource method
   function addSource() {
     if (type == "geojson") {
