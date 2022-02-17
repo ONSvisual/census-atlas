@@ -32,6 +32,9 @@ export default {
     censusDataEndpoint: "query/2011",
     censusDataBreaksEndpoint: "ckmeansratio/2011",
   },
+  stores: {
+    overwrite: true,
+  },
   ux: {
     conditional_rendering_breakpoints: {
       innerWidth: 500,

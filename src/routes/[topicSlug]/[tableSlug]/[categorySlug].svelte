@@ -90,8 +90,18 @@
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     totalCatCode = table.total;
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, totalCatCode]);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, totalCatCode]);
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lad",
+      [category.code, totalCatCode],
+      config.stores.overwrite,
+    );
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lsoa",
+      [category.code, totalCatCode],
+      config.stores.overwrite,
+    );
     locationName = getLadName(locationId);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
@@ -104,12 +114,15 @@
           new GeodataApiDataService(),
           [geoCode, neighbouringLad.code],
           [...table.categories, totalCatCode],
+          config.stores.overwrite,
         );
       } else {
-        await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, [
-          ...table.categories,
-          totalCatCode,
-        ]);
+        await fetchSelectedDataForGeographies(
+          new GeodataApiDataService(),
+          geoCode,
+          [...table.categories, totalCatCode],
+          config.stores.overwrite,
+        );
       }
       tableDataFetched = true;
     }

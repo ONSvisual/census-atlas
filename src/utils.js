@@ -103,8 +103,18 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, catCode) {
 
 export const updateMap = (category) => {
   if (category) {
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [category.code, tables[category.table].total]);
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lsoa", [category.code, tables[category.table].total]);
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lad",
+      [category.code, tables[category.table].total],
+      config.stores.overwrite,
+    );
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lsoa",
+      [category.code, tables[category.table].total],
+      config.stores.overwrite,
+    );
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, tables[category.table].total, 5);
   }
 };
