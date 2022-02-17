@@ -6,6 +6,10 @@
   export let mobileMap = true;
   export let withoutBackground = false;
 
+  /* Rather than using hard px values, grab the values from bind:clientHeight fn on block elements */
+  let contentHeight, phaseHeight, headerHeight, footerHeight;
+  $: maxHeight = contentHeight + phaseHeight + headerHeight + footerHeight;
+
   $: innerWidth = 0;
   let hasMap =
     ($$slots.map && mobileMap) || ($$slots.map && !mobileMap && withoutBackground) ? "ons-page--has-map" : "";
@@ -15,9 +19,9 @@
 
 <div class="ons-page {hasMap}">
   <div class="ons-page__content">
-    <a class="ons-skip-link" href="#main-content">Skip to main content</a>
-    <ONSPhaseBanner phase="ALPHA" />
-    <header class="ons-header ons-header--hero" role="banner">
+    <a bind:clientHeight={contentHeight} class="ons-skip-link" href="#main-content">Skip to main content</a>
+    <div bind:clientHeight={phaseHeight}><ONSPhaseBanner phase="ALPHA" /></div>
+    <header bind:clientHeight={headerHeight} class="ons-header ons-header--hero" role="banner">
       <div class="ons-header__top">
         <div class="ons-container">
           <div
@@ -48,7 +52,7 @@
         </div>
       </div>
     </header>
-    <div class="wrapper">
+    <div class="wrapper" style="--max-height: {maxHeight}px">
       <!-- // XXX This .header should really be part of <header/> semantically speaking; might need to move it back in there, and reset max-width on the -->
       <div class="header">
         <slot name="header" />
@@ -69,13 +73,15 @@
       </div>
     </div>
   </div>
-  <slot name="footer">
-    <footer class="ons-footer">
-      <div class="ons-footer__body ons-page__footer" data-analytics="footer">
-        <div class="ons-container" />
-      </div>
-    </footer>
-  </slot>
+  <div bind:clientHeight={footerHeight}>
+    <slot name="footer">
+      <footer class="ons-footer">
+        <div class="ons-footer__body ons-page__footer" data-analytics="footer">
+          <div class="ons-container" />
+        </div>
+      </footer>
+    </slot>
+  </div>
 </div>
 
 <style lang="scss" global>
@@ -143,6 +149,10 @@
     .body {
       padding-top: 18px;
       padding-bottom: 18px;
+      overflow: scroll;
+    }
+    .wrapper {
+      max-height: calc(100vh - var(--max-height));
     }
     .map {
       position: absolute;
