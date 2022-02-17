@@ -1,6 +1,6 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
-import { addNewGeoDataToCache, catAndTotalCodesRequested } from "../utils";
+import { addNewGeoDataToCache, areCatAndTotalCodesRequested } from "../utils";
 import config from "../../config";
 import { censusMetadata } from "../metadata/metadata";
 
@@ -55,7 +55,7 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode,
 }
 
 export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
-  if (catAndTotalCodesRequested(categories)) {
+  if (areCatAndTotalCodesRequested(categories)) {
     const data = await censusDataService.fetchSelectedDataForGeographyType(geoType, categories);
     if (overwriteCache) {
       dataByGeography.set(data);
@@ -70,7 +70,7 @@ export async function fetchSelectedDataForGeoType(censusDataService, geoType, ca
 }
 
 export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
-  if (catAndTotalCodesRequested(catCodes)) {
+  if (areCatAndTotalCodesRequested(catCodes)) {
     const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
     if (overwriteCache) {
       dataByGeography.set(data);
