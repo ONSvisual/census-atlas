@@ -22,6 +22,8 @@
 
   let container;
 
+  const outerMapBounds = config.ux.map.outerMapBounds;
+
   $: if ($mapZoomBBox) {
     mapBBoxCodes.set(getMapBBoxGeoCodes(map));
   }
@@ -59,7 +61,6 @@
       }, debounceTimeout);
     };
   }
-
   const debouncedMapZoomBBoxStore = getDebouncedMapZoomBBoxStore();
 
   onMount(() => {
@@ -73,6 +74,7 @@
         style: mapstyle,
         minZoom: minzoom,
         maxZoom: maxzoom,
+        maxBounds: outerMapBounds,
         attributionControl: false,
         ...options,
       });
