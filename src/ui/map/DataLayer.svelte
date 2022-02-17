@@ -2,7 +2,7 @@
   import { getContext } from "svelte";
   import { getLegendSection } from "./../../model/utils";
   import config from "./../../config";
-  import { selectedCategoryBreaks } from "../../model/metadata/metadata";
+  import { dataBreaks } from "../../model/metadata/metadata";
   import { dataByGeography, cachedMapCategories, newDataByGeography } from "../../model/censusdata/censusdata";
 
   export let id;
@@ -62,11 +62,11 @@
   export function setMapGeographyColours() {
     if ($cachedMapCategories.has(catCode) && $newDataByGeography) {
       $dataByGeography.forEach((geoData, geoCode) => {
-        if (geoData.has(catCode)) {
-          if ($selectedCategoryBreaks.lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
-            legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lsoa);
-          } else if ($selectedCategoryBreaks.lad.length > 0) {
-            legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lad);
+        if (geoData.has(catCode) && $dataBreaks.has(catCode)) {
+          if ($dataBreaks.get(catCode).lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
+            legendSection = getLegendSection(geoData.get(catCode).perc, $dataBreaks.get(catCode).lsoa);
+          } else if ($dataBreaks.get(catCode).lad.length > 0) {
+            legendSection = getLegendSection(geoData.get(catCode).perc, $dataBreaks.get(catCode).lad);
           }
           map.setFeatureState(
             {
@@ -84,7 +84,8 @@
   }
 
   // when data updates colourise the map
-  $: ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) &&
+  $: $dataBreaks.has(catCode) &&
+    ($dataBreaks.get(catCode).lad || $dataBreaks.get(catCode).lsoa) &&
     $cachedMapCategories.has(catCode) &&
     $newDataByGeography &&
     setMapGeographyColours();

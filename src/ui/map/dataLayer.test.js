@@ -10,11 +10,11 @@ jest.mock("mapbox-gl", () => ({
 import { render } from "@testing-library/svelte";
 import DataLayer from "./DataLayer.svelte";
 import MockMap from "./MockMap.svelte";
-import { selectedCategoryBreaks } from "../../model/metadata/metadata";
+import { dataBreaks } from "../../model/metadata/metadata";
 import { dataByGeography, cachedMapCategories, newDataByGeography } from "../../model/censusdata/censusdata";
 
 describe("DataLayer", () => {
-  selectedCategoryBreaks.set({
+  dataBreaks.set({
     lad: [10, 20, 30, 45, 50],
     lsoa: [9, 15, 17, 26, 34],
   });
