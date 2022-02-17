@@ -14,10 +14,24 @@ import { dataBreaks } from "../../model/metadata/metadata";
 import { dataByGeography, cachedMapCategories, newDataByGeography } from "../../model/censusdata/censusdata";
 
 describe("DataLayer", () => {
-  dataBreaks.set({
-    lad: [10, 20, 30, 45, 50],
-    lsoa: [9, 15, 17, 26, 34],
-  });
+  dataBreaks.set(
+    new Map([
+      [
+        "catCode1",
+        {
+          lad: [10, 20, 30, 45, 50],
+          lsoa: [9, 15, 17, 26, 34],
+        },
+      ],
+      [
+        "catCode2",
+        {
+          lad: [10, 20, 30, 45, 50],
+          lsoa: [9, 15, 17, 26, 34],
+        },
+      ],
+    ]),
+  );
   newDataByGeography.set(true);
   cachedMapCategories.set(new Set(["catCode1", "catCode2"]));
   it("setMapGeographyColours - returns the colour index of the LAD geography", () => {
