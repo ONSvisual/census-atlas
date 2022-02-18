@@ -2,7 +2,7 @@
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
   import NestableCollapsible from "./NestableCollapsible/NestableCollapsible.svelte";
-  import censusMetadata from "./../data/apiMetadata";
+  import { censusMetadata } from "../model/metadata/metadata";
 
   import { onMount } from "svelte";
 
@@ -13,7 +13,7 @@
 
   $: {
     if (selectedTopic) {
-      censusMetadata.forEach((topic) => {
+      $censusMetadata.forEach((topic) => {
         if (visitedTable) {
           topic.tables.forEach((table) => {
             if (table.slug == visitedTable.toLowerCase()) {
@@ -23,7 +23,7 @@
           });
         }
         if (topic.slug == selectedTopic.toLowerCase()) {
-          topicIndex = censusMetadata.indexOf(topic);
+          topicIndex = $censusMetadata.indexOf(topic);
         }
       });
     }
@@ -43,7 +43,7 @@
 </script>
 
 <ONSAccordion showAll={false}>
-  {#each censusMetadata as topic, i}
+  {#each $censusMetadata as topic, i}
     <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.desc}>
       {#each topic.tables as tableEntry, i}
         <div class="table-margin--2">

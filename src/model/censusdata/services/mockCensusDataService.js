@@ -1,8 +1,9 @@
-import mockTopicTableCategoryData from "../../../data/mockTopicTableCategoryData";
+import mockMetadata from "../../../data/test/mockMetadata";
+import { initialMockData, secondMockData } from "../../../data/test/mockDataByGeography";
 
 export default class MockCensusDataService {
   async fetchCensusTableStructure() {
-    return mockTopicTableCategoryData;
+    return mockMetadata;
   }
 
   async fetchLsoaCategoryData(categoryId) {}
@@ -21,5 +22,12 @@ export default class MockCensusDataService {
         // { category: 'Female', value: 4801, perc: 0.49 }
       ],
     };
+  }
+
+  async fetchSelectedDataForGeographyType(geoType, categories) {
+    if (categories[0] == "catCode1") {
+      return initialMockData;
+    }
+    return secondMockData;
   }
 }

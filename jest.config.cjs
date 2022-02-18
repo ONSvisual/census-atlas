@@ -5,4 +5,5 @@ module.exports = {
   },
   transformIgnorePatterns: ["node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"],
   moduleFileExtensions: ["js", "svelte"],
+  setupFilesAfterEnv: ["<rootDir>/jest-setup.js"],
 };

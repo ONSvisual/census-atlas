@@ -1,17 +1,33 @@
 <script>
-  import { selectedData } from "../model/censusdata/censusdata";
-  export let populateCensusTable;
+  import { dataByGeography } from "../model/censusdata/censusdata";
+  export let table, geoCode;
+  let censusTableData = [];
+
+  function populateCensusTable() {
+    if ($dataByGeography.has(geoCode)) {
+      table.categoriesArray.forEach((category) => {
+        censusTableData.push({
+          code: category.code,
+          name: category.name,
+          value: $dataByGeography.get(geoCode).get(category.code)["value"].toLocaleString(),
+          percentage: $dataByGeography.get(geoCode).get(category.code)["perc"],
+        });
+      });
+    }
+  }
+
+  $: geoCode, populateCensusTable();
 </script>
 
-{#if $selectedData}
+{#if censusTableData}
   <table class="ons-table">
     <thead class="ons-table__head">
       <tr class="ons-table__row">
         <th scope="col" class="ons-table__header">
-          <span>{$selectedData.tableName}</span>
+          <span>{table.name}</span>
         </th>
         <th scope="col" class="ons-table__header ons-table__header--numeric">
-          <span>People</span>
+          <span>{table.unit}</span>
         </th>
         <th scope="col" class="ons-table__header ons-table__header--numeric">
           <span>Percentage</span>
@@ -19,12 +35,12 @@
       </tr>
     </thead>
     <tbody class="ons-table__body">
-      {#each populateCensusTable.categories as category}
+      {#each censusTableData as category}
         <tr class="ons-table__row">
           <td class="ons-table__cell ">{category.name}</td>
           <td class="ons-table__cell  ons-table__cell--numeric">{category.value}</td>
           <td class="ons-table__cell  ons-table__cell--numeric ons-table__cell--key"
-            >{category.percentage}<span>%</span>
+            >{(Math.round(category.percentage * 10) / 10).toFixed(1)}<span>%</span>
           </td>
         </tr>
       {/each}

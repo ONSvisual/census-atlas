@@ -2,32 +2,26 @@
   import BasePage from "../../../../ui/BasePage.svelte";
 
   import Header from "../../../../ui/Header.svelte";
-  import Map from "../../../../ui/map/Map.svelte";
-  import InteractiveLayer from "../../../../ui/map/InteractiveLayer.svelte";
-  import TileSet from "../../../../ui/map/TileSet.svelte";
-  import BoundaryLayer from "../../../../ui/map/BoundaryLayer.svelte";
-  import DataLayer from "../../../../ui/map/DataLayer.svelte";
+  import MapWrapper from "../../../../ui/map/MapWrapper.svelte";
   import config from "../../../../config";
   import TopicExplorer from "../../../../ui/TopicExplorer.svelte";
   import Topic from "../../../../ui/Topic.svelte";
   import Feedback from "../../../../ui/Feedback.svelte";
-  import {
-    getLadName,
-    updateSelectedGeography,
-    updateHoveredGeography,
-    selectedGeography,
-  } from "../../../../model/geography/geography";
-  import { categoryDataIsLoaded, categoryData } from "../../../../model/censusdata/censusdata";
+  import { getLadName, updateSelectedGeography, selectedGeography } from "../../../../model/geography/geography";
+  import { getCategoryBySlug, censusTableStructureIsLoaded } from "../../../../model/censusdata/censusdata";
   import { appIsInitialised } from "../../../../model/appstate";
   import { pageUrl } from "../../../../stores";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
 
-  let { topicSlug, tableSlug } = $page.params;
+  let { topicSlug, tableSlug, categorySlug } = $page.params;
 
   let locationId = $page.query.get("location");
   let locationName;
+  let category = null;
+
+  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
 
   $: {
     if ($selectedGeography.lad) {
@@ -58,7 +52,7 @@
 <BasePage mobileMap={false} withoutBackground>
   <span slot="header">
     <Header
-      href={$pageUrl}
+      ONSBacklinkHref={$pageUrl}
       showBackLink
       serviceTitle="Choose a data option {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName
@@ -68,69 +62,12 @@
   </span>
 
   <span slot="map">
-    <Map maxzoom={14}>
-      <TileSet
-        id="lad"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if}
-        <InteractiveLayer
-          id="lad-interactive-layer"
-          selected={$selectedGeography.lad}
-          maxzoom={config.ux.map.buildings_breakpoint}
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-          filter={config.ux.map.filter}
-        />
-      </TileSet>
-
-      <TileSet
-        id="lsoa"
-        type="vector"
-        url={config.legacy.lsoabounds.url}
-        layer={config.legacy.lsoabounds.layer}
-        promoteId={config.legacy.lsoabounds.code}
-        minzoom={config.ux.map.lsoa_breakpoint}
-        maxzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lsoa-data" data={categoryData} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lsoa-building"
-        type="vector"
-        url={config.legacy.lsoabldg.url}
-        layer={config.legacy.lsoabldg.layer}
-        promoteId={config.legacy.lsoabldg.code}
-        minzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lsoa-data-zoom" data={categoryData} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lad-boundaries"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
-      </TileSet>
-    </Map>
+    <MapWrapper {category} showDataLayer={true} />
   </span>
 
-  <TopicExplorer {locationId} selectedTopic={topicSlug} visitedTable={tableSlug} />
+  {#if $appIsInitialised && $censusTableStructureIsLoaded}
+    <TopicExplorer {locationId} selectedTopic={topicSlug} visitedTable={tableSlug} />
+  {/if}
 
   {#if innerWidth >= config.ux.conditional_rendering_breakpoints.innerWidth}
     <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">

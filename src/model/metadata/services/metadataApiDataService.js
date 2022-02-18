@@ -8,7 +8,7 @@ export default class MetadataApiDataService {
     return await response.json();
   }
   async fetchCensusMetadata() {
-    const url = `${config.api.baseUrl}${config.api.censusMetadataEndpoint}`;
+    const url = `${config.api.baseUrl}${config.api.censusMetadataEndpoint}?filtertotals=true`;
     const response = await fetch(url);
     return response.json();
   }
