@@ -10,6 +10,7 @@
   import ONSTwitterIcon from "./../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
+  import UseCensusData from "./../ui/UseCensusData.svelte";
   import MapWrapper from "./../ui/map/MapWrapper.svelte";
   import config from "../config";
   import { updateSelectedGeography, ladLookup } from "../model/geography/geography";
@@ -78,9 +79,12 @@
 
   <ExploreByTopic url="/categories" suggestions={config.suggestions.indexPageSuggestions} />
   <hr class="component-margin--2" />
-  <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
-    >Search for an area to find out how it compares to others</ExploreByAreaComponent
-  >
+
+  <div class="ons-u-mb-xl">
+    <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
+      >Search for an area to find out how it compares to others</ExploreByAreaComponent
+    >
+  </div>
 
   <div class="ons-u-mb-l">
     <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>
@@ -89,6 +93,10 @@
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
+  </div>
+
+  <div class="ons-u-mb-l">
+    <UseCensusData showOnlyGetDataset />
   </div>
 </BasePage>
 
