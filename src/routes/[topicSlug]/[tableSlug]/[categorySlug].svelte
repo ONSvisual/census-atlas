@@ -132,12 +132,15 @@
           new GeodataApiDataService(),
           [geoCode, neighbouringLad.code],
           [...table.categories, totalCatCode],
+          config.stores.overwrite,
         );
       } else {
-        await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, [
-          ...table.categories,
-          totalCatCode,
-        ]);
+        await fetchSelectedDataForGeographies(
+          new GeodataApiDataService(),
+          geoCode,
+          [...table.categories, totalCatCode],
+          config.stores.overwrite,
+        );
       }
       tableDataFetched = true;
     }

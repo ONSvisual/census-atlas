@@ -90,11 +90,11 @@ describe("fetchSelectedDataForGeoType", () => {
     expect(get(dataByGeography)).toEqual(integratedMockMap);
     expect(get(cachedMapCategories)).toEqual(catCodesSet);
   });
-  it("overwrites dataByGeography and cachedMapCategories when overwriteCache=true", async () => {
-    const overwriteCache = true;
+  it("overwrites dataByGeography and cachedMapCategories when overwriteStore=true", async () => {
+    const overwriteStore = true;
     const catCodesSet = new Set(catCodes2);
     await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes1);
-    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes2, overwriteCache);
+    await fetchSelectedDataForGeoType(mockCensusDataService, "geoType", catCodes2, overwriteStore);
 
     expect(get(dataByGeography)).toEqual(secondMockData);
     expect(get(cachedMapCategories)).toEqual(catCodesSet);

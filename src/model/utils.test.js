@@ -1,4 +1,4 @@
-import { getLegendSection, writeCsvDataToMapObj, catAndTotalCodesRequested } from "./utils";
+import { getLegendSection, writeCsvDataToMapObj, areCatAndTotalCodesRequested } from "./utils";
 import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "../model/metadata/metadata";
 
 describe("getLegendSection", () => {
@@ -72,7 +72,7 @@ describe("writeCsvDataToMapObj function", () => {
   });
 });
 
-describe("catAndTotalCodesRequested function", () => {
+describe("areCatAndTotalCodesRequested function", () => {
   const error = jest.spyOn(console, "error").mockImplementation(() => {});
   totalCatCodeLookup.set({ catCode1: "totalCode1", catCode2: "totalCode1" });
   reverseTotalCatCodeLookup.set({
@@ -87,25 +87,25 @@ describe("catAndTotalCodesRequested function", () => {
     error.mockReset();
   });
   it("returns true and no errors when only related totals and categories are requested", () => {
-    expect(catAndTotalCodesRequested(requestedCategories)).toEqual(true);
+    expect(areCatAndTotalCodesRequested(requestedCategories)).toEqual(true);
   });
   it("returns false with correct error when a category code is passed without the related total code", () => {
     let requestedCategories = ["catCode1"];
-    expect(catAndTotalCodesRequested(requestedCategories)).toEqual(false);
+    expect(areCatAndTotalCodesRequested(requestedCategories)).toEqual(false);
     expect(error).toBeCalledWith(
       "The following category codes were requested without requesting a corresponding total code: catCode1",
     );
   });
   it("returns false with correct error when a total code is passed without the related category code", () => {
     let requestedCategories = ["totalCode1"];
-    expect(catAndTotalCodesRequested(requestedCategories)).toEqual(false);
+    expect(areCatAndTotalCodesRequested(requestedCategories)).toEqual(false);
     expect(error).toBeCalledWith(
       "The following total codes were requested without requesting a corresponding category code: totalCode1",
     );
   });
   it("returns false with correct errors when a total code is passed with an unrelated category code", () => {
     let requestedCategories = ["totalCode2", "catCode1"];
-    expect(catAndTotalCodesRequested(requestedCategories)).toEqual(false);
+    expect(areCatAndTotalCodesRequested(requestedCategories)).toEqual(false);
     expect(error).toHaveBeenNthCalledWith(
       1,
       "The following category codes were requested without requesting a corresponding total code: catCode1",

@@ -4,7 +4,7 @@ import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "./metadata/metada
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
-  if (value && breakpoints) {
+  if (value != null && breakpoints.length>0) {
     for (let i = 0; i < breakpoints.length; i++) {
       if (value <= breakpoints[i]) {
         return i;
@@ -66,7 +66,7 @@ export function addNewGeoDataToCache(data) {
   newDataByGeography.setTrue();
 }
 
-export function catAndTotalCodesRequested(requestedCategories) {
+export function areCatAndTotalCodesRequested(requestedCategories) {
   let catCodesNoTotalRequested = [];
   let totalsNoCatCodeRequested = [];
   requestedCategories.forEach((catCode) => {
