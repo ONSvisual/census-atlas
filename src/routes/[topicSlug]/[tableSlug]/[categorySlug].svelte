@@ -199,7 +199,7 @@
   {/if}
 
   <div class="ons-u-mb-l">
-    <UseCensusData location={categorySlug} />
+    <UseCensusData />
   </div>
 
   <div class="ons-u-mb-l">
