@@ -1,7 +1,7 @@
 <script>
   import { dataBreaks, newDataBreaks } from "../../model/metadata/metadata";
   import config from "../../config";
-  import { getLegendSection, dataBreaksAreFetched } from "../../model/utils";
+  import { getLegendSection, areDataBreaksFetched } from "../../model/utils";
   import { populateSelectedCatData } from "../../utils";
   export let locationId, category;
 
@@ -9,7 +9,7 @@
   let backgroundColour, legendSection, textColour;
 
   $: geoCode = locationId ? locationId : config.eAndWGeoCode;
-  $: category, $newDataBreaks, dataBreaksAreFetched($dataBreaks, category.code) && initialiseComponent();
+  $: category, $newDataBreaks, areDataBreaksFetched($dataBreaks, category.code) && initialiseComponent();
 
   function initialiseComponent() {
     selectedCatData = populateSelectedCatData(geoCode, category);
