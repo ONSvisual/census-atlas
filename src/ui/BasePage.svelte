@@ -54,9 +54,11 @@
     </header>
     <div class="wrapper" style="--max-height: {maxHeight}px">
       <!-- // XXX This .header should really be part of <header/> semantically speaking; might need to move it back in there, and reset max-width on the -->
-      <div class="header">
-        <slot name="header" />
-      </div>
+      {#if innerWidth < 500}
+        <div class="header">
+          <slot name="header" />
+        </div>
+      {/if}
       {#if (mobileMap && $$slots.map) || (!mobileMap && innerWidth >= 500)}
         <div class="map">
           <slot name="map" />
@@ -64,6 +66,11 @@
       {/if}
       <div class="body">
         <slot name="body">
+          {#if innerWidth >= 500}
+            <div class="header">
+              <slot name="header" />
+            </div>
+          {/if}
           <div class="ons-page__container ons-container ">
             <main id="main-content" class="ons-page__main ">
               <slot />
@@ -147,9 +154,12 @@
       width: 489px;
     }
     .body {
-      padding-top: 18px;
+      /* padding-top: 18px; */
       padding-bottom: 18px;
       overflow: scroll;
+    }
+    .ons-page__container {
+      padding-top: 18px;
     }
     .wrapper {
       max-height: calc(100vh - var(--max-height));
