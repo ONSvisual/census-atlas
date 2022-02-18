@@ -1,15 +1,15 @@
 <script>
-  import { dataBreaks } from "../../model/metadata/metadata";
+  import { dataBreaks, newDataBreaks } from "../../model/metadata/metadata";
   import config from "../../config";
-  import { getLegendSection } from "../../model/utils";
+  import { getLegendSection, dataBreaksAreFetched } from "../../model/utils";
   import { populateSelectedCatData } from "../../utils";
   export let locationId, category;
 
-  let selectedCatData = {};
+  let selectedCatData = null;
   let backgroundColour, legendSection, textColour;
 
   $: geoCode = locationId ? locationId : config.eAndWGeoCode;
-  $: category, $dataBreaks, initialiseComponent();
+  $: category, $newDataBreaks, dataBreaksAreFetched($dataBreaks, category.code) && initialiseComponent();
 
   function initialiseComponent() {
     selectedCatData = populateSelectedCatData(geoCode, category);
