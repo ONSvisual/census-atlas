@@ -1,8 +1,8 @@
 <script>
   import { getContext } from "svelte";
-  import { getLegendSection } from "./../../model/utils";
+  import { getLegendSection, dataBreaksAreFetched } from "./../../model/utils";
   import config from "./../../config";
-  import { dataBreaks } from "../../model/metadata/metadata";
+  import { dataBreaks, newDataBreaks } from "../../model/metadata/metadata";
   import { dataByGeography, cachedMapCategories, newDataByGeography } from "../../model/censusdata/censusdata";
 
   export let id;
@@ -84,9 +84,10 @@
   }
 
   // when data updates colourise the map
-  $: $dataBreaks.has(catCode) &&
-    ($dataBreaks.get(catCode).lad || $dataBreaks.get(catCode).lsoa) &&
-    $cachedMapCategories.has(catCode) &&
-    $newDataByGeography &&
-    setMapGeographyColours();
+  $: $newDataBreaks,
+    $newDataBreaks &&
+      dataBreaksAreFetched($dataBreaks, catCode) &&
+      $cachedMapCategories.has(catCode) &&
+      $newDataByGeography &&
+      setMapGeographyColours();
 </script>

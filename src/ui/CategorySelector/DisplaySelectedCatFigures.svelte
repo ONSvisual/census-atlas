@@ -17,7 +17,6 @@
       updateBackgroundColour();
       textColour = legendSection > 2 ? "#ffffff" : "#000000";
     }
-    newDataBreaks.setFalse();
   }
 
   function updateBackgroundColour() {
