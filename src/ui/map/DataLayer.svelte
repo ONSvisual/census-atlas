@@ -85,6 +85,7 @@
 
   // when data updates colourise the map
   $: ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) &&
-    $cachedMapCategories.has(catCode) && $newDataByGeography
+    $cachedMapCategories.has(catCode) &&
+    $newDataByGeography &&
     setMapGeographyColours();
 </script>
