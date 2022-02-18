@@ -13,7 +13,7 @@
 
   function initialiseComponent() {
     selectedCatData = populateSelectedCatData(geoCode, category);
-    if ($dataBreaks.has(category) && ($dataBreaks.get(category).lad || $dataBreaks.get(category).lsoa)) {
+    if ($dataBreaks.has(category.code) && ($dataBreaks.get(category.code).lad || $dataBreaks.get(category.code).lsoa)) {
       updateBackgroundColour();
       textColour = legendSection > 2 ? "#ffffff" : "#000000";
     }
@@ -22,9 +22,9 @@
   function updateBackgroundColour() {
     if (selectedCatData) {
       if (selectedCatData.geoCode.startsWith("E01") || selectedCatData.geoCode.startsWith("W01")) {
-        legendSection = getLegendSection(selectedCatData.perc, $dataBreaks.get(category).lsoa);
+        legendSection = getLegendSection(selectedCatData.perc, $dataBreaks.get(category.code).lsoa);
       } else {
-        legendSection = getLegendSection(selectedCatData.perc, $dataBreaks.get(category).lad);
+        legendSection = getLegendSection(selectedCatData.perc, $dataBreaks.get(category.code).lad);
       }
       backgroundColour = config.ux.legend_colours[legendSection];
     }
