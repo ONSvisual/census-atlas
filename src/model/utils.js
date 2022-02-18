@@ -106,11 +106,3 @@ export function areCatAndTotalCodesRequested(requestedCategories) {
     return true;
   }
 }
-
-export function dataBreaksAreFetched(dataBreaks, catCode) {
-  if (dataBreaks.has(catCode)) {
-    return true;
-  } else {
-    return false;
-  }
-}

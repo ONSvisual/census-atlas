@@ -1,8 +1,6 @@
 import { writable, get } from "svelte/store";
-import { toggleable } from "../censusdata/stores";
 
 export const dataBreaks = writable(new Map());
-export const newDataBreaks = toggleable(false);
 export const censusMetadata = writable([]);
 export const totalCatCodeLookup = writable({});
 export const reverseTotalCatCodeLookup = writable({});
@@ -17,9 +15,7 @@ export async function fetchCensusDataBreaks(metadataDataService, catCode, totalC
     const breaksResp = await metadataDataService.fetchCensusDataBreaks("LSOA", catCode, totalCode, k);
     breaks.lsoa = breaksResp.map((dataBreak) => dataBreak * 100);
   }
-  newDataBreaks.setFalse();
   get(dataBreaks).set(catCode, breaks);
-  newDataBreaks.setTrue();
 }
 
 export async function initialiseCensusMetadata(metadataService) {
