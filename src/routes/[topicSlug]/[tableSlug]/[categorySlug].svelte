@@ -1,7 +1,6 @@
 <script>
   import BasePage from "../../../ui/BasePage.svelte";
   import MapWrapper from "../../../ui/map/MapWrapper.svelte";
-  import Topic from "../../../ui/Topic.svelte";
   import ONSShare from "../../../ui/ons/ONSShare.svelte";
   import ONSShareItem from "../../../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "../../../ui/ons/svg/ONSFacebookIcon.svelte";
@@ -198,10 +197,6 @@
   {#if table && tableDataFetched}
     <CensusTableByLocation {table} {geoCode} />
   {/if}
-
-  <Topic cardTitle="General health with other indicators"
-    >Explore correlations between two indicators in <a href="#">advanced mode</a>.
-  </Topic>
 
   <div class="ons-u-mb-l">
     <UseCensusData location={categorySlug} />

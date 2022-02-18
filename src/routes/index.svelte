@@ -4,7 +4,6 @@
   import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
   import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
   import ONSShare from "./../ui/ons/ONSShare.svelte";
-  import Topic from "./../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
   import ONSShareItem from "./../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "./../ui/ons/svg/ONSFacebookIcon.svelte";
@@ -91,10 +90,6 @@
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
   </div>
-
-  <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
-    Explore correlations between two indicators in <a href="#0">advanced mode</a>.
-  </Topic>
 </BasePage>
 
 <style lang="scss">
