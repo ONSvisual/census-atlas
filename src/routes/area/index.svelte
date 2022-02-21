@@ -72,7 +72,7 @@
   </Topic>
 
   <div class="ons-u-mb-l">
-    <UseCensusData location={locationName} />
+    <UseCensusData />
   </div>
 
   <div class="ons-u-mb-l">

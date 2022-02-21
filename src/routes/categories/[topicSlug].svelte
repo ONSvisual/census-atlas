@@ -5,7 +5,6 @@
   import MapWrapper from "../../ui/map/MapWrapper.svelte";
   import config from "../../config";
   import TopicExplorer from "./../../ui/TopicExplorer.svelte";
-  import Topic from "../../ui/Topic.svelte";
   import Feedback from "./../../ui/Feedback.svelte";
   import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
@@ -40,11 +39,9 @@
       updateSelectedGeography(locationId);
     }
   }
-
-  $: innerWidth = 0;
 </script>
 
-<svelte:window bind:innerWidth />
+<svelte:window />
 
 <svelte:head>
   <title>2021 Census Data Atlas Categories</title>
@@ -66,12 +63,6 @@
   </span>
 
   <TopicExplorer selectedTopic={topicSlug} {locationId} />
-
-  {#if innerWidth >= 500}
-    <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
-      Explore correlations between two indicators in <a href="#0">advanced mode</a>.
-    </Topic>
-  {/if}
 
   <span slot="footer">
     <footer class="ons-footer">
