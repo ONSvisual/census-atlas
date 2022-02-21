@@ -122,3 +122,11 @@ export function isCategoryDataFetched(cachedMapCategories, catCode) {
     return false;
   }
 }
+
+export function isCatDataFetchedForGeoCode(dataByGeography, geoCode, catCode) {
+  if (dataByGeography.has(geoCode) && dataByGeography.get(geoCode).has(catCode)) {
+    return true;
+  } else {
+    return false;
+  }
+}

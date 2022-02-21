@@ -1,7 +1,8 @@
 <script>
   import { dataBreaks, newDataBreaks } from "../../model/metadata/metadata";
+  import { dataByGeography, newDataByGeography } from "../../model/censusdata/censusdata";
   import config from "../../config";
-  import { getLegendSection, areDataBreaksFetched } from "../../model/utils";
+  import { getLegendSection, areDataBreaksFetched, isCatDataFetchedForGeoCode } from "../../model/utils";
   import { populateSelectedCatData } from "../../utils";
   export let locationId, category;
 
@@ -9,7 +10,12 @@
   let backgroundColour, legendSection, textColour;
 
   $: geoCode = locationId ? locationId : config.eAndWGeoCode;
-  $: category, $newDataBreaks, areDataBreaksFetched($dataBreaks, category.code) && initialiseComponent();
+  $: category,
+    $newDataBreaks,
+    areDataBreaksFetched($dataBreaks, category.code) &&
+      $newDataByGeography &&
+      isCatDataFetchedForGeoCode($dataByGeography, geoCode, category.code) &&
+      initialiseComponent();
 
   function initialiseComponent() {
     selectedCatData = populateSelectedCatData(geoCode, category);
