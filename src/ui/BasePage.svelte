@@ -6,9 +6,8 @@
   export let mobileMap = true;
   export let withoutBackground = false;
 
-  /* Rather than using hard px values, grab the values from bind:clientHeight fn on block elements */
   let contentHeight, phaseHeight, headerHeight, footerHeight;
-  $: maxHeight = contentHeight + phaseHeight + headerHeight + footerHeight;
+  $: maxHeight = contentHeight - 1 + phaseHeight + headerHeight + footerHeight;
 
   $: innerWidth = 0;
   let hasMap =
