@@ -23,7 +23,6 @@
     fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
     englandAndWalesData,
-    dataByGeography,
     fetchSelectedDataForWholeBoundingBox,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
@@ -76,7 +75,7 @@
       locationName = getLadName(locationId);
     }
   }
-  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
+  $: category = getCategoryBySlug(tableSlug, categorySlug);
 
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
@@ -88,7 +87,7 @@
   $: appIsInitialised, $appIsInitialised && $censusTableStructureIsLoaded && (initialisePage(), fetchSelectedDataset());
 
   $: {
-    if ($appIsInitialised && $mapZoomBBox != null) {
+    if ($appIsInitialised && $mapZoomBBox != null && category) {
       fetchSelectedDataForWholeBoundingBox(
         new GeodataApiDataService(),
         "lsoa",
