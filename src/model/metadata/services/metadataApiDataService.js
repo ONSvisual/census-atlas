@@ -12,7 +12,7 @@ export default class MetadataApiDataService {
         throw new Error(await response.text());
       }
     } catch (err) {
-      console.error("Error:", JSON.parse(err.message).error);
+      console.error("Error:" + JSON.parse(err.message).error);
       return null;
     }
   }
