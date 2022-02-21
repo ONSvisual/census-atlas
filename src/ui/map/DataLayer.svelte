@@ -84,7 +84,8 @@
   }
 
   // when data updates colourise the map
-  $: areDataBreaksFetched($dataBreaks, catCode) &&
+  $: $newDataBreaks &&
+    areDataBreaksFetched($dataBreaks, catCode) &&
     isCategoryDataFetched($cachedMapCategories, catCode) &&
     $newDataByGeography &&
     setMapGeographyColours();

@@ -86,7 +86,10 @@
 
   // temporary line to load some data
   $: appIsInitialised,
-    $appIsInitialised && $censusTableStructureIsLoaded && $mapZoomBBox && (initialisePage(), fetchSelectedDataset());
+    $appIsInitialised &&
+      $censusTableStructureIsLoaded &&
+      $mapZoomBBox != null &&
+      (initialisePage(), fetchSelectedDataset());
 
   const initialisePage = async () => {
     if (locationId != null) {
