@@ -105,7 +105,8 @@
   function fetchMapDataForSelectedCat(catCode, totalCode) {
     fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [catCode, totalCode]);
     fetchSelectedDataForWholeBoundingBox(new GeodataApiDataService(), "lsoa", [catCode, totalCode], $mapZoomBBox);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5, "lad");
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5, "lsoa");
     selectedCatMapDataFetched = true;
   }
 

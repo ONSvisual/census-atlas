@@ -18,7 +18,6 @@
       textColour = legendSection > 2 ? "#ffffff" : "#000000";
     }
   }
-
   function updateBackgroundColour() {
     if (selectedCatData) {
       if (selectedCatData.geoCode.startsWith("E01") || selectedCatData.geoCode.startsWith("W01")) {

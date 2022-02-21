@@ -8,18 +8,17 @@ export const totalCatCodeLookup = writable({});
 export const reverseTotalCatCodeLookup = writable({});
 
 export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k, geoType) {
-  let breaks = { lad: [], lsoa: [] };
-  if (!geoType || geoType.toLowerCase() != "lsoa") {
-    const breaksResp = await metadataDataService.fetchCensusDataBreaks("LAD", catCode, totalCode, k);
-    breaks.lad = breaksResp.map((dataBreak) => dataBreak * 100);
+  const breaksResp = await metadataDataService.fetchCensusDataBreaks(geoType.toUpperCase(), catCode, totalCode, k);
+  if (breaksResp) {
+    const breaks = breaksResp.map((dataBreak) => dataBreak * 100);
+    newDataBreaks.setFalse();
+    if (get(dataBreaks).has(catCode)) {
+      get(dataBreaks).set(catCode, { ...get(dataBreaks).get(catCode), [geoType.toLowerCase()]: breaks });
+    } else {
+      get(dataBreaks).set(catCode, { [geoType.toLowerCase()]: breaks });
+    }
+    newDataBreaks.setTrue();
   }
-  if (!geoType || geoType.toLowerCase() != "lad") {
-    const breaksResp = await metadataDataService.fetchCensusDataBreaks("LSOA", catCode, totalCode, k);
-    breaks.lsoa = breaksResp.map((dataBreak) => dataBreak * 100);
-  }
-  newDataBreaks.setFalse();
-  get(dataBreaks).set(catCode, breaks);
-  newDataBreaks.setTrue();
 }
 
 export async function initialiseCensusMetadata(metadataService) {

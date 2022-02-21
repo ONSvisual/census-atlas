@@ -63,9 +63,9 @@
     if ($cachedMapCategories.has(catCode) && $newDataByGeography) {
       $dataByGeography.forEach((geoData, geoCode) => {
         if (geoData.has(catCode) && $dataBreaks.has(catCode)) {
-          if ($dataBreaks.get(catCode).lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
+          if ($dataBreaks.get(catCode).lsoa && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
             legendSection = getLegendSection(geoData.get(catCode).perc, $dataBreaks.get(catCode).lsoa);
-          } else if ($dataBreaks.get(catCode).lad.length > 0) {
+          } else if ($dataBreaks.get(catCode).lad) {
             legendSection = getLegendSection(geoData.get(catCode).perc, $dataBreaks.get(catCode).lad);
           }
           map.setFeatureState(
