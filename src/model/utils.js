@@ -107,26 +107,9 @@ export function areCatAndTotalCodesRequested(requestedCategories) {
   }
 }
 
-export function areDataBreaksFetched(dataBreaks, catCode) {
-  if (dataBreaks.has(catCode)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+export const areDataBreaksFetched = (dataBreaks, catCode) => dataBreaks.has(catCode);
 
-export function isCategoryDataFetched(cachedMapCategories, catCode) {
-  if (cachedMapCategories.has(catCode)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+export const isCategoryDataFetched = (cachedMapCategories, catCode) => cachedMapCategories.has(catCode);
 
-export function isCatDataFetchedForGeoCode(dataByGeography, geoCode, catCode) {
-  if (dataByGeography.has(geoCode) && dataByGeography.get(geoCode).has(catCode)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+export const isCatDataFetchedForGeoCode = (dataByGeography, geoCode, catCode) =>
+  dataByGeography.has(geoCode) && dataByGeography.get(geoCode).has(catCode);
