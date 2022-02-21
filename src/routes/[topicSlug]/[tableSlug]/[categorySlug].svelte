@@ -80,13 +80,12 @@
 
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
-    fetchSelectedDataset()
+    fetchSelectedDataset();
   $: categorySlug,
     $appIsInitialised && (updateMap(category), ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
 
   // temporary line to load some data
-  $: appIsInitialised,
-    $appIsInitialised && $censusTableStructureIsLoaded && (initialisePage(), fetchSelectedDataset()),
+  $: appIsInitialised, $appIsInitialised && $censusTableStructureIsLoaded && (initialisePage(), fetchSelectedDataset());
 
   $: {
     if ($appIsInitialised && $mapZoomBBox != null) {
