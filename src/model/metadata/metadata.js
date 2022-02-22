@@ -8,10 +8,10 @@ export const totalCatCodeLookup = writable({});
 export const reverseTotalCatCodeLookup = writable({});
 
 export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k, geoType) {
+  newDataBreaks.setFalse();
   const breaksResp = await metadataDataService.fetchCensusDataBreaks(geoType.toUpperCase(), catCode, totalCode, k);
   if (breaksResp) {
     const breaks = breaksResp.map((dataBreak) => dataBreak * 100);
-    newDataBreaks.setFalse();
     if (get(dataBreaks).has(catCode)) {
       get(dataBreaks).set(catCode, { ...get(dataBreaks).get(catCode), [geoType.toLowerCase()]: breaks });
     } else {

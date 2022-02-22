@@ -72,9 +72,16 @@ describe("fetchCensusDataBreaks", () => {
     expect(get(newDataBreaks)).toEqual(true);
   });
 
-  it("adds LSOA to LAD breaks for a given catCode", async () => {
+  it("adds LSOA to existing LAD breaks within object for a given catCode", async () => {
     await fetchCensusDataBreaks(mockMetadataService, "catCode", "totalCode", 5, "lsoa");
     expect(get(dataBreaks)).toEqual(new Map([["catCode", { lad: [10, 20, 30, 40, 50], lsoa: [10, 20, 30, 40, 50] }]]));
     expect(get(newDataBreaks)).toEqual(true);
+  });
+
+  it("does not write to dataBreaks store if data service response is null", async () => {
+    mockMetadataService = new MockMetadataService(null);
+    await fetchCensusDataBreaks(mockMetadataService, "catCode2", "totalCode2", 5, "lad");
+    expect(get(dataBreaks)).toEqual(new Map([["catCode", { lad: [10, 20, 30, 40, 50], lsoa: [10, 20, 30, 40, 50] }]]));
+    expect(get(newDataBreaks)).toEqual(false);
   });
 });
