@@ -62,7 +62,7 @@
       aria-hidden="true"
     >
       <span class="ons-btn__inner ons-js-collapsible-button-inner">Hide this</span>
-      <span class="ons-btn__context ons-u-vh">What is a photovoltaic system? content</span>
+      <span class="ons-btn__context ons-u-vh">{title ? title : ""}</span>
     </button>
   </div>
 </div>
