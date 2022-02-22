@@ -7,7 +7,7 @@
       aria-live="polite"
       tabindex="-1"
     >
-      <h3 class="improve-this-page__is-useful-question margin-right--1">Is this page useful?</h3>
+      <h2 class="improve-this-page__is-useful-question margin-right--1">Is this page useful?</h2>
       <a
         id="feedback-form-yes"
         class="improve-this-page__page-is-useful-button"
@@ -51,6 +51,7 @@
     text-transform: none;
     display: inline;
     margin-right: 16px;
+    font-size: 1.2222222222rem;
   }
   .improve-this-page__page-is-useful-button {
     margin-right: 0.2em;

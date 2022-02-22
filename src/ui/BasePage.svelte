@@ -2,6 +2,7 @@
   import ONSHeaderLogoLarge from "./ons/svg/ONSHeaderLogoLarge.svelte";
   import ONSHeaderLogoSmall from "./ons/svg/ONSHeaderLogoSmall.svelte";
   import ONSPhaseBanner from "./ons/ONSPhaseBanner.svelte";
+  import config from "../config";
 
   export let mobileMap = true;
   export let withoutBackground = false;
@@ -53,7 +54,7 @@
       <div class="header">
         <slot name="header" />
       </div>
-      {#if (mobileMap && $$slots.map) || (!mobileMap && innerWidth >= 500)}
+      {#if (mobileMap && $$slots.map) || (!mobileMap && innerWidth >= config.ux.deviceWidth)}
         <div class="map">
           <slot name="map" />
         </div>

@@ -9,7 +9,7 @@
   <h2>Explore by topic</h2>
   <p>The 2021 Census tells us a lot about how people in England and Wales live and work.</p>
   <p><a href={url}>Choose a category</a></p>
-  <ONSCollapsible title="Show me suggestions">
+  <ONSCollapsible title="Show me suggestions" a11yHeading>
     {#each suggestions as suggestion}
       <p><a href={suggestion.url}>{suggestion.text}</a></p>
     {/each}

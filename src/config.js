@@ -36,9 +36,7 @@ export default {
     overwrite: false,
   },
   ux: {
-    conditional_rendering_breakpoints: {
-      innerWidth: 500,
-    },
+    deviceWidth: 500,
     legend_sections: 5,
     legend_colours: ["#d5f690", "#5bc4b1", "#2e9daa", "#0079a2", "#005583"],
     map: {
