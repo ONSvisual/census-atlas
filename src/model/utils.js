@@ -4,7 +4,7 @@ import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "./metadata/metada
 import { get } from "svelte/store";
 
 export function getLegendSection(value, breakpoints) {
-  if (value != null && breakpoints.length>0) {
+  if (value != null && breakpoints) {
     for (let i = 0; i < breakpoints.length; i++) {
       if (value <= breakpoints[i]) {
         return i;
@@ -106,3 +106,10 @@ export function areCatAndTotalCodesRequested(requestedCategories) {
     return true;
   }
 }
+
+export const areDataBreaksFetched = (dataBreaks, catCode) => dataBreaks.has(catCode);
+
+export const isCategoryDataFetched = (cachedMapCategories, catCode) => cachedMapCategories.has(catCode);
+
+export const isCatDataFetchedForGeoCode = (dataByGeography, geoCode, catCode) =>
+  dataByGeography.has(geoCode) && dataByGeography.get(geoCode).has(catCode);

@@ -1,30 +1,35 @@
 <script>
-  import { selectedCategoryBreaks } from "../../model/metadata/metadata";
+  import { dataBreaks, newDataBreaks } from "../../model/metadata/metadata";
+  import { dataByGeography, newDataByGeography } from "../../model/censusdata/censusdata";
   import config from "../../config";
-  import { getLegendSection } from "../../model/utils";
+  import { getLegendSection, areDataBreaksFetched, isCatDataFetchedForGeoCode } from "../../model/utils";
   import { populateSelectedCatData } from "../../utils";
   export let locationId, category;
 
-  let selectedCatData = {};
+  let selectedCatData = null;
   let backgroundColour, legendSection, textColour;
 
   $: geoCode = locationId ? locationId : config.eAndWGeoCode;
-  $: category, $selectedCategoryBreaks, initialiseComponent();
+  $: category,
+    $newDataBreaks,
+    areDataBreaksFetched($dataBreaks, category.code) &&
+      $newDataByGeography &&
+      isCatDataFetchedForGeoCode($dataByGeography, geoCode, category.code) &&
+      initialiseComponent();
 
   function initialiseComponent() {
     selectedCatData = populateSelectedCatData(geoCode, category);
-    if ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) {
+    if ($dataBreaks.has(category.code) && ($dataBreaks.get(category.code).lad || $dataBreaks.get(category.code).lsoa)) {
       updateBackgroundColour();
       textColour = legendSection > 2 ? "#ffffff" : "#000000";
     }
   }
-
   function updateBackgroundColour() {
     if (selectedCatData) {
       if (selectedCatData.geoCode.startsWith("E01") || selectedCatData.geoCode.startsWith("W01")) {
-        legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lsoa);
+        legendSection = getLegendSection(selectedCatData.perc, $dataBreaks.get(category.code).lsoa);
       } else {
-        legendSection = getLegendSection(selectedCatData.perc, $selectedCategoryBreaks.lad);
+        legendSection = getLegendSection(selectedCatData.perc, $dataBreaks.get(category.code).lad);
       }
       backgroundColour = config.ux.legend_colours[legendSection];
     }

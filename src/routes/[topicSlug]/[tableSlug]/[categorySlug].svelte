@@ -14,7 +14,7 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
-  import { returnNeighbouringLad } from "../../../utils";
+  import { returnNeighbouringLad, fetchMapDataForSelectedCat, lazyLoadFullTableMapData } from "../../../utils";
   import {
     tables,
     getCategoryBySlug,
@@ -22,18 +22,20 @@
     fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
     englandAndWalesData,
+    fetchSelectedDataForWholeBoundingBox,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import { updateSelectedGeography, getLadName, selectedGeography } from "../../../model/geography/geography";
   import config from "../../../config";
   import { appIsInitialised } from "../../../model/appstate";
-  import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
+  import { fetchCensusDataBreaks, reverseTotalCatCodeLookup } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
   import { updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
+  import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -42,6 +44,7 @@
   let geoCode, neighbouringLad;
   let tableDataFetched = false;
   let locationName = "";
+  let selectedCatMapDataFetched = false;
 
   let locationId = $page.query.get("location");
 
@@ -71,7 +74,7 @@
       locationName = getLadName(locationId);
     }
   }
-  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
+  $: category = getCategoryBySlug(tableSlug, categorySlug);
 
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
@@ -82,28 +85,33 @@
   // temporary line to load some data
   $: appIsInitialised, $appIsInitialised && $censusTableStructureIsLoaded && (initialisePage(), fetchSelectedDataset());
 
-  const initialisePage = async () => {
+  $: {
+    if ($appIsInitialised && $mapZoomBBox != null && category) {
+      fetchSelectedDataForWholeBoundingBox(
+        new GeodataApiDataService(),
+        "lsoa",
+        [category.code, totalCatCode],
+        $mapZoomBBox,
+      );
+    }
+  }
+
+  const initialisePage = () => {
     if (locationId != null) {
       neighbouringLad = returnNeighbouringLad(locationId);
     }
     category = getCategoryBySlug(tableSlug, categorySlug);
     table = category ? tables[category.table] : null;
     totalCatCode = table.total;
-    fetchSelectedDataForGeoType(
-      new GeodataApiDataService(),
-      "lad",
-      [category.code, totalCatCode],
-      config.stores.overwrite,
-    );
-    fetchSelectedDataForGeoType(
-      new GeodataApiDataService(),
-      "lsoa",
-      [category.code, totalCatCode],
-      config.stores.overwrite,
-    );
+    fetchMapDataForSelectedCat(category.code, totalCatCode);
+    selectedCatMapDataFetched = true;
     locationName = getLadName(locationId);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
+
+  $: selectedCatMapDataFetched,
+    selectedCatMapDataFetched &&
+      $appIsInitialised &&
+      (lazyLoadFullTableMapData(category.code, totalCatCode), (selectedCatMapDataFetched = false));
 
   const fetchSelectedDataset = async () => {
     tableDataFetched = false;

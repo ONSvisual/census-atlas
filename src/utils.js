@@ -1,11 +1,17 @@
 import { get } from "svelte/store";
-import { englandAndWalesData, dataByGeography, fetchSelectedDataForGeoType } from "./model/censusdata/censusdata";
+import {
+  englandAndWalesData,
+  dataByGeography,
+  fetchSelectedDataForWholeBoundingBox,
+  tables,
+  fetchSelectedDataForGeoType,
+} from "./model/censusdata/censusdata";
 import GeodataApiDataService from "./model/censusdata/services/geodataApiDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";
-import { fetchCensusDataBreaks } from "./model/metadata/metadata";
+import { fetchCensusDataBreaks, reverseTotalCatCodeLookup } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
-import { tables } from "./model/censusdata/censusdata";
+import { mapZoomBBox } from "./model/geography/stores";
 
 export function isEmpty(obj) {
   return (
@@ -103,18 +109,32 @@ export function calculateComparisonDiff(geoCode, comparatorGeoCode, catCode) {
 
 export const updateMap = (category) => {
   if (category) {
-    fetchSelectedDataForGeoType(
-      new GeodataApiDataService(),
-      "lad",
-      [category.code, tables[category.table].total],
-      config.stores.overwrite,
-    );
-    fetchSelectedDataForGeoType(
+    fetchSelectedDataForWholeBoundingBox(
       new GeodataApiDataService(),
       "lsoa",
       [category.code, tables[category.table].total],
-      config.stores.overwrite,
+      get(mapZoomBBox),
     );
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, tables[category.table].total, 5);
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, tables[category.table].total, 5, "lsoa");
   }
 };
+
+export function fetchMapDataForSelectedCat(catCode, totalCode) {
+  fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [catCode, totalCode]);
+  fetchCensusDataBreaks(new MetadataApiDataService(), catCode, totalCode, 5, "lad");
+  fetchCensusDataBreaks(new MetadataApiDataService(), catCode, totalCode, 5, "lsoa");
+}
+
+export function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
+  const catCodes = get(reverseTotalCatCodeLookup)[totalCode];
+  let catCodesToFetch = [];
+  catCodes.forEach((catCode) => {
+    if (catCode.code != selectedCatCode) {
+      catCodesToFetch.push(catCode.code);
+    }
+  });
+  fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [...catCodesToFetch, totalCode]);
+  catCodesToFetch.forEach((catCode) => {
+    fetchCensusDataBreaks(new MetadataApiDataService(), catCode, totalCode, 5, "lad");
+  });
+}

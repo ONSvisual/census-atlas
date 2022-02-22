@@ -1,17 +1,24 @@
 import { writable, get } from "svelte/store";
+import { toggleable } from "../censusdata/stores";
 
-export const selectedCategoryBreaks = writable({});
+export const dataBreaks = writable(new Map());
+export const newDataBreaks = toggleable(false);
 export const censusMetadata = writable([]);
 export const totalCatCodeLookup = writable({});
 export const reverseTotalCatCodeLookup = writable({});
 
-export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k) {
-  let breaks = {};
-  breaks.lad = await metadataDataService.fetchCensusDataBreaks("LAD", catCode, totalCode, k);
-  breaks.lsoa = await metadataDataService.fetchCensusDataBreaks("LSOA", catCode, totalCode, k);
-  breaks.lad = breaks.lad.map((dataBreak) => dataBreak * 100);
-  breaks.lsoa = breaks.lsoa.map((dataBreak) => dataBreak * 100);
-  selectedCategoryBreaks.set(breaks);
+export async function fetchCensusDataBreaks(metadataDataService, catCode, totalCode, k, geoType) {
+  newDataBreaks.setFalse();
+  const breaksResp = await metadataDataService.fetchCensusDataBreaks(geoType.toUpperCase(), catCode, totalCode, k);
+  if (breaksResp) {
+    const breaks = breaksResp.map((dataBreak) => dataBreak * 100);
+    if (get(dataBreaks).has(catCode)) {
+      get(dataBreaks).set(catCode, { ...get(dataBreaks).get(catCode), [geoType.toLowerCase()]: breaks });
+    } else {
+      get(dataBreaks).set(catCode, { [geoType.toLowerCase()]: breaks });
+    }
+    newDataBreaks.setTrue();
+  }
 }
 
 export async function initialiseCensusMetadata(metadataService) {

@@ -99,7 +99,7 @@
   }
 
   // kicks off the chain
-  isMapLoaded();
+  $: map && isMapLoaded();
 </script>
 
 {#if loaded}

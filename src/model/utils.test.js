@@ -1,4 +1,11 @@
-import { getLegendSection, writeCsvDataToMapObj, areCatAndTotalCodesRequested } from "./utils";
+import {
+  getLegendSection,
+  writeCsvDataToMapObj,
+  areCatAndTotalCodesRequested,
+  areDataBreaksFetched,
+  isCatDataFetchedForGeoCode,
+  isCategoryDataFetched,
+} from "./utils";
 import { totalCatCodeLookup, reverseTotalCatCodeLookup } from "../model/metadata/metadata";
 
 describe("getLegendSection", () => {
@@ -114,5 +121,60 @@ describe("areCatAndTotalCodesRequested function", () => {
       2,
       "The following total codes were requested without requesting a corresponding category code: totalCode2",
     );
+  });
+});
+
+describe("areDataBreaksFetched", () => {
+  const dataBreaks = new Map([["catCode", { lad: [1, 2, 3, 4, 5] }]]);
+  it("returns true if dataBreaks store contains catCode", () => {
+    const catCode = "catCode";
+    expect(areDataBreaksFetched(dataBreaks, catCode)).toEqual(true);
+  });
+  it("returns false if dataBreaks store doesn't contains catCode", () => {
+    const catCode = "catCode1";
+    expect(areDataBreaksFetched(dataBreaks, catCode)).toEqual(false);
+  });
+  it("returns false if dataBreaks is has initial empty value", () => {
+    const dataBreaks = new Map();
+    const catCode = "catCode";
+    expect(areDataBreaksFetched(dataBreaks, catCode)).toEqual(false);
+  });
+});
+
+describe("isCategoryDataFetched", () => {
+  const cachedMapCategories = new Set(["catCode"]);
+  it("returns true given a valid set and catCode", () => {
+    const catCode = "catCode";
+    expect(isCategoryDataFetched(cachedMapCategories, catCode)).toEqual(true);
+  });
+  it("returns false if store doesn't contain catCode", () => {
+    const catCode = "catCode1";
+    expect(isCategoryDataFetched(cachedMapCategories, catCode)).toEqual(false);
+  });
+  it("returns false if store has initial empty value", () => {
+    const cachedMapCategories = new Set();
+    const catCode = "catCode";
+    expect(isCategoryDataFetched(cachedMapCategories, catCode)).toEqual(false);
+  });
+});
+
+describe("isCatDataFetchedForGeoCode", () => {
+  let dataByGeography = new Map([["geoCode", new Map([["catCode", { test: "test" }]])]]);
+  let geoCode = "geoCode";
+  let catCode = "catCode";
+  it("returns true if geoCode and catCode data are in store", () => {
+    expect(isCatDataFetchedForGeoCode(dataByGeography, geoCode, catCode)).toEqual(true);
+  });
+  it("returns false if store does not contain data for geoCode", () => {
+    geoCode = "geoCode1";
+    expect(isCatDataFetchedForGeoCode(dataByGeography, geoCode, catCode)).toEqual(false);
+  });
+  it("returns false if store contains data for relevant geoCode but not for requested category", () => {
+    catCode = "catCode1";
+    expect(isCatDataFetchedForGeoCode(dataByGeography, geoCode, catCode)).toEqual(false);
+  });
+  it("returns false if dataByGeography store has initial empty value", () => {
+    dataByGeography = new Map();
+    expect(isCatDataFetchedForGeoCode(dataByGeography, geoCode, catCode)).toEqual(false);
   });
 });

@@ -1,8 +1,8 @@
 <script>
   import { getContext } from "svelte";
-  import { getLegendSection } from "./../../model/utils";
+  import { getLegendSection, areDataBreaksFetched, isCategoryDataFetched } from "./../../model/utils";
   import config from "./../../config";
-  import { selectedCategoryBreaks } from "../../model/metadata/metadata";
+  import { dataBreaks, newDataBreaks } from "../../model/metadata/metadata";
   import { dataByGeography, cachedMapCategories, newDataByGeography } from "../../model/censusdata/censusdata";
 
   export let id;
@@ -62,11 +62,11 @@
   export function setMapGeographyColours() {
     if ($cachedMapCategories.has(catCode) && $newDataByGeography) {
       $dataByGeography.forEach((geoData, geoCode) => {
-        if (geoData.has(catCode)) {
-          if ($selectedCategoryBreaks.lsoa.length > 0 && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
-            legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lsoa);
-          } else if ($selectedCategoryBreaks.lad.length > 0) {
-            legendSection = getLegendSection(geoData.get(catCode).perc, $selectedCategoryBreaks.lad);
+        if (geoData.has(catCode) && $dataBreaks.has(catCode)) {
+          if ($dataBreaks.get(catCode).lsoa && (geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
+            legendSection = getLegendSection(geoData.get(catCode).perc, $dataBreaks.get(catCode).lsoa);
+          } else if ($dataBreaks.get(catCode).lad && !(geoCode.startsWith("E01") || geoCode.startsWith("W01"))) {
+            legendSection = getLegendSection(geoData.get(catCode).perc, $dataBreaks.get(catCode).lad);
           }
           map.setFeatureState(
             {
@@ -84,8 +84,9 @@
   }
 
   // when data updates colourise the map
-  $: ($selectedCategoryBreaks.lad || $selectedCategoryBreaks.lsoa) &&
-    $cachedMapCategories.has(catCode) &&
+  $: $newDataBreaks &&
+    areDataBreaksFetched($dataBreaks, catCode) &&
+    isCategoryDataFetched($cachedMapCategories, catCode) &&
     $newDataByGeography &&
     setMapGeographyColours();
 </script>
