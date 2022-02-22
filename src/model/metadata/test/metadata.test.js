@@ -1,10 +1,18 @@
 import MockMetadataService from "../services/mockMetadataService";
 import mockMetadata from "../../../data/test/mockMetadata";
 import metadata from "../../../data/apiMetadata";
-import { initialiseCensusMetadata, censusMetadata, totalCatCodeLookup, reverseTotalCatCodeLookup } from "../metadata";
+import {
+  initialiseCensusMetadata,
+  censusMetadata,
+  totalCatCodeLookup,
+  reverseTotalCatCodeLookup,
+  fetchCensusDataBreaks,
+  dataBreaks,
+  newDataBreaks,
+} from "../metadata";
 import { get } from "svelte/store";
 
-describe("fetchCensusMetadata", () => {
+describe("initialiseCensusMetadata", () => {
   it("calls functions from the metadata service", async () => {
     //given
     //a mock for the metadata service
@@ -53,5 +61,20 @@ describe("initialiseCensusMetadata with the real metadata", () => {
         expect(get(reverseTotalCatCodeLookup)[table.total.code]).not.toEqual(undefined);
       });
     });
+  });
+});
+
+describe("fetchCensusDataBreaks", () => {
+  let mockMetadataService = new MockMetadataService([0.1, 0.2, 0.3, 0.4, 0.5]);
+  it("successfully writes breaks to the dataBreaks store as percentages", async () => {
+    await fetchCensusDataBreaks(mockMetadataService, "catCode", "totalCode", 5, "lad");
+    expect(get(dataBreaks)).toEqual(new Map([["catCode", { lad: [10, 20, 30, 40, 50] }]]));
+    expect(get(newDataBreaks)).toEqual(true);
+  });
+
+  it("adds LSOA to LAD breaks for a given catCode", async () => {
+    await fetchCensusDataBreaks(mockMetadataService, "catCode", "totalCode", 5, "lsoa");
+    expect(get(dataBreaks)).toEqual(new Map([["catCode", { lad: [10, 20, 30, 40, 50], lsoa: [10, 20, 30, 40, 50] }]]));
+    expect(get(newDataBreaks)).toEqual(true);
   });
 });
