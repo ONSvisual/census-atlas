@@ -14,7 +14,7 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
-  import { returnNeighbouringLad } from "../../../utils";
+  import { returnNeighbouringLad, fetchMapDataForSelectedCat, lazyLoadFullTableMapData } from "../../../utils";
   import {
     tables,
     getCategoryBySlug,
@@ -95,7 +95,8 @@
       );
     }
   }
-  const initialisePage = async () => {
+
+  const initialisePage = () => {
     if (locationId != null) {
       neighbouringLad = returnNeighbouringLad(locationId);
     }
@@ -103,33 +104,14 @@
     table = category ? tables[category.table] : null;
     totalCatCode = table.total;
     fetchMapDataForSelectedCat(category.code, totalCatCode);
+    selectedCatMapDataFetched = true;
     locationName = getLadName(locationId);
   };
 
-  function fetchMapDataForSelectedCat(catCode, totalCode) {
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [catCode, totalCode]);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5, "lad");
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5, "lsoa");
-    selectedCatMapDataFetched = true;
-  }
-
   $: selectedCatMapDataFetched,
-    selectedCatMapDataFetched && $appIsInitialised && lazyLoadFullTableMapData(category.code, totalCatCode);
-
-  function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
-    selectedCatMapDataFetched = false;
-    const catCodes = $reverseTotalCatCodeLookup[totalCode];
-    let catCodesToFetch = [];
-    catCodes.forEach((catCode) => {
-      if (catCode.code != selectedCatCode) {
-        catCodesToFetch.push(catCode.code);
-      }
-    });
-    fetchSelectedDataForGeoType(new GeodataApiDataService(), "lad", [...catCodesToFetch, totalCode]);
-    catCodesToFetch.forEach((catCode) => {
-      fetchCensusDataBreaks(new MetadataApiDataService(), catCode, totalCatCode, 5, "lad");
-    });
-  }
+    selectedCatMapDataFetched &&
+      $appIsInitialised &&
+      (lazyLoadFullTableMapData(category.code, totalCatCode), (selectedCatMapDataFetched = false));
 
   const fetchSelectedDataset = async () => {
     tableDataFetched = false;
