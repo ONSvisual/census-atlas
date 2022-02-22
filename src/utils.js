@@ -1,16 +1,11 @@
 import { get } from "svelte/store";
-import {
-  englandAndWalesData,
-  dataByGeography,
-  getCategoryBySlug,
-  fetchCensusData,
-} from "./model/censusdata/censusdata";
-import LegacyCensusDataService from "./model/censusdata/services/legacyCensusDataService";
+import { englandAndWalesData, dataByGeography, fetchSelectedDataForGeoType } from "./model/censusdata/censusdata";
+import GeodataApiDataService from "./model/censusdata/services/geodataApiDataService";
 import config from "./config";
 import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
-import metadata from "./data/apiMetadata";
+import { tables } from "./model/censusdata/censusdata";
 
 export function isEmpty(obj) {
   return (
@@ -80,89 +75,46 @@ function returnNeighbouringLadCode(ladCode, searchLowerLadCode) {
   return ladCodeParts.prefix + adjustedSuffix;
 }
 
-export function processData(data, populateCensusTable, totalCatCode) {
-  const total = data.get(totalCatCode);
-  populateCensusTable.categories.forEach((category) => {
-    if (data.has(category.code)) {
-      category["value"] = data.get(category.code);
-      category["percentage"] = (Math.round((category.value / total) * 100 * 10) / 10).toFixed(1);
-      category["value"] = category["value"].toLocaleString();
-    }
-  });
-  return populateCensusTable;
-}
-
-export function filterSelectedTable(metadata, category) {
-  let selectedTable;
-  metadata.forEach((topic) => {
-    topic.tables.forEach((table) => {
-      if (table.code == category.table) {
-        selectedTable = table;
-      }
-    });
-  });
-  return selectedTable;
-}
-
-export function populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug) {
-  if (get(dataByGeography).has(geoCode)) {
-    let category = getCategoryBySlug(tableSlug, categorySlug);
-    if (get(dataByGeography).get(geoCode).has(totalCatCode) && get(dataByGeography).get(geoCode).has(category.code)) {
-      return {
-        total: get(dataByGeography).get(geoCode).get(totalCatCode).toLocaleString(),
-        val: get(dataByGeography).get(geoCode).get(category.code).toLocaleString(),
-        perc: (
-          Math.round(
-            (get(dataByGeography).get(geoCode).get(category.code) /
-              get(dataByGeography).get(geoCode).get(totalCatCode)) *
-              100 *
-              10,
-          ) / 10
-        ).toFixed(1),
-        unit: filterSelectedTable(metadata, category).units,
-        geoCode: geoCode,
-      };
-    }
+export function populateSelectedCatData(geoCode, category) {
+  if (get(dataByGeography).has(geoCode) && get(dataByGeography).get(geoCode).has(category.code)) {
+    return {
+      total: get(dataByGeography).get(geoCode).get(category.code)["total"].toLocaleString(),
+      val: get(dataByGeography).get(geoCode).get(category.code)["value"].toLocaleString(),
+      perc: get(dataByGeography).get(geoCode).get(category.code)["perc"],
+      unit: tables[category.table].unit,
+      geoCode: geoCode,
+    };
   }
 }
 
-export function calculateComparisonDiff(geoCode, comparatorGeoCode, totalCatCode, category) {
-  let comparatorTotal;
-  let comparatorVal;
-  if (comparatorGeoCode == config.eAndWGeoCode) {
-    comparatorTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(totalCatCode);
-    comparatorVal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code);
-  } else {
-    comparatorTotal = get(dataByGeography).get(comparatorGeoCode).get(totalCatCode);
-    comparatorVal = get(dataByGeography).get(comparatorGeoCode).get(category.code);
+export function calculateComparisonDiff(geoCode, comparatorGeoCode, catCode) {
+  if (get(dataByGeography).has(geoCode) && get(dataByGeography).get(geoCode).has(catCode)) {
+    let comparatorCategory;
+    if (comparatorGeoCode == config.eAndWGeoCode) {
+      comparatorCategory = get(englandAndWalesData).get(config.eAndWGeoCode).get(catCode);
+    } else {
+      comparatorCategory = get(dataByGeography).get(comparatorGeoCode).get(catCode);
+    }
+    const localCategory = get(dataByGeography).get(geoCode).get(catCode);
+    const percentageDiff = ((localCategory.perc - comparatorCategory.perc) / comparatorCategory.perc) * 100;
+    return Math.round(percentageDiff * 10) / 10;
   }
-  const localTotal = get(dataByGeography).get(geoCode).get(totalCatCode);
-  const localVal = get(dataByGeography).get(geoCode).get(category.code);
-  const percentageDiff =
-    ((localVal / localTotal - comparatorVal / comparatorTotal) / (comparatorVal / comparatorTotal)) * 100;
-  return Math.round(percentageDiff * 10) / 10;
 }
 
-export const updateMapAndComparisons = (tableSlug, categorySlug, metadata, geoCode, neighbouringLad) => {
-  let category = getCategoryBySlug(tableSlug, categorySlug);
-  let table = category ? filterSelectedTable(metadata, category) : null;
-  let comparisons = {};
+export const updateMap = (category) => {
   if (category) {
-    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
-    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, table.total.code, 5);
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lad",
+      [category.code, tables[category.table].total],
+      config.stores.overwrite,
+    );
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lsoa",
+      [category.code, tables[category.table].total],
+      config.stores.overwrite,
+    );
+    fetchCensusDataBreaks(new MetadataApiDataService(), category.code, tables[category.table].total, 5);
   }
-  if (geoCode != config.eAndWGeoCode) {
-    if (get(dataByGeography).get(geoCode)) {
-      comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, table.total.code, category);
-    }
-    if (neighbouringLad && get(dataByGeography).get(neighbouringLad.code)) {
-      comparisons.neighbouringLadDiff = calculateComparisonDiff(
-        geoCode,
-        neighbouringLad.code,
-        table.total.code,
-        category,
-      );
-    }
-  }
-  return comparisons;
 };

@@ -1,6 +1,6 @@
 <script>
   import BasePage from "../../ui/BasePage.svelte";
-  import Map from "../../ui/map/Map.svelte";
+  import MapWrapper from "../../ui/map/MapWrapper.svelte";
   import Topic from "../../ui/Topic.svelte";
   import ONSShare from "../../ui/ons/ONSShare.svelte";
   import UseCensusData from "../../ui/UseCensusData.svelte";
@@ -11,20 +11,10 @@
   import ONSTwitterIcon from "../../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../ui/ons/svg/ONSEmailIcon.svelte";
-  import {
-    getLadName,
-    updateSelectedGeography,
-    updateHoveredGeography,
-    selectedGeography,
-  } from "../../model/geography/geography";
+  import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
   import { areaSelectedTopicSuggestions } from "../../config";
-  import config from "../../config";
-  import TileSet from "../../ui/map/TileSet.svelte";
-  import InteractiveLayer from "../../ui/map/InteractiveLayer.svelte";
-  import BoundaryLayer from "../../ui/map/BoundaryLayer.svelte";
-  import { categoryDataIsLoaded } from "../../model/censusdata/censusdata";
-  import {pageUrl} from "../../stores"
+  import { pageUrl } from "../../stores";
 
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
@@ -34,8 +24,7 @@
   let topicSuggestions;
 
   onMount(async () => {
-    $pageUrl=$page.path
-    $categoryDataIsLoaded = false;
+    $pageUrl = $page.path;
   });
 
   function initialisePage() {
@@ -71,64 +60,19 @@
   </span>
 
   <span slot="map">
-    <Map maxzoom={14}>
-      <TileSet
-        id="lad"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <InteractiveLayer
-          id="lad-interactive-layer"
-          selected={$selectedGeography.lad}
-          maxzoom={config.ux.map.buildings_breakpoint}
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-          filter={config.ux.map.filter}
-        />
-      </TileSet>
-
-      <TileSet
-        id="lsoa"
-        type="vector"
-        url={config.legacy.lsoabounds.url}
-        layer={config.legacy.lsoabounds.layer}
-        promoteId={config.legacy.lsoabounds.code}
-        minzoom={config.ux.map.lsoa_breakpoint}
-        maxzoom={config.ux.map.buildings_breakpoint}
-      />
-      <TileSet
-        id="lsoa-building"
-        type="vector"
-        url={config.legacy.lsoabldg.url}
-        layer={config.legacy.lsoabldg.layer}
-        promoteId={config.legacy.lsoabldg.code}
-        minzoom={config.ux.map.buildings_breakpoint}
-      />
-      <TileSet
-        id="lad-boundaries"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
-      </TileSet>
-    </Map>
+    <MapWrapper showDataLayer={false} />
   </span>
 
   <Topic cardTitle="{locationName}'s Census" topicList={topicSuggestions}>
     <p>The 2021 Census tells us a lot about how people in {locationName} live and work.</p>
-    <p><a href="/categories?location={locationId}">Choose a category from the full list</a> or explore one of these topics.</p>
+    <p>
+      <a href="/categories{locationId ? `?location=${locationId}` : ''}">Choose a category from the full list</a> or explore
+      one of these topics.
+    </p>
   </Topic>
 
   <div class="ons-u-mb-l">
-    <UseCensusData location={locationName} />
+    <UseCensusData />
   </div>
 
   <div class="ons-u-mb-l">

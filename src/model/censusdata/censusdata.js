@@ -1,17 +1,18 @@
 import { writable, get } from "svelte/store";
 import { mapBBoxCodes, toggleable } from "./stores";
-import { addNewGeoDataToCache } from "../utils";
+import { addNewGeoDataToCache, areCatAndTotalCodesRequested } from "../utils";
 import config from "../../config";
+import { censusMetadata } from "../metadata/metadata";
 
 export let selectedGeographyData = writable(new Map());
 export let dataByGeography = writable(new Map());
 export let englandAndWalesData = writable(new Map());
 export let newDataByGeography = toggleable(false);
+export let cachedMapCategories = writable(new Set());
 
 export let censusTableStructureIsLoaded = writable(false);
 export let categoryDataIsLoaded = writable(false);
 export let tableIsLoaded = writable(false);
-export let selectedData = writable({});
 
 export let categoryData = {};
 export let tableData = {};
@@ -39,12 +40,12 @@ export function reset() {
   categoryCodeLookup = {};
 }
 
-export async function fetchAllDataForGeography(censusDataService, geographyCode, overwriteCache) {
+export async function fetchAllDataForGeography(censusDataService, geographyCode, overwriteStore) {
   const data = await censusDataService.fetchAllDataForGeography(geographyCode);
   //if E&W data (call on app initialise)
   if (geographyCode == config.eAndWGeoCode) {
     englandAndWalesData.set(data);
-  } else if (overwriteCache) {
+  } else if (overwriteStore) {
     //overwrite dataByGeography store
     dataByGeography.set(data);
   } else {
@@ -53,21 +54,29 @@ export async function fetchAllDataForGeography(censusDataService, geographyCode,
   }
 }
 
-export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteCache) {
-  const data = await censusDataService.fetchSelectedDataForGeographyType(geoType, categories);
-  if (overwriteCache) {
-    dataByGeography.set(data);
-  } else {
-    addNewGeoDataToCache(data);
+export async function fetchSelectedDataForGeoType(censusDataService, geoType, categories, overwriteStore) {
+  if (areCatAndTotalCodesRequested(categories)) {
+    const data = await censusDataService.fetchSelectedDataForGeographyType(geoType, categories);
+    if (overwriteStore) {
+      dataByGeography.set(data);
+      get(cachedMapCategories).clear();
+    } else {
+      addNewGeoDataToCache(data);
+    }
+    categories.forEach((catCode) => {
+      get(cachedMapCategories).add(catCode);
+    });
   }
 }
 
-export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteCache) {
-  const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  if (overwriteCache) {
-    dataByGeography.set(data);
-  } else {
-    addNewGeoDataToCache(data);
+export async function fetchSelectedDataForGeographies(censusDataService, geoCodes, catCodes, overwriteStore) {
+  if (areCatAndTotalCodesRequested(catCodes)) {
+    const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
+    if (overwriteStore) {
+      dataByGeography.set(data);
+    } else {
+      addNewGeoDataToCache(data);
+    }
   }
 }
 
@@ -78,10 +87,10 @@ function filterOutMapBBoxCodesWithCachedData(dataByGeography, mapBBoxCodes) {
   return mapBBoxCodes.filter((item) => !dataByGeography.has(item));
 }
 
-export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes, overwriteCache) {
+export async function fetchSelectedDataForNewBoundingBoxGeographies(censusDataService, catCodes, overwriteStore) {
   const geoCodes = filterOutMapBBoxCodesWithCachedData(get(dataByGeography), get(mapBBoxCodes));
   const data = await censusDataService.fetchSelectedDataForGeographies(geoCodes, catCodes);
-  if (overwriteCache) {
+  if (overwriteStore) {
     dataByGeography.set(data);
   } else {
     addNewGeoDataToCache(data);
@@ -93,10 +102,10 @@ export async function fetchSelectedDataForWholeBoundingBox(
   geoTypes,
   catCodes,
   bBox,
-  overwriteCache,
+  overwriteStore,
 ) {
   const data = await censusDataService.fetchSelectedDataForBoundingBox(geoTypes, catCodes, bBox);
-  if (overwriteCache) {
+  if (overwriteStore) {
     dataByGeography.set(data);
   } else {
     addNewGeoDataToCache(data);
@@ -109,7 +118,7 @@ export async function initialiseCensusData(censusDataService) {
 
 export async function fetchTableStructure(censusDataService) {
   let structure = await censusDataService.fetchCensusTableStructure();
-
+  censusMetadata.set(structure);
   structure.forEach((topic) => {
     topics[topic.code] = {
       code: topic.code,
@@ -122,6 +131,8 @@ export async function fetchTableStructure(censusDataService) {
       tables[table.code] = {
         topic: topic.code,
         code: table.code,
+        total: table.total.code,
+        unit: table.units,
         name: table.name,
         slug: table.slug,
         categories: table.categories.map((category) => category.code),
@@ -140,7 +151,6 @@ export async function fetchTableStructure(censusDataService) {
       });
     });
   });
-
   censusTableStructureIsLoaded.set(true);
 }
 
@@ -173,14 +183,4 @@ export async function fetchCensusData(censusDataService, categoryCode, geography
   categoryData = { ...lsoaData, ...higherData };
   breaks = await censusDataService.fetchLegendBreakpoints(categoryCode);
   categoryDataIsLoaded.set(true);
-}
-
-export function populatesSelectedData(tableName, tableCategories, selectedCategory, tableTotal) {
-  selectedData.set({});
-  selectedData.set({
-    tableName: tableName,
-    tableCategories: tableCategories,
-    categorySelected: selectedCategory,
-    total: tableTotal,
-  });
 }

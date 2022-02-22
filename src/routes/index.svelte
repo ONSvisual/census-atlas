@@ -4,24 +4,16 @@
   import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
   import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
   import ONSShare from "./../ui/ons/ONSShare.svelte";
-  import Topic from "./../ui/Topic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
   import ONSShareItem from "./../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "./../ui/ons/svg/ONSFacebookIcon.svelte";
   import ONSTwitterIcon from "./../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "./../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "./../ui/ons/svg/ONSEmailIcon.svelte";
-  import Map from "./../ui/map/Map.svelte";
-  import TileSet from "../ui/map/TileSet.svelte";
-  import InteractiveLayer from "../ui/map/InteractiveLayer.svelte";
-  import BoundaryLayer from "../ui/map/BoundaryLayer.svelte";
+  import UseCensusData from "./../ui/UseCensusData.svelte";
+  import MapWrapper from "./../ui/map/MapWrapper.svelte";
   import config from "../config";
-  import {
-    selectedGeography,
-    updateSelectedGeography,
-    updateHoveredGeography,
-    ladLookup,
-  } from "../model/geography/geography";
+  import { updateSelectedGeography, ladLookup } from "../model/geography/geography";
   import Header from "../ui/Header.svelte";
   import { reverseLadLookup } from "../model/geography/geography";
   import { pageUrl } from "../stores";
@@ -30,7 +22,6 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
 
-  let englandWalesBounds = [2.08, 55.68, -6.59, 48.53];
   let userInputValue;
   let renderError = false;
 
@@ -74,56 +65,7 @@
   </span>
 
   <span slot="map">
-    <Map maxzoom={14} bounds={config.ux.map.englandAndWalesBounds}>
-      <TileSet
-        id="lad"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <InteractiveLayer
-          id="lad-interactive-layer"
-          selected={$selectedGeography.lad}
-          maxzoom={config.ux.map.buildings_breakpoint}
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-            redirectOnSelect(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-          filter={config.ux.map.filter}
-        />
-      </TileSet>
-
-      <TileSet
-        id="lsoa"
-        type="vector"
-        url={config.legacy.lsoabounds.url}
-        layer={config.legacy.lsoabounds.layer}
-        promoteId={config.legacy.lsoabounds.code}
-        minzoom={config.ux.map.lsoa_breakpoint}
-        maxzoom={config.ux.map.buildings_breakpoint}
-      />
-      <TileSet
-        id="lsoa-building"
-        type="vector"
-        url={config.legacy.lsoabldg.url}
-        layer={config.legacy.lsoabldg.layer}
-        promoteId={config.legacy.lsoabldg.code}
-        minzoom={config.ux.map.buildings_breakpoint}
-      />
-      <TileSet
-        id="lad-boundaries"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
-      </TileSet>
-    </Map>
+    <MapWrapper showDataLayer={false} bounds={config.ux.map.englandAndWalesBounds} {redirectOnSelect} />
   </span>
 
   <span slot="footer">
@@ -137,9 +79,12 @@
 
   <ExploreByTopic url="/categories" suggestions={config.suggestions.indexPageSuggestions} />
   <hr class="component-margin--2" />
-  <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
-    >Search for an area to find out how it compares to others</ExploreByAreaComponent
-  >
+
+  <div class="ons-u-mb-xl">
+    <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
+      >Search for an area to find out how it compares to others</ExploreByAreaComponent
+    >
+  </div>
 
   <div class="ons-u-mb-l">
     <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>
@@ -150,9 +95,9 @@
     </ONSShare>
   </div>
 
-  <Topic topicList={[{ text: "Get Census datasests", url: "#0" }]} cardTitle="Need something specific from Census?">
-    Explore correlations between two indicators in <a href="#0">advanced mode</a>.
-  </Topic>
+  <div class="ons-u-mb-l">
+    <UseCensusData showOnlyGetDataset />
+  </div>
 </BasePage>
 
 <style lang="scss">

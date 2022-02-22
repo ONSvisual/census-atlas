@@ -1,8 +1,6 @@
 <script>
   import BasePage from "../../../ui/BasePage.svelte";
-
-  import Map from "../../../ui/map/Map.svelte";
-  import Topic from "../../../ui/Topic.svelte";
+  import MapWrapper from "../../../ui/map/MapWrapper.svelte";
   import ONSShare from "../../../ui/ons/ONSShare.svelte";
   import ONSShareItem from "../../../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "../../../ui/ons/svg/ONSFacebookIcon.svelte";
@@ -16,42 +14,23 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
-  import metadata from "../../../data/apiMetadata";
-  import { filterSelectedTable, returnNeighbouringLad, populateSelectedCatData } from "../../../utils";
-
+  import { returnNeighbouringLad } from "../../../utils";
   import {
-    categoryDataIsLoaded,
-    categoryData,
-    fetchCensusData,
     tables,
     getCategoryBySlug,
-    populatesSelectedData,
-    selectedData,
-    dataByGeography,
     fetchSelectedDataForGeographies,
+    fetchSelectedDataForGeoType,
+    censusTableStructureIsLoaded,
+    englandAndWalesData,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
-  import LegacyCensusDataService from "../../../model/censusdata/services/legacyCensusDataService";
-  import { updateHoveredGeography, updateSelectedGeography, getLadName } from "../../../model/geography/geography";
+  import { updateSelectedGeography, getLadName, selectedGeography } from "../../../model/geography/geography";
   import config from "../../../config";
-  import TileSet from "../../../ui/map/TileSet.svelte";
-  import InteractiveLayer from "../../../ui/map/InteractiveLayer.svelte";
-  import BoundaryLayer from "../../../ui/map/BoundaryLayer.svelte";
-  import DataLayer from "../../../ui/map/DataLayer.svelte";
   import { appIsInitialised } from "../../../model/appstate";
   import { fetchCensusDataBreaks } from "../../../model/metadata/metadata";
   import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import {
-    isNotEmpty,
-    dbColumnToCategoryId,
-    processData,
-    calculateComparisonDiff,
-    updateMapAndComparisons,
-  } from "../../../utils";
+  import { updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
-
-  import { selectedGeography } from "../../../model/geography/geography";
-
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
@@ -59,17 +38,12 @@
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
-  let populateCensusTable = { categories: [] };
   let totalCatCode = "";
   let geoCode, neighbouringLad;
-  let comparisons,
-    selectedCatData = {};
-
+  let tableDataFetched = false;
   let locationName = "";
 
   let locationId = $page.query.get("location");
-
-  let categoryCodesArr = [];
 
   onMount(async () => {
     $pageUrl = $page.path + (locationId ? `?location=${locationId}` : "");
@@ -97,64 +71,59 @@
       locationName = getLadName(locationId);
     }
   }
+  $: categorySlug, tableSlug, (category = getCategoryBySlug(tableSlug, categorySlug));
 
   $: geoCode,
     $appIsInitialised && locationId && (neighbouringLad = returnNeighbouringLad(locationId)),
     fetchSelectedDataset();
   $: categorySlug,
-    ((comparisons = updateMapAndComparisons(tableSlug, categorySlug, metadata, geoCode, neighbouringLad)),
-    (selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug))),
-    ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : ""));
+    $appIsInitialised && (updateMap(category), ($pageUrl = $page.path + (locationId ? `?location=${locationId}` : "")));
 
   // temporary line to load some data
-  $: appIsInitialised, $appIsInitialised && initialisePage(), fetchSelectedDataset();
+  $: appIsInitialised, $appIsInitialised && $censusTableStructureIsLoaded && (initialisePage(), fetchSelectedDataset());
 
   const initialisePage = async () => {
     if (locationId != null) {
       neighbouringLad = returnNeighbouringLad(locationId);
     }
     category = getCategoryBySlug(tableSlug, categorySlug);
-    table = category ? filterSelectedTable(metadata, category) : null;
-    populatesSelectedData(table.name, table.categories, category.code, table.total.code);
-    fetchCensusData(new LegacyCensusDataService(), dbColumnToCategoryId(category.code), null);
-    if (isNotEmpty($selectedData)) {
-      totalCatCode = table.total.code;
-      categoryCodesArr.push(totalCatCode);
-      $selectedData.tableCategories.forEach((category) => {
-        populateCensusTable["categories"].push({ code: category.code, name: category.name });
-        categoryCodesArr.push(category.code);
-      });
-    }
+    table = category ? tables[category.table] : null;
+    totalCatCode = table.total;
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lad",
+      [category.code, totalCatCode],
+      config.stores.overwrite,
+    );
+    fetchSelectedDataForGeoType(
+      new GeodataApiDataService(),
+      "lsoa",
+      [category.code, totalCatCode],
+      config.stores.overwrite,
+    );
     locationName = getLadName(locationId);
     fetchCensusDataBreaks(new MetadataApiDataService(), category.code, totalCatCode, 5);
   };
 
   const fetchSelectedDataset = async () => {
-    if (categoryCodesArr.length > 0) {
+    tableDataFetched = false;
+    if (table) {
       if (neighbouringLad) {
         await fetchSelectedDataForGeographies(
           new GeodataApiDataService(),
           [geoCode, neighbouringLad.code],
-          categoryCodesArr,
+          [...table.categories, totalCatCode],
+          config.stores.overwrite,
         );
       } else {
-        await fetchSelectedDataForGeographies(new GeodataApiDataService(), geoCode, categoryCodesArr);
+        await fetchSelectedDataForGeographies(
+          new GeodataApiDataService(),
+          geoCode,
+          [...table.categories, totalCatCode],
+          config.stores.overwrite,
+        );
       }
-    }
-    if ($dataByGeography.get(geoCode)) {
-      populateCensusTable = processData($dataByGeography.get(geoCode), populateCensusTable, totalCatCode);
-      selectedCatData = populateSelectedCatData(geoCode, totalCatCode, tableSlug, categorySlug);
-      if (geoCode != config.eAndWGeoCode) {
-        comparisons.eAndWDiff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, totalCatCode, category);
-        if (neighbouringLad && $dataByGeography.get(neighbouringLad.code)) {
-          comparisons.neighbouringLadDiff = calculateComparisonDiff(
-            geoCode,
-            neighbouringLad.code,
-            totalCatCode,
-            category,
-          );
-        }
-      }
+      tableDataFetched = true;
     }
   };
 </script>
@@ -179,66 +148,7 @@
     <div class="mapkey">
       <MapKey />
     </div>
-    <Map maxzoom={14}>
-      <TileSet
-        id="lad"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lad-data-zoom" data={categoryData} maxzoom={config.ux.map.lsoa_breakpoint} />
-        {/if}
-        <InteractiveLayer
-          id="lad-interactive-layer"
-          selected={$selectedGeography.lad}
-          maxzoom={config.ux.map.buildings_breakpoint}
-          onSelect={(code) => {
-            updateSelectedGeography(code);
-          }}
-          onHover={(code) => {
-            updateHoveredGeography(code);
-          }}
-          filter={config.ux.map.filter}
-        />
-      </TileSet>
-
-      <TileSet
-        id="lsoa"
-        type="vector"
-        url={config.legacy.lsoabounds.url}
-        layer={config.legacy.lsoabounds.layer}
-        promoteId={config.legacy.lsoabounds.code}
-        minzoom={config.ux.map.lsoa_breakpoint}
-        maxzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lsoa-data" data={categoryData} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lsoa-building"
-        type="vector"
-        url={config.legacy.lsoabldg.url}
-        layer={config.legacy.lsoabldg.layer}
-        promoteId={config.legacy.lsoabldg.code}
-        minzoom={config.ux.map.buildings_breakpoint}
-      >
-        {#if $categoryDataIsLoaded}
-          <DataLayer id="lsoa-data-zoom" data={categoryData} />
-        {/if}
-      </TileSet>
-      <TileSet
-        id="lad-boundaries"
-        type="vector"
-        url={config.legacy.ladvector.url}
-        layer={config.legacy.ladvector.layer}
-        promoteId={config.legacy.ladvector.code}
-      >
-        <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
-      </TileSet>
-    </Map>
+    <MapWrapper {category} showDataLayer={true} />
   </span>
 
   <span slot="footer">
@@ -250,40 +160,46 @@
     </footer>
   </span>
 
-  {#if isNotEmpty($selectedData) && selectedCatData}
+  {#if category && tables[category.table].categoriesArray}
     <CategorySelector
       {locationId}
       {topicSlug}
       {tableSlug}
-      categories={$selectedData.tableCategories}
-      selectedCategory={$selectedData.categorySelected}
-      {selectedCatData}
+      categories={tables[category.table].categoriesArray}
+      selectedCategory={category}
     />
   {/if}
 
   <div class="current-data">Showing Census 2011 map data.</div>
 
-  {#if geoCode != config.eAndWGeoCode}
+  {#if geoCode != config.eAndWGeoCode && category}
     <div class="ons-grid">
-      <div class="ons-grid__col ons-col-6@xxs">
-        <DataComparison difference={comparisons.eAndWDiff} />
-      </div>
-      {#if neighbouringLad}
-        <div class="ons-grid__col ons-col-6@xxs">
-          <DataComparison difference={comparisons.neighbouringLadDiff} comparator={neighbouringLad.name} />
-        </div>
+      {#if tableDataFetched}
+        {#if $englandAndWalesData.size > 0}
+          <div class="ons-grid__col ons-col-6@xxs">
+            <DataComparison comparatorGeoCode={config.eAndWGeoCode} {geoCode} catCode={category.code} />
+          </div>
+        {/if}
+        {#if neighbouringLad}
+          <div class="ons-grid__col ons-col-6@xxs">
+            <DataComparison
+              comparatorGeoCode={neighbouringLad.code}
+              comparatorGeoName={neighbouringLad.name}
+              {geoCode}
+              catCode={category.code}
+            />
+          </div>
+        {/if}
       {/if}
     </div>
   {/if}
 
-  <CensusTableByLocation {populateCensusTable} {locationId} {totalCatCode} {categoryCodesArr} />
-
-  <Topic cardTitle="General health with other indicators"
-    >Explore correlations between two indicators in <a href="#">advanced mode</a>.
-  </Topic>
+  {#if table && tableDataFetched}
+    <CensusTableByLocation {table} {geoCode} />
+  {/if}
 
   <div class="ons-u-mb-l">
-    <UseCensusData location={categorySlug} />
+    <UseCensusData />
   </div>
 
   <div class="ons-u-mb-l">

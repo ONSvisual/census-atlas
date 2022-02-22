@@ -2,6 +2,7 @@
   import ONSHeaderLogoLarge from "./ons/svg/ONSHeaderLogoLarge.svelte";
   import ONSHeaderLogoSmall from "./ons/svg/ONSHeaderLogoSmall.svelte";
   import ONSPhaseBanner from "./ons/ONSPhaseBanner.svelte";
+  import config from "../config";
 
   export let mobileMap = true;
   export let withoutBackground = false;
@@ -53,19 +54,19 @@
     </header>
     <div class="wrapper" style="--max-height: {maxHeight}px">
       <!-- // XXX This .header should really be part of <header/> semantically speaking; might need to move it back in there, and reset max-width on the -->
-      {#if innerWidth < 500}
+      {#if innerWidth < config.ux.deviceWidth}
         <div class="header">
           <slot name="header" />
         </div>
       {/if}
-      {#if (mobileMap && $$slots.map) || (!mobileMap && innerWidth >= 500)}
+      {#if (mobileMap && $$slots.map) || (!mobileMap && innerWidth >= config.ux.deviceWidth)}
         <div class="map">
           <slot name="map" />
         </div>
       {/if}
       <div class="body">
         <slot name="body">
-          {#if innerWidth >= 500}
+          {#if innerWidth >= config.ux.deviceWidth}
             <div class="header">
               <slot name="header" />
             </div>

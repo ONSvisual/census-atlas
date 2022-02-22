@@ -7,9 +7,11 @@ export const toggleable = (initial) => {
 
   return {
     ...store,
-    notify: () => {
-      store.update((n) => !n);
-      store.update((n) => !n);
+    setTrue: () => {
+      store.set(true);
+    },
+    setFalse: () => {
+      store.set(false);
     },
   };
 };

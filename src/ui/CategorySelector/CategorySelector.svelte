@@ -1,14 +1,13 @@
 <script>
   import DisplaySelectedCatFigures from "./DisplaySelectedCatFigures.svelte";
 
-  export let topicSlug, tableSlug, locationId, selectedCatData;
+  export let topicSlug, tableSlug, locationId, selectedCategory;
   export let categories = [];
-  export let selectedCategory = "";
 
   $: locationQueryParam = locationId ? `?location=${locationId}` : "";
   let leftIndex, rightIndex, selectedCatIndex, isMultiSelect, isInitialCat;
 
-  const findSelectedCatIndex = (category) => category.code === selectedCategory;
+  const findSelectedCatIndex = (category) => category.code === selectedCategory.code;
   selectedCatIndex = categories.findIndex(findSelectedCatIndex);
 
   /* isMultiSelect, flag is used to fix a ui issue with an array less than or equal to two showing the same category for both the previous and next links */
@@ -55,7 +54,7 @@
     </div>
     <div class="ons-grid__col ons-col-4@xxs">
       <div class="category-selector__stats">
-        <DisplaySelectedCatFigures {selectedCatData} />
+        <DisplaySelectedCatFigures {locationId} category={selectedCategory} />
       </div>
     </div>
   </div>

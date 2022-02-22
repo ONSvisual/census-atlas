@@ -1,8 +1,12 @@
 <script>
-  export let difference = 0;
-  export let comparator = "England and Wales";
+  import { calculateComparisonDiff } from "../../utils";
+  export let comparatorGeoCode, geoCode, catCode, comparatorGeoName;
 
-  $: comparatorStr = comparator == "England and Wales" ? comparator : `nearby ${comparator}`;
+  let difference = 0;
+  let comparatorStr;
+  let comparisonObj = {};
+
+  $: comparatorGeoName ? (comparatorStr = `nearby ${comparatorGeoName}`) : (comparatorStr = "England and Wales");
 
   function populateComparisonString(difference, comparatorStr) {
     if (difference > 0) {
@@ -25,7 +29,10 @@
     };
   }
 
-  $: comparisonObj = populateComparisonString(difference, comparatorStr);
+  $: catCode,
+    geoCode,
+    ((difference = calculateComparisonDiff(geoCode, comparatorGeoCode, catCode)),
+    (comparisonObj = populateComparisonString(difference, comparatorStr)));
 </script>
 
 <div class="data-comparison-container">
