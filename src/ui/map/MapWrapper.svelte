@@ -64,6 +64,18 @@
       <DataLayer id="lsoa-data-zoom" catCode={category.code} />
     {/if}
   </TileSet>
+
+  <TileSet
+    id="msoa"
+    type="vector"
+    url={config.legacy.msoabounds.url}
+    layer={config.legacy.msoabounds.layer}
+    promoteId={config.legacy.msoabounds.code}
+  >
+    {#if category && showDataLayer}
+      <DataLayer id="lsoa-data" catCode={category.code} />
+    {/if}
+  </TileSet>
   <TileSet
     id="lad-boundaries"
     type="vector"

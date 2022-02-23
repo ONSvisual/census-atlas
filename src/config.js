@@ -9,6 +9,11 @@ export default {
       code: "AREACD",
       name: "AREANM",
     },
+    msoabounds: {
+      url: "https://cdn.ons.gov.uk/maptiles/administrative/msoa/v2/boundaries/{z}/{x}/{y}.pbf",
+      layer: "msoa",
+      code: "areacd",
+    },
     lsoabldg: {
       url: "https://cdn.ons.gov.uk/maptiles/buildings/v1/{z}/{x}/{y}.pbf",
       layer: "buildings",
