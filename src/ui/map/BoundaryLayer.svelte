@@ -8,7 +8,7 @@
   export let type = "line";
   export let filter = null;
   export let layout = {};
-  export let paint = config.ux.map.paint.boundary;
+  export let paint = config.ux.map.paint.lad_boundary;
   export let maxzoom = getContext("tileset-maxzoom");
   export let minzoom = getContext("tileset-minzoom");
   export let order = "lad-interactive-layer-interactive-boundaries";

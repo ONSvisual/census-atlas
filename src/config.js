@@ -52,6 +52,8 @@ export default {
       min_zoom: 9,
       buildings_breakpoint: 12,
       lsoa_breakpoint: 9,
+      msoa_boundary_breakpoint: 10,
+      lad_boundary_breakpoint: 9,
       filter: ["all", ["==", "lower", "true"], ["in", "country", "E", "W"]],
       paint: {
         data: {
@@ -66,9 +68,13 @@ export default {
           "line-color": ["rgba(192, 192, 192, 1)"],
           "line-width": [0.75],
         },
-        boundary: {
+        lad_boundary: {
           "line-color": "#808080",
           "line-width": 2,
+        },
+        msoa_boundary: {
+          "line-color": "#808080",
+          "line-width": 0.5,
         },
         interactive: {
           "line-color": [

@@ -73,8 +73,13 @@
     promoteId={config.legacy.msoabounds.code}
   >
     {#if category && showDataLayer}
-      <DataLayer id="lsoa-data" catCode={category.code} />
+      <DataLayer id="msoa-data" catCode={category.code} />
     {/if}
+    <BoundaryLayer
+      paint={config.ux.map.paint.msoa_boundary}
+      minzoom={config.ux.map.msoa_boundary_breakpoint}
+      id="msoa-boundary-layer"
+    />
   </TileSet>
   <TileSet
     id="lad-boundaries"
@@ -83,7 +88,11 @@
     layer={config.legacy.ladvector.layer}
     promoteId={config.legacy.ladvector.code}
   >
-    <BoundaryLayer minzoom={config.ux.map.lsoa_breakpoint} id="lad-boundary-layer" />
+    <BoundaryLayer
+      minzoom={config.ux.map.lad_boundary_breakpoint}
+      maxzoom={config.ux.map.msoa_boundary_breakpoint}
+      id="lad-boundary-layer"
+    />
   </TileSet>
 </Map>
 
