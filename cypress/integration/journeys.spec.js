@@ -8,12 +8,12 @@ describe("User Testing Scenarios", () => {
     cy.contains("Choose a category").click();
     cy.wait(500);
     cy.url().should("include", "/categories");
-    cy.contains("Education").should("be.visible");
-    cy.contains("Health").should("be.visible");
-    cy.contains("Housing").should("be.visible");
-    cy.contains("Identity").should("be.visible");
-    cy.contains("Population").should("be.visible");
-    cy.contains("Work").should("be.visible");
+    cy.contains("Education").should("exist");
+    cy.contains("Health").should("exist");
+    cy.contains("Housing").should("exist");
+    cy.contains("Identity").should("exist");
+    cy.contains("Population").should("exist");
+    cy.contains("Work").should("exist");
     cy.contains("Housing").click();
     cy.contains("Show Heating options").click();
     cy.contains("Gas").click();
