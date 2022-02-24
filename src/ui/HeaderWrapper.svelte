@@ -41,15 +41,16 @@
 </script>
 
 {#if showChangeAreaHeader}
-  <Header bind:showChangeAreaHeader showBackLink serviceTitle="Choose an area"
-    ><ExploreByAreaComponent
+  <Header bind:showChangeAreaHeader showBackLink serviceTitle="Explore by area">
+    <ExploreByAreaComponent
+      labelText="Choose an area"
       {renderError}
       {invertTextColor}
       header
       bind:userInputValue
       on:click={() => submitFunction(userInputValue)}
-    /></Header
-  >
+    />
+  </Header>
 {:else}
   <DataHeader
     {tableName}

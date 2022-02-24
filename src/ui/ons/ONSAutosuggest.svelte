@@ -46,11 +46,9 @@
       data-autosuggest-data={autosuggestData}
     >
       <div class="ons-field">
-        {#if labelText}
-          <label class="ons-label  {hint ? 'ons-label--with-description' : ''}" for={id} id="{id}-label"
-            >{labelText}
-          </label>
-        {/if}
+        <label class="ons-label  {hint ? 'ons-label--with-description' : ''} {inverted}" for={id} id="{id}-label"
+          >{labelText}
+        </label>
         {#if hint}
           <span id="{id}-label-description-hint" class="ons-label__description  ons-input--with-description {inverted}">
             {hint}
