@@ -28,7 +28,7 @@
   let locationId = $page.query.get("location");
 
   onMount(async () => {
-    $pageUrl=$page.path
+    $pageUrl = $page.path;
     if (locationId) {
       updateSelectedGeography(locationId);
     } else {
@@ -81,7 +81,11 @@
   <hr class="component-margin--2" />
 
   <div class="ons-u-mb-xl">
-    <ExploreByAreaComponent {renderError} bind:userInputValue on:click={() => submitFunction(userInputValue)}
+    <ExploreByAreaComponent
+      labelText="Choose an area"
+      {renderError}
+      bind:userInputValue
+      on:click={() => submitFunction(userInputValue)}
       >Search for an area to find out how it compares to others</ExploreByAreaComponent
     >
   </div>
