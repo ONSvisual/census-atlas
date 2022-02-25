@@ -23,13 +23,13 @@
   setContext("tileset-maxzoom", maxzoom);
 
   // clears out self on map object
-  if (map.getSource(id)) {
+  if (map && map.getSource(id)) {
     map.removeSource(id);
   }
 
   // watches for isSourceLoaded method on map
   function isSourceLoaded() {
-    if (map.getSource(id) && map.isSourceLoaded(id)) {
+    if (map && map.getSource(id) && map.isSourceLoaded(id)) {
       loaded = true;
     } else {
       setTimeout(() => {
