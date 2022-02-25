@@ -109,8 +109,10 @@
     document.head.appendChild(link);
 
     return () => {
-      map.remove();
-      link.parentNode.removeChild(link);
+      if (map) {
+        map.remove();
+        link.parentNode.removeChild(link);
+      }
     };
   });
 </script>
