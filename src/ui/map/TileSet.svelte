@@ -39,15 +39,9 @@
   }
 
   // watches for isMapLoaded then runs the addSource method
-  function isMapLoaded() {
-    if (map.isStyleLoaded(id)) {
-      addSource();
-    } else {
-      setTimeout(() => {
-        isMapLoaded();
-      }, 100);
-    }
-  }
+  map.on("style.load", () => {
+    addSource();
+  });
 
   // Set optional source properties
   if (minzoom) {
@@ -97,9 +91,6 @@
       isSourceLoaded();
     }
   }
-
-  // kicks off the chain
-  $: map && isMapLoaded();
 </script>
 
 {#if loaded}

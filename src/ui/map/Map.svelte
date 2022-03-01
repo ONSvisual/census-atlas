@@ -69,41 +69,43 @@
     link.href = "https://unpkg.com/mapbox-gl/dist/mapbox-gl.css";
 
     link.onload = () => {
-      map = new Map({
-        container,
-        style: mapstyle,
-        minZoom: minzoom,
-        maxZoom: maxzoom,
-        maxBounds: outerMapBounds,
-        attributionControl: false,
-        ...options,
-      });
+      if (container) {
+        map = new Map({
+          container,
+          style: mapstyle,
+          minZoom: minzoom,
+          maxZoom: maxzoom,
+          maxBounds: outerMapBounds,
+          attributionControl: false,
+          ...options,
+        });
 
-      map.addControl(new NavigationControl());
+        map.addControl(new NavigationControl());
 
-      map.addControl(new AttributionControl(), "bottom-left");
+        map.addControl(new AttributionControl(), "bottom-left");
 
-      map.fitBounds(bounds, { padding: 20 });
+        map.fitBounds(bounds, { padding: 20 });
 
-      // Get initial zoom level
-      map.on("load", () => {
-        debouncedMapZoomBBoxStore(map);
-        zoom = map.getZoom();
-      });
+        // Get initial zoom level
+        map.on("load", () => {
+          debouncedMapZoomBBoxStore(map);
+          zoom = map.getZoom();
+        });
 
-      map.on("render", () => {
-        map.resize();
-      });
+        map.on("render", () => {
+          map.resize();
+        });
 
-      // Update zoom level when the view zooms
-      map.on("zoom", () => {
-        debouncedMapZoomBBoxStore(map);
-        zoom = map.getZoom();
-      });
+        // Update zoom level when the view zooms
+        map.on("zoom", () => {
+          debouncedMapZoomBBoxStore(map);
+          zoom = map.getZoom();
+        });
 
-      map.on("drag", () => {
-        debouncedMapZoomBBoxStore(map);
-      });
+        map.on("drag", () => {
+          debouncedMapZoomBBoxStore(map);
+        });
+      }
     };
 
     document.head.appendChild(link);
