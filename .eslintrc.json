@@ -1,13 +1,14 @@
 {
   "root": true,
-  "extends": ["eslint:recommended", "prettier"],
-  "plugins": ["svelte3"],
+  "extends": ["eslint:recommended", "plugin:cypress/recommended", "prettier"],
+  "plugins": ["svelte3", "cypress"],
   "overrides": [{ "files": ["*.svelte"], "processor": "svelte3/svelte3" }],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2019
   },
   "env": {
+    "jest/globals": true,
     "browser": true,
     "es2017": true,
     "node": true

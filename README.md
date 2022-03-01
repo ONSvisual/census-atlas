@@ -23,7 +23,15 @@ npm run dev -- --https
 npm run dev -- --open
 ```
 
-To run the full suite of tests:
+There's an attempt at a kitchen sink with all the components at: [/components](http://localhost:3000/components) but please note it might be incomplete, or not up to date. This will eventually be replaced by something like [Storybook](https://storybook.js.org/).
+
+There's also a page dedicated to [ONS Design System](https://ons-design-system.netlify.app/) components specifically: [/design-system](http://localhost:3000/design-system)
+
+## Testing
+
+### Unit
+
+To run the full suite of unit tests:
 
 ```bash
 npm test
@@ -32,9 +40,13 @@ npm test
 npm test -- [fileName].test
 ```
 
-There's an attempt at a kitchen sink with all the components at: [/components](http://localhost:3000/components) but please note it might be incomplete, or not up to date. This will eventually be replaced by something like [Storybook](https://storybook.js.org/).
+### Integration
 
-There's also a page dedicated to [ONS Design System](https://ons-design-system.netlify.app/) components specifically: [/design-system](http://localhost:3000/design-system)
+Run Cypress:
+
+```bash
+npx cypress open
+```
 
 ## Deploy process
 
