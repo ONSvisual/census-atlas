@@ -1,6 +1,6 @@
 <script>
   export let title = "";
-  export let id = "collapsible-table";
+  export let id;
   let expanded = false;
   $: expandedCollapsible = expanded ? "ons-collapsible--open" : "";
   $: displayContent = expanded ? "ons-collapsible--open__content" : "ons-collapsible--initialised__content";
