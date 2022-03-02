@@ -38,7 +38,10 @@
     }
   }
 
-  // watches for isMapLoaded then runs the addSource method
+  /* Waits for style to load then runs the addSource method.
+    Warning: style.load is not documentated as never intended to be a public API. 
+    More information can be found here: https://github.com/mapbox/mapbox-gl-js/issues/2268
+  */
   map.on("style.load", () => {
     addSource();
   });
