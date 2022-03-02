@@ -137,7 +137,7 @@
 </script>
 
 <svelte:head>
-  <title>2021 Census Data Atlas Category & Location</title>
+  <title>2021 Census Data Atlas | {table ? table.name : ""} in {locationName || "England and Wales"}</title>
 </svelte:head>
 
 <BasePage>
