@@ -25,12 +25,13 @@
   });
 
   export let title;
+  export let id = "collapsible";
   /* Fix WCAG A "Illogical headings", custom logic (not apart of ONS design system) 
   to convert h2 title to h3 only used if parent component contains h2 */
   export let a11yHeading = false;
 </script>
 
-<div id="collapsible" class="ons-collapsible ons-js-collapsible" data-btn-close="Hide this">
+<div {id} class="ons-collapsible ons-js-collapsible" data-btn-close="Hide this">
   <div class="ons-collapsible__heading ons-js-collapsible-heading">
     <div class="ons-collapsible__controls">
       {#if a11yHeading}
@@ -54,7 +55,7 @@
       </span>
     </div>
   </div>
-  <div id="collapsible-content" class="ons-collapsible__content ons-js-collapsible-content">
+  <div id="{id}-content" class="ons-collapsible__content ons-js-collapsible-content">
     <slot />
     <button
       type="button"
