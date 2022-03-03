@@ -23,7 +23,10 @@
 
   function onKeyUp(e) {
     if (e.keyCode === 13) {
-      autosuggestValue = document.querySelector(".ons-autosuggest-input__option--focused").innerText;
+      const input = document.querySelector(".ons-autosuggest-input__option--focused");
+      if (input) {
+        autosuggestValue = input.innerText;
+      }
     }
   }
 </script>

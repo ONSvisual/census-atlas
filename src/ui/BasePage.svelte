@@ -161,14 +161,15 @@
       width: 489px;
     }
     .body {
-      /* padding-top: 18px; */
       padding-bottom: 18px;
       overflow: scroll;
+      height: 100%;
     }
     .ons-page__container {
       padding-top: 18px;
     }
     .wrapper {
+      height: 100vh;
       max-height: calc(100vh - var(--max-height));
     }
     .map {

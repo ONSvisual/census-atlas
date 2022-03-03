@@ -36,7 +36,7 @@
 </script>
 
 <svelte:head>
-  <title>2021 Census Data Atlas Topic</title>
+  <title>2021 Census Data Atlas Topic | {pageTopic.topicName}</title>
 </svelte:head>
 
 <BasePage>
@@ -58,9 +58,13 @@
   </span>
 
   <Topic topicList={pageTopic.suggestions} cardTitle="{pageTopic.topicName} - Census 2021"
-    ><p>The 2021 Census tells us a lot about the {pageTopic.topicName} of people living in England and Wales live and work.</p>
-    <p><a href="/categories/{topicSlug}"> Choose a category from the full list</a>
-    or explore one of these suggestions.</p>
+    ><p>
+      The 2021 Census tells us a lot about the {pageTopic.topicName} of people living in England and Wales live and work.
+    </p>
+    <p>
+      <a href="/categories/{topicSlug}"> Choose a category from the full list</a>
+      or explore one of these suggestions.
+    </p>
   </Topic>
 
   <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>

@@ -51,7 +51,7 @@
 </script>
 
 <svelte:head>
-  <title>2021 Census Data Atlas</title>
+  <title>2021 Census Data Atlas | {locationName} Census</title>
 </svelte:head>
 
 <BasePage>
