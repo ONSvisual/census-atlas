@@ -32,20 +32,16 @@
           <a href="/categories/{topicSlug}/{tableSlug}/{categorySlug}{locationQueryParam}">Change</a>
         {:else}
           <div class="ons-header__title" id="header-data-2__title">
-            <h2 id="census-atlas-header-2__title">
-              <a href="/categories{locationQueryParam}">Choose a category</a>
-            </h2>
+            <a class="census-atlas-header-2__link" href="/categories{locationQueryParam}">Choose a category</a>
           </div>
         {/if}
       </div>
       <hr />
       {#if topicPage}
         <div class="ons-header__title" id="header-data-2__title">
-          <h2 id="census-atlas-header-2__title">
-            <a href="/categories/{slugify(topicPage).toLowerCase()}"
-              >Choose an option within {topicPage.toLowerCase()}</a
-            >
-          </h2>
+          <a class="census-atlas-header-2__link" href="/categories/{slugify(topicPage).toLowerCase()}"
+            >Choose an option within {topicPage.toLowerCase()}</a
+          >
         </div>
       {:else if location}
         <div class="ons-grid--flex ons-grid--between">
@@ -117,8 +113,9 @@
   #header-data-2__title {
     margin: 0.3rem 0;
   }
-  #census-atlas-header-2__title {
-    font-size: 1.11111rem;
+  .census-atlas-header-2__link {
+    display: block;
+    margin: 0 0 1rem;
     font-weight: 200;
   }
 </style>
