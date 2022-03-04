@@ -2,7 +2,7 @@
   import BasePage from "./../ui/BasePage.svelte";
 
   import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
-  import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
+  import SearchByAreaComponent from "./../ui/SearchByAreaComponent.svelte";
   import ONSShare from "./../ui/ons/ONSShare.svelte";
   import Feedback from "./../ui/Feedback.svelte";
   import ONSShareItem from "./../ui/ons/partials/ONSShareItem.svelte";
@@ -65,7 +65,7 @@
   </span>
 
   <div class="ons-u-mb-l">
-    <ExploreByAreaComponent
+    <SearchByAreaComponent
       labelText="Enter a region, county, local council or city"
       {renderError}
       bind:userInputValue
