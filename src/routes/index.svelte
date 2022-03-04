@@ -64,6 +64,16 @@
     />
   </span>
 
+  <div class="ons-u-mb-l">
+    <ExploreByAreaComponent
+      labelText="Enter a region, county, local council or city"
+      {renderError}
+      bind:userInputValue
+      on:click={() => submitFunction(userInputValue)}
+    />
+  </div>
+  <hr class="component-margin--2" />
+
   <span slot="map">
     <MapWrapper showDataLayer={false} bounds={config.ux.map.englandAndWalesBounds} {redirectOnSelect} />
   </span>
@@ -79,16 +89,6 @@
 
   <ExploreByTopic url="/categories" suggestions={config.suggestions.indexPageSuggestions} />
   <hr class="component-margin--2" />
-
-  <div class="ons-u-mb-xl">
-    <ExploreByAreaComponent
-      labelText="Choose an area"
-      {renderError}
-      bind:userInputValue
-      on:click={() => submitFunction(userInputValue)}
-      >Search for an area to find out how it compares to others</ExploreByAreaComponent
-    >
-  </div>
 
   <div class="ons-u-mb-l">
     <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>

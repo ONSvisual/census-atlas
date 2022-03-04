@@ -2,9 +2,8 @@
   import config from "../config";
   export let id = "search-field";
   export let labelText, userInputValue, renderError, invertTextColor;
-  export let hint = "Enter the local council or city";
   export let buttonText = "Choose";
-  export let title = "Explore by area";
+  export let title = "Search by area";
   import ONSAutosuggest from "./ons/ONSAutosuggest.svelte";
   import ONSError from "./ons/partials/ONSError.svelte";
   export let header = false;
@@ -13,16 +12,14 @@
 
 <div class="component-margin--2">
   {#if !header}
-    <h2>{title}</h2>
+    <h2 class="ons-u-mb-xs">{title}</h2>
   {/if}
   <ONSError {errorText} {id} {renderError}>
     <div class="ons-field">
-      <p><slot /></p>
       <ONSAutosuggest
         {labelText}
         {invertTextColor}
         {id}
-        {hint}
         autosuggestData={config.autosuggestData}
         {renderError}
         {header}
