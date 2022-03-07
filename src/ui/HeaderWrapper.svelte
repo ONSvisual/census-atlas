@@ -3,7 +3,7 @@
 
   import Header from "./Header.svelte";
   import DataHeader from "./DataHeader.svelte";
-  import ExploreByAreaComponent from "./ExploreByAreaComponent.svelte";
+  import SearchByAreaComponent from "./SearchByAreaComponent.svelte";
   import { reverseLadLookup } from "../model/geography/geography";
 
   export let locationName, locationId, topicSlug, tableSlug, categorySlug, tableName;
@@ -42,7 +42,7 @@
 
 {#if showChangeAreaHeader}
   <Header bind:showChangeAreaHeader showBackLink serviceTitle="Explore by area">
-    <ExploreByAreaComponent
+    <SearchByAreaComponent
       labelText="Choose an area"
       {renderError}
       {invertTextColor}

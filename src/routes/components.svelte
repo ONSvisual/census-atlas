@@ -7,7 +7,7 @@
   import BasePage from "./../ui/BasePage.svelte";
   import DesignSystemPanel from "./../ui/DesignSystemPanel.svelte";
   import CategorySelector from "./../ui/CategorySelector/CategorySelector.svelte";
-  import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
+  import SearchByAreaComponent from "./../ui/SearchByAreaComponent.svelte";
   import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
   import Topic from "./../ui/Topic.svelte";
@@ -130,9 +130,9 @@
 
   <DesignSystemPanel
     title="Choose an area header"
-    code={`<Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent header /></Header>`}
+    code={`<Header showBackLink serviceTitle="Choose an area"><SearchByAreaComponent header /></Header>`}
   >
-    <Header showBackLink serviceTitle="Choose an area"><ExploreByAreaComponent header /></Header>
+    <Header showBackLink serviceTitle="Choose an area"><SearchByAreaComponent header /></Header>
   </DesignSystemPanel>
 
   <DesignSystemPanel title="Category selector" code={`<CategorySelector {categories} {selectedCode} />`}>
@@ -141,9 +141,9 @@
 
   <DesignSystemPanel
     title="Explore by area"
-    code={`<ExploreByAreaComponent >Search for an area to find out how it compares to others</ExploreByAreaComponent>`}
+    code={`<SearchByAreaComponent >Search for an area to find out how it compares to others</SearchByAreaComponent>`}
   >
-    <ExploreByAreaComponent>Search for an area to find out how it compares to others</ExploreByAreaComponent>
+    <SearchByAreaComponent>Search for an area to find out how it compares to others</SearchByAreaComponent>
   </DesignSystemPanel>
   <DesignSystemPanel title="Explore by topic" code={`<ExploreByTopic />`}>
     <ExploreByTopic />
