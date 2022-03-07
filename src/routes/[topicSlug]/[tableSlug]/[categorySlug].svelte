@@ -34,7 +34,7 @@
   import { pageUrl } from "../../../stores";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { afterUpdate, beforeUpdate, onMount } from "svelte";
+  import { beforeUpdate, onMount } from "svelte";
   import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
