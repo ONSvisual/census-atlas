@@ -150,8 +150,6 @@
 
   $: $newDataByGeography,
     category && geoCode && (cardParas = populateSelectedCatAndLocationCard(geoCode, category, locationName));
-
-  $: $newDataByGeography, category && console.log(isCatDataFetchedForGeoCode($dataByGeography, geoCode, category.code));
 </script>
 
 <svelte:head>
