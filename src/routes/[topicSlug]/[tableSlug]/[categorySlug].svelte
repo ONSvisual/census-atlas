@@ -208,9 +208,11 @@
         VHS fingerstache.
       </p>
       <p>{cardParas.para1}</p>
-      <p>
-        {cardParas.para2}
-      </p>
+      {#if cardParas.para2}
+        <p>
+          {cardParas.para2}
+        </p>
+      {/if}
     </Topic>
   {/if}
 

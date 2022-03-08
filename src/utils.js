@@ -145,11 +145,14 @@ export function populateSelectedCatAndLocationCard(geoCode, category, locationNa
     const data = populateSelectedCatData(geoCode, category);
     const diff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, category.code);
     populateComparisonString(diff);
-    const para1 = `Out of ${data.total} ${data.unit} in the local council of ${locationName}, ${data.val} (${data.perc}) are [insert meaningful category name].`;
+    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : `the local council of ${locationName}`;
+    const para1 = `Out of ${data.total} ${data.unit.toLowerCase()} in ${locationStr}, ${data.val} (${
+      data.perc
+    }) are [insert meaningful category name].`;
     const para2 = populateComparisonString(diff);
     return {
       para1,
-      para2,
+      para2: geoCode != config.eAndWGeoCode ? para2 : null,
     };
   }
 }
