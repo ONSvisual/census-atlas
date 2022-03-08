@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  export let labelText, id, hint, autosuggestValue, autosuggestData, header, invertTextColor, renderError;
+  export let labelText, id, autosuggestValue, autosuggestData, header, invertTextColor, renderError;
   let n;
   let inverted = invertTextColor ? "input--with-white-description" : "";
   let inputContainer = header || renderError ? "header-input-container" : "non-header-input-container";
@@ -49,14 +49,7 @@
       data-autosuggest-data={autosuggestData}
     >
       <div class="ons-field">
-        <label class="ons-label  {hint ? 'ons-label--with-description' : ''} {inverted}" for={id} id="{id}-label"
-          >{labelText}
-        </label>
-        {#if hint}
-          <span id="{id}-label-description-hint" class="ons-label__description  ons-input--with-description {inverted}">
-            {hint}
-          </span>
-        {/if}
+        <label class="ons-u-fs-s ons-label  {inverted}" for={id} id="{id}-label">{labelText} </label>
         <input
           type="text"
           {id}
@@ -64,7 +57,7 @@
           on:keyup={onKeyUp}
           class="ons-input ons-input--text ons-input-type__input ons-js-autosuggest-input "
           autocomplete="off"
-          aria-describedby={hint ? `${id}-label-description-hint` : ""}
+          aria-describedby="{id}-label"
         />
       </div>
       <div class="ons-autosuggest-input__results ons-js-autosuggest-results">
