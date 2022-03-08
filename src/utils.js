@@ -12,6 +12,7 @@ import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks, reverseTotalCatCodeLookup } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
 import { mapZoomBBox } from "./model/geography/stores";
+import { isCatDataFetchedForGeoCode } from "./model/utils";
 
 export function isEmpty(obj) {
   return (
@@ -137,4 +138,28 @@ export function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
   catCodesToFetch.forEach((catCode) => {
     fetchCensusDataBreaks(new MetadataApiDataService(), catCode, totalCode, 5, "lad");
   });
+}
+
+export function populateSelectedCatAndLocationCard(geoCode, category, locationName) {
+  if (isCatDataFetchedForGeoCode(get(dataByGeography), geoCode, category.code)) {
+    const data = populateSelectedCatData(geoCode, category);
+    const diff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, category.code);
+    populateComparisonString(diff);
+    const para1 = `Out of ${data.total} ${data.unit} in the local council of ${locationName}, ${data.val} (${data.perc}) are [insert meaningful category name].`;
+    const para2 = populateComparisonString(diff);
+    return {
+      para1,
+      para2,
+    };
+  }
+}
+
+function populateComparisonString(difference) {
+  if (difference > 0) {
+    return `That's ${difference.toString()}% higher than England and Wales.`;
+  } else if (difference < 0) {
+    return `That's ${Math.abs(difference).toString()}% lower than England and Wales.`;
+  } else {
+    return "That's the same as England and Wales.";
+  }
 }
