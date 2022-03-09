@@ -34,7 +34,7 @@
   import { pageUrl } from "../../../stores";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
+  import { beforeUpdate, onMount } from "svelte";
   import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
@@ -45,6 +45,12 @@
   let tableDataFetched = false;
   let locationName = "";
   let selectedCatMapDataFetched = false;
+  let showCategorySelector = false;
+  $: innerWidth = 0;
+
+  beforeUpdate(() => {
+    showCategorySelector = category && tables[category.table].categoriesArray && innerWidth < config.ux.deviceWidth;
+  });
 
   let locationId = $page.query.get("location");
 
@@ -140,6 +146,8 @@
   <title>2021 Census Data Atlas | {table ? table.name : ""} in {locationName || "England and Wales"}</title>
 </svelte:head>
 
+<svelte:window bind:innerWidth />
+
 <BasePage>
   <span slot="header">
     <HeaderWrapper
@@ -168,8 +176,9 @@
     </footer>
   </span>
 
-  {#if category && tables[category.table].categoriesArray}
+  {#if showCategorySelector}
     <CategorySelector
+      tableName={table ? table.name : null}
       {locationId}
       {topicSlug}
       {tableSlug}
