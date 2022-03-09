@@ -8,7 +8,7 @@
 <div class="component-margin--2">
   <h2>Select a topic</h2>
   <p>
-    We have grouped census information into topics, categories and sugjects to help you find what you are looking for.
+    We have grouped census information into topics, categories and subjects to help you find what you are looking for.
   </p>
   <TopicList />
   <ONSCollapsible title="Popular topic searches" a11yHeading>
@@ -20,6 +20,6 @@
 
 <style>
   .component-margin--2 {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 </style>
