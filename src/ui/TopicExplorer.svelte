@@ -1,13 +1,12 @@
 <script>
   import ONSAccordion from "./../ui/ons/ONSAccordion.svelte";
   import ONSAccordionPanel from "./../ui/ons/partials/ONSAccordionPanel.svelte";
-  import NestableCollapsible from "./NestableCollapsible/NestableCollapsible.svelte";
   import { censusMetadata } from "../model/metadata/metadata";
 
   import { onMount } from "svelte";
 
   export let selectedTopic, visitedTable, locationId;
-  let topicIndex, tableIndex, tableSlug;
+  let tableIndex;
 
   $: locationQueryParam = locationId ? `?location=${locationId}` : "";
 
@@ -18,12 +17,8 @@
           topic.tables.forEach((table) => {
             if (table.slug == visitedTable.toLowerCase()) {
               tableIndex = topic.tables.indexOf(table);
-              tableSlug = table.slug;
             }
           });
-        }
-        if (topic.slug == selectedTopic.toLowerCase()) {
-          topicIndex = $censusMetadata.indexOf(topic);
         }
       });
     }
@@ -31,54 +26,42 @@
 
   // !!! Temporary solution -  to be removed when we'll be able to import the DS js bundle at a component level
   onMount(() => {
-    if (selectedTopic) {
+    if (visitedTable) {
       setTimeout(() => {
-        document.querySelector(`#topic-${topicIndex} .ons-btn`).click();
-        if (visitedTable) {
-          document.querySelector(`#${tableSlug}-${tableIndex}`).click();
-        }
+        document.querySelector(`#table-${tableIndex} .ons-btn`).click();
       }, 250);
     }
   });
 </script>
 
-<ONSAccordion showAll={false}>
-  {#each $censusMetadata as topic, i}
-    <ONSAccordionPanel id="topic-{i}" title={topic.name} noTopBorder description={topic.desc}>
-      {#each topic.tables as tableEntry, i}
-        <div class="table-margin--2">
-          <h3 class="ons-related-links__title ons-u-fs-r--b ons-u-mb-xs">
-            <a href="/{topic.slug}/{tableEntry.slug}/{tableEntry.categories[0].slug}{locationQueryParam}"
-              >{tableEntry.name}</a
-            >
-          </h3>
-          <p class="ons-collapsible__table-description">{tableEntry.desc}</p>
-          <NestableCollapsible id="{tableEntry.slug}-{i}" title={tableEntry.name}>
+{#if selectedTopic}
+  <ONSAccordion showAll={false}>
+    {#each $censusMetadata as topic}
+      {#if topic.slug == selectedTopic.toLowerCase()}
+        {#each topic.tables as table, i}
+          <ONSAccordionPanel id="table-{i}" title={table.name} noTopBorder description={table.desc}>
             <ul class="ons-list ons-list--bare">
-              {#each tableEntry.categories as category}
+              {#each table.categories as category}
                 <li class="ons-list__item">
-                  <a href="/{topic.slug}/{tableEntry.slug}/{category.slug}{locationQueryParam}" class="ons-list__link"
+                  <a href="/{topic.slug}/{table.slug}/{category.slug}{locationQueryParam}" class="ons-list__link"
                     >{category.name}</a
                   >
                 </li>
               {/each}
             </ul>
-          </NestableCollapsible>
-        </div>
-      {/each}
-    </ONSAccordionPanel>
-  {/each}
-</ONSAccordion>
+          </ONSAccordionPanel>
+        {/each}
+      {/if}
+    {/each}
+  </ONSAccordion>
+{/if}
 
 <style lang="scss">
   @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
-  .ons-collapsible__table-description {
-    margin: 0 2rem 0 0;
-  }
-  .table-margin--2 {
-    margin: 1rem 0 2rem 0;
-  }
   a:visited {
     color: $color-indigo-blue;
+  }
+  .ons-list--bare {
+    padding-left: 1.5rem;
   }
 </style>

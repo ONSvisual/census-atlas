@@ -106,7 +106,7 @@ export default {
     indexPageSuggestions: [
       {
         text: "Which areas have the highest levels of shared ownership properties?",
-        url: "/housing/owned-and-renting/shared-ownership",
+        url: "/housing/owned-or-renting/shared-ownership",
       },
       {
         text: "Which areas of the country are the most healthy?",

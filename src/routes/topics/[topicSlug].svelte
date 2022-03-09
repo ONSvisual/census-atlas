@@ -1,38 +1,30 @@
 <script>
-  import BasePage from "./../../ui/BasePage.svelte";
-
-  import Header from "./../../ui/Header.svelte";
+  import BasePage from "../../ui/BasePage.svelte";
+  import Header from "../../ui/Header.svelte";
   import MapWrapper from "../../ui/map/MapWrapper.svelte";
-  import config from "../../config";
-  import TopicExplorer from "./../../ui/TopicExplorer.svelte";
-  import Feedback from "./../../ui/Feedback.svelte";
-  import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
+  import TopicExplorer from "../../ui/TopicExplorer.svelte";
+  import Feedback from "../../ui/Feedback.svelte";
   import { appIsInitialised } from "../../model/appstate";
-
+  import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
+  import { censusTableStructureIsLoaded } from "../../model/censusdata/censusdata";
+  import { pageUrl } from "../../stores";
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
-
-  let { topicSlug } = $page.params;
   let locationId = $page.query.get("location");
   let locationName;
-
-  $: {
-    if (locationId) {
-      locationName = getLadName(locationId);
-    }
-  }
-
+  let { topicSlug } = $page.params;
   $: {
     if ($selectedGeography.lad) {
       $page.query.set("location", $selectedGeography.lad);
       goto(`?${$page.query.toString()}`);
       locationId = $page.query.get("location");
       locationName = getLadName(locationId);
+      if ($pageUrl.includes("area")) {
+        $pageUrl = `area?location=${locationId}`;
+      }
     }
   }
-
   $: appIsInitialised, $appIsInitialised && initialisePage();
-
   function initialisePage() {
     if (locationId) {
       locationName = getLadName(locationId);
@@ -42,7 +34,6 @@
 </script>
 
 <svelte:window />
-
 <svelte:head>
   <title>2021 Census Data Atlas Categories</title>
 </svelte:head>
@@ -50,6 +41,7 @@
 <BasePage mobileMap={false} withoutBackground>
   <span slot="header">
     <Header
+      ONSBacklinkHref={$pageUrl}
       showBackLink
       serviceTitle="Choose a category {locationId ? `for ${locationName}` : ''}"
       description="Choose a category and select an option within it to explore {locationName
@@ -59,10 +51,18 @@
   </span>
 
   <span slot="map">
-    <MapWrapper bounds={config.ux.map.englandAndWalesBounds} showDataLayer={false} />
+    <MapWrapper showDataLayer={false} />
   </span>
 
-  <TopicExplorer selectedTopic={topicSlug} {locationId} />
+  <p>
+    Change to a
+    <a href="/topics{locationId ? `?location=${locationId}` : ''}">new topic</a>
+  </p>
+  <hr />
+
+  {#if $appIsInitialised && $censusTableStructureIsLoaded}
+    <TopicExplorer {locationId} selectedTopic={topicSlug} />
+  {/if}
 
   <span slot="footer">
     <footer class="ons-footer">
