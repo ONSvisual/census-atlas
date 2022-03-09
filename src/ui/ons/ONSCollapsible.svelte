@@ -24,7 +24,7 @@
     }
   });
 
-  export let title;
+  export let title, isRegularFontWeightTitle;
   export let id = "collapsible";
   /* Fix WCAG A "Illogical headings", custom logic (not apart of ONS design system) 
   to convert h2 title to h3 only used if parent component contains h2 */
@@ -35,7 +35,9 @@
   <div class="ons-collapsible__heading ons-js-collapsible-heading">
     <div class="ons-collapsible__controls">
       {#if a11yHeading}
-        <h3 class="ons-collapsible__title">{title}</h3>
+        <h3 class="ons-collapsible__title" class:ons-collapsible__title--regular={isRegularFontWeightTitle}>
+          {title}
+        </h3>
       {:else}
         <h2 class="ons-collapsible__title">{title}</h2>
       {/if}
@@ -67,3 +69,9 @@
     </button>
   </div>
 </div>
+
+<style lang="scss">
+  .ons-collapsible__title--regular {
+    font-weight: normal;
+  }
+</style>
