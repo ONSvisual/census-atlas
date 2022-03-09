@@ -34,36 +34,55 @@
   let geoCode;
   let allPeopleTotal = "";
   let allHouseholdsTotal = "";
-  let loading = true;
+  let loading = false;
+  let success = false;
+  let housingTable;
+  let peopleTable;
+  let retries = 0;
 
   onMount(async () => {
     $pageUrl = $page.path;
   });
 
-  /* Fix reactivity */
-  const fetchData = async (geo, codes) => {
-    await fetchSelectedDataForGeographies(new GeodataApiDataService(), geo, codes, config.stores.overwrite);
-    loading = false;
+  const fetch = async () => {
+    loading = true;
+    await fetchSelectedDataForGeographies(
+      new GeodataApiDataService(),
+      geoCode,
+      [...housingTable.categories, ...peopleTable.categories, housingTable.total, peopleTable.total],
+      config.stores.overwrite,
+    )
+      .then(() => (success = true))
+      .catch(() => {
+        loading = false;
+        retries += 1;
+      });
   };
 
   afterUpdate(async () => {
-    loading = true;
     geoCode = $page.query.get("location");
     const peopleCategory = getCategoryBySlug("sex", "female");
-    const peopleTable = peopleCategory ? tables[peopleCategory.table] : null;
-    const peopleCatCode = peopleTable?.total;
     const housingCategory = getCategoryBySlug("size-of-household", "1-person-household");
-    const housingTable = housingCategory ? tables[housingCategory.table] : null;
-    const housingCatCode = housingTable?.total;
-    if (loading && peopleTable && housingTable) {
-      fetchData(geoCode, [...housingTable.categories, ...peopleTable.categories, housingCatCode, peopleCatCode]);
-    }
-    if ($dataByGeography.has(geoCode)) {
-      console.log($dataByGeography.has(geoCode));
-      allHouseholdsTotal = $dataByGeography.get(geoCode).get("QS406EW0002")["total"].toLocaleString();
-      allPeopleTotal = $dataByGeography.get(geoCode).get("QS104EW0002")["total"].toLocaleString();
-    }
+    peopleTable = peopleCategory ? tables[peopleCategory.table] : null;
+    housingTable = housingCategory ? tables[housingCategory.table] : null;
   });
+
+  $: retries < 3 ? !loading && peopleTable && housingTable && fetch() : (loading = true);
+
+  $: {
+    if (geoCode && loading) {
+      loading = false;
+      success = false;
+      peopleTable = undefined;
+      housingTable = undefined;
+      retries = 0;
+    }
+  }
+
+  $: if (success && $dataByGeography.has(geoCode)) {
+    allHouseholdsTotal = $dataByGeography.get(geoCode).get(housingTable.categories[0])["total"].toLocaleString();
+    allPeopleTotal = $dataByGeography.get(geoCode).get(peopleTable.categories[0])["total"].toLocaleString();
+  }
 
   function initialisePage() {
     updateSelectedGeography(locationId);
