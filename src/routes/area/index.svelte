@@ -1,5 +1,5 @@
 <script>
-  import { afterUpdate, beforeUpdate, onMount } from "svelte";
+  import { afterUpdate, onMount } from "svelte";
   import BasePage from "../../ui/BasePage.svelte";
   import MapWrapper from "../../ui/map/MapWrapper.svelte";
   import Topic from "../../ui/Topic.svelte";
