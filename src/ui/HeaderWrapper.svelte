@@ -8,7 +8,7 @@
 
   export let locationName, locationId, topicSlug, tableSlug, categorySlug, tableName;
 
-  let showChangeAreaHeader = false;
+  export let showChangeAreaHeader = false;
   let userInputValue;
   let renderError = false;
   let invertTextColor = true;

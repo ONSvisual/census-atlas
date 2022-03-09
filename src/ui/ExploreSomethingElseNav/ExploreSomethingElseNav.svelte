@@ -7,7 +7,7 @@
   <h2 class="ons-u-fs-m ons-u-mb-xs">Explore something else</h2>
   <p class="ons-u-mb-xs"><a href={firstLink.url}>{firstLink.text}</a></p>
   {#if secondLink}
-    <p class="ons-u-mb-xs"><a href={secondLink.url}>{secondLink.text}</a></p>
+    <p class="ons-u-mb-xs"><a href={"" || secondLink.url} on:click>{secondLink.text}</a></p>
   {/if}
   <p class="ons-u-mb-xs"><a href="/">Back to the start</a></p>
 </div>

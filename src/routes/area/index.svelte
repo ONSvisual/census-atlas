@@ -11,6 +11,7 @@
   import ONSTwitterIcon from "../../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../ui/ons/svg/ONSEmailIcon.svelte";
+  import ExploreSomethingElseNav from "../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
   import { areaSelectedTopicSuggestions } from "../../config";
@@ -22,6 +23,7 @@
 
   let locationName, locationId;
   let topicSuggestions;
+  let showChangeAreaHeader = false;
 
   onMount(async () => {
     $pageUrl = $page.path;
@@ -56,7 +58,7 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderWrapper {locationName} {locationId} />
+    <HeaderWrapper {locationName} {locationId} {showChangeAreaHeader} />
   </span>
 
   <span slot="map">
@@ -82,6 +84,14 @@
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
+  </div>
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{ text: "Choose a topic", url: `/topics?location=${locationId}` }}
+      secondLink={{ text: "New location", url: "" }}
+      on:click={() => (showChangeAreaHeader = true)}
+    />
   </div>
 
   <span slot="footer">
