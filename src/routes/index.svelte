@@ -2,7 +2,7 @@
   import BasePage from "./../ui/BasePage.svelte";
 
   import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
-  import ExploreByAreaComponent from "./../ui/ExploreByAreaComponent.svelte";
+  import SearchByAreaComponent from "./../ui/SearchByAreaComponent.svelte";
   import ONSShare from "./../ui/ons/ONSShare.svelte";
   import Feedback from "./../ui/Feedback.svelte";
   import ONSShareItem from "./../ui/ons/partials/ONSShareItem.svelte";
@@ -64,6 +64,16 @@
     />
   </span>
 
+  <div class="ons-u-mb-l">
+    <SearchByAreaComponent
+      labelText="Enter a region, county, local council or city"
+      {renderError}
+      bind:userInputValue
+      on:click={() => submitFunction(userInputValue)}
+    />
+  </div>
+  <hr class="component-margin--2" />
+
   <span slot="map">
     <MapWrapper showDataLayer={false} bounds={config.ux.map.englandAndWalesBounds} {redirectOnSelect} />
   </span>
@@ -79,16 +89,6 @@
 
   <ExploreByTopic url="/categories" suggestions={config.suggestions.indexPageSuggestions} />
   <hr class="component-margin--2" />
-
-  <div class="ons-u-mb-xl">
-    <ExploreByAreaComponent
-      labelText="Choose an area"
-      {renderError}
-      bind:userInputValue
-      on:click={() => submitFunction(userInputValue)}
-      >Search for an area to find out how it compares to others</ExploreByAreaComponent
-    >
-  </div>
 
   <div class="ons-u-mb-l">
     <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>

@@ -1,7 +1,5 @@
 <script>
-  import DisplaySelectedCatFigures from "./DisplaySelectedCatFigures.svelte";
-
-  export let topicSlug, tableSlug, locationId, selectedCategory;
+  export let tableName, topicSlug, tableSlug, locationId, selectedCategory;
   export let categories = [];
 
   $: locationQueryParam = locationId ? `?location=${locationId}` : "";
@@ -49,12 +47,7 @@
   <div class="ons-grid ons-grid--gutterless ons-grid--vertical-center">
     <div class="ons-grid__col ons-col-8@xxs">
       <div class="category-selector__category">
-        {categories[selectedCatIndex].name}
-      </div>
-    </div>
-    <div class="ons-grid__col ons-col-4@xxs">
-      <div class="category-selector__stats">
-        <DisplaySelectedCatFigures {locationId} category={selectedCategory} />
+        Part of: {tableName}
       </div>
     </div>
   </div>

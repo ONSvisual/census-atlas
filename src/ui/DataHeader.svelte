@@ -21,13 +21,13 @@
       <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
         {#if tableName || topicPage}
           <div class="ons-header__title header__title--with-description data-header-1__title">
-            <h2>
+            <h1>
               {tableName
                 ? tableName.charAt(0).toUpperCase() + tableName.slice(1).toLowerCase()
                 : topicPage
                 ? `Explore ${topicPage.toLowerCase()}`
                 : ""}
-            </h2>
+            </h1>
           </div>
           <a href="/categories/{topicSlug}/{tableSlug}/{categorySlug}{locationQueryParam}">Change</a>
         {:else}
@@ -50,7 +50,7 @@
         </div>
       {:else}
         <div class="ons-grid--flex ons-grid--between ons-grid--vertical-center">
-          <h3 class="ons-header__desc">In England & Wales</h3>
+          <h2 class="ons-header__desc">In England & Wales</h2>
           <a {href} on:click>Change</a>
         </div>
       {/if}
@@ -90,7 +90,7 @@
   .data-header-1__title {
     max-width: 80%;
   }
-  .data-header-1__title h2 {
+  .data-header-1__title h1 {
     margin: 0;
     font-size: 18px;
     line-height: 22px;
