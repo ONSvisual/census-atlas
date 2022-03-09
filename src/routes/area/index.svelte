@@ -88,7 +88,7 @@
 
   <div class="ons-u-mb-l">
     <ExploreSomethingElseNav
-      firstLink={{ text: "Choose a topic", url: `/topics?location=${locationId}` }}
+      firstLink={{ text: "Choose a topic", url: locationId ? `/topics?location=${locationId}` : "/topics" }}
       secondLink={{ text: "New location", url: "" }}
       on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
     />

@@ -9,6 +9,7 @@
   import ONSEmailIcon from "../../../ui/ons/svg/ONSEmailIcon.svelte";
   import CategorySelector from "../../../ui/CategorySelector/CategorySelector.svelte";
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
+  import ExploreSomethingElseNav from "../../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
@@ -41,10 +42,11 @@
   let category = null;
   let table = null;
   let totalCatCode = "";
-  let geoCode, neighbouringLad;
+  let geoCode, neighbouringLad, header;
   let tableDataFetched = false;
   let locationName = "";
-  let selectedCatMapDataFetched = false;
+  let selectedCatMapDataFetched,
+    showChangeAreaHeader = false;
 
   let locationId = $page.query.get("location");
 
@@ -141,7 +143,7 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="header">
+  <span slot="header" bind:this={header}>
     <HeaderWrapper
       {locationName}
       {locationId}
@@ -149,6 +151,7 @@
       {tableSlug}
       {categorySlug}
       tableName={table ? table.name : null}
+      bind:showChangeAreaHeader
     />
   </span>
 
@@ -217,6 +220,17 @@
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
+  </div>
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{
+        text: "New category",
+        url: locationId ? `/topics/${topicSlug}?location=${locationId}` : `/topics/${topicSlug}`,
+      }}
+      secondLink={{ text: "New location", url: "" }}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+    />
   </div>
 </BasePage>
 
