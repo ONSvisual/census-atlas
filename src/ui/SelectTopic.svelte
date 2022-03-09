@@ -10,8 +10,10 @@
   <p>
     We have grouped census information into topics, categories and subjects to help you find what you are looking for.
   </p>
-  <TopicList />
-  <ONSCollapsible title="Popular topic searches" a11yHeading>
+  <div class="ons-u-mb-l">
+    <TopicList />
+  </div>
+  <ONSCollapsible isRegularFontWeightTitle title="Popular topic searches" a11yHeading>
     {#each suggestions as suggestion}
       <p><a href={suggestion.url}>{suggestion.text}</a></p>
     {/each}
