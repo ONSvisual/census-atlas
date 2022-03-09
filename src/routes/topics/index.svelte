@@ -36,7 +36,7 @@
   <meta name="description" content="Explore 2021 census data for England and Wales at a neighbourhood level." />
 </svelte:head>
 
-<BasePage mobileMap={false}>
+<BasePage mobileMap={false} withoutBackground>
   <span slot="header">
     <HeaderWrapper {locationName} {locationId} />
   </span>
