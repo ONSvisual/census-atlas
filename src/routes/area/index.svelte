@@ -21,7 +21,7 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
-  let locationName, locationId;
+  let locationName, locationId, header;
   let topicSuggestions;
   let showChangeAreaHeader = false;
 
@@ -57,8 +57,8 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="header">
-    <HeaderWrapper {locationName} {locationId} {showChangeAreaHeader} />
+  <span slot="header" bind:this={header}>
+    <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader />
   </span>
 
   <span slot="map">
@@ -90,7 +90,7 @@
     <ExploreSomethingElseNav
       firstLink={{ text: "Choose a topic", url: `/topics?location=${locationId}` }}
       secondLink={{ text: "New location", url: "" }}
-      on:click={() => (showChangeAreaHeader = true)}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
     />
   </div>
 
