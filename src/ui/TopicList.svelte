@@ -12,6 +12,6 @@
 
 <style lang="scss">
   .component-margin--2 {
-    margin-bottom: 2rem;
+    margin: 0 0 1rem;
   }
 </style>
