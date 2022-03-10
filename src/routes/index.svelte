@@ -1,7 +1,7 @@
 <script>
   import BasePage from "./../ui/BasePage.svelte";
 
-  import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
+  import SelectTopic from "./../ui/SelectTopic.svelte";
   import SearchByAreaComponent from "./../ui/SearchByAreaComponent.svelte";
   import ONSShare from "./../ui/ons/ONSShare.svelte";
   import Feedback from "./../ui/Feedback.svelte";
@@ -87,8 +87,9 @@
     </footer>
   </span>
 
-  <ExploreByTopic url="/categories" suggestions={config.suggestions.indexPageSuggestions} />
-  <hr class="component-margin--2" />
+  <div class="ons-u-mb-xl">
+    <SelectTopic suggestions={config.suggestions.indexPageSuggestions} />
+  </div>
 
   <div class="ons-u-mb-l">
     <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>

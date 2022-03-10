@@ -8,7 +8,7 @@
   import DesignSystemPanel from "./../ui/DesignSystemPanel.svelte";
   import CategorySelector from "./../ui/CategorySelector/CategorySelector.svelte";
   import SearchByAreaComponent from "./../ui/SearchByAreaComponent.svelte";
-  import ExploreByTopic from "./../ui/ExploreByTopic.svelte";
+  import SelectTopic from "./../ui/SelectTopic.svelte";
   import Feedback from "./../ui/Feedback.svelte";
   import Topic from "./../ui/Topic.svelte";
   import UseCensusData from "./../ui/UseCensusData.svelte";
@@ -145,8 +145,8 @@
   >
     <SearchByAreaComponent>Search for an area to find out how it compares to others</SearchByAreaComponent>
   </DesignSystemPanel>
-  <DesignSystemPanel title="Explore by topic" code={`<ExploreByTopic />`}>
-    <ExploreByTopic />
+  <DesignSystemPanel title="Select a topic" code={`<SelectTopic />`}>
+    <SelectTopic />
   </DesignSystemPanel>
   <DesignSystemPanel title="Feedback" code={`<Feedback />`}>
     <Feedback />
