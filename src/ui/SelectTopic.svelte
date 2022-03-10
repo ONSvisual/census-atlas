@@ -13,7 +13,7 @@
   <div class="ons-u-mb-l">
     <TopicList />
   </div>
-  <ONSCollapsible isRegularFontWeightTitle title="Popular topic searches" a11yHeading>
+  <ONSCollapsible isRegularFontWeightTitle title="Popular searches" a11yHeading>
     {#each suggestions as suggestion}
       <p><a href={suggestion.url}>{suggestion.text}</a></p>
     {/each}
