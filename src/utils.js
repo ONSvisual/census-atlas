@@ -142,14 +142,17 @@ export function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
 
 export function populateSelectedCatAndLocationCard(geoCode, category, locationName) {
   if (isCatDataFetchedForGeoCode(get(dataByGeography), geoCode, category.code)) {
+    // para 1 describes the category in the currently selected area
     const data = populateSelectedCatData(geoCode, category);
-    const diff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, category.code);
-    populateComparisonString(diff);
-    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : `the local council of ${locationName}`;
-    const para1 = `Out of ${data.total} ${data.unit.toLowerCase()} in ${locationStr}, ${data.val} (${
-      data.perc
-    }) are [insert meaningful category name].`;
-    const para2 = populateComparisonString(diff);
+    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : locationName;
+    const nameAsSentenceComponent = strToSentenceComponent(category.name);
+    const para1 = `Out of ${data.total} ${data.unit.toLowerCase()} in ${locationStr} ${
+      data.val
+    } are ${nameAsSentenceComponent}.`;
+
+    // para 2 describes its relationship to the category in England and Wales
+    const ewValue = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code)["value"].toLocaleString();
+    const para2 = `This compares to ${ewValue} in England and Wales.`;
     return {
       para1,
       para2: geoCode != config.eAndWGeoCode ? para2 : null,
@@ -157,12 +160,12 @@ export function populateSelectedCatAndLocationCard(geoCode, category, locationNa
   }
 }
 
-function populateComparisonString(difference) {
-  if (difference > 0) {
-    return `That's ${difference.toString()}% higher than England and Wales.`;
-  } else if (difference < 0) {
-    return `That's ${Math.abs(difference).toString()}% lower than England and Wales.`;
-  } else {
-    return "That's the same as England and Wales.";
+function strToSentenceComponent(str) {
+  // uncapitalise
+  var outStr = str.charAt(0).toLowerCase() + str.slice(1);
+  // remove full-stop
+  if (outStr.slice(-1) === ".") {
+    outStr = outStr.slice(0, -1);
   }
+  return outStr;
 }
