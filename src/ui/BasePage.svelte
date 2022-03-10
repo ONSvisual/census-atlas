@@ -158,11 +158,11 @@
   @media (min-width: map-get($grid-bp, s)) {
     .header,
     .body {
-      width: 489px;
+      max-width: 489px;
     }
     .body {
       padding-bottom: 18px;
-      overflow: scroll;
+      overflow-y: scroll;
       height: 100%;
     }
     .ons-page__container {
