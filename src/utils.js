@@ -143,26 +143,13 @@ export function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
 export function populateSelectedCatAndLocationCard(geoCode, category, locationName) {
   if (isCatDataFetchedForGeoCode(get(dataByGeography), geoCode, category.code)) {
     const data = populateSelectedCatData(geoCode, category);
-    const diff = calculateComparisonDiff(geoCode, config.eAndWGeoCode, category.code);
-    populateComparisonString(diff);
-    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : `the local council of ${locationName}`;
-    const para1 = `Out of ${data.total} ${data.unit.toLowerCase()} in ${locationStr}, ${data.val} (${
-      data.perc
-    }) are [insert meaningful category name].`;
-    const para2 = populateComparisonString(diff);
+    const ewValue = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code)["value"].toLocaleString();
+    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : locationName;
+    const para1 = `Out of ${data.total} ${data.unit.toLowerCase()} in ${locationStr} ${data.val} are ${category.name}.`;
+    const para2 = `This compares to ${ewValue} in England and Wales.`;
     return {
       para1,
       para2: geoCode != config.eAndWGeoCode ? para2 : null,
     };
-  }
-}
-
-function populateComparisonString(difference) {
-  if (difference > 0) {
-    return `That's ${difference.toString()}% higher than England and Wales.`;
-  } else if (difference < 0) {
-    return `That's ${Math.abs(difference).toString()}% lower than England and Wales.`;
-  } else {
-    return "That's the same as England and Wales.";
   }
 }

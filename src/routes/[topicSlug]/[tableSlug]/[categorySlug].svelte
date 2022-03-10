@@ -200,10 +200,9 @@
   <div class="current-data">Showing Census 2011 map data.</div>
 
   {#if cardParas}
-    <Topic cardTitle="[Category name] in {locationName || 'England & Wales'}">
+    <Topic cardTitle="{category.name} in {locationName || 'England & Wales'}">
       <p>
-        Pork belly mumblecore chicharrones sartorial fixie. Pour-over 90's cliche cardigan squid bespoke iPhone actually
-        VHS fingerstache.
+        {category.desc}
       </p>
       <p>{cardParas.para1}</p>
       {#if cardParas.para2}
