@@ -82,7 +82,7 @@
   }
   .ons-table__cell {
     font-size: 18px;
-    line-height: 24px;
+    line-height: 26px;
     border-bottom: 0;
     color: #595959;
     overflow-wrap: anywhere;
