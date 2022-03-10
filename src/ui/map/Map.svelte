@@ -39,7 +39,7 @@
       } else {
         bounds = config.ux.map.englandAndWalesBounds;
       }
-      map.fitBounds(bounds, { padding: 30 });
+      map.fitBounds(bounds, { padding: 20 });
     }
   }
   setContext("map", {
