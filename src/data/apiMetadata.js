@@ -1,6 +1,6 @@
 /*
- "source": "Census Atlas Content - V4_2c.csv",
-  "utc_created_at": "2022-03-11T15:18:13.982192"
+  "source": "Census Atlas Content - V4_2d.csv",
+  "utc_created_at": "2022-03-11T17:07:51.964936"
 */
 
 export default [
@@ -287,7 +287,7 @@ export default [
       {
         code: "QS411EW",
         name: "Number of bedrooms",
-        desc: "Lorem ipsum dolor sit amet.",
+        desc: "The number of dedicated bedrooms in a home",
         slug: "number-of-bedrooms",
         units: "Households",
         categories: [
