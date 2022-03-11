@@ -14,6 +14,7 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
+  import Navigation from "../../../ui/Navigation/Navigation.svelte";
   import { returnNeighbouringLad, fetchMapDataForSelectedCat, lazyLoadFullTableMapData } from "../../../utils";
   import {
     tables,
@@ -150,14 +151,16 @@
 
 <BasePage>
   <span slot="header">
-    <HeaderWrapper
+    <!-- Also with change location open everything above needs to be hidden for both mobile and desktop-->
+    <!-- <HeaderWrapper
       {locationName}
       {locationId}
       {topicSlug}
       {tableSlug}
       {categorySlug}
       tableName={table ? table.name : null}
-    />
+    /> -->
+    {#if !showCategorySelector} <Navigation {locationId} {topicSlug} {tableSlug} {categorySlug} />{/if}
   </span>
 
   <span slot="map">
@@ -185,6 +188,7 @@
       categories={tables[category.table].categoriesArray}
       selectedCategory={category}
     />
+    <Navigation {locationId} {topicSlug} {tableSlug} {categorySlug} isMobile={showCategorySelector} />
   {/if}
 
   <div class="current-data">Showing Census 2011 map data.</div>
