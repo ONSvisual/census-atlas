@@ -139,8 +139,8 @@
     </div>
     <p>The 2021 Census tells us a lot about how people in {locationName} live and work.</p>
     <p>
-      <a href="/categories{locationId ? `?location=${locationId}` : ''}">Choose a category from the full list</a> or explore
-      one of these topics.
+      <a href="/topics{locationId ? `?location=${locationId}` : ''}">Choose a topic from the full list</a> or explore one
+      of these suggestions.
     </p>
   </Topic>
 
