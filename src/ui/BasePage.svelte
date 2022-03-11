@@ -59,10 +59,12 @@
           <slot name="header" />
         </div>
       {/if}
-      {#if (mobileMap && $$slots.map) || (!mobileMap && innerWidth >= config.ux.deviceWidth)}
-        <div class="map">
-          <slot name="map" />
-        </div>
+      {#if innerWidth < config.ux.deviceWidth}
+        {#if mobileMap && $$slots.map}
+          <div class="map">
+            <slot name="map" />
+          </div>
+        {/if}
       {/if}
       <div class="body">
         <slot name="body">
@@ -78,6 +80,11 @@
           </div>
         </slot>
       </div>
+      {#if innerWidth >= config.ux.deviceWidth}
+        <div class="map">
+          <slot name="map" />
+        </div>
+      {/if}
     </div>
   </div>
   <div bind:clientHeight={footerHeight}>
@@ -151,11 +158,11 @@
   @media (min-width: map-get($grid-bp, s)) {
     .header,
     .body {
-      width: 489px;
+      max-width: 489px;
     }
     .body {
       padding-bottom: 18px;
-      overflow: scroll;
+      overflow-y: scroll;
       height: 100%;
     }
     .ons-page__container {

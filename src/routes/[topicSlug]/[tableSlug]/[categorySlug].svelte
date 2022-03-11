@@ -35,7 +35,7 @@
   import { pageUrl } from "../../../stores";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
+  import { beforeUpdate, onMount } from "svelte";
   import { mapZoomBBox } from "../../../model/geography/stores";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
@@ -47,6 +47,12 @@
   let locationName = "";
   let selectedCatMapDataFetched,
     showChangeAreaHeader = false;
+  let showCategorySelector = false;
+  $: innerWidth = 0;
+
+  beforeUpdate(() => {
+    showCategorySelector = category && tables[category.table].categoriesArray && innerWidth < config.ux.deviceWidth;
+  });
 
   let locationId = $page.query.get("location");
 
@@ -142,6 +148,8 @@
   <title>2021 Census Data Atlas | {table ? table.name : ""} in {locationName || "England and Wales"}</title>
 </svelte:head>
 
+<svelte:window bind:innerWidth />
+
 <BasePage>
   <span slot="header" bind:this={header}>
     <HeaderWrapper
@@ -151,6 +159,7 @@
       {tableSlug}
       {categorySlug}
       tableName={table ? table.name : null}
+      changeAreaBaseUrl="/{topicSlug}/{tableSlug}/{categorySlug}"
       bind:showChangeAreaHeader
     />
   </span>
@@ -171,8 +180,9 @@
     </footer>
   </span>
 
-  {#if category && tables[category.table].categoriesArray}
+  {#if showCategorySelector}
     <CategorySelector
+      tableName={table ? table.name : null}
       {locationId}
       {topicSlug}
       {tableSlug}
@@ -206,11 +216,15 @@
   {/if}
 
   {#if table && tableDataFetched}
-    <CensusTableByLocation {table} {geoCode} />
+    <div class="ons-u-mb-s">
+      <CensusTableByLocation {table} {geoCode} {locationId} />
+    </div>
   {/if}
 
   <div class="ons-u-mb-l">
-    <UseCensusData />
+    <hr class="separator separator__top" />
+    <UseCensusData displayTitle={false} />
+    <hr class="separator separator__bottom" />
   </div>
 
   <div class="ons-u-mb-l">
@@ -228,7 +242,7 @@
         text: "New category",
         url: locationId ? `/topics/${topicSlug}?location=${locationId}` : `/topics/${topicSlug}`,
       }}
-      secondLink={{ text: "New location", url: "" }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
       on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
     />
   </div>
@@ -256,5 +270,15 @@
       bottom: auto;
       top: 120px;
     }
+  }
+
+  .separator {
+    margin: 0.5rem 0 0.5rem;
+  }
+  .separator__top {
+    border-top: 1px solid #bcbcbd;
+  }
+  .separator__bottom {
+    border-top: 3px solid #222222;
   }
 </style>

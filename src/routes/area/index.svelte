@@ -58,7 +58,7 @@
 
 <BasePage>
   <span slot="header" bind:this={header}>
-    <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader />
+    <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader changeAreaBaseUrl="/area" />
   </span>
 
   <span slot="map">
@@ -89,7 +89,7 @@
   <div class="ons-u-mb-l">
     <ExploreSomethingElseNav
       firstLink={{ text: "Choose a topic", url: locationId ? `/topics?location=${locationId}` : "/topics" }}
-      secondLink={{ text: "New location", url: "" }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
       on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
     />
   </div>

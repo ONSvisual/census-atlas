@@ -5,7 +5,9 @@
 
 <div class="component-margin--2">
   <h2 class="ons-u-fs-m ons-u-mb-xs">Explore something else</h2>
-  <p class="ons-u-mb-xs"><a href={firstLink.url}>{firstLink.text}</a></p>
+  {#if firstLink}
+    <p class="ons-u-mb-xs"><a href={firstLink.url}>{firstLink.text}</a></p>
+  {/if}
   {#if secondLink}
     <p class="ons-u-mb-xs"><a href={"" || secondLink.url} on:click>{secondLink.text}</a></p>
   {/if}
