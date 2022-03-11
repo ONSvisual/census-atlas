@@ -1,9 +1,10 @@
 <script>
   import BasePage from "../../ui/BasePage.svelte";
-  import Header from "../../ui/Header.svelte";
+  import HeaderWrapper from "../../ui/HeaderWrapper.svelte";
   import MapWrapper from "../../ui/map/MapWrapper.svelte";
   import TopicExplorer from "../../ui/TopicExplorer.svelte";
   import Feedback from "../../ui/Feedback.svelte";
+  import ExploreSomethingElseNav from "../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import { appIsInitialised } from "../../model/appstate";
   import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
   import { censusTableStructureIsLoaded } from "../../model/censusdata/censusdata";
@@ -11,8 +12,10 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   let locationId = $page.query.get("location");
-  let locationName;
+  let locationName, header;
   let { topicSlug } = $page.params;
+  let showChangeAreaHeader = false;
+
   $: {
     if ($selectedGeography.lad) {
       $page.query.set("location", $selectedGeography.lad);
@@ -39,14 +42,13 @@
 </svelte:head>
 
 <BasePage mobileMap={false} withoutBackground>
-  <span slot="header">
-    <Header
-      ONSBacklinkHref={$pageUrl}
-      showBackLink
-      serviceTitle="Choose a category {locationId ? `for ${locationName}` : ''}"
-      description="Choose a category and select an option within it to explore {locationName
-        ? `${locationName}'s`
-        : 'Census'} data."
+  <span slot="header" bind:this={header}>
+    <HeaderWrapper
+      {locationName}
+      {locationId}
+      {topicSlug}
+      changeAreaBaseUrl="/topics/{topicSlug}"
+      bind:showChangeAreaHeader
     />
   </span>
 
@@ -63,6 +65,14 @@
   {#if $appIsInitialised && $censusTableStructureIsLoaded}
     <TopicExplorer {locationId} selectedTopic={topicSlug} />
   {/if}
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{ text: "New topic", url: locationId ? `/topics?location=${locationId}` : "/topics" }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+    />
+  </div>
 
   <span slot="footer">
     <footer class="ons-footer">
