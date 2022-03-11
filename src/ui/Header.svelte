@@ -2,8 +2,9 @@
   import ONSBacklink from "./ons/ONSBacklink.svelte";
   import { page } from "$app/stores";
   import { updateSelectedGeography } from "../model/geography/geography";
-  export let serviceTitle, description, showChangeAreaHeader;
+  export let serviceTitle, description, showChangeAreaHeader, returnToMap;
   export let showBackLink = false;
+  export let renderEnglandWalesData = true;
   export let ONSBacklinkHref;
 
   $: href = $page.path;
@@ -20,10 +21,10 @@
       >
         <div class="ons-grid__col ons-col-auto ons-u-flex-shrink">
           <div class="ons-header__title {description ? 'header__title--with-description' : ''}">
-            <h1>Census Atlas</h1>
+            <h1>{serviceTitle}</h1>
           </div>
 
-          {#if !description}
+          {#if !description && renderEnglandWalesData}
             <slot />
             <p>
               <a
@@ -37,7 +38,7 @@
         </div>
       </div>
       {#if description}
-        <p class="ons-header__desc">{description}</p>
+        <p class="ons-header__desc">In {description}</p>
       {/if}
     </div>
   </div>
