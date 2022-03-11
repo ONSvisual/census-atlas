@@ -9,12 +9,15 @@
   import HeaderWrapper from "../../ui/HeaderWrapper.svelte";
   import config from "../../config";
   import TopicList from "../../ui/TopicList.svelte";
+  import ExploreSomethingElseNav from "../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
 
   import { appIsInitialised } from "../../model/appstate";
   import { getLadName, selectedGeography, updateSelectedGeography } from "../../model/geography/geography";
 
   let locationId = $page.query.get("location");
-  let locationName;
+  let locationName, header;
+  let showChangeAreaHeader = false;
+
   $: {
     if ($selectedGeography.lad) {
       $page.query.set("location", $selectedGeography.lad);
@@ -26,7 +29,6 @@
   $: appIsInitialised, $appIsInitialised && initialisePage();
   function initialisePage() {
     if (locationId) {
-      console.log("hello");
       locationName = getLadName(locationId);
       updateSelectedGeography(locationId);
     }
@@ -44,15 +46,24 @@
       <Return href={$pageUrl} inverted />
     {/if}
   </span>
-  <span slot="header">
-    <HeaderWrapper {locationName} {locationId} />
+  <span slot="header" bind:this={header}>
+    <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader changeAreaBaseUrl="/topics" />
   </span>
 
-  <TopicList />
+  <div class="ons-u-mb-xl">
+    <TopicList />
+  </div>
 
   <span slot="map">
     <MapWrapper showDataLayer={false} bounds={config.ux.map.englandAndWalesBounds} />
   </span>
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+    />
+  </div>
 </BasePage>
 
 <style lang="scss">

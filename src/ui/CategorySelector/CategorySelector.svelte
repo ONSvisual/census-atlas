@@ -121,6 +121,7 @@
         line-height: 22px;
       }
       a {
+        font-size: 1rem;
         margin: 0 16px 0 16px;
         align-self: center;
         overflow-wrap: anywhere;

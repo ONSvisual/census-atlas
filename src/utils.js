@@ -12,6 +12,7 @@ import { ladLookup } from "./model/geography/geography";
 import { fetchCensusDataBreaks, reverseTotalCatCodeLookup } from "./model/metadata/metadata";
 import MetadataApiDataService from "./model/metadata/services/metadataApiDataService";
 import { mapZoomBBox } from "./model/geography/stores";
+import { isCatDataFetchedForGeoCode } from "./model/utils";
 
 export function isEmpty(obj) {
   return (
@@ -137,4 +138,34 @@ export function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
   catCodesToFetch.forEach((catCode) => {
     fetchCensusDataBreaks(new MetadataApiDataService(), catCode, totalCode, 5, "lad");
   });
+}
+
+export function populateSelectedCatAndLocationCard(geoCode, category, locationName) {
+  if (isCatDataFetchedForGeoCode(get(dataByGeography), geoCode, category.code)) {
+    // para 1 describes the category in the currently selected area
+    const data = populateSelectedCatData(geoCode, category);
+    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : locationName;
+    const nameAsSentenceComponent = strToSentenceComponent(category.name);
+    const para1 = `Out of ${data.total} ${data.unit.toLowerCase()} in ${locationStr} ${
+      data.val
+    } are ${nameAsSentenceComponent}.`;
+
+    // para 2 describes its relationship to the category in England and Wales
+    const ewValue = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code)["value"].toLocaleString();
+    const para2 = `This compares to ${ewValue} in England and Wales.`;
+    return {
+      para1,
+      para2: geoCode != config.eAndWGeoCode ? para2 : null,
+    };
+  }
+}
+
+function strToSentenceComponent(str) {
+  // uncapitalise
+  var outStr = str.charAt(0).toLowerCase() + str.slice(1);
+  // remove full-stop
+  if (outStr.slice(-1) === ".") {
+    outStr = outStr.slice(0, -1);
+  }
+  return outStr;
 }
