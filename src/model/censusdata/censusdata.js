@@ -144,6 +144,7 @@ export async function fetchTableStructure(censusDataService) {
           code: category.code,
           name: category.name,
           slug: category.slug,
+          desc: category.desc,
           table: table.code,
           topic: topic.code,
         };

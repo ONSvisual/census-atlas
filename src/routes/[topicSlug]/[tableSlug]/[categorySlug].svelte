@@ -1,6 +1,7 @@
 <script>
   import BasePage from "../../../ui/BasePage.svelte";
   import MapWrapper from "../../../ui/map/MapWrapper.svelte";
+  import Topic from "../../../ui/Topic.svelte";
   import ONSShare from "../../../ui/ons/ONSShare.svelte";
   import ONSShareItem from "../../../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "../../../ui/ons/svg/ONSFacebookIcon.svelte";
@@ -16,29 +17,34 @@
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
   import Navigation from "../../../ui/Navigation/Navigation.svelte";
-  import { returnNeighbouringLad, fetchMapDataForSelectedCat, lazyLoadFullTableMapData } from "../../../utils";
+  import {
+    returnNeighbouringLad,
+    fetchMapDataForSelectedCat,
+    lazyLoadFullTableMapData,
+    updateMap,
+    populateSelectedCatAndLocationCard,
+  } from "../../../utils";
   import {
     tables,
     getCategoryBySlug,
     fetchSelectedDataForGeographies,
-    fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
     englandAndWalesData,
     fetchSelectedDataForWholeBoundingBox,
+    dataByGeography,
+    newDataByGeography,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import { updateSelectedGeography, getLadName, selectedGeography } from "../../../model/geography/geography";
   import config from "../../../config";
   import { appIsInitialised } from "../../../model/appstate";
-  import { fetchCensusDataBreaks, reverseTotalCatCodeLookup } from "../../../model/metadata/metadata";
-  import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import { updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { beforeUpdate, onMount } from "svelte";
   import { mapZoomBBox } from "../../../model/geography/stores";
   import ChangeLocation from "../../../ui/ChangeLocation/ChangeLocation.svelte";
+  import { isCatDataFetchedForGeoCode } from "../../../model/utils";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
@@ -57,6 +63,7 @@
   beforeUpdate(() => {
     showCategorySelector = category && tables[category.table].categoriesArray && innerWidth < config.ux.deviceWidth;
   });
+  let cardParas;
 
   let locationId = $page.query.get("location");
 
@@ -146,6 +153,9 @@
       tableDataFetched = true;
     }
   };
+
+  $: $newDataByGeography,
+    category && geoCode && (cardParas = populateSelectedCatAndLocationCard(geoCode, category, locationName));
 </script>
 
 <svelte:head>
@@ -223,6 +233,20 @@
   {/if}
 
   <div class="current-data">Showing Census 2011 map data.</div>
+
+  {#if cardParas}
+    <Topic cardTitle="{category.name} in {locationName || 'England & Wales'}">
+      <p>
+        {category.desc}
+      </p>
+      <p>{cardParas.para1}</p>
+      {#if cardParas.para2}
+        <p>
+          {cardParas.para2}
+        </p>
+      {/if}
+    </Topic>
+  {/if}
 
   {#if geoCode != config.eAndWGeoCode && category}
     <div class="ons-grid">
