@@ -16,6 +16,7 @@
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
+  import Navigation from "../../../ui/Navigation/Navigation.svelte";
   import {
     returnNeighbouringLad,
     fetchMapDataForSelectedCat,
@@ -42,6 +43,7 @@
   import { page } from "$app/stores";
   import { beforeUpdate, onMount } from "svelte";
   import { mapZoomBBox } from "../../../model/geography/stores";
+  import ChangeLocation from "../../../ui/ChangeLocation/ChangeLocation.svelte";
   import { isCatDataFetchedForGeoCode } from "../../../model/utils";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
@@ -54,6 +56,8 @@
   let selectedCatMapDataFetched,
     showChangeAreaHeader = false;
   let showCategorySelector = false;
+  let showChangeLocation = false;
+
   $: innerWidth = 0;
 
   beforeUpdate(() => {
@@ -162,23 +166,39 @@
 
 <BasePage>
   <span slot="header" bind:this={header}>
-    <HeaderWrapper
-      {locationName}
-      {locationId}
-      {topicSlug}
-      {tableSlug}
-      {categorySlug}
-      tableName={table ? table.name : null}
-      changeAreaBaseUrl="/{topicSlug}/{tableSlug}/{categorySlug}"
-      bind:showChangeAreaHeader
-    />
+    {#if !showCategorySelector}
+      {#if showChangeLocation}
+        <ChangeLocation
+          {locationId}
+          {categorySlug}
+          changeAreaBaseUrl="/{topicSlug}/{tableSlug}/{categorySlug}"
+          onClose={() => (showChangeLocation = !showChangeLocation)}
+        />
+      {:else}
+        <!-- new header - ticket 359 -->
+        <Navigation
+          {locationId}
+          {topicSlug}
+          {categorySlug}
+          onClick={() => (showChangeLocation = !showChangeLocation)}
+        />
+      {/if}
+    {/if}
   </span>
 
   <span slot="map">
-    <div class="mapkey">
-      <MapKey />
-    </div>
-    <MapWrapper {category} showDataLayer={true} />
+    <!-- Hides the map if the ChangeLocation component is open (only for mobile)-->
+    {#if innerWidth < config.ux.deviceWidth && !showChangeLocation}
+      <div class="mapkey">
+        <MapKey />
+      </div>
+      <MapWrapper {category} showDataLayer={true} />
+    {:else if innerWidth >= config.ux.deviceWidth}
+      <div class="mapkey">
+        <MapKey />
+      </div>
+      <MapWrapper {category} showDataLayer={true} />
+    {/if}
   </span>
 
   <span slot="footer">
@@ -191,14 +211,25 @@
   </span>
 
   {#if showCategorySelector}
-    <CategorySelector
-      tableName={table ? table.name : null}
-      {locationId}
-      {topicSlug}
-      {tableSlug}
-      categories={tables[category.table].categoriesArray}
-      selectedCategory={category}
-    />
+    {#if showChangeLocation}
+      <ChangeLocation {locationId} {categorySlug} onClose={() => (showChangeLocation = !showChangeLocation)} isMobile />
+    {:else}
+      <CategorySelector
+        tableName={table ? table.name : null}
+        {locationId}
+        {topicSlug}
+        {tableSlug}
+        categories={tables[category.table].categoriesArray}
+        selectedCategory={category}
+      />
+      <Navigation
+        {locationId}
+        {topicSlug}
+        {categorySlug}
+        onClick={() => (showChangeLocation = !showChangeLocation)}
+        isMobile
+      />
+    {/if}
   {/if}
 
   <div class="current-data">Showing Census 2011 map data.</div>
@@ -267,7 +298,7 @@
         url: locationId ? `/topics/${topicSlug}?location=${locationId}` : `/topics/${topicSlug}`,
       }}
       secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
-      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+      on:click={() => ((showChangeLocation = true), console.log(header), header.scrollIntoView())}
     />
   </div>
 </BasePage>
