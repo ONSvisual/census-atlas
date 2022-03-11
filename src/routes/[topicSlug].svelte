@@ -26,6 +26,7 @@
   import { topicSuggestions } from "../config";
   import slugify from "slugify";
   import { page } from "$app/stores";
+  import { getLadName } from "../model/geography/geography";
 
   export let topicSlug;
   let pageTopic = {};
@@ -38,6 +39,8 @@
       pageTopic = topic;
     }
   });
+
+  $: locationName = locationId ? getLadName(locationId) : "England and Wales";
 </script>
 
 <svelte:head>
@@ -46,7 +49,12 @@
 
 <BasePage>
   <span slot="header" bind:this={header}>
-    <HeaderWrapper topicPage={pageTopic.topicName} bind:showChangeAreaHeader changeAreaBaseUrl="/{topicSlug}" />
+    <HeaderWrapper
+      topicPage={pageTopic.topicName}
+      {locationName}
+      bind:showChangeAreaHeader
+      changeAreaBaseUrl="/{topicSlug}"
+    />
   </span>
 
   <span slot="map">

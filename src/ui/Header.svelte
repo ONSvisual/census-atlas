@@ -20,7 +20,7 @@
       >
         <div class="ons-grid__col ons-col-auto ons-u-flex-shrink">
           <div class="ons-header__title {description ? 'header__title--with-description' : ''}">
-            <h1>{serviceTitle}</h1>
+            <h1>Census Atlas</h1>
           </div>
 
           {#if !description}

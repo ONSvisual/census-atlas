@@ -60,7 +60,7 @@
   <span slot="header">
     <Header
       serviceTitle="Explore Census"
-      description="Use our interactive map to find out what people's lives are like across England and Wales."
+      description="Use our interactive map to find out how people in England and Wales answered Census 2021 questions about themselves, their health and how they live and work."
     />
   </span>
 
