@@ -3,6 +3,8 @@
   import { goto } from "$app/navigation";
 
   import BasePage from "../../ui/BasePage.svelte";
+  import Return from "../../ui/Return.svelte";
+  import { pageUrl } from "../../stores";
   import MapWrapper from "../../ui/map/MapWrapper.svelte";
   import HeaderWrapper from "../../ui/HeaderWrapper.svelte";
   import config from "../../config";
@@ -39,6 +41,11 @@
 </svelte:head>
 
 <BasePage mobileMap={false} withoutBackground>
+  <span slot="return">
+    {#if $pageUrl}
+      <Return href={$pageUrl} inverted />
+    {/if}
+  </span>
   <span slot="header" bind:this={header}>
     <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader changeAreaBaseUrl="/topics" />
   </span>

@@ -1,5 +1,6 @@
 <script>
   import BasePage from "../../../../ui/BasePage.svelte";
+  import Return from "../../../../ui/Return.svelte";
   import Header from "../../../../ui/Header.svelte";
   import MapWrapper from "../../../../ui/map/MapWrapper.svelte";
   import TopicExplorer from "../../../../ui/TopicExplorer.svelte";
@@ -20,9 +21,6 @@
       goto(`?${$page.query.toString()}`);
       locationId = $page.query.get("location");
       locationName = getLadName(locationId);
-      if ($pageUrl.includes("area")) {
-        $pageUrl = `area?location=${locationId}`;
-      }
     }
   }
   $: appIsInitialised, $appIsInitialised && initialisePage();
@@ -40,6 +38,11 @@
 </svelte:head>
 
 <BasePage mobileMap={false} withoutBackground>
+  <span slot="return">
+    {#if $pageUrl}
+      <Return href={$pageUrl} inverted />
+    {/if}
+  </span>
   <span slot="header">
     <Header
       ONSBacklinkHref={$pageUrl}

@@ -43,7 +43,7 @@
   let showChangeAreaHeader = false;
 
   onMount(async () => {
-    $pageUrl = $page.path;
+    $pageUrl = "";
   });
 
   const fetch = async () => {

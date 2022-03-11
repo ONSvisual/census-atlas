@@ -8,7 +8,6 @@
   import { appIsInitialised } from "../../model/appstate";
   import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
   import { censusTableStructureIsLoaded } from "../../model/censusdata/censusdata";
-  import { pageUrl } from "../../stores";
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   let locationId = $page.query.get("location");
@@ -22,9 +21,6 @@
       goto(`?${$page.query.toString()}`);
       locationId = $page.query.get("location");
       locationName = getLadName(locationId);
-      if ($pageUrl.includes("area")) {
-        $pageUrl = `area?location=${locationId}`;
-      }
     }
   }
   $: appIsInitialised, $appIsInitialised && initialisePage();

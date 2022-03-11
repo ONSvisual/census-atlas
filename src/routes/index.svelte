@@ -28,7 +28,7 @@
   let locationId = $page.query.get("location");
 
   onMount(async () => {
-    $pageUrl = $page.path;
+    $pageUrl = "";
     if (locationId) {
       updateSelectedGeography(locationId);
     } else {
