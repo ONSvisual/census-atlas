@@ -154,7 +154,10 @@
   };
 
   $: $newDataByGeography,
-    category && geoCode && (cardParas = populateSelectedCatAndLocationCard(geoCode, category, locationName));
+    category &&
+      geoCode &&
+      table &&
+      (cardParas = populateSelectedCatAndLocationCard(geoCode, category, locationName, table));
 </script>
 
 <svelte:head>
@@ -236,12 +239,14 @@
   {#if cardParas}
     <Topic cardTitle="{category.name} in {locationName || 'England & Wales'}">
       <p>
-        {category.desc}
+        {cardParas.para1}
       </p>
-      <p>{cardParas.para1}</p>
-      {#if cardParas.para2}
+      <p>
+        {cardParas.para2}
+      </p>
+      {#if cardParas.para3}
         <p>
-          {cardParas.para2}
+          {cardParas.para3}
         </p>
       {/if}
     </Topic>
