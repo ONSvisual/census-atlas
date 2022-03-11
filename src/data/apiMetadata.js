@@ -1,3 +1,8 @@
+/*
+  "source": "Census Atlas Content - V4_2d.csv",
+  "utc_created_at": "2022-03-11T17:07:51.964936"
+*/
+
 export default [
   {
     code: "topic",
@@ -192,7 +197,7 @@ export default [
   {
     code: "topic",
     name: "Housing",
-    desc: "Lorem ipsum dolor sit amet.",
+    desc: "Types of homes and the people living in them.",
     slug: "housing",
     tables: [
       {
@@ -282,7 +287,7 @@ export default [
       {
         code: "QS411EW",
         name: "Number of bedrooms",
-        desc: "Lorem ipsum dolor sit amet.",
+        desc: "The number of dedicated bedrooms in a home",
         slug: "number-of-bedrooms",
         units: "Households",
         categories: [
