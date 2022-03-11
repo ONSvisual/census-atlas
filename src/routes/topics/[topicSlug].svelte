@@ -16,6 +16,7 @@
   let showChangeAreaHeader = false;
 
   $: {
+    locationId = $page.query.get("location");
     if ($selectedGeography.lad) {
       $page.query.set("location", $selectedGeography.lad);
       goto(`?${$page.query.toString()}`);
@@ -30,6 +31,7 @@
       updateSelectedGeography(locationId);
     }
   }
+  let topicName=topicSlug.replace("-"," ")
 </script>
 
 <svelte:window />
@@ -45,6 +47,8 @@
       {topicSlug}
       changeAreaBaseUrl="/topics/{topicSlug}"
       bind:showChangeAreaHeader
+      serviceTitle={`Select a ${topicName} category to explore in ${locationId ? locationName : "England and Wales"}`}
+      renderEnglandWalesData={false}
     />
   </span>
 

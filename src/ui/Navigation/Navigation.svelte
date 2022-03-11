@@ -3,10 +3,10 @@
   export let isMobile = false;
   export let onClick;
 
-  let locationLink;
+  let locationLink, locationQueryParam;
 
   $: {
-    const locationQueryParam = locationId ? `?location=${locationId}` : "";
+    locationQueryParam = locationId ? `?location=${locationId}` : "";
     locationLink =
       topicSlug && locationId
         ? `${categorySlug}${locationQueryParam}`
@@ -18,7 +18,9 @@
 
 <div class={`ons-grid ons-grid--flex navigation-container ${isMobile ? "mobile" : ""}`}>
   <div class="ons-grid__col ons-col-auto ons-grid__col--flex divider">
-    <div class="ons-pl-grid-col"><a href={`/topics/${topicSlug}/${tableSlug}/${categorySlug}`}>New category</a></div>
+    <div class="ons-pl-grid-col">
+      <a href={`/topics/${topicSlug}/${tableSlug}/${categorySlug}${locationQueryParam}`}>New category</a>
+    </div>
   </div>
   <div class="ons-grid__col ons-col-auto ons-grid__col--flex divider">
     <div class="ons-pl-grid-col">
