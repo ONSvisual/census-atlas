@@ -63,7 +63,7 @@
 
   afterUpdate(async () => {
     geoCode = $page.query.get("location");
-    const peopleCategory = getCategoryBySlug("sex", "female");
+    const peopleCategory = getCategoryBySlug("ethnicity", "asian-asian-british-indian");
     const housingCategory = getCategoryBySlug("size-of-household", "1-person-household");
     peopleTable = peopleCategory ? tables[peopleCategory.table] : null;
     housingTable = housingCategory ? tables[housingCategory.table] : null;
