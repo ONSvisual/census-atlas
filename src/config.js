@@ -239,20 +239,12 @@ export function areaSelectedTopicSuggestions(locationName, ladCode) {
       url: `/education/highest-level-of-qualification-gained/level-4-qualifications-and-above${locationQueryParam}`,
     },
     {
-      text: `${locationName}'s ethnic mix.`,
-      url: `/identity/ethnicity/white-english-welsh-scottish-northern-irish-british${locationQueryParam}`,
-    },
-    {
       text: `Residents general health.`,
       url: `/health/general-health/good${locationQueryParam}`,
     },
     {
       text: `What is the most common household size?`,
       url: `/housing/size-of-household/2-person-household${locationQueryParam}`,
-    },
-    {
-      text: `How people travel to work?`,
-      url: `/work/travel-to-work/driving-in-a-car-or-van${locationQueryParam}`,
     },
   ];
 }
