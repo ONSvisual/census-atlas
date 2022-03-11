@@ -1,3 +1,8 @@
+/*
+ "source": "Census Atlas Content - V4_2c.csv",
+  "utc_created_at": "2022-03-11T15:18:13.982192"
+*/
+
 export default [
   {
     code: "topic",
@@ -192,7 +197,7 @@ export default [
   {
     code: "topic",
     name: "Housing",
-    desc: "Lorem ipsum dolor sit amet.",
+    desc: "Types of homes and the people living in them.",
     slug: "housing",
     tables: [
       {
