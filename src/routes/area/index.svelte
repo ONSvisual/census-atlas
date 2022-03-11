@@ -12,6 +12,7 @@
   import ONSTwitterIcon from "../../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "../../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../../ui/ons/svg/ONSEmailIcon.svelte";
+  import ExploreSomethingElseNav from "../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import { getLadName, updateSelectedGeography, selectedGeography } from "../../model/geography/geography";
   import { appIsInitialised } from "../../model/appstate";
   import { areaSelectedTopicSuggestions } from "../../config";
@@ -29,7 +30,7 @@
   import GeodataApiDataService from "../../model/censusdata/services/geodataApiDataService";
   import config from "../../config";
 
-  let locationName, locationId;
+  let locationName, locationId, header;
   let topicSuggestions;
   let geoCode;
   let allPeopleTotal = "";
@@ -39,6 +40,7 @@
   let housingTable;
   let peopleTable;
   let retries = 0;
+  let showChangeAreaHeader = false;
 
   onMount(async () => {
     $pageUrl = $page.path;
@@ -112,8 +114,8 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="header">
-    <HeaderWrapper {locationName} {locationId} />
+  <span slot="header" bind:this={header}>
+    <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader changeAreaBaseUrl="/area" />
   </span>
 
   <span slot="map">
@@ -153,6 +155,14 @@
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
+  </div>
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{ text: "Choose a topic", url: locationId ? `/topics?location=${locationId}` : "/topics" }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+    />
   </div>
 
   <span slot="footer">

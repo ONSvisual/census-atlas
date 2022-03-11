@@ -4,11 +4,11 @@
   import Header from "./Header.svelte";
   import DataHeader from "./DataHeader.svelte";
   import SearchByAreaComponent from "./SearchByAreaComponent.svelte";
-  import { reverseLadLookup } from "../model/geography/geography";
+  import { reverseLadLookup, updateSelectedGeography } from "../model/geography/geography";
 
-  export let locationName, locationId, topicSlug, tableSlug, categorySlug, tableName;
+  export let locationName, locationId, topicSlug, tableSlug, categorySlug, tableName, topicPage, changeAreaBaseUrl;
 
-  let showChangeAreaHeader = false;
+  export let showChangeAreaHeader = false;
   let userInputValue;
   let renderError = false;
   let invertTextColor = true;
@@ -17,13 +17,10 @@
     showChangeAreaHeader = !showChangeAreaHeader;
   };
 
-  function submitFunction(ladInput) {
+  function submitFunction(ladInput, baseUrl) {
     if (reverseLadLookup[ladInput]) {
-      if (topicSlug) {
-        goto(`/${topicSlug}/${tableSlug}/${categorySlug}?location=${reverseLadLookup[ladInput]}`);
-      } else {
-        goto(`/area?location=${reverseLadLookup[ladInput]}`);
-      }
+      goto(`${baseUrl}?location=${reverseLadLookup[ladInput]}`);
+      updateSelectedGeography(reverseLadLookup[ladInput]);
       showChangeAreaHeader = !showChangeAreaHeader;
     } else {
       renderError = true;
@@ -48,7 +45,7 @@
       {invertTextColor}
       header
       bind:userInputValue
-      on:click={() => submitFunction(userInputValue)}
+      on:click={() => submitFunction(userInputValue, changeAreaBaseUrl)}
     />
   </Header>
 {:else}
@@ -60,5 +57,6 @@
     {topicSlug}
     {categorySlug}
     {tableSlug}
+    {topicPage}
   />
 {/if}

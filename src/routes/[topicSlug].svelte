@@ -20,13 +20,18 @@
   import ONSTwitterIcon from "../ui/ons/svg/ONSTwitterIcon.svelte";
   import ONSLinkedinIcon from "../ui/ons/svg/ONSLinkedinIcon.svelte";
   import ONSEmailIcon from "../ui/ons/svg/ONSEmailIcon.svelte";
+  import ExploreSomethingElseNav from "../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import Feedback from "../ui/Feedback.svelte";
-  import DataHeader from "../ui/DataHeader.svelte";
+  import HeaderWrapper from "../ui/HeaderWrapper.svelte";
   import { topicSuggestions } from "../config";
   import slugify from "slugify";
+  import { page } from "$app/stores";
 
   export let topicSlug;
   let pageTopic = {};
+  let showChangeAreaHeader = false;
+  let header;
+  let locationId = $page.query.get("location");
 
   topicSuggestions.forEach((topic) => {
     if (slugify(topic.topicName).toLowerCase() == topicSlug.toLowerCase()) {
@@ -40,8 +45,8 @@
 </svelte:head>
 
 <BasePage>
-  <span slot="header">
-    <DataHeader topicPage={pageTopic.topicName} />
+  <span slot="header" bind:this={header}>
+    <HeaderWrapper topicPage={pageTopic.topicName} bind:showChangeAreaHeader changeAreaBaseUrl="/{topicSlug}" />
   </span>
 
   <span slot="map">
@@ -67,12 +72,22 @@
     </p>
   </Topic>
 
-  <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>
-    <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
-    <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
-    <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
-    <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
-  </ONSShare>
+  <div class="ons-u-mb-l">
+    <ONSShare title="Share this page" pageURL={location.href} pageTitle={document.title} multiRow>
+      <ONSShareItem facebook shareText="Facebook"><ONSFacebookIcon /></ONSShareItem>
+      <ONSShareItem twitter shareText="Twitter"><ONSTwitterIcon /></ONSShareItem>
+      <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
+      <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
+    </ONSShare>
+  </div>
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{ text: "New topic", url: locationId ? `/topics?location=${locationId}` : "/topics" }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+    />
+  </div>
 </BasePage>
 
 <style lang="scss">

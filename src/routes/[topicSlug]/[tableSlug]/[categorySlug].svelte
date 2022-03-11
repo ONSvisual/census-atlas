@@ -1,6 +1,7 @@
 <script>
   import BasePage from "../../../ui/BasePage.svelte";
   import MapWrapper from "../../../ui/map/MapWrapper.svelte";
+  import Topic from "../../../ui/Topic.svelte";
   import ONSShare from "../../../ui/ons/ONSShare.svelte";
   import ONSShareItem from "../../../ui/ons/partials/ONSShareItem.svelte";
   import ONSFacebookIcon from "../../../ui/ons/svg/ONSFacebookIcon.svelte";
@@ -9,42 +10,60 @@
   import ONSEmailIcon from "../../../ui/ons/svg/ONSEmailIcon.svelte";
   import CategorySelector from "../../../ui/CategorySelector/CategorySelector.svelte";
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
+  import ExploreSomethingElseNav from "../../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
   import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
-  import { returnNeighbouringLad, fetchMapDataForSelectedCat, lazyLoadFullTableMapData } from "../../../utils";
+  import Navigation from "../../../ui/Navigation/Navigation.svelte";
+  import {
+    returnNeighbouringLad,
+    fetchMapDataForSelectedCat,
+    lazyLoadFullTableMapData,
+    updateMap,
+    populateSelectedCatAndLocationCard,
+  } from "../../../utils";
   import {
     tables,
     getCategoryBySlug,
     fetchSelectedDataForGeographies,
-    fetchSelectedDataForGeoType,
     censusTableStructureIsLoaded,
     englandAndWalesData,
     fetchSelectedDataForWholeBoundingBox,
+    dataByGeography,
+    newDataByGeography,
   } from "../../../model/censusdata/censusdata";
   import GeodataApiDataService from "../../../model/censusdata/services/geodataApiDataService";
   import { updateSelectedGeography, getLadName, selectedGeography } from "../../../model/geography/geography";
   import config from "../../../config";
   import { appIsInitialised } from "../../../model/appstate";
-  import { fetchCensusDataBreaks, reverseTotalCatCodeLookup } from "../../../model/metadata/metadata";
-  import MetadataApiDataService from "../../../model/metadata/services/metadataApiDataService";
-  import { updateMap } from "../../../utils";
   import { pageUrl } from "../../../stores";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
+  import { beforeUpdate, onMount } from "svelte";
   import { mapZoomBBox } from "../../../model/geography/stores";
+  import ChangeLocation from "../../../ui/ChangeLocation/ChangeLocation.svelte";
+  import { isCatDataFetchedForGeoCode } from "../../../model/utils";
 
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let category = null;
   let table = null;
   let totalCatCode = "";
-  let geoCode, neighbouringLad;
+  let geoCode, neighbouringLad, header;
   let tableDataFetched = false;
   let locationName = "";
-  let selectedCatMapDataFetched = false;
+  let selectedCatMapDataFetched,
+    showChangeAreaHeader = false;
+  let showCategorySelector = false;
+  let showChangeLocation = false;
+
+  $: innerWidth = 0;
+
+  beforeUpdate(() => {
+    showCategorySelector = category && tables[category.table].categoriesArray && innerWidth < config.ux.deviceWidth;
+  });
+  let cardParas;
 
   let locationId = $page.query.get("location");
 
@@ -134,29 +153,52 @@
       tableDataFetched = true;
     }
   };
+
+  $: $newDataByGeography,
+    category && geoCode && (cardParas = populateSelectedCatAndLocationCard(geoCode, category, locationName));
 </script>
 
 <svelte:head>
   <title>2021 Census Data Atlas | {table ? table.name : ""} in {locationName || "England and Wales"}</title>
 </svelte:head>
 
+<svelte:window bind:innerWidth />
+
 <BasePage>
-  <span slot="header">
-    <HeaderWrapper
-      {locationName}
-      {locationId}
-      {topicSlug}
-      {tableSlug}
-      {categorySlug}
-      tableName={table ? table.name : null}
-    />
+  <span slot="header" bind:this={header}>
+    {#if !showCategorySelector}
+      {#if showChangeLocation}
+        <ChangeLocation
+          {locationId}
+          {categorySlug}
+          changeAreaBaseUrl="/{topicSlug}/{tableSlug}/{categorySlug}"
+          onClose={() => (showChangeLocation = !showChangeLocation)}
+        />
+      {:else}
+        <!-- new header - ticket 359 -->
+        <Navigation
+          {locationId}
+          {topicSlug}
+          {categorySlug}
+          onClick={() => (showChangeLocation = !showChangeLocation)}
+        />
+      {/if}
+    {/if}
   </span>
 
   <span slot="map">
-    <div class="mapkey">
-      <MapKey />
-    </div>
-    <MapWrapper {category} showDataLayer={true} />
+    <!-- Hides the map if the ChangeLocation component is open (only for mobile)-->
+    {#if innerWidth < config.ux.deviceWidth && !showChangeLocation}
+      <div class="mapkey">
+        <MapKey />
+      </div>
+      <MapWrapper {category} showDataLayer={true} />
+    {:else if innerWidth >= config.ux.deviceWidth}
+      <div class="mapkey">
+        <MapKey />
+      </div>
+      <MapWrapper {category} showDataLayer={true} />
+    {/if}
   </span>
 
   <span slot="footer">
@@ -168,17 +210,43 @@
     </footer>
   </span>
 
-  {#if category && tables[category.table].categoriesArray}
-    <CategorySelector
-      {locationId}
-      {topicSlug}
-      {tableSlug}
-      categories={tables[category.table].categoriesArray}
-      selectedCategory={category}
-    />
+  {#if showCategorySelector}
+    {#if showChangeLocation}
+      <ChangeLocation {locationId} {categorySlug} onClose={() => (showChangeLocation = !showChangeLocation)} isMobile />
+    {:else}
+      <CategorySelector
+        tableName={table ? table.name : null}
+        {locationId}
+        {topicSlug}
+        {tableSlug}
+        categories={tables[category.table].categoriesArray}
+        selectedCategory={category}
+      />
+      <Navigation
+        {locationId}
+        {topicSlug}
+        {categorySlug}
+        onClick={() => (showChangeLocation = !showChangeLocation)}
+        isMobile
+      />
+    {/if}
   {/if}
 
   <div class="current-data">Showing Census 2011 map data.</div>
+
+  {#if cardParas}
+    <Topic cardTitle="{category.name} in {locationName || 'England & Wales'}">
+      <p>
+        {category.desc}
+      </p>
+      <p>{cardParas.para1}</p>
+      {#if cardParas.para2}
+        <p>
+          {cardParas.para2}
+        </p>
+      {/if}
+    </Topic>
+  {/if}
 
   {#if geoCode != config.eAndWGeoCode && category}
     <div class="ons-grid">
@@ -203,11 +271,15 @@
   {/if}
 
   {#if table && tableDataFetched}
-    <CensusTableByLocation {table} {geoCode} />
+    <div class="ons-u-mb-s">
+      <CensusTableByLocation {table} {geoCode} {locationId} />
+    </div>
   {/if}
 
   <div class="ons-u-mb-l">
-    <UseCensusData />
+    <hr class="separator separator__top" />
+    <UseCensusData displayTitle={false} />
+    <hr class="separator separator__bottom" />
   </div>
 
   <div class="ons-u-mb-l">
@@ -217,6 +289,17 @@
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
+  </div>
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{
+        text: "New category",
+        url: locationId ? `/topics/${topicSlug}?location=${locationId}` : `/topics/${topicSlug}`,
+      }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
+      on:click={() => ((showChangeLocation = true), console.log(header), header.scrollIntoView())}
+    />
   </div>
 </BasePage>
 
@@ -242,5 +325,15 @@
       bottom: auto;
       top: 120px;
     }
+  }
+
+  .separator {
+    margin: 0.5rem 0 0.5rem;
+  }
+  .separator__top {
+    border-top: 1px solid #bcbcbd;
+  }
+  .separator__bottom {
+    border-top: 3px solid #222222;
   }
 </style>
