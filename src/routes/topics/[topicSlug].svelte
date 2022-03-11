@@ -19,9 +19,6 @@
       goto(`?${$page.query.toString()}`);
       locationId = $page.query.get("location");
       locationName = getLadName(locationId);
-      if ($pageUrl.includes("area")) {
-        $pageUrl = `area?location=${locationId}`;
-      }
     }
   }
   $: appIsInitialised, $appIsInitialised && initialisePage();
