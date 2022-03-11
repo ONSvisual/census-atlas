@@ -1,7 +1,8 @@
 <script>
   import BasePage from "../../../../ui/BasePage.svelte";
+  import ExploreSomethingElseNav from "../../../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import Return from "../../../../ui/Return.svelte";
-  import Header from "../../../../ui/Header.svelte";
+  import HeaderWrapper from "../../../../ui/HeaderWrapper.svelte";
   import MapWrapper from "../../../../ui/map/MapWrapper.svelte";
   import TopicExplorer from "../../../../ui/TopicExplorer.svelte";
   import Feedback from "../../../../ui/Feedback.svelte";
@@ -13,9 +14,11 @@
   import { goto } from "$app/navigation";
   let { topicSlug, tableSlug, categorySlug } = $page.params;
   let locationId = $page.query.get("location");
-  let locationName;
+  let locationName, header;
+  let showChangeAreaHeader = false;
   $: category = getCategoryBySlug(tableSlug, categorySlug);
   $: {
+    locationId = $page.query.get("location");
     if ($selectedGeography.lad) {
       $page.query.set("location", $selectedGeography.lad);
       goto(`?${$page.query.toString()}`);
@@ -30,6 +33,7 @@
       updateSelectedGeography(locationId);
     }
   }
+  let topicName = topicSlug.replace("-", " ");
 </script>
 
 <svelte:window />
@@ -43,14 +47,15 @@
       <Return href={$pageUrl} inverted />
     {/if}
   </span>
-  <span slot="header">
-    <Header
-      ONSBacklinkHref={$pageUrl}
-      showBackLink
-      serviceTitle="Choose a category {locationId ? `for ${locationName}` : ''}"
-      description="Choose a category and select an option within it to explore {locationName
-        ? `${locationName}'s`
-        : 'Census'} data."
+  <span slot="header" bind:this={header}>
+    <HeaderWrapper
+      {locationName}
+      {locationId}
+      {topicSlug}
+      changeAreaBaseUrl="/topics/{topicSlug}/{tableSlug}/{categorySlug}"
+      bind:showChangeAreaHeader
+      serviceTitle={`Select a ${topicName} category to explore in ${locationId ? locationName : "England and Wales"}`}
+      renderEnglandWalesData={false}
     />
   </span>
 
@@ -65,6 +70,14 @@
   {#if $appIsInitialised && $censusTableStructureIsLoaded}
     <TopicExplorer {locationId} selectedTopic={topicSlug} visitedTable={tableSlug} />
   {/if}
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{ text: "New topic", url: locationId ? `/topics?location=${locationId}` : "/topics" }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+    />
+  </div>
 
   <span slot="footer">
     <footer class="ons-footer">

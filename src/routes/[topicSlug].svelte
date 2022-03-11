@@ -26,12 +26,21 @@
   import { topicSuggestions } from "../config";
   import slugify from "slugify";
   import { page } from "$app/stores";
+  import { getLadName, selectedGeography } from "../model/geography/geography";
 
   export let topicSlug;
   let pageTopic = {};
   let showChangeAreaHeader = false;
   let header;
   let locationId = $page.query.get("location");
+  let locationName = locationId ? getLadName($page.query.get("location")) : "England and Wales";
+
+  $: {
+    if ($selectedGeography.lad) {
+      locationId = $page.query.get("location");
+      locationName = getLadName($page.query.get("location"));
+    }
+  }
 
   topicSuggestions.forEach((topic) => {
     if (slugify(topic.topicName).toLowerCase() == topicSlug.toLowerCase()) {
@@ -46,7 +55,12 @@
 
 <BasePage>
   <span slot="header" bind:this={header}>
-    <HeaderWrapper topicPage={pageTopic.topicName} bind:showChangeAreaHeader changeAreaBaseUrl="/{topicSlug}" />
+    <HeaderWrapper
+      serviceTitle={pageTopic.topicName}
+      description={locationName}
+      bind:showChangeAreaHeader
+      changeAreaBaseUrl="/{topicSlug}"
+    />
   </span>
 
   <span slot="map">

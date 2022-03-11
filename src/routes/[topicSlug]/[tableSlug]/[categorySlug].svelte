@@ -277,7 +277,9 @@
     <ExploreSomethingElseNav
       firstLink={{
         text: "New category",
-        url: locationId ? `/topics/${topicSlug}?location=${locationId}` : `/topics/${topicSlug}`,
+        url: locationId
+          ? `/topics/${topicSlug}/${tableSlug}/${categorySlug}?location=${locationId}`
+          : `/topics/${topicSlug}/${tableSlug}/${categorySlug}`,
       }}
       secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
       on:click={() => ((showChangeLocation = true), console.log(header), header.scrollIntoView())}

@@ -115,7 +115,13 @@
 
 <BasePage>
   <span slot="header" bind:this={header}>
-    <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader changeAreaBaseUrl="/area" />
+    <HeaderWrapper
+      serviceTitle={locationName}
+      {locationId}
+      bind:showChangeAreaHeader
+      changeAreaBaseUrl="/area"
+      renderEnglandWalesData={false}
+    />
   </span>
 
   <span slot="map">

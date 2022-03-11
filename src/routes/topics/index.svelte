@@ -19,6 +19,7 @@
   let showChangeAreaHeader = false;
 
   $: {
+    locationId = $page.query.get("location");
     if ($selectedGeography.lad) {
       $page.query.set("location", $selectedGeography.lad);
       goto(`?${$page.query.toString()}`);
@@ -47,7 +48,12 @@
     {/if}
   </span>
   <span slot="header" bind:this={header}>
-    <HeaderWrapper {locationName} {locationId} bind:showChangeAreaHeader changeAreaBaseUrl="/topics" />
+    <HeaderWrapper
+      bind:showChangeAreaHeader
+      changeAreaBaseUrl="/topics"
+      serviceTitle={`Select a topic to explore census results for ${locationId ? locationName : "England and Wales"}`}
+      renderEnglandWalesData={false}
+    />
   </span>
 
   <div class="ons-u-mb-xl">
