@@ -1,12 +1,15 @@
 <script>
   export let location;
+  export let displayTitle = true;
   export let showOnlyGetDataset = false;
   export let datasetURL = "#";
   export let getMapURL = "#";
   export let embedMapURL = "#";
 </script>
 
-<h2 class="ons-u-fs-r--b ons-u-mb-xs">Use {location ? location : "Census"} data</h2>
+{#if displayTitle}
+  <h2 class="ons-u-fs-r--b ons-u-mb-xs">Use {location ? location : "Census"} data</h2>
+{/if}
 <ul class="ons-list ons-list--inline ons-list--bare ons-list--icons">
   <li class="ons-list__item">
     <span class="ons-list__prefix" aria-hidden="true">
@@ -80,5 +83,9 @@
   {/if}
 </ul>
 
-<style>
+<style lang="scss">
+  @import "../../node_modules/@ons/design-system/scss/vars/_index.scss";
+  .ons-list--inline {
+    justify-content: space-between;
+  }
 </style>
