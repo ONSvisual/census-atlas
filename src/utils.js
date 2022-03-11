@@ -140,22 +140,31 @@ export function lazyLoadFullTableMapData(selectedCatCode, totalCode) {
   });
 }
 
-export function populateSelectedCatAndLocationCard(geoCode, category, locationName) {
+export function populateSelectedCatAndLocationCard(geoCode, category, locationName, table) {
   if (isCatDataFetchedForGeoCode(get(dataByGeography), geoCode, category.code)) {
-    // para 1 describes the category in the currently selected area
-    const data = populateSelectedCatData(geoCode, category);
-    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : locationName;
-    const nameAsSentenceComponent = strToSentenceComponent(category.name);
-    const para1 = `Out of ${data.total} ${data.unit.toLowerCase()} in ${locationStr} ${
-      data.val
-    } are ${nameAsSentenceComponent}.`;
+    // para 1 describes the category
+    const para1 = category.desc;
 
-    // para 2 describes its relationship to the category in England and Wales
+    // para 2 describes the category values in the currently selected area
+    const categoryData = populateSelectedCatData(geoCode, category);
+    const locationStr = geoCode == config.eAndWGeoCode ? "England and Wales" : locationName;
+    const categoryNameAsSentenceComponent = strToSentenceComponent(category.name);
+    const tableNameAsSentenceComponent = strToSentenceComponent(table.name);
+    const para2 = `Out of ${
+      categoryData.total
+    } ${categoryData.unit.toLowerCase()} in ${locationStr}, for ${categoryData.val.toLocaleString()} ${tableNameAsSentenceComponent} is ${categoryNameAsSentenceComponent}.`;
+
+    // para 3 describes its relationship to the category in England and Wales (null if the location IS England and
+    // Wales)
     const ewValue = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code)["value"].toLocaleString();
-    const para2 = `This compares to ${ewValue} in England and Wales.`;
+    const ewTotal = get(englandAndWalesData).get(config.eAndWGeoCode).get(category.code)["total"].toLocaleString();
+    const para3 =
+      geoCode != config.eAndWGeoCode ? `This compares to ${ewValue} out of ${ewTotal} in England and Wales.` : null;
+
     return {
-      para1,
-      para2: geoCode != config.eAndWGeoCode ? para2 : null,
+      para1: para1,
+      para2: para2,
+      para3: para3,
     };
   }
 }
