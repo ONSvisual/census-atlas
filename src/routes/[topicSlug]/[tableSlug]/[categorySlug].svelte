@@ -179,6 +179,7 @@
         <Navigation
           {locationId}
           {topicSlug}
+          {tableSlug}
           {categorySlug}
           onClick={() => (showChangeLocation = !showChangeLocation)}
         />
@@ -225,6 +226,7 @@
       <Navigation
         {locationId}
         {topicSlug}
+        {tableSlug}
         {categorySlug}
         onClick={() => (showChangeLocation = !showChangeLocation)}
         isMobile

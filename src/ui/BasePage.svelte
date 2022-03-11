@@ -9,7 +9,6 @@
 
   let contentHeight, phaseHeight, headerHeight, footerHeight;
   $: maxHeight = contentHeight - 1 + phaseHeight + headerHeight + footerHeight;
-
   $: innerWidth = 0;
   let hasMap =
     ($$slots.map && mobileMap) || ($$slots.map && !mobileMap && withoutBackground) ? "ons-page--has-map" : "";
@@ -55,6 +54,9 @@
     <div class="wrapper" style="--max-height: {maxHeight}px">
       <!-- // XXX This .header should really be part of <header/> semantically speaking; might need to move it back in there, and reset max-width on the -->
       {#if innerWidth < config.ux.deviceWidth}
+        <div>
+          <slot name="return" />
+        </div>
         <div class="header">
           <slot name="header" />
         </div>
@@ -69,6 +71,9 @@
       <div class="body">
         <slot name="body">
           {#if innerWidth >= config.ux.deviceWidth}
+            <div>
+              <slot name="return" />
+            </div>
             <div class="header">
               <slot name="header" />
             </div>
