@@ -9,6 +9,7 @@
   import ONSEmailIcon from "../../../ui/ons/svg/ONSEmailIcon.svelte";
   import CategorySelector from "../../../ui/CategorySelector/CategorySelector.svelte";
   import CensusTableByLocation from "../../../ui/CensusTableByLocation.svelte";
+  import ExploreSomethingElseNav from "../../../ui/ExploreSomethingElseNav/ExploreSomethingElseNav.svelte";
   import UseCensusData from "../../../ui/UseCensusData.svelte";
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
@@ -43,10 +44,11 @@
   let category = null;
   let table = null;
   let totalCatCode = "";
-  let geoCode, neighbouringLad;
+  let geoCode, neighbouringLad, header;
   let tableDataFetched = false;
   let locationName = "";
-  let selectedCatMapDataFetched = false;
+  let selectedCatMapDataFetched,
+    showChangeAreaHeader = false;
   let showCategorySelector = false;
   let showChangeLocation = false;
 
@@ -153,6 +155,18 @@
 <svelte:window bind:innerWidth />
 
 <BasePage>
+  <!-- 
+        <HeaderWrapper
+      {locationName}
+      {locationId}
+      {topicSlug}
+      {tableSlug}
+      {categorySlug}
+      tableName={table ? table.name : null}
+      changeAreaBaseUrl="/{topicSlug}/{tableSlug}/{categorySlug}"
+      bind:showChangeAreaHeader
+    />
+  -->
   <span slot="header">
     {#if !showCategorySelector}
       {#if showChangeLocation}
@@ -253,11 +267,15 @@
   {/if}
 
   {#if table && tableDataFetched}
-    <CensusTableByLocation {table} {geoCode} {locationId} />
+    <div class="ons-u-mb-s">
+      <CensusTableByLocation {table} {geoCode} {locationId} />
+    </div>
   {/if}
 
   <div class="ons-u-mb-l">
-    <UseCensusData />
+    <hr class="separator separator__top" />
+    <UseCensusData displayTitle={false} />
+    <hr class="separator separator__bottom" />
   </div>
 
   <div class="ons-u-mb-l">
@@ -267,6 +285,17 @@
       <ONSShareItem linkedin shareText="Linkedin"><ONSLinkedinIcon /></ONSShareItem>
       <ONSShareItem email shareText="Email"><ONSEmailIcon /></ONSShareItem>
     </ONSShare>
+  </div>
+
+  <div class="ons-u-mb-l">
+    <ExploreSomethingElseNav
+      firstLink={{
+        text: "New category",
+        url: locationId ? `/topics/${topicSlug}?location=${locationId}` : `/topics/${topicSlug}`,
+      }}
+      secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
+      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+    />
   </div>
 </BasePage>
 
@@ -292,5 +321,15 @@
       bottom: auto;
       top: 120px;
     }
+  }
+
+  .separator {
+    margin: 0.5rem 0 0.5rem;
+  }
+  .separator__top {
+    border-top: 1px solid #bcbcbd;
+  }
+  .separator__bottom {
+    border-top: 3px solid #222222;
   }
 </style>
