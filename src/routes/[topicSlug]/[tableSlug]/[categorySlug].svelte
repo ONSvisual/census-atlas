@@ -216,7 +216,7 @@
   {/if}
 
   {#if table && tableDataFetched}
-    <CensusTableByLocation {table} {geoCode} />
+    <CensusTableByLocation {table} {geoCode} {locationId} />
   {/if}
 
   <div class="ons-u-mb-l">
