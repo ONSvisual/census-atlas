@@ -43,7 +43,7 @@
 <BasePage mobileMap={false} withoutBackground>
   <span slot="return">
     {#if $pageUrl}
-      <Return href={$pageUrl} />
+      <Return href={$pageUrl} inverted />
     {/if}
   </span>
   <span slot="header">
