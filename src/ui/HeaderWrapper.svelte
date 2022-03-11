@@ -5,7 +5,7 @@
   import SearchByAreaComponent from "./SearchByAreaComponent.svelte";
   import { reverseLadLookup, updateSelectedGeography } from "../model/geography/geography";
 
-  export let changeAreaBaseUrl, serviceTitle, description, returnToMap, renderEnglandWalesData;
+  export let changeAreaBaseUrl, serviceTitle, description, renderEnglandWalesData;
 
   export let showChangeAreaHeader = false;
   let userInputValue;

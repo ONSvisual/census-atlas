@@ -2,7 +2,7 @@
   import ONSBacklink from "./ons/ONSBacklink.svelte";
   import { page } from "$app/stores";
   import { updateSelectedGeography } from "../model/geography/geography";
-  export let serviceTitle, description, showChangeAreaHeader, returnToMap;
+  export let serviceTitle, description, showChangeAreaHeader;
   export let showBackLink = false;
   export let renderEnglandWalesData = true;
   export let ONSBacklinkHref;
