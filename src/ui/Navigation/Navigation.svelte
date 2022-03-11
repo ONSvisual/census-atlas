@@ -1,5 +1,5 @@
 <script>
-  export let locationId, topicSlug, categorySlug;
+  export let locationId, topicSlug, categorySlug, tableSlug;
   export let isMobile = false;
   export let onClick;
 
@@ -18,7 +18,7 @@
 
 <div class={`ons-grid ons-grid--flex navigation-container ${isMobile ? "mobile" : ""}`}>
   <div class="ons-grid__col ons-col-auto ons-grid__col--flex divider">
-    <div class="ons-pl-grid-col"><a href={`/topics/${topicSlug}`}>New category</a></div>
+    <div class="ons-pl-grid-col"><a href={`/topics/${topicSlug}/${tableSlug}/${categorySlug}`}>New category</a></div>
   </div>
   <div class="ons-grid__col ons-col-auto ons-grid__col--flex divider">
     <div class="ons-pl-grid-col">
