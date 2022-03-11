@@ -24,7 +24,7 @@
   let topicSuggestions;
 
   onMount(async () => {
-    $pageUrl = $page.path;
+    $pageUrl = "";
   });
 
   function initialisePage() {
