@@ -155,26 +155,13 @@
 <svelte:window bind:innerWidth />
 
 <BasePage>
-  <!-- 
-        <HeaderWrapper
-      {locationName}
-      {locationId}
-      {topicSlug}
-      {tableSlug}
-      {categorySlug}
-      tableName={table ? table.name : null}
-      changeAreaBaseUrl="/{topicSlug}/{tableSlug}/{categorySlug}"
-      bind:showChangeAreaHeader
-    />
-  -->
-  <span slot="header">
+  <span slot="header" bind:this={header}>
     {#if !showCategorySelector}
       {#if showChangeLocation}
         <ChangeLocation
           {locationId}
-          {topicSlug}
-          {tableSlug}
           {categorySlug}
+          changeAreaBaseUrl="/{topicSlug}/{tableSlug}/{categorySlug}"
           onClose={() => (showChangeLocation = !showChangeLocation)}
         />
       {:else}
@@ -215,14 +202,7 @@
 
   {#if showCategorySelector}
     {#if showChangeLocation}
-      <ChangeLocation
-        {locationId}
-        {topicSlug}
-        {tableSlug}
-        {categorySlug}
-        onClose={() => (showChangeLocation = !showChangeLocation)}
-        isMobile
-      />
+      <ChangeLocation {locationId} {categorySlug} onClose={() => (showChangeLocation = !showChangeLocation)} isMobile />
     {:else}
       <CategorySelector
         tableName={table ? table.name : null}
@@ -294,7 +274,7 @@
         url: locationId ? `/topics/${topicSlug}?location=${locationId}` : `/topics/${topicSlug}`,
       }}
       secondLink={{ text: locationId ? "New location" : "Choose location", url: "" }}
-      on:click={() => ((showChangeAreaHeader = true), header.scrollIntoView())}
+      on:click={() => ((showChangeLocation = true), console.log(header), header.scrollIntoView())}
     />
   </div>
 </BasePage>

@@ -1,29 +1,27 @@
 <script>
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
 
-  import OnsBacklink from "../ons/ONSBacklink.svelte";
   import SearchByAreaComponent from "../SearchByAreaComponent.svelte";
+  import { reverseLadLookup, updateSelectedGeography } from "../../model/geography/geography";
 
-  export let isMobile, onClose, locationId, topicSlug, tableSlug, categorySlug;
+  export let isMobile, onClose, locationId, changeAreaBaseUrl;
   let userInputValue;
   let renderError = false;
-  let invertTextColor = false;
+  let invertTextColor = true;
 
   $: href = $page.path;
 
-  const handleSubmit = (ladInput) => {
+  function submitFunction(ladInput, baseUrl) {
     if (reverseLadLookup[ladInput]) {
-      if (topicSlug) {
-        goto(`/${topicSlug}/${tableSlug}/${categorySlug}?location=${reverseLadLookup[ladInput]}`);
-      } else {
-        goto(`/area?location=${reverseLadLookup[ladInput]}`);
-      }
-      openSearch = !openSearch;
+      goto(`${baseUrl}?location=${reverseLadLookup[ladInput]}`);
+      updateSelectedGeography(reverseLadLookup[ladInput]);
+      onClose();
     } else {
       renderError = true;
       invertTextColor = false;
     }
-  };
+  }
 </script>
 
 <div class={`ons-grid ons-grid--flex change-container ${isMobile ? "mobile" : ""}`}>
@@ -51,23 +49,22 @@
 
     <div class="ons-header__title">
       <h1>Search by area</h1>
-
-      <SearchByAreaComponent
-        labelText="Enter a region, county, local council or city."
-        {renderError}
-        {invertTextColor}
-        header
-        bind:userInputValue
-        on:click={() => handleSubmit(userInputValue)}
-      />
-      {#if locationId}
-        <div class="all-link">
-          <p>
-            <a {href} on:click={onClose}>See data for all England and Wales</a>
-          </p>
-        </div>
-      {/if}
     </div>
+    <SearchByAreaComponent
+      labelText="Enter a region, county, local council or city."
+      {renderError}
+      {invertTextColor}
+      header
+      bind:userInputValue
+      on:click={() => submitFunction(userInputValue, changeAreaBaseUrl)}
+    />
+    {#if locationId}
+      <div class="all-link">
+        <p>
+          <a {href} on:click={onClose}>See data for all England and Wales</a>
+        </p>
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -80,12 +77,12 @@
     padding-top: 37px;
     box-sizing: border-box;
   }
-  /* a {
+  a {
     color: $color-white;
-  } */
+  }
   .all-link {
     font-size: 1rem;
-    /* padding-bottom: 24px; */
+    padding-bottom: 24px;
   }
   .mobile {
     margin: 0px -18px;
