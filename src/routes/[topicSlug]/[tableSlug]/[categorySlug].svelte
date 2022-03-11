@@ -15,7 +15,6 @@
   import Feedback from "../../../ui/Feedback.svelte";
   import HeaderWrapper from "../../../ui/HeaderWrapper.svelte";
   import MapKey from "../../../ui/MapKey/MapKey.svelte";
-  import DataComparison from "../../../ui/DataComparison/DataComparison.svelte";
   import {
     returnNeighbouringLad,
     fetchMapDataForSelectedCat,
@@ -201,8 +200,6 @@
     />
   {/if}
 
-  <div class="current-data">Showing Census 2011 map data.</div>
-
   {#if cardParas}
     <Topic cardTitle="{category.name} in {locationName || 'England & Wales'}">
       <p>
@@ -215,28 +212,6 @@
         </p>
       {/if}
     </Topic>
-  {/if}
-
-  {#if geoCode != config.eAndWGeoCode && category}
-    <div class="ons-grid">
-      {#if tableDataFetched}
-        {#if $englandAndWalesData.size > 0}
-          <div class="ons-grid__col ons-col-6@xxs">
-            <DataComparison comparatorGeoCode={config.eAndWGeoCode} {geoCode} catCode={category.code} />
-          </div>
-        {/if}
-        {#if neighbouringLad}
-          <div class="ons-grid__col ons-col-6@xxs">
-            <DataComparison
-              comparatorGeoCode={neighbouringLad.code}
-              comparatorGeoName={neighbouringLad.name}
-              {geoCode}
-              catCode={category.code}
-            />
-          </div>
-        {/if}
-      {/if}
-    </div>
   {/if}
 
   {#if table && tableDataFetched}
