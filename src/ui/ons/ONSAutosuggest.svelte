@@ -44,7 +44,7 @@
       data-aria-limited-results="Results have been limited to 10 suggestions. Type more characters to improve your search"
       data-more-results="Continue entering to improve suggestions"
       data-results-title="Suggestions"
-      data-no-results="No suggestions were found. Enter the name of the local council or city."
+      data-no-results="No suggestions were found. Enter the name of a local council."
       data-type-more="Continue entering to get suggestions"
       data-autosuggest-data={autosuggestData}
     >

@@ -66,7 +66,7 @@
 
   <div class="ons-u-mb-l">
     <SearchByAreaComponent
-      labelText="Enter a region, county, local council or city"
+      labelText="Enter a local council."
       {renderError}
       bind:userInputValue
       on:click={() => submitFunction(userInputValue)}

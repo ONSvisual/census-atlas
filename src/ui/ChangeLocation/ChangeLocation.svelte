@@ -51,7 +51,7 @@
       <h1>Search by area</h1>
     </div>
     <SearchByAreaComponent
-      labelText="Enter a region, county, local council or city."
+      labelText="Enter a local council."
       {renderError}
       {invertTextColor}
       header
