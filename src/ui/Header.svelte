@@ -38,7 +38,7 @@
         </div>
       </div>
       {#if description}
-        <p class="ons-header__desc">In {description}</p>
+        <p class="ons-header__desc">{description}</p>
       {/if}
     </div>
   </div>
