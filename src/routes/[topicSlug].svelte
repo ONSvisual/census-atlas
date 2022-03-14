@@ -57,7 +57,7 @@
   <span slot="header" bind:this={header}>
     <HeaderWrapper
       serviceTitle={pageTopic.topicName}
-      description={locationName}
+      description={`In ${locationName}`}
       bind:showChangeAreaHeader
       changeAreaBaseUrl="/{topicSlug}"
     />
